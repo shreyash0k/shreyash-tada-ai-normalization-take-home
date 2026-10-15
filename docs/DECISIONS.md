@@ -80,7 +80,9 @@ Each entry uses this format:
 - **Decision:** Not decided yet. The likely approach is to pass the request's
   `clientId` into the adapter so employees can be linked to their company.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json`, path
-  `/employee/v1/getEmployee`.
+  `/employee/v1/getEmployee`. Confirmed live on 2026-10-15: the demo response
+  for client `132` with all four options does not contain the client ID
+  anywhere.
 - **Status:** Open.
 
 ### 6. Some UKG Ready duration fields are in milliseconds
@@ -103,11 +105,78 @@ Each entry uses this format:
   the company's name. The closest is `GET /v2/companies/{cid}/lookup/eins`,
   which returns EIN records (`id`, `ein_name`, `ein_tax_id`,
   `ein_currency_code`, `ein_country_id`). Employee records carry `ein_name`.
-- **Decision:** Not decided yet. Options are to build the company record from
-  the sign-in `company_id` plus the EIN lookup, or to check the live tenant
-  for an undocumented company endpoint.
+  The live demo tenant confirms this: `GET /rest/v2/companies/{cid}` returns
+  404 "Unresolvable URL", and the EIN lookup returns one EIN named
+  "Primary EIN", which is not a company name.
+- **Decision:** Not decided yet. The likely approach is to build the company
+  record from the sign-in `company_id` plus the EIN lookup, and leave the
+  company name `null` with a reported issue.
 - **Evidence:** `contracts/ukg-ready/reference-docs/res/` has no company-detail
-  page; `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__lookup__eins.html`.
+  page; `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__lookup__eins.html`;
+  live demo calls on 2026-10-15 for company `33704016`.
+- **Status:** Open.
+
+### 12. Live PrismHR `getEmployee` differs from its documentation
+
+- **Context:** Live calls to the demo tenant on 2026-10-15 showed four
+  differences from the spec:
+  - With no `options`, the response holds only `id` and the name fields. The
+    spec says the `Person` section is returned by default.
+  - Several options must be comma-separated in one parameter
+    (`options=Person,ContactInformation,Client,Compensation`). Repeating the
+    `options` parameter silently returns only the first option.
+  - `person.employerId` is returned, while the spec names the field
+    `employerIds`.
+  - `compensation.ssn` is fully masked (`***-**-****`), but `person.birthDate`
+    is returned unmasked, although the spec says both are masked by default.
+- **Decision:** Not decided yet. The likely approach is to always request the
+  options explicitly as one comma-separated value, and to accept both
+  `employerId` and `employerIds`.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json`, path
+  `/employee/v1/getEmployee` (description and `Person` schema); live demo
+  calls for client `132`, employee `A00576`.
+- **Status:** Open.
+
+### 13. Live isolved employee records carry fewer fields than the spec
+
+- **Context:** The spec's `EmployeeModel` lists 95 properties. The live
+  single-employee response for client `4046`, legal `5806` returned 62. It is
+  missing 33 fields, including `assignedManager`, `assignedSupervisor`,
+  `directDeposits`, `rehireDate`, `team`, `workersCompCode`, and `miscFields`.
+  The list endpoint with `includeOrganizations`, `includeAlternateRates`, and
+  `includeTaxes` returned the same record, except for `payRates` and some link
+  URLs. The paging wrapper uses `results`, as the spec says.
+- **Decision:** Not decided yet. Missing fields would be treated as absent
+  (`null`), not as errors.
+- **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
+  definition `AOS.PayrollOffice.RestAPI.Models.EmployeeModel`; live demo calls
+  on 2026-10-15.
+- **Status:** Open.
+
+### 14. Live UKG Ready employee data needs several calls and lookups
+
+- **Context:** Live calls to company `33704016` on 2026-10-15 showed:
+  - The sign-in `base_url` ends at `/ta`, so every path needs a `/rest`
+    prefix, as in `/rest/v2/companies/{cid}/employees`.
+  - The employee record has no gender, ethnicity, or citizenship. Those come
+    from `/demographics`. Employee type and pay type come from `/pay-info` as
+    numeric IDs only. They are decoded by `/lookup/employee-types` and
+    `/lookup/pay-types`, for example `35330176` is "FT Non-Exempt".
+  - Pay amounts exist only in `/compensation/history`. The sampled employee
+    has two entries: a zero-amount entry dated `1900-12-31` and a current
+    entry (95000.0 per `YEAR`, effective 2026-01-01). Nothing marks which
+    entry is current.
+  - The compensation `time` value 7488000000 equals 2080 hours if read as
+    milliseconds, but the field's unit is not documented.
+  - The record has `ein_name`, which the spec doesn't list. Phones, emails,
+    managers, and cost centers were absent for the sampled employee.
+- **Decision:** Not decided yet. The likely approach is to treat the entry
+  with the latest `effective_from` on or before the run date as current pay.
+  `time` would stay unconverted under entry 6.
+- **Evidence:** `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__employees__(aid).html`,
+  `__v2__companies__(cid)__employees__(aid)__compensation__history.html`, and
+  `__v2__companies__(cid)__employees__(aid)__pay-info.html`; live demo calls
+  on 2026-10-15.
 - **Status:** Open.
 
 ## Starter code issues
@@ -121,16 +190,26 @@ during implementation.
   permission has not been verified") and for UKG Ready (the same, plus three
   issues about a missing OpenAPI file). `normalize` runs the same check and
   exits with code 2, so neither adapter can run.
-- **Decision:** Not decided yet. The proposed fix updates `references.py` to
-  accept the organizer's approval and to check UKG Ready's
-  `reference-schemas.json` instead of an OpenAPI file, then updates the matching
-  assertions in `tests/test_starter.py`.
+- **Decision:** `readiness_issues` in `src/normalization/references.py` now
+  matches the pack as supplied. It accepts a `distribution.status` of either
+  `verified` or `user_approved_private_upload`, and still requires an
+  `evidence_reference`. When `openapi.status` is `not_available`, it checks the
+  pack's `reference_artifact` instead: `relative_path` must name a `.json` file
+  inside `contracts/<provider>/` and `sha256` must be present. The `verified`
+  OpenAPI checks are unchanged. The check stays metadata-only; file checksums
+  are verified in `tests/test_reference_integrity.py`.
 - **Reason:** The assignment says the organizer approved sharing the reference
   pack. It also states that UKG Ready has no OpenAPI contract, so it can never
   pass an OpenAPI check.
-- **Evidence:** `PYTHONPATH=src python3 -m normalization check-inputs` exits 2,
-  and [docs/ASSIGNMENT.md](ASSIGNMENT.md#reference-materials).
-- **Status:** Open.
+- **Evidence:** `contracts/isolved/lookup-reference.json` and
+  `contracts/ukg-ready/lookup-reference.json` (`distribution.status`,
+  `openapi.status`, `reference_artifact`);
+  [docs/ASSIGNMENT.md](ASSIGNMENT.md#reference-materials);
+  `tests/test_starter.py` (`test_reference_readiness_matches_distributed_materials`,
+  `test_readiness_command_exits_zero_for_supplied_packs`, and the
+  `ReadinessIssueChecks` negative-path tests).
+  `PYTHONPATH=src python3 -m normalization check-inputs` now exits 0.
+- **Status:** Decided.
 
 ### 9. Direct deposits and deductions are missing from the starter
 
@@ -146,6 +225,10 @@ during implementation.
 - **Context:** `test_all_nine_transformations_are_explicitly_unimplemented` in
   `tests/test_starter.py` fails as soon as any adapter works.
 - **Decision:** Replace it with tests of real behavior as adapters are built.
+  The test has been removed. No adapter test replaces it yet, because no
+  adapter is implemented; each adapter brings its own behavior tests.
+- **Reason:** A test that asserts the absence of a feature blocks building it.
+- **Evidence:** `tests/test_starter.py` no longer contains the test.
 - **Status:** Decided.
 
 ### 11. An adapter receives only one response, with no request context

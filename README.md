@@ -13,8 +13,14 @@ Every assumption and decision is recorded in [docs/DECISIONS.md](docs/DECISIONS.
 
 Work in progress. The repository still contains the original starter: a
 command-line entry point, a reference-pack readiness check, and one adapter stub
-per provider. No provider mappings are implemented yet. Known problems with the
-starter are listed in [docs/DECISIONS.md](docs/DECISIONS.md#starter-code-issues).
+per provider. No provider mappings are implemented yet.
+
+The readiness check has been fixed to accept the reference pack as supplied, so
+`check-inputs` exits 0 for all three providers and `normalize` reaches every
+adapter. The starter test that required all adapters to stay unimplemented has
+been removed. Remaining problems with the starter (the missing direct-deposit
+and deduction entities, and the single-response adapter input) are listed in
+[docs/DECISIONS.md](docs/DECISIONS.md#starter-code-issues).
 
 ## Approach
 
