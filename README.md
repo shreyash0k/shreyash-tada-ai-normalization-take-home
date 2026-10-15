@@ -6,8 +6,7 @@ into one canonical model. A record looks the same in that model no matter which
 provider it came from, and records stay linked: employees to companies,
 paychecks to employees.
 
-The assignment is in [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md), with a
-plain-language summary in [SIMPLIFIED_README.md](SIMPLIFIED_README.md).
+The assignment is in [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md).
 Every assumption and decision is recorded in [docs/DECISIONS.md](docs/DECISIONS.md).
 
 ## Status
