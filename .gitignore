@@ -13,3 +13,6 @@ htmlcov/
 node_modules/
 dist/
 build/
+out/
+postman/
+docs/internal/

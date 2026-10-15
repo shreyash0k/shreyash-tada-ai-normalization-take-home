@@ -1,8 +1,8 @@
 # The Assignment, in Simple Words
 
 This is a plain-language summary of the take-home assignment.
-The official instructions are in [README.md](README.md). If the two ever
-disagree, follow `README.md`.
+The official instructions are in [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md). If the
+two ever disagree, follow `docs/ASSIGNMENT.md`.
 
 ## The big idea
 
@@ -73,7 +73,7 @@ There is **no ready-made sample data**. You create your own fake test data.
 
 - **Live demo data:** if the organizer gives you an API key, you can look at
   real demo data from all three systems to check your understanding.
-  See the "Access live demo data" section of [README.md](README.md).
+  See the "Access live demo data" section of [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md).
   Never commit tokens or downloaded data.
 - **Bonus:** translate in the reverse direction too, taking your standard
   employee and creating it inside one of the systems (for example, UKG Ready
@@ -103,6 +103,6 @@ Doing a smaller part very well is better than doing everything badly.
 ## Small traps in the starter code
 
 - The starter only lists three data types (`company`, `employee`, `payroll`).
-  The README asks for direct deposits and deductions too. Follow the README.
+  The assignment asks for direct deposits and deductions too. Follow the assignment.
 - Some starter tests expect the code to be unfinished, so they will fail once
   you build things. Replace or remove them.
