@@ -108,9 +108,13 @@ Each entry uses this format:
 - **Decision:** A field is converted from milliseconds to hours only when its
   own documentation says it is in milliseconds. Any other time field with no
   documented unit is kept as received and reported as an issue.
+
+  One exception was approved for payroll: UKG Ready pay statement
+  earnings `hours` has no documented unit but is converted from
+  milliseconds (entry 83).
 - **Reason:** The reference audit warns that the evidence covers only those
   specific fields, not every UKG time field.
-- **Evidence:** [docs/REFERENCE_AUDIT.md](REFERENCE_AUDIT.md#field-specific-ukg-duration-evidence).
+- **Evidence:** [docs/REFERENCE_AUDIT.md](REFERENCE_AUDIT.md#field-specific-ukg-duration-evidence); entry 83.
 - **Status:** Decided.
 
 ### 7. UKG Ready has no documented endpoint for company details
@@ -284,7 +288,9 @@ during implementation.
   carries the key of the employee it belongs to and the company key, so it
   links to the employee output. Deductions follow the same pattern:
   `--entity deduction` writes one record per deduction rule in a
-  top-level `deductions` list (entry 57).
+  top-level `deductions` list (entry 57). Payroll follows the same
+  pattern: `--entity payroll` writes a `pay_runs` list and a `paychecks`
+  list (entry 69).
 - **Reason:** The employee output stays the same whichever data types are
   added later, and `--entity` keeps meaning "which records this run
   produces". The employee key is enough to join the two outputs.
@@ -292,8 +298,10 @@ during implementation.
   `ENTITIES` in `src/normalization/adapters/__init__.py`;
   `src/normalization/canonical/direct_deposit.py`;
   `src/normalization/canonical/deduction.py`;
+  `src/normalization/canonical/payroll.py`;
   `tests/test_direct_deposit_*.py::test_lines_link_to_employees_and_company`;
-  `tests/test_deduction_*.py::test_lines_link_to_employees_and_company`.
+  `tests/test_deduction_*.py::test_lines_link_to_employees_and_company`;
+  `tests/test_payroll_*.py::test_records_link_to_runs_employees_and_company`.
 - **Status:** Decided.
 
 ### 13. A starter test requires every transformation to stay unimplemented
@@ -1309,7 +1317,8 @@ during implementation.
   amount actually taken in every pay run. Those amounts belong to a
   paycheck, not to the rule.
 - **Decision:** Deduction records hold only the rule. Amounts taken per
-  payroll are left for the payroll data type.
+  payroll are left for the payroll data type. The payroll data type
+  holds them as deduction lines on each paycheck (entries 69 to 84).
 - **Reason:** A paycheck amount needs the pay run as its context, which a
   deduction record does not have.
 - **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize);
@@ -1490,4 +1499,278 @@ during implementation.
   `test_benefit_plan_lines_have_amount_but_no_dates`;
   `tests/test_deduction_isolved.py::test_balance_is_a_live_only_field`,
   `test_item_without_code_keeps_its_name`.
+- **Status:** Open.
+
+## Payroll normalization
+
+### 69. A pay run and a paycheck are separate records
+
+- **Context:** Every provider sends a list of pay runs (PrismHR
+  batches, isolved run history, UKG Ready payrolls) and, for each run,
+  one paycheck per employee with its earnings, taxes, deductions and
+  payments. A paycheck can be captured without its run.
+- **Decision:** `--entity payroll` writes two lists. `pay_runs` holds
+  one record per run: type, status, pay date, period, description and
+  pay group. `paychecks` holds one record per employee paycheck, with
+  the keys of its employee, company and run, the copied totals, and
+  five lists of lines: earnings, taxes, deductions, employer
+  contributions and payments. A tax line holds both the employee and
+  the employer side.
+- **Reason:** Flat lists match the other data types and keep a
+  paycheck readable when its run is missing. A paycheck links to its
+  run by key, as a deposit links to its employee.
+- **Evidence:** `src/normalization/canonical/payroll.py`;
+  `docs/canonical/employee.schema.json#/$defs/PayRun` and
+  `#/$defs/Paycheck`;
+  `tests/test_canonical_model.py::test_payroll_fields_are_checked`;
+  `tests/test_payroll_*.py::test_records_link_to_runs_employees_and_company`.
+- **Status:** Decided.
+
+### 70. What a capture bundle holds for payroll
+
+- **Context:** Each provider needs a run list plus one or more calls per
+  run or per employee to get the paychecks, and some need a detail call
+  per paycheck for the lines.
+- **Decision:** A payroll bundle holds, per provider:
+  - PrismHR: the `getBatchListByDate` response, a map from batch ID to
+    the pages of `getPayrollVoucherForBatch`, and optionally a map from
+    batch ID to `getBatchInfo`;
+  - isolved: the employee list pages, a map from pay group ID to its
+    run history, a map from employee ID to its check pages, and
+    optionally a map from check ID to the check detail;
+  - UKG Ready: the payroll list, a map from payroll ID to its pay
+    statement list, a map from statement ID to the statement detail,
+    and optionally the EIN lookup.
+
+  A missing entry is reported as `missing_section` (an expected part of
+  the data is absent) and the records that need it are emitted with
+  what is left.
+- **Reason:** This follows the deposit and deduction bundles (entries
+  44 and 58), so one capture run can serve every data type.
+- **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
+  `tests/test_bundle.py::test_payroll_keys_per_provider`,
+  `test_one_bundle_can_feed_every_entity`.
+- **Status:** Decided.
+
+### 71. Gross and net pay are copied, never summed
+
+- **Context:** PrismHR and isolved send a gross and a net total on
+  each paycheck. UKG Ready pay statements have neither: only lines.
+- **Decision:** `gross_pay` and `net_pay` are copied from the provider
+  totals. For UKG Ready they are empty, and one `missing_section` issue
+  at `info` severity per bundle says so.
+- **Reason:** A sum of lines can differ from what was paid (memo
+  earnings, discarded lines, rounding), so a computed total could
+  mislead. One issue per bundle is enough because every statement
+  lacks the totals.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/364`;
+  `tests/test_payroll_ukg_ready.py::test_no_totals_and_live_only_fields`.
+- **Status:** Decided, except reporting the UKG Ready gap once per
+  bundle rather than once per statement, which is Open.
+
+### 72. Year-to-date figures are not modelled
+
+- **Context:** isolved repeats month-, quarter- and year-to-date figures
+  on every check line and benefit. PrismHR and UKG Ready lines carry
+  only the paycheck's own figures.
+- **Decision:** Only the figures for the paycheck itself are mapped.
+  The running totals stay in each line's `unmapped`.
+- **Reason:** They describe the employee's year, not the paycheck, and
+  can be rebuilt from the paychecks.
+- **Evidence:** `tests/test_payroll_isolved.py::test_check_with_detail`
+  (the `ytd*` fields stay in `unmapped`).
+- **Status:** Decided.
+
+### 73. PrismHR batch statuses are grouped into four
+
+- **Context:** PrismHR documents 20 batch status codes, only in the
+  description of its `getBatchStatus` call, as a table of code and
+  meaning. Live batches used five of them.
+- **Decision:** Time sheet and calculation steps are `open`,
+  finalization, wire transfer and printing are `submitted`, `COMP` is
+  `completed`, and the four codes that end "with errors" or "rejected"
+  are `failed`. The label shown is the table's description. A code not
+  in the table stays `unknown` with an `undocumented_code` issue (a
+  code with no documented meaning).
+- **Reason:** Four groups let a reader compare runs across providers;
+  the exact step stays in the raw code and label.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/paths/~1payroll~1v1~1getBatchStatus/get/description`;
+  `src/normalization/adapters/prismhr.py` (`BATCH_STATUS`);
+  `tests/test_payroll_prismhr.py::test_batch_types_and_status_groups`,
+  `test_code_tables_quote_the_spec_descriptions`.
+- **Status:** Open.
+
+### 74. PrismHR voucher status, benefits and payments
+
+- **Context:** A PrismHR voucher's `status` is described only as
+  "voucher status, such as printed", and every live voucher sent
+  `PRNT`. Its `benefit[]` list repeats amounts already in `deduction[]`
+  and `employerContributions[]`. The check amount is a field, while
+  direct deposits are a list.
+- **Decision:** Voucher status stays `unknown` with one
+  `undocumented_code` issue per distinct code. `benefit[]` stays in
+  `unmapped`. A check payment line is added when the voucher has a check
+  number or a nonzero check amount, and each direct deposit entry
+  becomes its own payment line with the last four account digits.
+- **Reason:** No status code is documented. Mapping `benefit[]` would
+  count the same money twice. A zero check amount with no check number
+  is not a payment.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/status`;
+  `tests/test_payroll_prismhr.py::test_regular_voucher_lines`,
+  `test_pay_classes_other_deductions_and_direct_deposit`,
+  `test_undocumented_codes_are_reported_once_each`.
+- **Status:** Open.
+
+### 75. isolved payroll comes from legal 5797
+
+- **Context:** The isolved demo client has two legal companies. Legal
+  5806, used for the other data types, has one pay group whose run
+  history answers 404 and no employee checks. Legal 5797 has 231 runs
+  and 21 employees with checks.
+- **Decision:** Live payroll captures use legal 5797. The test fixture
+  keeps the 5806 company key so it joins the synthetic employees.
+- **Reason:** 5806 has no payroll data to normalize.
+- **Evidence:** `tests/fixtures/isolved/payroll-bundle.json`
+  (`request.legal_id`); README "Live demo data".
+- **Status:** Decided.
+
+### 76. isolved checks join runs on pay date and run number
+
+- **Context:** An isolved check does not carry the ID of its run. It
+  has a check date and `payrollRunNumber`; a run has a pay date and
+  `runNumber`. Live, every check matched exactly one run this way.
+- **Decision:** A check gets the key of the run with the same pay date
+  and run number. When no captured run matches, or two do, the run key
+  is empty and a `missing_section` warning says which.
+- **Reason:** It is the only link the data offers. Guessing between two
+  matching runs could attach a check to the wrong one.
+- **Evidence:** `src/normalization/adapters/isolved.py` (`_run_for`);
+  `tests/test_payroll_isolved.py::test_checks_that_join_no_run`.
+- **Status:** Open.
+
+### 77. isolved run type, run status and check type labels allowed so far
+
+- **Context:** isolved sends English labels, not codes, for a run's
+  type and status and a check's type, and the spec lists no values.
+  Live runs were "Regular Payroll" or "Data Conversion", "Completed
+  Payroll Run" or "Payroll Not Processed"; live checks were all
+  "Adjustment".
+- **Decision:** "Regular Payroll" is `regular`; "Completed Payroll
+  Run" is `completed` and "Payroll Not Processed" is `open`;
+  "Adjustment" is `adjustment`. Any other label stays `unknown` with
+  one `unmapped_label` issue (a label with no shared meaning yet) per
+  distinct label. "Data Conversion" is left off because it describes
+  how the data was loaded, not the kind of run, and "Regular" for checks
+  because it never appeared live.
+- **Reason:** Only labels seen live are allowed, as for employee status
+  and deposit labels (entries 23 and 48).
+- **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/payrollRunType`;
+  `src/normalization/adapters/isolved.py` (`RUN_TYPE`, `RUN_STATUS`,
+  `CHECK_TYPE`);
+  `tests/test_payroll_isolved.py::test_labels_off_the_allowlists`.
+- **Status:** Open.
+
+### 78. isolved payments come from per-account deposits when listed
+
+- **Context:** An isolved check has a check amount, a direct deposit
+  total and, on some checks, a list of deposit accounts with their
+  amounts. The total and the list describe the same money.
+- **Decision:** A nonzero check amount becomes a check payment line.
+  When the check lists deposit accounts, each becomes a payment line
+  with the last four account digits; otherwise a nonzero deposit total
+  becomes one line. A zero amount stays in `unmapped`.
+- **Reason:** Using both the total and the list would count a deposit
+  twice. The list says more, so it wins when present.
+- **Evidence:** `src/normalization/adapters/isolved.py` (`_payments`);
+  `tests/test_payroll_isolved.py::test_check_with_detail`,
+  `test_checks_without_detail`.
+- **Status:** Open.
+
+### 79. isolved memo earnings stay earnings
+
+- **Context:** Live isolved checks list the employer's 401(k) match and
+  medical, dental and HSA payments among the earnings, flagged
+  `isMemoEarning`. They are not paid to the employee.
+- **Decision:** They stay earning lines with the category `memo`. The
+  employer contribution on the check detail's benefits becomes a
+  separate employer contribution line, so the match can appear in both.
+- **Reason:** Moving memo earnings would hide that isolved lists them
+  as earnings; the `memo` category lets a reader leave them out of pay.
+- **Evidence:** `tests/test_payroll_isolved.py::test_check_with_detail`.
+- **Status:** Open.
+
+### 80. isolved checks repeat the employee's SSN, name and address
+
+- **Context:** Every isolved check carries `employeeSSN`, the
+  employee's name and home address, and their withholding setup.
+- **Decision:** The SSN is redacted in `unmapped`, as every SSN path is
+  (entry 18). Name, address and withholding pass through in `unmapped`
+  (entry 19).
+- **Reason:** These belong to the employee record, which already maps
+  them; nothing is dropped.
+- **Evidence:** `tests/test_payroll_isolved.py::test_check_with_detail`.
+- **Status:** Decided.
+
+### 81. UKG Ready payroll and statement statuses
+
+- **Context:** UKG Ready's schemas list nine payroll statuses and five
+  pay statement statuses. Live, every payroll and statement was `OPEN`.
+- **Decision:** For payrolls, `NEW` and `OPEN` are `open`, `CLOSED` and
+  `SUBMITTED` are `submitted`, `FINALIZED` is `completed`, and the four
+  `*_FAILED` values are `failed`. Statement statuses map to their
+  namesakes, with `NEW` as `open`. A value outside the lists stays
+  `unknown` with an `out_of_schema_value` issue (a value outside the
+  documented set).
+- **Reason:** The payroll groups match PrismHR's (entry 73); the
+  statement statuses are already the shared ones.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/status/enum`
+  and `#/schemas/364/schema/properties/status/enum`;
+  `tests/test_payroll_ukg_ready.py::test_status_tables_cover_the_schema_enums_exactly`.
+- **Status:** Open.
+
+### 82. UKG Ready deduction lines are split by side
+
+- **Context:** A UKG Ready statement deduction line carries both an
+  employee amount and an employer amount, either of which may be zero.
+- **Decision:** A nonzero employee amount becomes a deduction line and
+  a nonzero employer amount an employer contribution line, with the
+  same code; a zero side stays in `unmapped`. A discarded line ("Deduction
+  (Discarded)") is still emitted, with its type left in `unmapped`.
+- **Reason:** The other providers keep the two sides apart, so the
+  split makes the lists comparable. Dropping discarded lines would
+  hide what the provider sent.
+- **Evidence:** `tests/test_payroll_ukg_ready.py::test_deductions_split_by_side`.
+- **Status:** Open.
+
+### 83. UKG Ready earnings hours are milliseconds
+
+- **Context:** UKG Ready's statement earnings `hours` is an integer
+  with no documented unit. Live, overtime hours times 1.5 times the base
+  rate gave the line amount only when hours were read as milliseconds.
+- **Decision:** `hours` is converted from milliseconds to hours, as an
+  approved exception to entry 6. A value that is not a number stays
+  empty with an `invalid_number` issue.
+- **Reason:** The live check is exact, and every other UKG duration is
+  in milliseconds.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/earnings/items/properties/hours`;
+  `tests/test_payroll_ukg_ready.py::test_hours_that_are_not_milliseconds`.
+- **Status:** Decided.
+
+### 84. Where live payroll data differs from the specs
+
+- **Context:** The live demo companies did not match the specs:
+  - PrismHR lists vouchers under `payrollVoucher`, not
+    `payrollVouchers`, and sends `hsaPeoMatch` and `isManualCheck`,
+    which the spec does not list. Earning `payAmount` is described as
+    "pay per hour or unit", but it equals hours times `unitRate`.
+  - UKG Ready pay statements send `calcUpto` and `emptyEarning`, which
+    the schema does not list.
+- **Decision:** Both voucher list keys are read. `payAmount` is the
+  line amount. Each difference gets one `spec_live_mismatch` issue
+  (live data differs from the spec) per bundle, and live-only fields
+  stay in `unmapped`.
+- **Reason:** These differences do not change what the other fields
+  mean.
+- **Evidence:** `tests/test_payroll_prismhr.py::test_both_page_keys_and_live_only_fields`;
+  `tests/test_payroll_ukg_ready.py::test_no_totals_and_live_only_fields`.
 - **Status:** Open.
