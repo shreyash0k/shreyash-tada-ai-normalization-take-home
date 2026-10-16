@@ -1,0 +1,524 @@
+{
+  "bundle_version": 1,
+  "provider": "ukg-ready",
+  "captured_at": "2026-10-15",
+  "request": {
+    "company_id": "33704016"
+  },
+  "responses": {
+    "employees": {
+      "employees": [
+        {
+          "id": 12935181566,
+          "employee_id": "1",
+          "username": "abrennan",
+          "first_name": "Avery",
+          "last_name": "Brennan",
+          "primary_account_id": 12935181566,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2019-02-17",
+            "started": "2019-02-17"
+          }
+        },
+        {
+          "id": 12935181567,
+          "employee_id": "2",
+          "username": "tlindqvist",
+          "first_name": "Tatum",
+          "last_name": "Lindqvist",
+          "primary_account_id": 12935181567,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2024-09-24",
+            "started": "2024-09-24"
+          }
+        },
+        {
+          "id": 12935181568,
+          "employee_id": "3",
+          "username": "rdelgado",
+          "first_name": "Riley",
+          "last_name": "Delgado",
+          "primary_account_id": 12935181568,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/profiles"
+          },
+          "status": "Terminated",
+          "dates": {
+            "hired": "2019-11-21",
+            "started": "2019-11-21",
+            "terminated": "2024-06-28"
+          }
+        },
+        {
+          "id": 12935181569,
+          "employee_id": "4",
+          "username": "tnakamura",
+          "first_name": "Tatum",
+          "last_name": "Nakamura",
+          "primary_account_id": 12935181569,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2016-02-26",
+            "started": "2016-02-26",
+            "re_hired": "2022-02-14"
+          }
+        },
+        {
+          "id": 12935181570,
+          "employee_id": "5",
+          "username": "rdelgado",
+          "first_name": "Rowan",
+          "last_name": "Delgado",
+          "primary_account_id": 12935181570,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/profiles"
+          },
+          "status": "Suspended",
+          "dates": {
+            "hired": "2020-12-25",
+            "started": "2020-12-25"
+          }
+        },
+        {
+          "id": 12935181571,
+          "employee_id": "6",
+          "username": "ebrennan",
+          "first_name": "Emerson",
+          "last_name": "Brennan",
+          "primary_account_id": 12935181571,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2022-09-12",
+            "started": "2022-09-12",
+            "seniority": "2020-13-01"
+          }
+        }
+      ]
+    },
+    "direct_deposits": {
+      "12935181566": {
+        "deposits": [
+          {
+            "id": 47480101,
+            "sequence": 1,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "1900-12-31",
+            "active_to": "2099-12-31",
+            "active": true,
+            "calc_method": {
+              "display_name": "Entire/Remainder",
+              "type": "FULL"
+            },
+            "account_type": "CHECKING",
+            "account_number": "098527890",
+            "routing_number": "995689654",
+            "routing_type": "ABA",
+            "pre_note_status": "READY_TO_SEND",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480101",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480101",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480101",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480101",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480101"
+            }
+          }
+        ],
+        "_links": {
+          "add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits"
+        },
+        "_routing_type": "ABA"
+      },
+      "12935181567": {
+        "deposits": [
+          {
+            "id": 47480102,
+            "sequence": 1,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "2020-08-06",
+            "active_to": "2099-12-31",
+            "active": true,
+            "amount": 1000.0,
+            "calc_method": {
+              "display_name": "Flat $ Amount",
+              "type": "FLAT_AMOUNT"
+            },
+            "account_type": "CHECKING",
+            "account_number": "39139851008",
+            "routing_number": "999257355",
+            "routing_type": "ABA",
+            "pre_note_status": "CANCELED",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480102",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480102",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480102",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480102",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480102"
+            }
+          },
+          {
+            "id": 47480103,
+            "sequence": 2,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "2020-08-06",
+            "active_to": "2099-12-31",
+            "active": true,
+            "percentage": 15.0,
+            "calc_method": {
+              "display_name": "% Of Net Pay",
+              "type": "NET_PAY"
+            },
+            "account_type": "SAVINGS",
+            "account_number": "606653952",
+            "routing_number": "997841009",
+            "routing_type": "ABA",
+            "pre_note_status": "READY_TO_SEND",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480103",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480103",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480103",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480103",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480103"
+            }
+          },
+          {
+            "id": 47480104,
+            "sequence": 3,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "2020-08-06",
+            "active_to": "2099-12-31",
+            "active": true,
+            "calc_method": {
+              "display_name": "Entire/Remainder",
+              "type": "FULL"
+            },
+            "account_type": "CHECKING",
+            "account_number": "1838605129",
+            "routing_number": "992056861",
+            "routing_type": "ABA",
+            "pre_note_status": "COMPLETE_EXPIRED",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480104",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480104",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480104",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480104",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480104"
+            }
+          }
+        ],
+        "_links": {
+          "add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits"
+        },
+        "_routing_type": "ABA"
+      },
+      "12935181568": {
+        "deposits": [
+          {
+            "id": 47480105,
+            "sequence": 1,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "1900-12-31",
+            "active_to": "2017-07-13",
+            "active": false,
+            "calc_method": {
+              "display_name": "Entire/Remainder",
+              "type": "FULL"
+            },
+            "account_type": "CHECKING",
+            "account_number": "100",
+            "routing_number": "995919705",
+            "routing_type": "ABA",
+            "pre_note_status": "CANCELED",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480105",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480105",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480105",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480105",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480105"
+            }
+          },
+          {
+            "id": 47480106,
+            "sequence": 2,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "2020-08-06",
+            "active_to": "2099-12-31",
+            "active": true,
+            "percentage": 10.0,
+            "calc_method": {
+              "display_name": "% Of Gross Earnings",
+              "type": "GROSS_EARNING"
+            },
+            "account_type": "CHECKING",
+            "account_number": "031089962",
+            "routing_number": "993222524",
+            "routing_type": "ABA",
+            "pre_note_status": "READY_TO_SEND",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480106",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480106",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480106",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480106",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480106"
+            }
+          }
+        ],
+        "_links": {
+          "add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits"
+        },
+        "_routing_type": "ABA"
+      },
+      "12935181569": {
+        "deposits": [
+          {
+            "id": 47480107,
+            "sequence": 1,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "2025-02-30",
+            "active_to": "2099-12-31",
+            "active": true,
+            "percentage": 50.0,
+            "calc_method": {
+              "display_name": "% Of Remainder",
+              "type": "DIRECT_DEPOSIT_PER_OF_REMAINDER"
+            },
+            "account_type": "MONEY_MARKET",
+            "account_number": "1812431",
+            "routing_number": "999277181",
+            "routing_type": "ABA",
+            "pre_note_status": "READY_TO_SEND",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480107",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480107",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480107",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480107",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480107"
+            }
+          },
+          {
+            "id": 47480108,
+            "sequence": 2,
+            "type": "RESERVE_LIVE_CHECK",
+            "active_from": "2020-08-06",
+            "active_to": "2099-12-31",
+            "active": true,
+            "calc_method": {
+              "display_name": "Entire/Remainder",
+              "type": "FULL"
+            },
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480108",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480108",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480108",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480108",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480108"
+            }
+          }
+        ],
+        "_links": {
+          "add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits"
+        },
+        "_routing_type": "ABA"
+      },
+      "12935181571": {
+        "deposits": [
+          {
+            "id": 47480109,
+            "sequence": 1,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "2020-08-06",
+            "active_to": "2099-12-31",
+            "active": true,
+            "calc_method": {
+              "display_name": "Flat $ Amount",
+              "type": "FLAT_AMOUNT"
+            },
+            "account_type": "CHECKING",
+            "account_number": "55268221482",
+            "routing_number": "995169931",
+            "routing_type": "ABA",
+            "pre_note_status": "READY_TO_SEND",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480109",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480109",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480109",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480109",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480109"
+            }
+          },
+          {
+            "id": 47480110,
+            "sequence": 2,
+            "type": "DIRECT_DEPOSIT",
+            "active_from": "2020-08-06",
+            "active_to": "2099-12-31",
+            "active": true,
+            "calc_method": {
+              "display_name": "Entire/Remainder",
+              "type": "FULL"
+            },
+            "account_type": "CHECKING",
+            "account_number": "12969614698",
+            "routing_number": "992561324",
+            "routing_type": "ABA",
+            "pre_note_status": "READY_TO_SEND",
+            "arrearage_function": "UNKNOWN",
+            "payroll_frequency": {
+              "type": "EVERY_PAY"
+            },
+            "used_in_pay_statement": false,
+            "is_paypal": false,
+            "visible": true,
+            "_documents_count": 0,
+            "_notes_count": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480110",
+              "edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480110",
+              "delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480110",
+              "notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480110",
+              "add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=synthetic47480110"
+            }
+          }
+        ],
+        "_links": {
+          "add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+          "cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits"
+        },
+        "_routing_type": "ABA"
+      }
+    }
+  }
+}

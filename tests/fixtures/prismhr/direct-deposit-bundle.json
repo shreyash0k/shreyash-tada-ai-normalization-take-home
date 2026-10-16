@@ -1,0 +1,317 @@
+{
+  "bundle_version": 1,
+  "provider": "prismhr",
+  "captured_at": "2026-10-15",
+  "request": {
+    "client_id": "132"
+  },
+  "responses": {
+    "get_employee_direct_deposit": [
+      {
+        "employee": [
+          {
+            "id": "F00001",
+            "lastName": "Kowalczyk",
+            "firstName": "Finley",
+            "middleInitial": "C",
+            "preferredName": "",
+            "person": null,
+            "contactInformation": null,
+            "client": null,
+            "compensation": null,
+            "directDeposit": {
+              "achStatus": "A",
+              "voucherType": "RVS",
+              "suppressAccountPrint": false,
+              "achVoucher": [
+                {
+                  "transitNum": "997260265",
+                  "accountNum": "47782147",
+                  "accountType": "S",
+                  "method": "F",
+                  "amount": 250.0,
+                  "limit": null,
+                  "status": "D",
+                  "bankName": "FIRST EXAMPLE BANK",
+                  "voucherTypeOverride": "RVS"
+                },
+                {
+                  "transitNum": "997907305",
+                  "accountNum": "*******",
+                  "accountType": "C",
+                  "method": "B",
+                  "amount": null,
+                  "limit": null,
+                  "status": "D",
+                  "bankName": "SUMMIT DEMO BANK N.A.",
+                  "voucherTypeOverride": "RVS"
+                }
+              ],
+              "directDepositChecksum": "4109994"
+            },
+            "hsa": null,
+            "employeeEvents": null,
+            "health": null,
+            "skillsAndEducation": null,
+            "absenceJournalId": null,
+            "benefitEnrollmentCompleted": null,
+            "scheduledDeduction": null,
+            "newHireQuestions": null,
+            "enrollmentInProgress": null
+          },
+          {
+            "id": "M00002",
+            "lastName": "Delgado",
+            "firstName": "Morgan",
+            "middleInitial": "M",
+            "preferredName": "",
+            "person": null,
+            "contactInformation": null,
+            "client": null,
+            "compensation": null,
+            "directDeposit": {
+              "achStatus": "A",
+              "voucherType": "RVS",
+              "suppressAccountPrint": false,
+              "achVoucher": [
+                {
+                  "transitNum": "995805440",
+                  "accountNum": "***********",
+                  "accountType": "C",
+                  "method": "P",
+                  "amount": 20.0,
+                  "limit": 500.0,
+                  "status": "D",
+                  "bankName": "GRANITE TEST SAVINGS",
+                  "voucherTypeOverride": "RVS"
+                },
+                {
+                  "transitNum": "997339119",
+                  "accountNum": "***********",
+                  "accountType": "C",
+                  "method": "B",
+                  "amount": null,
+                  "limit": null,
+                  "status": "D",
+                  "bankName": "SUMMIT DEMO BANK N.A.",
+                  "voucherTypeOverride": "RVS"
+                }
+              ],
+              "directDepositChecksum": "6218773"
+            },
+            "hsa": null,
+            "employeeEvents": null,
+            "health": null,
+            "skillsAndEducation": null,
+            "absenceJournalId": null,
+            "benefitEnrollmentCompleted": null,
+            "scheduledDeduction": null,
+            "newHireQuestions": null,
+            "enrollmentInProgress": null
+          },
+          {
+            "id": "D00003",
+            "lastName": "Delgado",
+            "firstName": "Dakota",
+            "middleInitial": "C",
+            "preferredName": "",
+            "person": null,
+            "contactInformation": null,
+            "client": null,
+            "compensation": null,
+            "directDeposit": {
+              "achStatus": "A",
+              "voucherType": "RVS",
+              "suppressAccountPrint": false,
+              "achVoucher": [
+                {
+                  "transitNum": "999188382",
+                  "accountNum": "***********",
+                  "accountType": "C",
+                  "method": "FS",
+                  "amount": 100.0,
+                  "limit": null,
+                  "status": "P",
+                  "bankName": "FIRST EXAMPLE BANK",
+                  "voucherTypeOverride": "R"
+                },
+                {
+                  "transitNum": "998126652",
+                  "accountNum": "**********",
+                  "accountType": "S",
+                  "method": "PN",
+                  "amount": 10.0,
+                  "limit": null,
+                  "status": "D",
+                  "bankName": "SUMMIT DEMO BANK N.A.",
+                  "voucherTypeOverride": ""
+                }
+              ],
+              "directDepositChecksum": "8475794"
+            },
+            "hsa": null,
+            "employeeEvents": null,
+            "health": null,
+            "skillsAndEducation": null,
+            "absenceJournalId": null,
+            "benefitEnrollmentCompleted": null,
+            "scheduledDeduction": null,
+            "newHireQuestions": null,
+            "enrollmentInProgress": null
+          },
+          {
+            "id": "S00004",
+            "lastName": "Ferreira",
+            "firstName": "Sage",
+            "middleInitial": "K",
+            "preferredName": "",
+            "person": null,
+            "contactInformation": null,
+            "client": null,
+            "compensation": null,
+            "directDeposit": {
+              "achStatus": "A",
+              "voucherType": "RVS",
+              "suppressAccountPrint": false,
+              "achVoucher": [
+                {
+                  "transitNum": "990735723",
+                  "accountNum": "*******",
+                  "accountType": "C",
+                  "method": "B",
+                  "amount": 75.0,
+                  "limit": null,
+                  "status": "D",
+                  "bankName": "FIRST EXAMPLE BANK",
+                  "voucherTypeOverride": "RVS"
+                },
+                {
+                  "transitNum": "992576631",
+                  "accountNum": "*********",
+                  "accountType": "S",
+                  "method": "F",
+                  "amount": null,
+                  "limit": null,
+                  "status": "D",
+                  "bankName": "HARBOR SAMPLE CREDIT UNION",
+                  "voucherTypeOverride": "RVS"
+                }
+              ],
+              "directDepositChecksum": "5683942"
+            },
+            "hsa": null,
+            "employeeEvents": null,
+            "health": null,
+            "skillsAndEducation": null,
+            "absenceJournalId": null,
+            "benefitEnrollmentCompleted": null,
+            "scheduledDeduction": null,
+            "newHireQuestions": null,
+            "enrollmentInProgress": null
+          }
+        ],
+        "infoMessage": null,
+        "updateMessage": null,
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      {
+        "employee": [
+          {
+            "id": "Q00005",
+            "lastName": "Delgado",
+            "firstName": "Quinn",
+            "middleInitial": "S",
+            "preferredName": "",
+            "person": null,
+            "contactInformation": null,
+            "client": null,
+            "compensation": null,
+            "directDeposit": {
+              "achStatus": "I",
+              "voucherType": "RVS",
+              "suppressAccountPrint": false,
+              "achVoucher": [
+                {
+                  "transitNum": "996408856",
+                  "accountNum": "***********",
+                  "accountType": "IP",
+                  "method": "Z",
+                  "amount": 40.0,
+                  "limit": null,
+                  "status": "I",
+                  "bankName": "HARBOR SAMPLE CREDIT UNION",
+                  "voucherTypeOverride": "RVS"
+                }
+              ],
+              "directDepositChecksum": "7426166"
+            },
+            "hsa": null,
+            "employeeEvents": null,
+            "health": null,
+            "skillsAndEducation": null,
+            "absenceJournalId": null,
+            "benefitEnrollmentCompleted": null,
+            "scheduledDeduction": null,
+            "newHireQuestions": null,
+            "enrollmentInProgress": null
+          },
+          {
+            "id": "M00006",
+            "lastName": "Petrov",
+            "firstName": "Morgan",
+            "middleInitial": "T",
+            "preferredName": "",
+            "person": null,
+            "contactInformation": null,
+            "client": null,
+            "compensation": null,
+            "directDeposit": {
+              "achStatus": "",
+              "voucherType": "",
+              "suppressAccountPrint": false,
+              "achVoucher": [],
+              "directDepositChecksum": "0"
+            },
+            "hsa": null,
+            "employeeEvents": null,
+            "health": null,
+            "skillsAndEducation": null,
+            "absenceJournalId": null,
+            "benefitEnrollmentCompleted": null,
+            "scheduledDeduction": null,
+            "newHireQuestions": null,
+            "enrollmentInProgress": null
+          },
+          {
+            "id": "R00007",
+            "lastName": "Nakamura",
+            "firstName": "Reese",
+            "middleInitial": "E",
+            "preferredName": "",
+            "person": null,
+            "contactInformation": null,
+            "client": null,
+            "compensation": null,
+            "directDeposit": null,
+            "hsa": null,
+            "employeeEvents": null,
+            "health": null,
+            "skillsAndEducation": null,
+            "absenceJournalId": null,
+            "benefitEnrollmentCompleted": null,
+            "scheduledDeduction": null,
+            "newHireQuestions": null,
+            "enrollmentInProgress": null
+          }
+        ],
+        "infoMessage": null,
+        "updateMessage": null,
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      }
+    ]
+  }
+}

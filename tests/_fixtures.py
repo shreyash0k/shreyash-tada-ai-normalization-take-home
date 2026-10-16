@@ -16,24 +16,29 @@ def load_json(path: Path):
         return json.load(stream)
 
 
-def bundle_path(provider: str) -> Path:
-    return FIXTURES / provider / "employee-bundle.json"
+PROVIDERS = ("prismhr", "isolved", "ukg-ready")
+ENTITIES = ("employee", "direct-deposit")
+_GOLDEN_SUFFIX = {"employee": "employees", "direct-deposit": "direct-deposits"}
 
 
-def expected_path(provider: str) -> Path:
-    return FIXTURES / "expected" / f"{provider}-employees.json"
+def bundle_path(provider: str, entity: str = "employee") -> Path:
+    return FIXTURES / provider / f"{entity}-bundle.json"
 
 
-def fixture_bundle(provider: str):
-    return load_bundle(bundle_path(provider))
+def expected_path(provider: str, entity: str = "employee") -> Path:
+    return FIXTURES / "expected" / f"{provider}-{_GOLDEN_SUFFIX[entity]}.json"
 
 
-def raw_bundle(provider: str) -> dict:
-    return load_json(bundle_path(provider))
+def fixture_bundle(provider: str, entity: str = "employee"):
+    return load_bundle(bundle_path(provider, entity), entity=entity)
 
 
-def expected_output(provider: str) -> dict:
-    return load_json(expected_path(provider))
+def raw_bundle(provider: str, entity: str = "employee") -> dict:
+    return load_json(bundle_path(provider, entity))
+
+
+def expected_output(provider: str, entity: str = "employee") -> dict:
+    return load_json(expected_path(provider, entity))
 
 
 def schema() -> dict:
@@ -52,9 +57,25 @@ def employee_by_source_id(output: dict, employee_id: str) -> dict:
     raise KeyError(employee_id)
 
 
+def deposits_of(output: dict, employee_id: str) -> list:
+    return [d for d in output["direct_deposits"] if d["source"]["employee_id"] == employee_id]
+
+
+def deposit_by_id(output: dict, deposit_id: str) -> dict:
+    for deposit in output["direct_deposits"]:
+        if deposit["source"]["deposit_id"] == deposit_id:
+            return deposit
+    raise KeyError(deposit_id)
+
+
 @functools.lru_cache(maxsize=None)
 def _cached_json(path: str):
     return load_json(Path(path))
+
+
+def resolve_code_table(table):
+    """Resolve the pointer a ``CodeTable`` cites (its evidence text up to the first space)."""
+    return resolve_evidence(table.evidence.split(" ", 1)[0])
 
 
 def resolve_evidence(evidence: str):

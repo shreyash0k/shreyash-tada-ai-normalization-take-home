@@ -278,13 +278,20 @@ during implementation.
 - **Context:** The assignment asks for direct deposits and deductions, but the
   starter code only knows about three data types: company, employee, and
   payroll.
-- **Decision:** Not decided yet. Direct deposits and deductions need to be
-  added, either as their own data types or as part of the employee record.
-- **Reason:** They are required data types, so they need a home in the model
-  either way.
+- **Decision:** Direct deposits are their own data type. `normalize
+  --entity direct-deposit` writes one record per bank line in a top-level
+  `direct_deposits` list, next to the (empty) `employees` list. Each record
+  carries the key of the employee it belongs to and the company key, so it
+  links to the employee output. Deductions are still to be added and are
+  expected to follow the same pattern.
+- **Reason:** The employee output stays the same whichever data types are
+  added later, and `--entity` keeps meaning "which records this run
+  produces". The employee key is enough to join the two outputs.
 - **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize);
-  `ENTITIES` in `src/normalization/adapters/__init__.py`.
-- **Status:** Open.
+  `ENTITIES` in `src/normalization/adapters/__init__.py`;
+  `src/normalization/canonical/direct_deposit.py`;
+  `tests/test_direct_deposit_*.py::test_lines_link_to_employees_and_company`.
+- **Status:** Decided for direct deposits; deductions are still open.
 
 ### 13. A starter test requires every transformation to stay unimplemented
 
@@ -313,14 +320,20 @@ during implementation.
   (`responses`). Each provider has its own list of calls that must be present
   and calls that may be present. A bundle that is missing a required part, or
   has one in the wrong shape, is rejected with a message naming exactly which
-  part is wrong. `normalize --entity employee` reads a bundle.
+  part is wrong. `normalize --entity employee` and `--entity
+  direct-deposit` read a bundle. Which calls are required depends on the
+  data type being normalized; a bundle may hold the calls for both, so one
+  capture can feed both runs.
 - **Reason:** Keeping the request and every response together means made-up
   test data and real downloads saved by hand go through exactly the same
   code.
 - **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS` lists the
-  required and optional responses per provider; `parse_bundle` raises
-  `ValueError` naming the offending path); `tests/test_bundle.py`;
-  `tests/fixtures/*/employee-bundle.json`.
+  required and optional responses per provider and data type;
+  `parse_bundle` raises `ValueError` naming the offending path);
+  `tests/test_bundle.py` (`test_required_keys_depend_on_the_entity`,
+  `test_one_bundle_can_feed_both_entities`);
+  `tests/fixtures/*/employee-bundle.json`,
+  `tests/fixtures/*/direct-deposit-bundle.json`.
 - **Status:** Decided.
 
 ## Employee normalization
@@ -421,15 +434,22 @@ during implementation.
   like an identifier or a secret is replaced with `[redacted]`. That covers
   names containing `ssn`, `social_security`, `social_insurance`,
   `national_insurance`, `national_id`, `bsn`, `password`, `secret`, `token`,
-  `ticket`, `photo_href` or `bank_account`. Tests check that no full Social
-  Security number from the input appears anywhere in the output.
+  `ticket`, `photo_href`, `bank_account`, or a bank account, routing or
+  transit number (`accountNum`, `account_number`, `routingNumber`,
+  `transitNum` and similar spellings). Inside any other text value, a
+  `token`, `ticket`, `sessionId` or `access_token` parameter of a link is
+  replaced with `[redacted]` and the rest of the link is kept. Tests check
+  that no full Social Security or bank account number from the input
+  appears anywhere in the output.
 - **Reason:** The assignment requires that live records and secrets stay out
   of Git, and output files are the most likely thing to be committed or
   shared. UKG's `photo_href` is on the list because the link carries a
-  sign-in ticket.
+  sign-in ticket, and its direct deposit `notes` links carry a `token`
+  parameter.
 - **Evidence:** `src/normalization/adapters/_common.py` (`redact`,
-  `Collector.ssn_last4`); `tests/test_employee_prismhr.py::test_only_last_four_ssn_digits_are_emitted`;
-  `tests/test_employee_ukg_ready.py::test_identifiers_and_tokens_are_redacted_in_unmapped`.
+  `Collector.last4`); `tests/test_employee_prismhr.py::test_only_last_four_ssn_digits_are_emitted`;
+  `tests/test_employee_ukg_ready.py::test_identifiers_and_tokens_are_redacted_in_unmapped`;
+  `tests/test_direct_deposit_ukg_ready.py::test_secrets_are_not_emitted`.
 - **Status:** Decided.
 
 ### 19. Unconsumed provider fields pass through in `unmapped`
@@ -449,7 +469,7 @@ during implementation.
   `tests/test_employee_prismhr.py::test_unmapped_keeps_unconsumed_fields_and_redacts_identifiers`.
 - **Status:** Decided.
 
-### 20. Issue codes and severities for the employee task
+### 20. Issue codes and severities
 
 - **Context:** Entry 1 says every problem is reported as a structured issue
   rather than hidden. Those issues needed a fixed vocabulary so they can be
@@ -465,7 +485,8 @@ during implementation.
   - `warning`: a value is kept but could not be interpreted, or something
     expected is missing. Codes: `undocumented_code`, `unmapped_label`,
     `missing_section`, `missing_lookup`, `out_of_schema_value`,
-    `multiple_current_rates`.
+    `multiple_current_rates`, `inconsistent_allocation` (a deposit line's
+    amount and percentage do not fit its method; entry 44).
   - `info`: a note about the provider's behaviour, with nothing lost. Codes:
     `spec_live_mismatch`, `masked_value`.
 - **Reason:** A small fixed set of codes lets someone see at a glance how many
@@ -484,10 +505,12 @@ during implementation.
   and pay amounts come from fixed lists and a random generator seeded with
   the number `20261015`, so running the script again produces exactly the same
   files. The field names and layout copy what the live APIs actually return.
-  For each provider the script writes two files: the input bundle
-  (`tests/fixtures/<provider>/employee-bundle.json`) and the output the
-  adapter is expected to produce from it
-  (`tests/fixtures/expected/<provider>-employees.json`).
+  For each provider and data type the script writes two files: the input
+  bundle (`tests/fixtures/<provider>/employee-bundle.json` or
+  `direct-deposit-bundle.json`) and the output the adapter is expected to
+  produce from it (`tests/fixtures/expected/<provider>-employees.json` or
+  `-direct-deposits.json`). Deposit bundles reuse the same employees.
+  Routing numbers start with `99`, which no real US routing number does.
   Each company deliberately includes awkward records so the tests can check
   that every kind of problem is caught and reported. Examples: an employee
   with an unknown status code, a masked Social Security number, a birth date
@@ -904,4 +927,269 @@ during implementation.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099`;
   `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys);
   `src/normalization/field_map.py` (`UKG_READY`).
+- **Status:** Open.
+
+## Direct deposit normalization
+
+### 41. A direct deposit record holds the core of one bank line
+
+- **Context:** All three providers describe each split of an employee's
+  pay into a bank account, but each wraps it in its own extras: prenote
+  progress, what to do when pay falls short, how often the split applies,
+  running totals, and links to related actions.
+- **Decision:** Each bank line becomes one record with the bank name,
+  routing number, last four digits of the account number, account type,
+  how the amount is allocated, the order it is paid in (`priority`), its
+  status, and the dates it applies (`effective`). Everything else,
+  including prenote details, the shortfall rule, frequency, the PrismHR
+  header status and `limit`, and UKG totals and links, stays in the
+  record's `unmapped` section.
+- **Reason:** These are the fields needed to say where the money goes and
+  how much. The extras are named and shaped differently by each provider
+  and are still available in `unmapped`.
+- **Evidence:** `src/normalization/canonical/direct_deposit.py`;
+  `docs/canonical/employee.schema.json#/$defs/DirectDeposit`;
+  `tests/test_direct_deposit_ukg_ready.py::test_prenote_and_frequency_stay_unmapped`.
+- **Status:** Decided.
+
+### 42. What a capture bundle holds for direct deposits
+
+- **Context:** Each provider serves deposits from a different call.
+  PrismHR returns them on the same employee call when asked for the
+  `DirectDeposit` option; isolved and UKG Ready have one call per
+  employee. isolved answers an employee with no deposits with a 404 and
+  an empty body rather than an empty list.
+- **Decision:** A direct-deposit bundle holds, per provider:
+  - PrismHR: the `getEmployee` responses requested with
+    `options=DirectDeposit` (`get_employee_direct_deposit`);
+  - isolved: the employee list pages plus a map from employee ID to that
+    employee's deposit array (`direct_deposits`), where a 404 is saved as
+    an empty array;
+  - UKG Ready: the employee list plus a map from account ID to the
+    deposit response (`direct_deposits`).
+  An employee missing from the map is reported as `missing_section`
+  (an expected part of the data is absent) and gets no deposit records.
+- **Reason:** Saving the 404 as an empty array keeps "has no deposits"
+  apart from "was not captured", which is what the missing map entry
+  means.
+- **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
+  `tests/test_direct_deposit_isolved.py::test_empty_array_and_missing_entry`;
+  `tests/test_direct_deposit_ukg_ready.py::test_missing_response`.
+- **Status:** Decided.
+
+### 43. Only the last four digits of a bank account number are emitted
+
+- **Context:** isolved and UKG Ready send bank account numbers in full.
+  PrismHR masks them completely (`*****`) but sends the routing number in
+  full. Some live UKG account numbers are only one to three digits long.
+- **Decision:** The output keeps the last four digits
+  (`account_number_last4`); the routing number and bank name are kept in
+  full. A fully masked number gives an empty value and a `masked_value`
+  issue (the provider hid the value). A number shorter than four digits
+  also gives an empty value, with an `invalid_number` issue, since its
+  last four digits would be the whole number. Account and routing numbers
+  are redacted wherever provider data is repeated (entry 18).
+- **Reason:** Four digits are enough to tell accounts apart without
+  putting a usable account number in an output file. A routing number
+  identifies a bank, not a person.
+- **Evidence:** `src/normalization/adapters/_common.py` (`Collector.last4`);
+  `tests/test_direct_deposit_prismhr.py::test_account_numbers_are_last_four_or_masked`;
+  `tests/test_direct_deposit_ukg_ready.py::test_short_account_number_is_not_emitted`;
+  `tests/test_direct_deposit_isolved.py::test_account_numbers_are_reduced_to_last_four`.
+- **Status:** Decided.
+
+### 44. How each provider's allocation maps to one list of methods
+
+- **Context:** A deposit line takes a fixed amount, a percentage, or
+  whatever is left. PrismHR (`method`) and UKG Ready (`calc_method`) say
+  which with a code; their specs define every code. PrismHR also puts
+  both amounts and percentages in one `amount` field.
+- **Decision:** `allocation.method` takes one of `fixed_amount`,
+  `percent` (percentage of an unstated base), `percent_of_gross`,
+  `percent_of_net`, `percent_of_remainder` or `remainder`:
+  - PrismHR: `F` and `FS` are fixed amounts, `P` is percent, `PN` is
+    percent of net, `B` is the remainder;
+  - UKG Ready: `FLAT_AMOUNT`, `GROSS_EARNING`, `NET_PAY`,
+    `DIRECT_DEPOSIT_PER_OF_REMAINDER` and `FULL` map in that order.
+  The figure goes into `allocation.amount` or `allocation.percent` as the
+  method says. When the figure does not fit the method, such as an amount
+  on a remainder line or no amount on a fixed line, an
+  `inconsistent_allocation` warning (amount and percentage do not fit the
+  method) is raised and the figure is left in `unmapped`, or set empty if
+  it is missing.
+- **Reason:** One list lets a reader compare splits across providers. A
+  figure that contradicts its method is not moved to a field that would
+  give it a meaning the provider did not.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/method`;
+  `contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/calc_method/properties/type/enum`;
+  `src/normalization/adapters/prismhr.py` (`DEPOSIT_METHOD`);
+  `src/normalization/adapters/ukg_ready.py` (`DEPOSIT_CALC_METHOD`);
+  `tests/test_direct_deposit_prismhr.py::test_inconsistent_amounts_are_reported`.
+- **Status:** Decided.
+
+### 45. isolved allocation comes from which field is set
+
+- **Context:** isolved has no method code. A line has either an `amount`
+  or a `percent`, and the spec says `sequenceNumber` 0 is "Net Pay", the
+  line that receives the rest.
+- **Decision:** A line with sequence 0 is `remainder`, with the label
+  "Net Pay (sequence 0)". Otherwise a line with only an amount is
+  `fixed_amount` and one with only a percent is `percent`. A line with
+  both, or with neither, gets `unknown` and an `inconsistent_allocation`
+  warning. The method's raw value is empty because isolved sent no code.
+- **Reason:** The spec states the two fields exclude each other and
+  defines sequence 0, so the method follows from the data without a
+  guess. isolved does not say what the percentage is of, so it stays the
+  plain `percent`.
+- **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/sequenceNumber`;
+  `src/normalization/adapters/isolved.py` (`_IsolvedDepositMapper._allocation`);
+  `tests/test_direct_deposit_isolved.py::test_sequence_zero_is_the_net_pay_remainder`,
+  `test_method_follows_the_field_that_is_set`.
+- **Status:** Decided.
+
+### 46. isolved account type and status labels allowed so far
+
+- **Context:** isolved's spec describes `accountType` and `status` only
+  as free-text descriptions, with no list of values. The live demo
+  company returned `Checking` as the only account type and `Active` and
+  `Inactive` as statuses. Frequency was always `Every Pay`.
+- **Decision:** Under entry 17's rule (c), `Checking` maps to `checking`,
+  and `Active` and `Inactive` map to `active` and `inactive`, matched
+  exactly. Any other label stays `unknown` with an `unmapped_label` issue
+  (a label with no shared meaning yet). Frequency is not mapped and stays
+  in `unmapped`.
+- **Reason:** These are the only labels seen, and each says plainly what
+  it means. A savings label will be added once one is seen live.
+- **Evidence:** `src/normalization/adapters/isolved.py`
+  (`DEPOSIT_ACCOUNT_TYPE`, `DEPOSIT_STATUS`);
+  `tests/test_direct_deposit_isolved.py::test_labels_outside_the_allowlist_stay_raw`.
+- **Status:** Decided.
+
+### 47. PrismHR account type `IP` is instant pay, not a pay card
+
+- **Context:** PrismHR's spec lists the account types it returns as `C`
+  "(checking account or pay card)", `S` "(savings account)" and `IP`
+  "(instant pay)". Instant pay is easy to mistake for a pay card, which
+  is a different thing.
+- **Decision:** `C` maps to `checking`, `S` to `savings` and `IP` to
+  `instant_pay`. There is no pay card value, because PrismHR files pay
+  cards under `C`.
+- **Reason:** The spec text says `IP` is instant pay; calling it a pay
+  card would change what the code means.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/accountType`;
+  `src/normalization/adapters/prismhr.py` (`ACCOUNT_TYPE`);
+  `tests/test_direct_deposit_prismhr.py::test_undocumented_method_and_instant_pay`.
+- **Status:** Open.
+
+### 48. PrismHR `FS` and `PN` lose a detail when mapped
+
+- **Context:** PrismHR's `FS` is "fixed, skip if can't take full amount",
+  and `PN` is "percentage of net after fixed", meaning the percentage is
+  taken after the fixed-amount lines are paid.
+- **Decision:** `FS` maps to `fixed_amount` and `PN` to `percent_of_net`.
+  The extra detail is kept only in the method's raw code.
+- **Reason:** The shared list has no value for a skip rule or for the
+  order in which lines are paid, and adding one for a single provider
+  code would make the list harder to compare.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/method`;
+  `src/normalization/adapters/prismhr.py` (`DEPOSIT_METHOD`);
+  `tests/test_direct_deposit_prismhr.py::test_fixed_skip_and_prenote`.
+- **Status:** Open.
+
+### 49. PrismHR deposit lines are identified by their position
+
+- **Context:** PrismHR deposit lines (`achVoucher`) have no ID or
+  sequence number.
+- **Decision:** A line's ID is its position in the list, starting at 0,
+  so the record key ends in `:dd:0`, `:dd:1` and so on. `priority` is
+  empty.
+- **Reason:** The position is the only stable handle in the response. It
+  changes if PrismHR reorders or removes a line, so it should not be
+  used to match records across captures. PrismHR does not say the list
+  order is the payment order.
+- **Evidence:** `src/normalization/adapters/prismhr.py`
+  (`_PrismDepositMapper.map`);
+  `tests/test_direct_deposit_prismhr.py::test_line_position_is_the_deposit_id`.
+- **Status:** Open.
+
+### 50. PrismHR header status is not applied to each line
+
+- **Context:** PrismHR sends a header for the whole direct deposit setup,
+  with its own status (`achStatus`), next to a status on each line. In
+  the live demo company every line was `D` (active), and employees with
+  no setup had an empty `achStatus`.
+- **Decision:** A record's status comes from its line only. The header
+  fields are copied into every line's `unmapped` section.
+- **Reason:** The spec does not say how the header status combines with
+  a line status, so combining them would be a guess.
+- **Evidence:** `src/normalization/adapters/prismhr.py`
+  (`_PrismDepositMapper.map`);
+  `tests/test_direct_deposit_prismhr.py::test_header_fields_ride_along_in_unmapped`.
+- **Status:** Open.
+
+### 51. UKG Ready "reserve live check" lines are emitted without a bank
+
+- **Context:** UKG Ready deposit lines have a `type` of either
+  `DIRECT_DEPOSIT` or `RESERVE_LIVE_CHECK`. The second keeps part of the
+  pay as a paper check and has no bank account.
+- **Decision:** Both kinds become records. A reserve line has empty bank
+  fields, and its `type` stays in `unmapped`.
+- **Reason:** It is still a split of the employee's pay with an amount
+  and an order, and dropping it would make the other lines look like the
+  whole of the pay.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/type`;
+  `tests/test_direct_deposit_ukg_ready.py::test_reserve_live_check_has_no_bank_fields`.
+- **Status:** Open.
+
+### 52. UKG Ready's employee deposit call is past its end of support
+
+- **Context:** UKG's table of deprecated operations lists
+  `GET v2/companies/{cid}/employees/{account_id}/direct-deposits` with
+  no replacement and an end of support of January 29, 2026. The live
+  demo company still answered every call, without needing the
+  `X-End-of-Support-Timeline` header.
+- **Decision:** The bundle uses this call, since it is the only one that
+  lists an employee's deposits.
+- **Reason:** No replacement is documented. If UKG turns the call off,
+  the bundle cannot be captured, but saved bundles still normalize.
+- **Evidence:** `contracts/ukg-ready/reference-docs/Version 2 resources and operations.html`
+  (the `employees/{account_id}/direct-deposits` row);
+  `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys).
+- **Status:** Open.
+
+### 53. UKG Ready open-ended dates are kept as sent
+
+- **Context:** Live UKG lines carry `active_from` 1900-12-31 and
+  `active_to` 2099-12-31, which look like stand-ins for "no start" and
+  "no end". One inactive line had a real end date.
+- **Decision:** `effective` holds both dates exactly as sent.
+- **Reason:** UKG does not document these as placeholders, so treating
+  them as empty would be a guess. A reader can still filter them out.
+- **Evidence:** `src/normalization/adapters/ukg_ready.py`
+  (`_UkgDepositMapper._line`);
+  `tests/test_direct_deposit_ukg_ready.py::test_sequence_status_and_effective_dates`.
+- **Status:** Open.
+
+### 54. Where live deposit data differs from the specs
+
+- **Context:** The live demo companies did not return everything the
+  specs describe:
+  - UKG Ready omits `amount`, `percentage` and `name` when unset, and
+    never returned `description`, `currency`, the prenote dates or the
+    running totals. Its label for `FLAT_AMOUNT` is "Flat $ Amount", not
+    the documented "Flat Amount".
+  - isolved's inactive lines had no `sequenceNumber`, though the spec
+    marks it required, and one also had no amount or percent. No line
+    had `links`.
+  - PrismHR sent `transitNum` in full and every `accountNum` masked.
+- **Decision:** A missing field is read as empty and raises no issue of
+  its own. The isolved line with neither amount nor percent gets the
+  `inconsistent_allocation` warning from entry 45. The UKG label is kept
+  as sent, and the amount currency defaults to USD.
+- **Reason:** These gaps do not change what the remaining fields mean,
+  and reporting every absent optional field would bury the issues that
+  do.
+- **Evidence:** `tests/test_direct_deposit_isolved.py::test_inactive_line_without_sequence`;
+  `tests/test_direct_deposit_ukg_ready.py::test_every_calc_method_maps`;
+  `src/normalization/adapters/ukg_ready.py` (`_UkgDepositMapper._allocation`).
 - **Status:** Open.

@@ -1,10 +1,14 @@
-"""UKG Ready employee adapter.
+"""UKG Ready employee and direct deposit adapter.
 
 Input: a capture bundle with the company employee list
 (``GET /v2/companies/{cid}/employees``) and, keyed by account id as a string,
 the per-employee detail, ``/demographics``, ``/pay-info`` and
 ``/compensation/history`` responses, plus the company lookups for employee
 types, pay types and EINs.
+
+Direct deposits come from ``responses.direct_deposits``, keyed by account id:
+the ``{"deposits": [...]}`` body of
+``GET /v2/companies/{cid}/employees/{aid}/direct-deposits``.
 
 UKG's closed schema enums (gender, citizenship, amount_period, time_period)
 map directly. Tenant-configured lookups (employee types, pay types) resolve to
@@ -15,16 +19,23 @@ from datetime import date
 from decimal import Decimal
 from typing import Any, Dict, Optional
 
-from ..bundle import Bundle
+from ..bundle import Bundle, parse_bundle
 from ..canonical import (
+    AccountType,
     Address,
     AddressKind,
+    Allocation,
+    AllocationMethod,
     Citizenship,
     CodedValue,
     Company,
     CompanySource,
     Compensation,
     Contact,
+    DateRange,
+    DepositSource,
+    DepositStatus,
+    DirectDeposit,
     Email,
     EmailKind,
     Employee,
@@ -94,6 +105,22 @@ PAY_TYPE = CodeTable(
     "GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined)",
     kind="label",
 )
+DEPOSIT = f"{SCHEMAS}/137/schema/properties/deposits/items/properties"
+DEPOSIT_CALC_METHOD = CodeTable(
+    "deposits.calc_method.type", AllocationMethod,
+    {"FLAT_AMOUNT": AllocationMethod.FIXED_AMOUNT, "GROSS_EARNING": AllocationMethod.PERCENT_OF_GROSS,
+     "NET_PAY": AllocationMethod.PERCENT_OF_NET,
+     "DIRECT_DEPOSIT_PER_OF_REMAINDER": AllocationMethod.PERCENT_OF_REMAINDER,
+     "FULL": AllocationMethod.REMAINDER},
+    f"{DEPOSIT}/calc_method/properties/type/enum",
+)
+DEPOSIT_ACCOUNT_TYPE = CodeTable(
+    "deposits.account_type", AccountType,
+    {"CHECKING": AccountType.CHECKING, "SAVINGS": AccountType.SAVINGS},
+    f"{DEPOSIT}/account_type/enum",
+)
+PERCENT_CALC_METHODS = {AllocationMethod.PERCENT_OF_GROSS, AllocationMethod.PERCENT_OF_NET,
+                        AllocationMethod.PERCENT_OF_REMAINDER}
 PREFERRED_PHONE = {"HOME": "home_phone", "CELL": "cell_phone", "WORK": "work_phone"}
 EEO4_FIELDS = ("eeo4_classification", "eeo4_function")
 
@@ -213,7 +240,7 @@ class _UkgEmployeeMapper:
             gender=self.issues.code(GENDER, demo.get("gender"), demo.path("gender"), key),
             citizenship=self.issues.code(CITIZENSHIP, demo.get("citizenship"), demo.path("citizenship"), key),
             ethnicity=Collector.raw_code(demo.get("ethnicity")),
-            ssn_last4=self.issues.ssn_last4(r.get("social_security"), "social_security", key),
+            ssn_last4=self.issues.last4(r.get("social_security"), "social_security", key),
         )
 
         addresses = []
@@ -324,16 +351,115 @@ class _UkgEmployeeMapper:
         )
 
 
-def normalize_employees(bundle: Bundle) -> NormalizedOutput:
-    if bundle.provider != PROVIDER:
-        raise ValueError(f"bundle provider is {bundle.provider!r}, expected {PROVIDER!r}")
-    issues = Collector()
-    mapper = _UkgEmployeeMapper(bundle, issues)
+class _UkgDepositMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.issues = issues
+        self.company_id = bundle.request["company_id"]
+        self.company_key = f"{PROVIDER}:{self.company_id}"
+        self.responses = bundle.response("direct_deposits") or {}
+
+    def map(self, aid: str) -> list[DirectDeposit]:
+        employee_key = f"{self.company_key}:{aid}"
+        envelope = self.responses.get(aid)
+        if not isinstance(envelope, dict):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "direct_deposits",
+                            "no deposit lines emitted", employee_key,
+                            message=f"bundle has no responses.direct_deposits[{aid!r}] entry")
+            return []
+        envelope_reader = Reader(envelope)
+        envelope_reader.consume("deposits")
+        shared = envelope_reader.unmapped()
+        lines = envelope.get("deposits") or []
+        if not isinstance(lines, list):
+            raise ValueError(f"responses.direct_deposits[{aid!r}].deposits must be a list")
+        return [self._line(Reader(line, f"deposits[{index}]"), aid, employee_key, index, shared)
+                for index, line in enumerate(lines) if isinstance(line, dict)]
+
+    def _allocation(self, r: Reader, key: str) -> Allocation:
+        method = self.issues.code(DEPOSIT_CALC_METHOD, r.get("calc_method", "type"),
+                                  r.path("calc_method", "type"), key,
+                                  label=text(r.get("calc_method", "display_name")),
+                                  issue_code=IssueCode.OUT_OF_SCHEMA_VALUE)
+        member = method.value if method is not None else None
+        currency = text(r.get("currency")) or "USD"
+        if member is AllocationMethod.FIXED_AMOUNT:
+            expected, other = "amount", "percentage"
+        elif member in PERCENT_CALC_METHODS:
+            expected, other = "percentage", "amount"
+        else:
+            expected, other = None, None
+        for field in ("amount", "percentage"):
+            if r.peek(field) is None:
+                r.consume(field)
+        if member is AllocationMethod.REMAINDER:
+            extra = [field for field in ("amount", "percentage") if r.peek(field) is not None]
+            if extra:
+                self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path(extra[0]),
+                                "kept in unmapped", key, r.peek(extra[0]),
+                                "calc_method FULL takes the entire or remaining pay but an amount or "
+                                f"percentage is set ({DEPOSIT}/calc_method)")
+        if expected is None:
+            return Allocation(method=method)
+        if r.peek(other) is not None:
+            self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path(other),
+                            "kept in unmapped", key, r.peek(other),
+                            f"calc_method {method.raw} uses '{expected}', but '{other}' is also set")
+        if r.peek(expected) is None:
+            self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path(expected),
+                            f"{expected} set null", key,
+                            message=f"calc_method {method.raw} requires '{expected}' ({DEPOSIT}/{expected})")
+            return Allocation(method=method)
+        if expected == "amount":
+            amount = self.issues.money(r.get("amount"), r.path("amount"), key, currency)
+            return Allocation(method=method, amount=amount)
+        percent = self.issues.decimal(r.get("percentage"), r.path("percentage"), key)
+        return Allocation(method=method, percent=percent)
+
+    def _status(self, r: Reader, key: str) -> Optional[CodedValue]:
+        active = r.get("active")
+        if active is None:
+            return None
+        if isinstance(active, bool):
+            return CodedValue(raw="true" if active else "false", label=None,
+                              value=DepositStatus.ACTIVE if active else DepositStatus.INACTIVE)
+        self.issues.add(IssueCode.OUT_OF_SCHEMA_VALUE, Severity.WARNING, r.path("active"),
+                        "kept raw value; canonical value set to unknown", key, active,
+                        f"'active' is a boolean in the schema ({DEPOSIT}/active)")
+        return CodedValue(raw=text(active), label=None, value=DepositStatus.UNKNOWN)
+
+    def _line(self, r: Reader, aid: str, employee_key: str, index: int,
+              shared: Dict[str, Any]) -> DirectDeposit:
+        deposit_id = text(r.get("id")) or str(index)
+        key = f"{employee_key}:dd:{deposit_id}"
+        start = self.issues.date(r.get("active_from"), r.path("active_from"), key)
+        end = self.issues.date(r.get("active_to"), r.path("active_to"), key)
+        sequence = r.get("sequence")
+        return DirectDeposit(
+            key=key,
+            employee_key=employee_key,
+            company_key=self.company_key,
+            source=DepositSource(provider=PROVIDER, company_id=self.company_id, employee_id=aid,
+                                 deposit_id=deposit_id),
+            routing_number=text(r.get("routing_number")),
+            account_number_last4=self.issues.last4(r.get("account_number"), r.path("account_number"), key),
+            account_type=self.issues.code(DEPOSIT_ACCOUNT_TYPE, r.get("account_type"), r.path("account_type"),
+                                          key, issue_code=IssueCode.OUT_OF_SCHEMA_VALUE),
+            allocation=self._allocation(r, key),
+            priority=sequence if isinstance(sequence, int) and not isinstance(sequence, bool) else None,
+            status=self._status(r, key),
+            effective=DateRange(start=start, end=end) if start is not None or end is not None else None,
+            unmapped={**r.unmapped(), **shared},
+        )
+
+
+def _listed_employees(bundle: Bundle) -> list[Dict[str, Any]]:
     listed = bundle.response("employees").get("employees")
     if not isinstance(listed, list):
         raise ValueError("responses.employees.employees must be a list")
-    employees = [mapper.map(record) for record in listed if isinstance(record, dict)]
+    return [record for record in listed if isinstance(record, dict)]
 
+
+def _company(company_id: str, bundle: Bundle, issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses", "company name set null",
                message="the employee endpoints do not return the company name; "
                        "a company endpoint is a later task")
@@ -348,17 +474,46 @@ def normalize_employees(bundle: Bundle) -> NormalizedOutput:
         issues.add(IssueCode.MISSING_LOOKUP, Severity.WARNING, "responses.lookup_eins.items",
                    "company ein set null", raw_value=len(eins),
                    message="multi-EIN company; employee-to-EIN assignment is a later task")
-    company = Company(
-        key=mapper.company_key,
-        source=CompanySource(provider=PROVIDER, company_id=mapper.company_id, secondary_ids=secondary),
+    return Company(
+        key=f"{PROVIDER}:{company_id}",
+        source=CompanySource(provider=PROVIDER, company_id=company_id, secondary_ids=secondary),
         ein=ein,
     )
+
+
+def _check_provider(bundle: Bundle) -> None:
+    if bundle.provider != PROVIDER:
+        raise ValueError(f"bundle provider is {bundle.provider!r}, expected {PROVIDER!r}")
+
+
+def normalize_employees(bundle: Bundle) -> NormalizedOutput:
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _UkgEmployeeMapper(bundle, issues)
+    employees = [mapper.map(record) for record in _listed_employees(bundle)]
+    company = _company(mapper.company_id, bundle, issues)
     return NormalizedOutput(provider=PROVIDER, company=company, employees=employees, issues=issues.issues)
 
 
+def normalize_direct_deposits(bundle: Bundle) -> NormalizedOutput:
+    """One record per deposit line, for every listed employee and then any other captured account id."""
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _UkgDepositMapper(bundle, issues)
+    aids = [text(record.get("id")) or "" for record in _listed_employees(bundle)]
+    listed = set(aids)
+    aids += [aid for aid in mapper.responses if aid not in listed]
+    deposits = [deposit for aid in aids for deposit in mapper.map(aid)]
+    company = _company(mapper.company_id, bundle, issues)
+    return NormalizedOutput(provider=PROVIDER, company=company, direct_deposits=deposits, issues=issues.issues)
+
+
+NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits}
+
+
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:
-    """Dispatch wrapper used by the CLI. ``response`` is a parsed capture bundle for employees."""
-    if entity == "employee":
-        from ..bundle import parse_bundle
-        return normalize_employees(response if isinstance(response, Bundle) else parse_bundle(response))
+    """Dispatch wrapper used by the CLI. ``response`` is a parsed capture bundle."""
+    if entity in NORMALIZERS:
+        bundle = response if isinstance(response, Bundle) else parse_bundle(response, entity=entity)
+        return NORMALIZERS[entity](bundle)
     raise NotImplementedError(f"UKG Ready {entity} normalization is not implemented yet.")

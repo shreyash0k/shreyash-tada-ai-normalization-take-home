@@ -13,14 +13,19 @@ Every assumption and decision is recorded in [docs/DECISIONS.md](docs/DECISIONS.
 
 Implemented: **employee** normalization for all three providers (profile and
 contact, status and dates, job and organization, current compensation), with a
-minimal company stub so employee-to-company links resolve. Each provider has
-seeded synthetic fixtures, a golden expected output, and edge-case tests.
+minimal company stub so employee-to-company links resolve. Also implemented:
+**direct deposit** normalization for all three providers, one record per bank
+line, linked to its employee by `employee_key` (bank, routing number, last four
+account digits, account type, allocation, priority, status, effective dates).
+Each provider has seeded synthetic fixtures, a golden expected output, and
+edge-case tests for both data types.
 
 A local web page shows how each provider's employee fields map into the
 canonical model: mapped, not mapped yet, or not offered (see
-[Field coverage page](#field-coverage-page)).
+[Field coverage page](#field-coverage-page)). It does not cover direct
+deposits yet.
 
-Not implemented yet: company detail, direct deposits, deductions, payroll, the
+Not implemented yet: company detail, deductions, payroll, the
 optional write path, and grouped issue reporting. `normalize --entity company`
 and `--entity payroll` still exit 1 with "not implemented". Known gaps in the
 starter are tracked in
@@ -34,7 +39,12 @@ starter are tracked in
   `{"bundle_version": 1, "provider", "captured_at", "request": {...},
   "responses": {<endpoint>: <raw response or map of responses>}}`.
   `src/normalization/bundle.py` lists the required and optional response keys
-  per provider; the fixtures under `tests/fixtures/` are complete examples.
+  per provider and data type, so one bundle can hold the calls for both
+  employees and direct deposits; the fixtures under `tests/fixtures/` are
+  complete examples.
+- **Direct deposits are their own records.** They sit in a top-level
+  `direct_deposits[]` list rather than inside the employee, each carrying the
+  `employee_key` and `company_key` it belongs to.
 - **One adapter per provider.** Each adapter turns a bundle into canonical
   records. Everything provider-specific stays inside its adapter, and every
   code table cites the spec path it rests on.
@@ -45,8 +55,9 @@ starter are tracked in
   member of a self-describing schema enum, or it matches a short, recorded
   allowlist of live-observed labels exactly. Otherwise `value` is `unknown`.
 - **Nothing is dropped.** Provider fields with no canonical home are passed
-  through in `employee.unmapped`, keyed by their source JSON path. Identifiers
-  such as SSNs are reduced to `ssn_last4` and redacted everywhere else.
+  through in each record's `unmapped`, keyed by their source JSON path. SSNs
+  and bank account numbers are reduced to their last four digits and redacted
+  everywhere else, as are tokens inside provider links.
 - **Report problems instead of guessing.** Undocumented codes, invalid values,
   missing sections, and spec/live mismatches become structured issues with a
   code, severity, source path, and the action taken.
@@ -63,7 +74,7 @@ starter are tracked in
 | --- | --- |
 | `src/normalization/__main__.py` | Command-line entry point |
 | `src/normalization/bundle.py` | Capture-bundle envelope and per-provider shape checks |
-| `src/normalization/canonical/` | Canonical model (dataclasses, enums, issues) and the schema validator |
+| `src/normalization/canonical/` | Canonical model (employee, direct deposit, enums, issues) and the schema validator |
 | `src/normalization/adapters/` | One adapter per provider plus shared helpers (`_common.py`) |
 | `src/normalization/references.py` | Reference-pack readiness checks |
 | `src/normalization/field_map.py` | Per-provider source and status of each canonical employee field |
@@ -71,7 +82,7 @@ starter are tracked in
 | `scripts/export_web_data.py` | Writes the coverage data the web page reads |
 | `web/` | Next.js field coverage page (static export) |
 | `web/public/logos/` | Provider logos used by the coverage page |
-| `tests/` | Unit tests; `tests/fixtures/` holds the bundles and expected outputs |
+| `tests/` | Unit tests; `tests/fixtures/<provider>/` holds the employee and direct-deposit bundles, `tests/fixtures/expected/` the expected outputs |
 | `docs/canonical/` | JSON Schema for the normalized output |
 | `contracts/` | Provider API specifications and lookup references, as supplied |
 | `docs/` | Assignment, decisions, and the reference audit |
@@ -108,17 +119,26 @@ PYTHONPATH=src python3 -m normalization check-inputs
 PYTHONPATH=src python3 -m normalization normalize \
   --provider prismhr --entity employee \
   --input tests/fixtures/prismhr/employee-bundle.json --output out/result.json
+
+# Normalize direct deposits from a direct-deposit bundle
+PYTHONPATH=src python3 -m normalization normalize \
+  --provider ukg-ready --entity direct-deposit \
+  --input tests/fixtures/ukg-ready/direct-deposit-bundle.json --output out/deposits.json
 ```
 
-For `--entity employee` the input must be a capture bundle whose `provider`
-matches `--provider`. On success a summary such as `7 employees, 16 issues` is
-printed to stderr. The output is a `NormalizedOutput` document
-(`provider`, `company`, `employees[]`, `issues[]`, `schema_version`) described
-by [docs/canonical/employee.schema.json](docs/canonical/employee.schema.json).
+For `--entity employee` and `--entity direct-deposit` the input must be a
+capture bundle whose `provider` matches `--provider` and that holds the
+responses that data type needs. On success a summary such as
+`7 employees, 16 issues` or `10 direct deposits, 6 issues` is printed to
+stderr. The output is a `NormalizedOutput` document (`provider`, `company`,
+`employees[]`, `direct_deposits[]`, `issues[]`, `schema_version`) described by
+[docs/canonical/employee.schema.json](docs/canonical/employee.schema.json);
+only the list for the requested data type is filled.
 
 `normalize` will not overwrite an existing output file. Exit codes: 0 means
 success, 1 means the input could not be read or normalized (including an
-invalid bundle or an entity that is not implemented), and 2 means the
+invalid bundle, a bundle missing the responses the requested data type needs,
+or an entity that is not implemented), and 2 means the
 reference pack or the command-line arguments are not usable.
 
 Regenerate or verify the synthetic fixtures:

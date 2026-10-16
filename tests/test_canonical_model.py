@@ -5,15 +5,21 @@ import unittest
 from datetime import date
 from decimal import Decimal
 
-from _fixtures import expected_output, schema
+from _fixtures import ENTITIES, PROVIDERS, expected_output, schema
 from normalization.canonical import (
+    AccountType,
     Address,
     AddressKind,
+    Allocation,
+    AllocationMethod,
     CodedValue,
     Company,
     CompanySource,
     Compensation,
     Contact,
+    DateRange,
+    DepositSource,
+    DirectDeposit,
     Employee,
     Employment,
     EmploymentStatus,
@@ -28,7 +34,7 @@ from normalization.canonical import (
     Severity,
     SourceRef,
 )
-from normalization.canonical import common, company, employee, issues
+from normalization.canonical import common, company, direct_deposit, employee, issues
 from normalization.canonical.schema_check import validate
 
 
@@ -73,11 +79,26 @@ class ConstructionChecks(unittest.TestCase):
             person.first_name = "Grace"
 
     def test_every_canonical_enum_ends_with_unknown(self):
-        for name in dir(common):
-            member = getattr(common, name)
-            if isinstance(member, type) and issubclass(member, common.CanonicalEnum) \
-                    and member is not common.CanonicalEnum:
-                self.assertEqual(list(member)[-1].value, "unknown", name)
+        for module in (common, direct_deposit, issues):
+            for name in dir(module):
+                member = getattr(module, name)
+                if isinstance(member, type) and issubclass(member, common.CanonicalEnum) \
+                        and member is not common.CanonicalEnum:
+                    self.assertEqual(list(member)[-1].value, "unknown", name)
+
+    def test_direct_deposit_fields_are_checked(self):
+        source = DepositSource(provider="isolved", company_id="4046-5806", employee_id="1", deposit_id="9")
+        record = DirectDeposit(key="isolved:4046-5806:1:dd:9", employee_key="isolved:4046-5806:1",
+                               company_key="isolved:4046-5806", source=source,
+                               account_type=CodedValue("Checking", None, AccountType.CHECKING),
+                               allocation=Allocation(method=CodedValue(None, "amount", AllocationMethod.FIXED_AMOUNT),
+                                                     amount=Money(Decimal("200.00"))),
+                               priority=1, effective=DateRange(start=date(2020, 8, 6)))
+        self.assertEqual(record.to_dict()["allocation"]["amount"], {"amount": "200.00", "currency": "USD"})
+        with self.assertRaises(TypeError):
+            Allocation(percent=25.0)
+        with self.assertRaises(TypeError):
+            DirectDeposit(key="k", employee_key="e", company_key="c", source=source, priority=True)
 
 
 class SerializationChecks(unittest.TestCase):
@@ -117,6 +138,8 @@ class SchemaAgreementChecks(unittest.TestCase):
         "Contact": employee.Contact, "Employment": employee.Employment, "Job": employee.Job,
         "Compensation": employee.Compensation, "CodedValue": common.CodedValue,
         "Address": common.Address, "Phone": common.Phone, "Email": common.Email, "Money": common.Money,
+        "DateRange": common.DateRange, "DirectDeposit": direct_deposit.DirectDeposit,
+        "DepositSource": direct_deposit.DepositSource, "Allocation": direct_deposit.Allocation,
     }
 
     def test_each_model_field_set_matches_schema_properties(self):
@@ -139,9 +162,14 @@ class SchemaAgreementChecks(unittest.TestCase):
                                      f"{name}.{field.name}: optional={optional} schema={prop}")
 
     def test_golden_outputs_validate_against_schema(self):
-        for provider in ("prismhr", "isolved", "ukg-ready"):
-            with self.subTest(provider=provider):
-                self.assertEqual(validate(expected_output(provider), schema()), [])
+        for provider in PROVIDERS:
+            for entity in ENTITIES:
+                with self.subTest(provider=provider, entity=entity):
+                    self.assertEqual(validate(expected_output(provider, entity), schema()), [])
+
+    def test_schema_enums_match_canonical_enums(self):
+        defs = schema()["$defs"]
+        self.assertEqual(defs["Issue"]["properties"]["code"]["enum"], [member.value for member in IssueCode])
 
     def test_validator_reports_violations(self):
         output = expected_output("prismhr")

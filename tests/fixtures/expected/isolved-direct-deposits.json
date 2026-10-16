@@ -1,0 +1,405 @@
+{
+  "provider": "isolved",
+  "company": {
+    "key": "isolved:4046-5806",
+    "source": {
+      "provider": "isolved",
+      "company_id": "4046-5806",
+      "secondary_ids": {
+        "legalCode": "BK422-1"
+      }
+    },
+    "name": null,
+    "ein": null
+  },
+  "employees": [],
+  "direct_deposits": [
+    {
+      "key": "isolved:4046-5806:859201:dd:640101",
+      "employee_key": "isolved:4046-5806:859201",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859201",
+        "deposit_id": "640101"
+      },
+      "bank_name": "Summit Demo Bank N.A.",
+      "routing_number": "992634897",
+      "account_number_last4": "1275",
+      "account_type": {
+        "raw": "Checking",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": "Net Pay (sequence 0)",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 0,
+      "status": {
+        "raw": "Active",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[0].description": null,
+        "direct_deposits[0].frequency": "Every Pay"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859202:dd:640102",
+      "employee_key": "isolved:4046-5806:859202",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859202",
+        "deposit_id": "640102"
+      },
+      "bank_name": "Harbor Sample Credit Union",
+      "routing_number": "995363525",
+      "account_number_last4": "0824",
+      "account_type": {
+        "raw": "Checking",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": "amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "200.0",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "priority": 1,
+      "status": {
+        "raw": "Active",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[0].description": null,
+        "direct_deposits[0].frequency": "Every Pay"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859202:dd:640103",
+      "employee_key": "isolved:4046-5806:859202",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859202",
+        "deposit_id": "640103"
+      },
+      "bank_name": "Summit Demo Bank N.A.",
+      "routing_number": "991219383",
+      "account_number_last4": "5684",
+      "account_type": {
+        "raw": "Checking",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": "Net Pay (sequence 0)",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 0,
+      "status": {
+        "raw": "Active",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[1].description": null,
+        "direct_deposits[1].frequency": "Every Pay"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859203:dd:640104",
+      "employee_key": "isolved:4046-5806:859203",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859203",
+        "deposit_id": "640104"
+      },
+      "bank_name": "Summit Demo Bank N.A.",
+      "routing_number": "990772291",
+      "account_number_last4": "2781",
+      "account_type": {
+        "raw": "Checking",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": null,
+          "value": "unknown"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "Inactive",
+        "label": null,
+        "value": "inactive"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[0].description": null,
+        "direct_deposits[0].frequency": "Every Pay"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859203:dd:640105",
+      "employee_key": "isolved:4046-5806:859203",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859203",
+        "deposit_id": "640105"
+      },
+      "bank_name": "Harbor Sample Credit Union",
+      "routing_number": "997011825",
+      "account_number_last4": "2200",
+      "account_type": {
+        "raw": "Checking",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": "amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "500.0",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "Inactive",
+        "label": null,
+        "value": "inactive"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[1].description": null,
+        "direct_deposits[1].frequency": "Every Pay"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859204:dd:640106",
+      "employee_key": "isolved:4046-5806:859204",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859204",
+        "deposit_id": "640106"
+      },
+      "bank_name": "Harbor Sample Credit Union",
+      "routing_number": "999869720",
+      "account_number_last4": "9753",
+      "account_type": {
+        "raw": "Savings",
+        "label": null,
+        "value": "unknown"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": "percent",
+          "value": "percent"
+        },
+        "amount": null,
+        "percent": "25.0"
+      },
+      "priority": 1,
+      "status": {
+        "raw": "Active",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[0].description": null,
+        "direct_deposits[0].frequency": "Every Pay"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859204:dd:640107",
+      "employee_key": "isolved:4046-5806:859204",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859204",
+        "deposit_id": "640107"
+      },
+      "bank_name": "First Example Bank",
+      "routing_number": "994243740",
+      "account_number_last4": "6019",
+      "account_type": {
+        "raw": "Checking",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": null,
+          "value": "unknown"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 2,
+      "status": {
+        "raw": "Pending",
+        "label": null,
+        "value": "unknown"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[1].amount": 50.0,
+        "direct_deposits[1].description": null,
+        "direct_deposits[1].frequency": "Every Pay",
+        "direct_deposits[1].percent": 10.0
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859204:dd:640108",
+      "employee_key": "isolved:4046-5806:859204",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859204",
+        "deposit_id": "640108"
+      },
+      "bank_name": "First Example Bank",
+      "routing_number": "999513424",
+      "account_number_last4": "8483",
+      "account_type": {
+        "raw": "Checking",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": null,
+          "label": "Net Pay (sequence 0)",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 0,
+      "status": {
+        "raw": "Active",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "direct_deposits[2].amount": 10.0,
+        "direct_deposits[2].description": null,
+        "direct_deposits[2].frequency": "Every Pay"
+      }
+    }
+  ],
+  "issues": [
+    {
+      "code": "inconsistent_allocation",
+      "severity": "warning",
+      "source_path": "direct_deposits[0].amount",
+      "action": "method set to unknown",
+      "record_key": "isolved:4046-5806:859203:dd:640104",
+      "raw_value": null,
+      "message": "neither amount nor percent is set and the sequence is not 0 (Net Pay) (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/amount, contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/percent)"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "direct_deposits[0].accountType",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859204:dd:640106",
+      "raw_value": "Savings",
+      "message": "directdeposits.accountType: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/accountType ('Bank Acount Type Description'); labels from live GET /api/clients/{clientId}/legals/{legalId}/employees/{employeeId}/directdeposits capture (docs/DECISIONS.md direct deposit entries))"
+    },
+    {
+      "code": "inconsistent_allocation",
+      "severity": "warning",
+      "source_path": "direct_deposits[1].amount",
+      "action": "method set to unknown; amount and percent kept in unmapped",
+      "record_key": "isolved:4046-5806:859204:dd:640107",
+      "raw_value": null,
+      "message": "both amount and percent are set; the spec says only one may be (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/amount, contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/percent)"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "direct_deposits[1].status",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859204:dd:640107",
+      "raw_value": "Pending",
+      "message": "directdeposits.status: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/status ('Direct Deposit Status Description'); labels from live GET /api/clients/{clientId}/legals/{legalId}/employees/{employeeId}/directdeposits capture (docs/DECISIONS.md direct deposit entries))"
+    },
+    {
+      "code": "inconsistent_allocation",
+      "severity": "warning",
+      "source_path": "direct_deposits[2].sequenceNumber",
+      "action": "amount and percent kept in unmapped",
+      "record_key": "isolved:4046-5806:859204:dd:640108",
+      "raw_value": 0,
+      "message": "sequence 0 is the Net Pay line but an amount or percent is set (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/sequenceNumber)"
+    },
+    {
+      "code": "missing_section",
+      "severity": "info",
+      "source_path": "direct_deposits",
+      "action": "no deposit lines emitted",
+      "record_key": "isolved:4046-5806:859206",
+      "raw_value": null,
+      "message": "bundle has no responses.direct_deposits['859206'] entry"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "responses",
+      "action": "company name set null",
+      "record_key": null,
+      "raw_value": null,
+      "message": "the employees endpoint does not return the legal company name; a legal endpoint is a later task"
+    }
+  ],
+  "schema_version": "1"
+}

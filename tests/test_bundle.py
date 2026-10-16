@@ -3,23 +3,30 @@ import copy
 import unittest
 from datetime import date
 
-from _fixtures import fixture_bundle, raw_bundle
-from normalization.bundle import PROVIDER_SPECS, parse_bundle
+from _fixtures import ENTITIES, fixture_bundle, raw_bundle
+from normalization.bundle import BUNDLE_ENTITIES, PROVIDER_SPECS, parse_bundle
 
 
 class BundleEnvelopeChecks(unittest.TestCase):
     def test_fixture_bundles_parse(self):
         for provider in PROVIDER_SPECS:
-            with self.subTest(provider=provider):
-                bundle = fixture_bundle(provider)
-                self.assertEqual(bundle.provider, provider)
-                self.assertEqual(bundle.captured_at, date(2026, 10, 15))
-                for key in PROVIDER_SPECS[provider].request_keys:
-                    self.assertTrue(bundle.request[key])
+            for entity in ENTITIES:
+                with self.subTest(provider=provider, entity=entity):
+                    bundle = fixture_bundle(provider, entity)
+                    self.assertEqual(bundle.provider, provider)
+                    self.assertEqual(bundle.captured_at, date(2026, 10, 15))
+                    for key in PROVIDER_SPECS[provider].request_keys:
+                        self.assertTrue(bundle.request[key])
 
-    def assertRejected(self, data, fragment):
+    def test_every_provider_lists_every_bundle_entity(self):
+        for provider, spec in PROVIDER_SPECS.items():
+            with self.subTest(provider=provider):
+                self.assertEqual(set(spec.required), set(BUNDLE_ENTITIES))
+                self.assertEqual(set(spec.optional), set(BUNDLE_ENTITIES))
+
+    def assertRejected(self, data, fragment, entity="employee"):
         with self.assertRaises(ValueError) as caught:
-            parse_bundle(data)
+            parse_bundle(data, entity=entity)
         self.assertIn(fragment, str(caught.exception))
 
     def test_missing_envelope_keys_are_reported(self):
@@ -52,6 +59,26 @@ class BundleEnvelopeChecks(unittest.TestCase):
         data = raw_bundle("prismhr")
         data["responses"]["direct_deposits"] = []
         self.assertRejected(data, "unknown keys")
+
+    def test_required_keys_depend_on_the_entity(self):
+        employee_bundle = raw_bundle("ukg-ready")
+        self.assertRejected(employee_bundle, "responses.direct_deposits is required", entity="direct-deposit")
+        deposit_bundle = raw_bundle("prismhr", "direct-deposit")
+        self.assertRejected(deposit_bundle, "responses.get_employee is required", entity="employee")
+        data = raw_bundle("isolved", "direct-deposit")
+        data["responses"]["direct_deposits"] = []
+        self.assertRejected(data, "responses.direct_deposits must be a JSON dict", entity="direct-deposit")
+
+    def test_one_bundle_can_feed_both_entities(self):
+        data = raw_bundle("isolved")
+        data["responses"]["direct_deposits"] = raw_bundle("isolved", "direct-deposit")["responses"]["direct_deposits"]
+        for entity in ENTITIES:
+            with self.subTest(entity=entity):
+                self.assertEqual(parse_bundle(data, entity=entity).provider, "isolved")
+
+    def test_entities_without_bundles_are_refused(self):
+        with self.assertRaises(ValueError):
+            parse_bundle(raw_bundle("prismhr"), entity="payroll")
 
     def test_optional_keys_may_be_absent(self):
         data = copy.deepcopy(raw_bundle("isolved"))
