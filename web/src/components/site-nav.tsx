@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/direct-deposits", label: "Direct deposits" },
   { href: "/deductions", label: "Deductions" },
   { href: "/payroll", label: "Payroll" },
+  { href: "/company", label: "Company" },
 ];
 
 export function SiteNav() {

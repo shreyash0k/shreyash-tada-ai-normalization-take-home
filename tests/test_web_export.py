@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest import mock
 
 from _fixtures import expected_output
-from normalization import deduction_field_map, deposit_field_map, field_map, payroll_field_map
+from normalization import company_field_map, deduction_field_map, deposit_field_map, field_map, payroll_field_map
 from normalization.bundle import PROVIDER_SPECS
 from normalization.field_map import MAPPED, NOT_OFFERED
 
@@ -17,7 +17,7 @@ import export_web_data  # noqa: E402
 
 PROVIDERS = tuple(PROVIDER_SPECS)
 ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map, "deduction": deduction_field_map,
-               "payroll": payroll_field_map}
+               "payroll": payroll_field_map, "company": company_field_map}
 
 
 class WebExportChecks(unittest.TestCase):
@@ -101,10 +101,26 @@ class WebExportChecks(unittest.TestCase):
                     if label:
                         with self.subTest(provider=provider, paycheck=paycheck["key"], label=label):
                             self.assertNotIn(label, self.text)
+            company = expected_output(provider, "company")["company"]
+            for value in (company["name"], company["legal_name"], (company["address"] or {}).get("line1")):
+                if value:
+                    with self.subTest(provider=provider, value=value):
+                        self.assertNotIn(value, self.text)
+            for location in company["work_locations"]:
+                label = (location["code"] or {}).get("label")
+                if label:
+                    with self.subTest(provider=provider, location=location["key"], label=label):
+                        self.assertNotIn(label, self.text)
+            for group in company["pay_groups"]:
+                label = (group["code"] or {}).get("label")
+                if label:
+                    with self.subTest(provider=provider, group=group["key"], label=label):
+                        self.assertNotIn(label, self.text)
 
     def test_missing_field_map_entry_fails_the_export(self):
         for module, field in ((field_map, "person.first_name"), (deposit_field_map, "bank_name"),
-                              (deduction_field_map, "code"), (payroll_field_map, "pay_run.type")):
+                              (deduction_field_map, "code"), (payroll_field_map, "pay_run.type"),
+                              (company_field_map, "company.name")):
             with self.subTest(field=field), mock.patch.dict(module.FIELD_MAP["prismhr"]):
                 del module.FIELD_MAP["prismhr"][field]
                 with self.assertRaises(export_web_data.ExportError):

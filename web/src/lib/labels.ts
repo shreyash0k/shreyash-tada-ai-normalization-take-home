@@ -11,6 +11,12 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "paycheck.period.start": "period start",
   "paycheck.period.end": "period end",
   "payments.account_last4": "account, last 4",
+  "company.ein": "EIN",
+  "company.naics_code": "NAICS code",
+  "company.sic_code": "SIC code",
+  "tax_ids.tax_id": "tax ID",
+  "pay_groups.effective.start": "effective start",
+  "pay_groups.effective.end": "effective end",
 };
 
 export function fieldLabel(field: string): string {

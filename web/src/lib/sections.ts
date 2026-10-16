@@ -22,6 +22,14 @@ export const PAYROLL_SECTIONS: Record<string, string> = {
   payments: "Payments",
 };
 
+export const COMPANY_SECTIONS: Record<string, string> = {
+  company: "Company",
+  contact: "Contact",
+  tax_ids: "Tax IDs",
+  work_locations: "Work locations",
+  pay_groups: "Pay groups",
+};
+
 export const DEDUCTION_SECTIONS: Record<string, string> = {
   deduction: "Deduction",
   calculation: "Calculation",

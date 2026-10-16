@@ -30,6 +30,15 @@ describe("fieldLabel", () => {
     expect(fieldLabel("taxes.employee_taxable_wages")).toBe("employee taxable wages");
     expect(fieldLabel("payments.account_last4")).toBe("account, last 4");
   });
+  it("labels company rows", () => {
+    expect(fieldLabel("company.name")).toBe("name");
+    expect(fieldLabel("company.ein")).toBe("EIN");
+    expect(fieldLabel("company.naics_code")).toBe("NAICS code");
+    expect(fieldLabel("company.sic_code")).toBe("SIC code");
+    expect(fieldLabel("tax_ids.tax_id")).toBe("tax ID");
+    expect(fieldLabel("pay_groups.effective.start")).toBe("effective start");
+    expect(fieldLabel("pay_groups.effective.end")).toBe("effective end");
+  });
   it("labels deduction rows", () => {
     expect(fieldLabel("code")).toBe("code");
     expect(fieldLabel("limits.per_pay")).toBe("per pay");

@@ -43,11 +43,11 @@ Each provider has seeded synthetic fixtures, a golden expected output, and
 edge-case tests for all five data types.
 
 A local web app shows how each provider's employee, direct deposit,
-deduction and payroll fields map into the canonical model: mapped, not mapped
-yet, or not offered (see [Field coverage page](#field-coverage-page)).
+deduction, payroll and company fields map into the canonical model: mapped,
+not mapped yet, or not offered (see [Field coverage page](#field-coverage-page)).
 
-Not implemented yet: the optional write path, grouped issue reporting, and a
-company page in the field coverage app. Known gaps in the starter are tracked in
+Not implemented yet: the optional write path and grouped issue reporting.
+Known gaps in the starter are tracked in
 [docs/DECISIONS.md](docs/DECISIONS.md#starter-code-issues).
 
 ## Approach
@@ -105,6 +105,7 @@ company page in the field coverage app. Known gaps in the starter are tracked in
 | `src/normalization/deposit_field_map.py` | Per-provider source and status of each canonical direct deposit field |
 | `src/normalization/deduction_field_map.py` | Per-provider source and status of each canonical deduction field |
 | `src/normalization/payroll_field_map.py` | Per-provider source and status of each canonical payroll field |
+| `src/normalization/company_field_map.py` | Per-provider source and status of each canonical company field |
 | `scripts/generate_fixtures.py` | Seeded fixture generator |
 | `scripts/export_web_data.py` | Writes the coverage data the web pages read |
 | `web/` | Next.js field coverage pages (static export) |
@@ -196,16 +197,17 @@ python3 scripts/generate_fixtures.py --check  # exit 1 if the committed files di
 
 ## Field coverage page
 
-Four pages, linked from a nav at the top, list every canonical field against
+Five pages, linked from a nav at the top, list every canonical field against
 PrismHR, isolved and UKG Ready: employee fields at `/`, direct deposit fields
-at `/direct-deposits`, deduction fields at `/deductions` and payroll fields at
-`/payroll`. Each cell is one of three states: mapped, not mapped yet, or not
-offered. A mapped cell shows the provider field it comes from. Hovering a
-state or a cell shows what the state means, the full source path, and the spec
-entry it rests on. The data comes from `src/normalization/field_map.py`,
-`src/normalization/deposit_field_map.py`,
-`src/normalization/deduction_field_map.py` and
-`src/normalization/payroll_field_map.py` and holds statuses, source paths and
+at `/direct-deposits`, deduction fields at `/deductions`, payroll fields at
+`/payroll` and company fields at `/company`. Each cell is one of three states:
+mapped, not mapped yet, or not offered. A mapped cell shows the provider field
+it comes from. Hovering a state or a cell shows what the state means, the full
+source path, and the spec entry it rests on. The data comes from
+`src/normalization/field_map.py`, `src/normalization/deposit_field_map.py`,
+`src/normalization/deduction_field_map.py`,
+`src/normalization/payroll_field_map.py` and
+`src/normalization/company_field_map.py` and holds statuses, source paths and
 evidence, never provider values. The logos in `web/public/logos/` are
 trademarks of their owners.
 
@@ -236,4 +238,4 @@ on it. To explore it, put the organizer-supplied key in `.env` as
 `out/` are ignored by Git, so tokens and downloaded records stay local.
 isolved payroll lives on legal company 5797; legal 5806, used for the other
 data types, has no pay runs or checks
-([entry 76](docs/DECISIONS.md#76-isolved-payroll-comes-from-legal-5797)).
+([entry 77](docs/DECISIONS.md#77-isolved-payroll-comes-from-legal-5797)).

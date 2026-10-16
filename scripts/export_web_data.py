@@ -1,4 +1,4 @@
-"""Export the employee, direct deposit, deduction and payroll field coverage into ``web/src/data/coverage.json``.
+"""Export the employee, direct deposit, deduction, payroll and company field coverage into ``web/src/data/coverage.json``.
 
 Usage::
 
@@ -16,7 +16,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from normalization import deduction_field_map, deposit_field_map, field_map, payroll_field_map  # noqa: E402
+from normalization import (  # noqa: E402
+    company_field_map,
+    deduction_field_map,
+    deposit_field_map,
+    field_map,
+    payroll_field_map,
+)
 from normalization.bundle import PROVIDER_SPECS  # noqa: E402
 from normalization.field_map import MAPPED, NOT_OFFERED  # noqa: E402
 
@@ -24,7 +30,7 @@ OUTPUT = ROOT / "web" / "src" / "data" / "coverage.json"
 EXPORT_VERSION = 2
 PROVIDER_NAMES = {"prismhr": "PrismHR", "isolved": "isolved", "ukg-ready": "UKG Ready"}
 ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map, "deduction": deduction_field_map,
-               "payroll": payroll_field_map}
+               "payroll": payroll_field_map, "company": company_field_map}
 
 
 class ExportError(ValueError):

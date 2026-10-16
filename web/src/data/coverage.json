@@ -2948,6 +2948,689 @@
           }
         ]
       }
+    ],
+    "company": [
+      {
+        "id": "prismhr",
+        "name": "PrismHR",
+        "summary": {
+          "fields_total": 27,
+          "fields_offered": 21,
+          "fields_mapped": 21
+        },
+        "coverage": [
+          {
+            "field": "company.name",
+            "section": "company",
+            "status": "mapped",
+            "source": "clientName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/clientName",
+            "reason": null
+          },
+          {
+            "field": "company.legal_name",
+            "section": "company",
+            "status": "mapped",
+            "source": "legalName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/legalName",
+            "reason": null
+          },
+          {
+            "field": "company.ein",
+            "section": "company",
+            "status": "mapped",
+            "source": "federalIdNumber, when it is not masked",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/federalIdNumber",
+            "reason": null
+          },
+          {
+            "field": "company.status",
+            "section": "company",
+            "status": "mapped",
+            "source": "statusClass",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/statusClass",
+            "reason": null
+          },
+          {
+            "field": "company.status_date",
+            "section": "company",
+            "status": "mapped",
+            "source": "statusDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/statusDate",
+            "reason": null
+          },
+          {
+            "field": "company.entity_type",
+            "section": "company",
+            "status": "mapped",
+            "source": "corporationType, labelled from the spec",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/corporationType",
+            "reason": null
+          },
+          {
+            "field": "company.service_type",
+            "section": "company",
+            "status": "mapped",
+            "source": "serviceType, labelled from the spec",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/serviceType",
+            "reason": null
+          },
+          {
+            "field": "company.naics_code",
+            "section": "company",
+            "status": "mapped",
+            "source": "naicsCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/naicsCode",
+            "reason": null
+          },
+          {
+            "field": "company.sic_code",
+            "section": "company",
+            "status": "mapped",
+            "source": "sicCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/sicCode",
+            "reason": null
+          },
+          {
+            "field": "company.parent",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/benefitParentClient",
+            "reason": "benefitParentClient is a parent for benefits only, and controlGroupCompany is the master of a 401(k) group. Neither is the company's parent."
+          },
+          {
+            "field": "contact.address",
+            "section": "contact",
+            "status": "mapped",
+            "source": "addressLine1, addressLine2, city, stateCode, zipCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/addressLine1",
+            "reason": null
+          },
+          {
+            "field": "contact.phone",
+            "section": "contact",
+            "status": "mapped",
+            "source": "mainPhone",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/mainPhone",
+            "reason": null
+          },
+          {
+            "field": "contact.email",
+            "section": "contact",
+            "status": "mapped",
+            "source": "emailAddress",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/emailAddress",
+            "reason": null
+          },
+          {
+            "field": "contact.website",
+            "section": "contact",
+            "status": "mapped",
+            "source": "websiteUrl",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/websiteUrl",
+            "reason": null
+          },
+          {
+            "field": "tax_ids.tax_id",
+            "section": "tax_ids",
+            "status": "mapped",
+            "source": "federalIdNumber, when it is not masked",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/federalIdNumber",
+            "reason": null
+          },
+          {
+            "field": "tax_ids.name",
+            "section": "tax_ids",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/federalIdNumber",
+            "reason": "The client record has one federal ID, with no name and no country."
+          },
+          {
+            "field": "tax_ids.country",
+            "section": "tax_ids",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties/federalIdNumber",
+            "reason": "The client record has one federal ID, with no name and no country."
+          },
+          {
+            "field": "work_locations.code",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "id, labelled by locationName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientCodes-LocationCode/properties/id",
+            "reason": null
+          },
+          {
+            "field": "work_locations.address",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "addressLine1, addressLine2, city, state, zipCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientCodes-LocationCode/properties/addressLine1",
+            "reason": null
+          },
+          {
+            "field": "work_locations.active",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "locationObsolete, inverted",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientCodes-LocationCode/properties/locationObsolete",
+            "reason": null
+          },
+          {
+            "field": "work_locations.end_date",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "obsoleteDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientCodes-LocationCode/properties/obsoleteDate",
+            "reason": null
+          },
+          {
+            "field": "work_locations.remote",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "remoteLocation",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/LocationCode/properties/remoteLocation",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.code",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "payGroupCode, labelled by description",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayGroups/properties/payGroupCode",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.frequency",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "clientPayrollSchedule.payPeriod, labelled by payPeriodDesc",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientPayrollSchedule/properties/payPeriod",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.active",
+            "section": "pay_groups",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayGroups/properties",
+            "reason": "A pay group from client codes has a code and a description, but no active flag and no dates."
+          },
+          {
+            "field": "pay_groups.effective.start",
+            "section": "pay_groups",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayGroups/properties",
+            "reason": "A pay group from client codes has a code and a description, but no active flag and no dates."
+          },
+          {
+            "field": "pay_groups.effective.end",
+            "section": "pay_groups",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayGroups/properties",
+            "reason": "A pay group from client codes has a code and a description, but no active flag and no dates."
+          }
+        ]
+      },
+      {
+        "id": "isolved",
+        "name": "isolved",
+        "summary": {
+          "fields_total": 27,
+          "fields_offered": 16,
+          "fields_mapped": 16
+        },
+        "coverage": [
+          {
+            "field": "company.name",
+            "section": "company",
+            "status": "mapped",
+            "source": "dbaName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/dbaName",
+            "reason": null
+          },
+          {
+            "field": "company.legal_name",
+            "section": "company",
+            "status": "mapped",
+            "source": "legalName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/legalName",
+            "reason": null
+          },
+          {
+            "field": "company.ein",
+            "section": "company",
+            "status": "mapped",
+            "source": "federalEIN",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/federalEIN",
+            "reason": null
+          },
+          {
+            "field": "company.status",
+            "section": "company",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/status",
+            "reason": null
+          },
+          {
+            "field": "company.status_date",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/status",
+            "reason": "The legal record has a status, but no status date."
+          },
+          {
+            "field": "company.entity_type",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties",
+            "reason": "The legal record has no entity type."
+          },
+          {
+            "field": "company.service_type",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/services",
+            "reason": "services lists the products the legal buys, each with dates. It is not one service type."
+          },
+          {
+            "field": "company.naics_code",
+            "section": "company",
+            "status": "mapped",
+            "source": "naicsCode",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/naicsCode",
+            "reason": null
+          },
+          {
+            "field": "company.sic_code",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties",
+            "reason": "The legal record has no SIC code."
+          },
+          {
+            "field": "company.parent",
+            "section": "company",
+            "status": "mapped",
+            "source": "client.id, labelled by client.clientName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.ClientModel/properties/id",
+            "reason": null
+          },
+          {
+            "field": "contact.address",
+            "section": "contact",
+            "status": "mapped",
+            "source": "legalAddress.streetAddress1, streetAddress2, city, state, zipCode",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.ClientAddressModel/properties/streetAddress1",
+            "reason": null
+          },
+          {
+            "field": "contact.phone",
+            "section": "contact",
+            "status": "mapped",
+            "source": "legalAddress.phoneNumber",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.ClientAddressModel/properties/phoneNumber",
+            "reason": null
+          },
+          {
+            "field": "contact.email",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.ClientAddressModel/properties",
+            "reason": "The legal address has a phone number, but no email."
+          },
+          {
+            "field": "contact.website",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties",
+            "reason": "The legal record has no website."
+          },
+          {
+            "field": "tax_ids.tax_id",
+            "section": "tax_ids",
+            "status": "mapped",
+            "source": "federalEIN",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/federalEIN",
+            "reason": null
+          },
+          {
+            "field": "tax_ids.name",
+            "section": "tax_ids",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/federalEIN",
+            "reason": "The legal record has one federal EIN, with no name and no country."
+          },
+          {
+            "field": "tax_ids.country",
+            "section": "tax_ids",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/federalEIN",
+            "reason": "The legal record has one federal EIN, with no name and no country."
+          },
+          {
+            "field": "work_locations.code",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "workLocationCode, labelled by workLocationDescription",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalWorkLocationModel/properties/workLocationCode",
+            "reason": null
+          },
+          {
+            "field": "work_locations.address",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "address1, address2, city, state, zipCode",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalWorkLocationModel/properties/address1",
+            "reason": null
+          },
+          {
+            "field": "work_locations.active",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "isInactive, inverted",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalWorkLocationModel/properties/isInactive",
+            "reason": null
+          },
+          {
+            "field": "work_locations.end_date",
+            "section": "work_locations",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalWorkLocationModel/properties",
+            "reason": "A work location has an inactive flag, but no end date."
+          },
+          {
+            "field": "work_locations.remote",
+            "section": "work_locations",
+            "status": "mapped",
+            "source": "isRemoteWorkersOnly",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalWorkLocationModel/properties/isRemoteWorkersOnly",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.code",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "id, labelled by payGroupName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties/id",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.frequency",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "payFrequency",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties/payFrequency",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.active",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "isInactive, inverted",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties/isInactive",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.effective.start",
+            "section": "pay_groups",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties",
+            "reason": "A pay group has an inactive flag, but no effective dates."
+          },
+          {
+            "field": "pay_groups.effective.end",
+            "section": "pay_groups",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties",
+            "reason": "A pay group has an inactive flag, but no effective dates."
+          }
+        ]
+      },
+      {
+        "id": "ukg-ready",
+        "name": "UKG Ready",
+        "summary": {
+          "fields_total": 27,
+          "fields_offered": 9,
+          "fields_mapped": 9
+        },
+        "coverage": [
+          {
+            "field": "company.name",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.legal_name",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.ein",
+            "section": "company",
+            "status": "mapped",
+            "source": "ein_tax_id, when the lookup lists one EIN",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties/ein_tax_id",
+            "reason": null
+          },
+          {
+            "field": "company.status",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.status_date",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.entity_type",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.service_type",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.naics_code",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.sic_code",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "company.parent",
+            "section": "company",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "contact.address",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "contact.phone",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "contact.email",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "contact.website",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties",
+            "reason": "UKG Ready has no company profile endpoint. The EIN lookup has a tax id, a name and a country, and nothing else."
+          },
+          {
+            "field": "tax_ids.tax_id",
+            "section": "tax_ids",
+            "status": "mapped",
+            "source": "ein_tax_id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties/ein_tax_id",
+            "reason": null
+          },
+          {
+            "field": "tax_ids.name",
+            "section": "tax_ids",
+            "status": "mapped",
+            "source": "ein_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties/ein_name",
+            "reason": null
+          },
+          {
+            "field": "tax_ids.country",
+            "section": "tax_ids",
+            "status": "mapped",
+            "source": "ein_country_id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/249/schema/properties/items/items/properties/ein_country_id",
+            "reason": null
+          },
+          {
+            "field": "work_locations.code",
+            "section": "work_locations",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "UKG Ready has no work location records. Cost centres are trees each company defines, not locations."
+          },
+          {
+            "field": "work_locations.address",
+            "section": "work_locations",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "UKG Ready has no work location records. Cost centres are trees each company defines, not locations."
+          },
+          {
+            "field": "work_locations.active",
+            "section": "work_locations",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "UKG Ready has no work location records. Cost centres are trees each company defines, not locations."
+          },
+          {
+            "field": "work_locations.end_date",
+            "section": "work_locations",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "UKG Ready has no work location records. Cost centres are trees each company defines, not locations."
+          },
+          {
+            "field": "work_locations.remote",
+            "section": "work_locations",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "UKG Ready has no work location records. Cost centres are trees each company defines, not locations."
+          },
+          {
+            "field": "pay_groups.code",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "id, labelled by name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/273/schema/properties/items/items/properties/name",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.frequency",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "period_type.type; every_n_weeks reads params.num_weeks",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/273/schema/properties/items/items/properties/period_type/properties/type",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.active",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "active",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/273/schema/properties/items/items/properties/active",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.effective.start",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "effective_from",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/273/schema/properties/items/items/properties/effective_from",
+            "reason": null
+          },
+          {
+            "field": "pay_groups.effective.end",
+            "section": "pay_groups",
+            "status": "mapped",
+            "source": "effective_to",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/273/schema/properties/items/items/properties/effective_to",
+            "reason": null
+          }
+        ]
+      }
     ]
   }
 }
