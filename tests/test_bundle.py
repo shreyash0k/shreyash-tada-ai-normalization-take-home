@@ -97,9 +97,22 @@ class BundleEnvelopeChecks(unittest.TestCase):
             with self.subTest(entity=entity):
                 self.assertEqual(parse_bundle(data, entity=entity).provider, "isolved")
 
+    def test_company_keys_per_provider(self):
+        self.assertRejected(raw_bundle("prismhr"), "responses.get_client_master is required", entity="company")
+        self.assertRejected(raw_bundle("isolved"), "responses.legal is required", entity="company")
+        data = raw_bundle("ukg-ready")
+        del data["responses"]["lookup_eins"]
+        self.assertRejected(data, "responses.lookup_eins is required", entity="company")
+        data = raw_bundle("prismhr")
+        data["responses"].update(get_client_master={"clientMaster": {}}, get_client_codes=[])
+        self.assertRejected(data, "responses.get_client_codes must be a JSON dict", entity="company")
+        data = raw_bundle("ukg-ready")
+        data["responses"]["lookup_pay_period_profiles"] = {"items": []}
+        self.assertEqual(parse_bundle(data, entity="company").provider, "ukg-ready")
+
     def test_entities_without_bundles_are_refused(self):
         with self.assertRaises(ValueError):
-            parse_bundle(raw_bundle("prismhr"), entity="company")
+            parse_bundle(raw_bundle("prismhr"), entity="timesheet")
 
     def test_optional_keys_may_be_absent(self):
         data = copy.deepcopy(raw_bundle("isolved"))
