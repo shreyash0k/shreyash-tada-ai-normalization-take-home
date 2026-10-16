@@ -512,6 +512,59 @@ def build_prismhr_payroll(seed: int):
     })
 
 
+# Company cases: an unmasked federalIdNumber; the seven live-only clientMaster
+# fields (spec_live_mismatch); an obsolete and a remote location; pay group
+# SEMI with no schedule row; the live singular key clientPayrollSchedule
+# (spec_live_mismatch).
+
+def prism_location(location_id, name, line1, city, state, zipcode, obsolete_date=None, remote=False):
+    return {"id": location_id, "locationName": name, "geoCode": "", "addressLine1": line1, "addressLine2": "",
+            "zipCode": zipcode, "zipSuffix": "", "city": city, "county": "", "state": state,
+            "workCompState": state, "latitude": "", "longitude": "", "obsoleteDate": obsolete_date,
+            "locationObsolete": obsolete_date is not None, "locationContact": [], "remoteLocation": remote}
+
+
+def prism_schedule(group_id, description, period, period_description):
+    return {"groupId": group_id, "groupDesc": description, "scheduleId": "", "scheduleDesc": "",
+            "weekEndOnDay": "", "printFaxBack": False, "payPeriod": period, "payPeriodDesc": period_description,
+            "payDay": "", "skipWeekends": False, "callInDays": "", "deliverDays": "", "thirdPartyCode": "",
+            "payPeriodEnd": "", "periodEndType": "", "periodEndTypeDesc": "", "periodEndType2": None,
+            "periodEndType2Desc": ""}
+
+
+def build_prismhr_company(seed: int):
+    pool = Pool(seed, "prismhr-company")
+    office = pool.address()
+    master = {
+        "id": PRISM_CLIENT_ID, "clientName": "Synthetic Demo Staffing", "legalName": "Synthetic Demo Staffing LLP",
+        "serviceType": "PEO", "categoryCode": "", "costCenter": "", "statusClass": "A", "status": "A",
+        "statusDate": "2019-04-01", "corporationType": "M", "addressLine1": office["line1"], "addressLine2": "Suite 200",
+        "city": office["city"], "stateCode": office["state"], "zipCode": office["zip"], "zipSuffix": "1234",
+        "mainPhone": pool.phone(), "mainPhoneExt": "101", "fax": "", "websiteUrl": "https://staffing.example",
+        "emailAddress": "payroll@staffing.example", "businessDescription": "Temporary staffing", "sicCode": "7363",
+        "naicsCode": "561320", "federalIdNumber": "99-0000132", "employerId": "", "payrollDate": "",
+        "eVerify": True, "externalPtoUsed": False, "notificationEmailList": [],
+        "payrollFinalizationNotification": "N", "positionRatesUsed": "N", "reverseWireAccount": "",
+        "taxesToSuppress": [], "checksum": "synthetic",
+    }
+    locations = [prism_location(str(number), f"Site {number}", f"{pool.rng.randint(100, 9899)} Commerce Way",
+                                *pool.rng.choice(CITIES)) for number in (1, 2, 3)]
+    locations.append(prism_location("OLD", "Closed Warehouse", "1 Dock St", "Springfield", "IL", "62704",
+                                    obsolete_date="2024-06-30"))
+    locations.append(prism_location("REM", "Remote Workers", "", "", "IL", "", remote=True))
+    return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
+        "get_client_master": {"errorCode": "0", "errorMessage": "", "extension": None, "clientMaster": master},
+        "get_client_codes": {"errorCode": "0", "errorMessage": "", "extension": None, "clientCodes": {
+            "clientId": PRISM_CLIENT_ID, "locationCode": locations,
+            "payGroups": [{"payGroupCode": "WFRI", "description": "Weekly Paid Friday"},
+                          {"payGroupCode": "M", "description": "MONTHLY"},
+                          {"payGroupCode": "SEMI", "description": "Semi-monthly"}]}},
+        "get_payroll_schedule": {"errorCode": "0", "errorMessage": "", "extension": None, "clientPayrollSchedule": [
+            prism_schedule("M", "MONTHLY", "M", "Monthly (PayDay {1-28}{EOM})"),
+            prism_schedule("WFRI", "Weekly Paid Friday", "W", "Weekly (PayDay {MON-SUN})")]},
+    })
+
+
 # --- isolved -----------------------------------------------------------------
 # Injected cases: employmentStatus "Leave of Absence" and gender "Non-binary"
 # (unmapped_label), employmentCategoryCode FT/PT and integer payFrequency
@@ -1352,15 +1405,17 @@ def build_ukg_payroll(seed: int):
 
 
 BUILDERS = {
-    "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits,
-                "deduction": build_prismhr_deductions, "payroll": build_prismhr_payroll},
+    "prismhr": {"company": build_prismhr_company, "employee": build_prismhr,
+                "direct-deposit": build_prismhr_direct_deposits, "deduction": build_prismhr_deductions,
+                "payroll": build_prismhr_payroll},
     "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
                 "deduction": build_isolved_deductions, "payroll": build_isolved_payroll},
     "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
                   "deduction": build_ukg_deductions, "payroll": build_ukg_payroll},
 }
 # Bundle file name and golden-output suffix per entity.
-ENTITY_FILES = {"employee": ("employee-bundle.json", "employees"),
+ENTITY_FILES = {"company": ("company-bundle.json", "company"),
+                "employee": ("employee-bundle.json", "employees"),
                 "direct-deposit": ("direct-deposit-bundle.json", "direct-deposits"),
                 "deduction": ("deduction-bundle.json", "deductions"),
                 "payroll": ("payroll-bundle.json", "payroll")}

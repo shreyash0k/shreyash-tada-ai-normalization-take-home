@@ -39,6 +39,11 @@ def is_blank(value: Any) -> bool:
     return value is None or value == ""
 
 
+def is_masked(value: Any) -> bool:
+    """True for a provider placeholder such as ``**********`` or ``XXX-XX-XXXX``."""
+    return isinstance(value, str) and bool(_MASKED.match(value))
+
+
 def text(value: Any) -> Optional[str]:
     """Return a non-empty string or None. Non-strings are converted with ``str``."""
     if is_blank(value):
