@@ -22,20 +22,25 @@ recurring deduction rule, linked the same way (code, category, calculation
 method with amount or percent, frequency, limits, employer match, payee,
 priority, effective dates). isolved deductions are read from pay items, and
 UKG Ready's are built from its reference pages, because neither provider's
-deduction call answered for the demo companies. Each provider has seeded
-synthetic fixtures, a golden expected output, and edge-case tests for all
-three data types.
+deduction call answered for the demo companies.
+
+And **payroll** normalization for all three providers: one record per pay
+run (type, status, pay date, period, pay group) and one per employee
+paycheck, linked to its run, employee and company by key, with the
+provider's gross and net pay and its earning, tax, deduction, employer
+contribution and payment lines. isolved payroll is read from legal company
+5797, the one with payroll data. Each provider has seeded synthetic
+fixtures, a golden expected output, and edge-case tests for all four data
+types.
 
 A local web app shows how each provider's employee, direct deposit and
 deduction fields map into the canonical model: mapped, not mapped yet, or not
 offered (see [Field coverage page](#field-coverage-page)).
 
-Not implemented yet: company detail, payroll (including the amounts taken
-for each deduction in a pay run), the optional write path, and grouped issue
-reporting. `normalize --entity company`
-and `--entity payroll` still exit 1 with "not implemented". Known gaps in the
-starter are tracked in
-[docs/DECISIONS.md](docs/DECISIONS.md#starter-code-issues).
+Not implemented yet: company detail, a field coverage page for payroll, the
+optional write path, and grouped issue reporting. `normalize --entity
+company` still exits 1 with "not implemented". Known gaps in the starter are
+tracked in [docs/DECISIONS.md](docs/DECISIONS.md#starter-code-issues).
 
 ## Approach
 
@@ -46,12 +51,14 @@ starter are tracked in
   "responses": {<endpoint>: <raw response or map of responses>}}`.
   `src/normalization/bundle.py` lists the required and optional response keys
   per provider and data type, so one bundle can hold the calls for employees,
-  direct deposits and deductions; the fixtures under `tests/fixtures/` are
-  complete examples.
-- **Direct deposits and deductions are their own records.** They sit in
-  top-level `direct_deposits[]` and `deductions[]` lists rather than inside
-  the employee, each carrying the `employee_key` and `company_key` it belongs
-  to.
+  direct deposits, deductions and payroll; the fixtures under
+  `tests/fixtures/` are complete examples.
+- **Direct deposits, deductions, pay runs and paychecks are their own
+  records.** They sit in top-level `direct_deposits[]`, `deductions[]`,
+  `pay_runs[]` and `paychecks[]` lists rather than inside the employee, each
+  carrying the keys it links by (`employee_key`, `company_key`, and for a
+  paycheck `pay_run_key`). Paycheck totals are copied from the provider,
+  never summed from the lines.
 - **One adapter per provider.** Each adapter turns a bundle into canonical
   records. Everything provider-specific stays inside its adapter, and every
   code table cites the spec path it rests on.
@@ -81,7 +88,7 @@ starter are tracked in
 | --- | --- |
 | `src/normalization/__main__.py` | Command-line entry point |
 | `src/normalization/bundle.py` | Capture-bundle envelope and per-provider shape checks |
-| `src/normalization/canonical/` | Canonical model (employee, direct deposit, deduction, enums, issues) and the schema validator |
+| `src/normalization/canonical/` | Canonical model (employee, direct deposit, deduction, payroll, enums, issues) and the schema validator |
 | `src/normalization/adapters/` | One adapter per provider plus shared helpers (`_common.py`) |
 | `src/normalization/references.py` | Reference-pack readiness checks |
 | `src/normalization/field_map.py` | Per-provider source and status of each canonical employee field |
@@ -91,7 +98,7 @@ starter are tracked in
 | `scripts/export_web_data.py` | Writes the coverage data the web pages read |
 | `web/` | Next.js field coverage pages (static export) |
 | `web/public/logos/` | Provider logos used by the coverage page |
-| `tests/` | Unit tests; `tests/fixtures/<provider>/` holds the employee, direct-deposit and deduction bundles, `tests/fixtures/expected/` the expected outputs |
+| `tests/` | Unit tests; `tests/fixtures/<provider>/` holds the employee, direct-deposit, deduction and payroll bundles, `tests/fixtures/expected/` the expected outputs |
 | `docs/canonical/` | JSON Schema for the normalized output |
 | `contracts/` | Provider API specifications and lookup references, as supplied |
 | `docs/` | Assignment, decisions, and the reference audit |
@@ -138,17 +145,23 @@ PYTHONPATH=src python3 -m normalization normalize \
 PYTHONPATH=src python3 -m normalization normalize \
   --provider prismhr --entity deduction \
   --input tests/fixtures/prismhr/deduction-bundle.json --output out/deductions.json
+
+# Normalize pay runs and paychecks from a payroll bundle
+PYTHONPATH=src python3 -m normalization normalize \
+  --provider ukg-ready --entity payroll \
+  --input tests/fixtures/ukg-ready/payroll-bundle.json --output out/payroll.json
 ```
 
-For `--entity employee`, `--entity direct-deposit` and `--entity deduction`
-the input must be a capture bundle whose `provider` matches `--provider` and
-that holds the responses that data type needs. On success a summary such as
-`7 employees, 16 issues`, `10 direct deposits, 6 issues` or
-`11 deductions, 9 issues` is printed to stderr. The output is a
-`NormalizedOutput` document (`provider`, `company`, `employees[]`,
-`direct_deposits[]`, `deductions[]`, `issues[]`, `schema_version`) described by
+For `--entity employee`, `--entity direct-deposit`, `--entity deduction` and
+`--entity payroll` the input must be a capture bundle whose `provider` matches
+`--provider` and that holds the responses that data type needs. On success a
+summary such as `7 employees, 16 issues`, `10 direct deposits, 6 issues`,
+`11 deductions, 9 issues` or `4 pay runs, 5 paychecks, 12 issues` is printed
+to stderr. The output is a `NormalizedOutput` document (`provider`,
+`company`, `employees[]`, `direct_deposits[]`, `deductions[]`, `pay_runs[]`,
+`paychecks[]`, `issues[]`, `schema_version`) described by
 [docs/canonical/employee.schema.json](docs/canonical/employee.schema.json);
-only the list for the requested data type is filled.
+only the lists for the requested data type are filled.
 
 `normalize` will not overwrite an existing output file. Exit codes: 0 means
 success, 1 means the input could not be read or normalized (including an
@@ -202,3 +215,6 @@ on it. To explore it, put the organizer-supplied key in `.env` as
 `DEMO_SIGNIN_API_KEY` and follow the sign-in steps in
 [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md#access-live-demo-data). Both `.env` and
 `out/` are ignored by Git, so tokens and downloaded records stay local.
+isolved payroll lives on legal company 5797; legal 5806, used for the other
+data types, has no pay runs or checks
+([entry 75](docs/DECISIONS.md#75-isolved-payroll-comes-from-legal-5797)).
