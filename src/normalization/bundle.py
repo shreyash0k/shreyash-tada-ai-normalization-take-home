@@ -16,7 +16,7 @@ Synthetic fixtures and hand-saved live downloads both use this shape, so
 tests and live checks run through the same adapter code.
 
 Which responses must be present depends on the entity being normalized
-(``employee``, ``direct-deposit`` or ``deduction``). A bundle may carry
+(``employee``, ``direct-deposit``, ``deduction`` or ``payroll``). A bundle may carry
 responses for more than one entity, so one capture can feed several runs.
 """
 import json
@@ -28,7 +28,7 @@ from typing import Any
 BUNDLE_VERSION = 1
 
 
-BUNDLE_ENTITIES = ("employee", "direct-deposit", "deduction")
+BUNDLE_ENTITIES = ("employee", "direct-deposit", "deduction", "payroll")
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,6 +60,9 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             "direct-deposit": {"get_employee_direct_deposit": list},
             # employeeId -> the getDeductions response.
             "deduction": {"get_deductions": dict},
+            # One getBatchListByDate response, and batchId -> the list of
+            # getPayrollVoucherForBatch pages.
+            "payroll": {"get_batch_list_by_date": dict, "get_payroll_voucher_for_batch": dict},
         },
         optional={
             # Maps of employeeId -> response.
@@ -68,6 +71,8 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             # getEmployeeList names the population, so an employee with no
             # getDeductions entry can be reported.
             "deduction": {"get_employee_list": dict},
+            # batchId -> getBatchInfo response; adds the batch description.
+            "payroll": {"get_batch_info": dict},
         },
     ),
     "isolved": ResponseSpec(
@@ -80,12 +85,17 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             "direct-deposit": {"employees": list, "direct_deposits": dict},
             # Employee id (string) -> the /payItems array, 404 saved as [].
             "deduction": {"employees": list, "pay_items": dict},
+            # Pay group id -> the payrollRunHistory array, and employee id ->
+            # the list of /checks pages.
+            "payroll": {"employees": list, "payroll_run_history": dict, "checks": dict},
         },
         optional={
             # Maps of employee id (string) -> response.
             "employee": {"employee_detail": dict, "personal": dict, "name_address": dict},
             "direct-deposit": {},
             "deduction": {},
+            # Check id -> the /checks/{id} detail; adds tax lines and benefits.
+            "payroll": {"check_detail": dict},
         },
     ),
     "ukg-ready": ResponseSpec(
@@ -106,11 +116,15 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             # Account id -> the /deductions list response, and deduction id ->
             # the /deductions/{id} detail response.
             "deduction": {"employees": dict, "deductions": dict, "deduction_detail": dict},
+            # The /payrolls list response, payroll id -> the /pay-statements
+            # list response, and statement id -> the statement detail.
+            "payroll": {"payrolls": dict, "pay_statements": dict, "pay_statement_detail": dict},
         },
         optional={
             "employee": {},
             "direct-deposit": {"lookup_eins": dict},
             "deduction": {"lookup_eins": dict},
+            "payroll": {"lookup_eins": dict},
         },
     ),
 }

@@ -969,7 +969,8 @@ BUILDERS = {
 # Bundle file name and golden-output suffix per entity.
 ENTITY_FILES = {"employee": ("employee-bundle.json", "employees"),
                 "direct-deposit": ("direct-deposit-bundle.json", "direct-deposits"),
-                "deduction": ("deduction-bundle.json", "deductions")}
+                "deduction": ("deduction-bundle.json", "deductions"),
+                "payroll": ("payroll-bundle.json", "payroll")}
 
 
 def dumps(data) -> str:
