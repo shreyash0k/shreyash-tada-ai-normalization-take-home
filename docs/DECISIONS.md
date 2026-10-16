@@ -82,7 +82,7 @@ Each entry uses this format:
   `prismhr:<client_id>` and every employee key.
 - **Reason:** The request is the only place the ID exists.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json`, path
-  `/employee/v1/getEmployee`. Confirmed live on 2026-10-15: the demo response
+  `/employee/v1/getEmployee`. Confirmed against the live demo: the response
   for client `132` with all four options does not contain the client ID
   anywhere. `src/normalization/bundle.py` (`PROVIDER_SPECS["prismhr"]`);
   `tests/test_employee_prismhr.py::test_keys_and_company_link`.
@@ -117,12 +117,12 @@ Each entry uses this format:
   this for its company stub (entry 32); a full company record is a later task.
 - **Evidence:** `contracts/ukg-ready/reference-docs/res/` has no company-detail
   page; `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__lookup__eins.html`;
-  live demo calls on 2026-10-15 for company `33704016`.
+  live demo calls for company `33704016`.
 - **Status:** Open.
 
 ### 8. Live PrismHR `getEmployee` differs from its documentation
 
-- **Context:** Live calls to the demo tenant on 2026-10-15 showed four
+- **Context:** Live calls to the demo tenant showed four
   differences from the spec:
   - With no `options`, the response holds only `id` and the name fields. The
     spec says the `Person` section is returned by default.
@@ -165,13 +165,13 @@ Each entry uses this format:
 - **Reason:** The spec marks none of these fields as required; absence is the
   normal shape of a live record, not a defect.
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
-  definition `AOS.PayrollOffice.RestAPI.Models.EmployeeModel`; live demo calls
-  on 2026-10-15; `tests/test_employee_isolved.py::test_sparse_record_has_nulls_and_no_extra_issues`.
+  definition `AOS.PayrollOffice.RestAPI.Models.EmployeeModel`; live demo
+  calls; `tests/test_employee_isolved.py::test_sparse_record_has_nulls_and_no_extra_issues`.
 - **Status:** Decided.
 
 ### 10. Live UKG Ready employee data needs several calls and lookups
 
-- **Context:** Live calls to company `33704016` on 2026-10-15 showed:
+- **Context:** Live calls to company `33704016` showed:
   - The sign-in `base_url` ends at `/ta`, so every path needs a `/rest`
     prefix, as in `/rest/v2/companies/{cid}/employees`.
   - The employee record has no gender, ethnicity, or citizenship. Those come
@@ -203,7 +203,7 @@ Each entry uses this format:
   `__v2__companies__(cid)__employees__(aid)__pay-info.html`;
   `contracts/ukg-ready/reference-schemas.json`, the GET schema for the
   compensation history page (`effective_from` and `time` descriptions); live
-  demo calls on 2026-10-15; `tests/test_employee_ukg_ready.py`.
+  demo calls; `tests/test_employee_ukg_ready.py`.
 - **Status:** Decided.
 
 ## Starter code issues
@@ -458,8 +458,8 @@ during implementation.
   `unknown` with `unmapped_label`.
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
   `#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentStatus`;
-  live `GET /api/clients/4046/legals/5806/employees` on 2026-10-15 returned
-  exactly these two labels across 20 employees;
+  live `GET /api/clients/4046/legals/5806/employees` returned exactly these
+  two labels across 20 employees;
   `tests/test_employee_isolved.py::test_allowlisted_labels_map`.
 - **Status:** Decided.
 
@@ -470,8 +470,8 @@ during implementation.
 - **Decision:** Exact labels `Male` -> `male`, `Female` -> `female`; other
   labels stay `unknown` with `unmapped_label`. Nonbinary and declined are not
   on the allowlist because no live label for them was observed.
-- **Evidence:** same definition, `properties/gender`; live sample on
-  2026-10-15; `tests/test_employee_isolved.py::test_off_allowlist_labels_stay_raw_with_issue`.
+- **Evidence:** same definition, `properties/gender`; the live sample;
+  `tests/test_employee_isolved.py::test_off_allowlist_labels_stay_raw_with_issue`.
 - **Status:** Decided.
 
 ### 25. isolved pay type: `Salary`, `Hourly` and `1099` are recognised
@@ -492,8 +492,8 @@ during implementation.
   guess.
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
   `#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payType`;
-  live `GET /api/clients/4046/legals/5806/employees` on 2026-10-15 (labels
-  `Salary`, `Hourly`, `1099` across 20 employees);
+  live `GET /api/clients/4046/legals/5806/employees` (labels `Salary`,
+  `Hourly`, `1099` across 20 employees);
   `tests/test_employee_isolved.py::test_allowlisted_labels_map`.
 - **Status:** Decided.
 
@@ -504,8 +504,8 @@ during implementation.
 - **Decision:** `Active` -> `active`, `Terminated` -> `terminated`; other
   values stay `unknown` with `unmapped_label`.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/status`;
-  live `GET /rest/v2/companies/33704016/employees` on 2026-10-15 returned
-  only these two values across 103 employees;
+  live `GET /rest/v2/companies/33704016/employees` returned only these two
+  values across 103 employees;
   `tests/test_employee_ukg_ready.py::test_status_allowlist`.
 - **Status:** Decided.
 
@@ -548,7 +548,7 @@ during implementation.
   the output honest while still being useful to a person reading it.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/159`
   (`employee_type` and `pay_type` carry only an `id`); live
-  `/lookup/employee-types` and `/lookup/pay-types` on 2026-10-15;
+  `/lookup/employee-types` and `/lookup/pay-types`;
   `tests/test_employee_ukg_ready.py::test_tenant_lookups_resolve_to_labels_but_stay_unknown`,
   `::test_lookup_miss_is_reported`.
 - **Status:** Decided.
