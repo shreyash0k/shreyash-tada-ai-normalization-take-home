@@ -1,9 +1,9 @@
 """Local entry point.
 
-``normalize --entity employee``, ``--entity direct-deposit``, ``--entity
-deduction`` and ``--entity payroll`` read a capture bundle (see
-``bundle.py``) and write a ``NormalizedOutput`` document described by
-``docs/canonical/employee.schema.json``.
+``normalize --entity company``, ``--entity employee``, ``--entity
+direct-deposit``, ``--entity deduction`` and ``--entity payroll`` read a
+capture bundle (see ``bundle.py``) and write a ``NormalizedOutput`` document
+described by ``docs/canonical/employee.schema.json``.
 """
 import argparse
 import json
@@ -47,7 +47,11 @@ def main(argv=None):
                 raise ValueError(f"bundle provider is {response.provider!r}, but --provider is {args.provider!r}")
         result = ADAPTERS[args.provider].normalize(args.entity, response, load_reference(args.provider))
         if isinstance(result, NormalizedOutput):
-            if args.entity == "direct-deposit":
+            if args.entity == "company":
+                company = result.company
+                counted = (f"1 company, {len(company.work_locations)} work locations, "
+                           f"{len(company.pay_groups)} pay groups, {len(company.tax_ids)} tax ids")
+            elif args.entity == "direct-deposit":
                 counted = f"{len(result.direct_deposits)} direct deposits"
             elif args.entity == "deduction":
                 counted = f"{len(result.deductions)} deductions"
