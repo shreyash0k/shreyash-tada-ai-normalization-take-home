@@ -388,6 +388,130 @@ def build_prismhr_deductions(seed: int):
     })
 
 
+# PrismHR payroll. Injected cases: batch types R, M, S and V; one batch status
+# per group plus an undocumented one (HOLD); a batch with two pay groups, one
+# with none and one with an empty payGroupId; voucher pages under the live key
+# payrollVoucher and the spec key payrollVouchers; an arrears voucher with empty
+# arrays; a voided voucher; pay classes E, R, F and an undocumented one; other
+# earnings and other deductions; a direct deposit; the live-only hsaPeoMatch and
+# isManualCheck; an undocumented voucher status on every voucher (reported once)
+# and a second one; an error page; a voucher whose batch is not listed.
+
+def prism_pay_group(group_id, start, end):
+    return {"payGroupId": group_id, "payPeriodStartDate": start, "payPeriodEndDate": end,
+            "weeksWorked": 1, "deductPeriod": "1"}
+
+
+def prism_batch(batch_id, pay_date, batch_type, status, groups):
+    return {"batchId": batch_id, "payDate": pay_date, "batchType": batch_type, "batchStatus": status,
+            "payGroup": groups}
+
+
+def prism_earning(code, pay_class, class_description, hours, rate, amount=None):
+    return {"payCode": code, "payClass": pay_class, "payClassDescription": class_description, "chargeDate": "",
+            "hoursUnits": hours, "hoursWorked": hours, "unitRate": rate,
+            "payAmount": round(hours * rate, 2) if amount is None else amount,
+            "department": "OPS", "location": "HQ", "jobCode": "", "shift": ""}
+
+
+def prism_employee_tax(code, description, taxable, amount):
+    return {"empTaxDeductCode": code, "empTaxDeductCodeDesc": description, "empTaxableAmount": taxable,
+            "empTaxAmount": amount, "empOverLimitAmount": 0.0}
+
+
+def prism_company_tax(code, description, taxable, amount):
+    return {"comTaxEntity": "US", "comTaxDeductCode": code, "comTaxDeductCodeDesc": description,
+            "comExemptAmount": 0.0, "comShelteredAmount": 0.0, "comTaxableAmount": taxable, "comTaxType": "F",
+            "comTaxAmount": amount, "comOvrLimit": 0.0, "comTaxRate": 0.0145}
+
+
+def prism_voucher_deduction(code, deduction_type, description, amount):
+    return {"deductCode": code, "deductDescription": description, "deductAmount": amount,
+            "deductType": deduction_type, "deductUnionId": "", "planId": ""}
+
+
+def prism_voucher(voucher_id, employee_id, batch_id, pay_date, period, voucher_type="R", status="PRNT",
+                  gross=0.0, net=0.0, **extra):
+    voucher = {"voucherId": voucher_id, "status": status, "type": voucher_type, "voidDate": "", "checkNumber": "",
+               "payDate": pay_date, "employeeId": employee_id, "payPeriod": "W", "payPeriodStart": period[0],
+               "payPeriodEnd": period[1], "payGroup": "WFRI", "dateProcessed": pay_date, "totalEarnings": gross,
+               "employeeTax": [], "netPay": net, "voidVoucherId": "", "fitTaxableAmount": gross,
+               "earnAmount": gross, "otherEarnAmount": 0.0, "wcHomeClass": "8810", "wcState": "IL",
+               "workerComp": [], "earning": [], "otherEarningsDetail": [], "fsaMatch": [], "companyTax": [],
+               "batchId": batch_id, "deduction": [], "otherDeduction": [], "benefit": [], "bankAccount": "PAYROLL",
+               "checkNum": None, "checkAmt": 0.0, "payStubType": "S", "checkAccountACH": "", "directDeposit": [],
+               "employerContributions": [], "retirement": None, "glAcctDistribution": None,
+               "taxFilingStatus": [], "wcInformation": None, "fromArrears": [], "toArrears": [],
+               "importBatchNo": ""}
+    voucher.update(extra)
+    return voucher
+
+
+def prism_voucher_page(vouchers, key="payrollVoucher"):
+    return {"errorCode": "0", "errorMessage": "", "extension": None, key: vouchers,
+            "total": len(vouchers), "startpage": 0, "count": len(vouchers)}
+
+
+def build_prismhr_payroll(seed: int):
+    ids = build_prismhr(seed)["responses"]["get_employee_list"]["employeeList"]["employeeId"]
+    week1, week2 = ("2025-12-27", "2026-01-02"), ("2026-01-03", "2026-01-09")
+    batches = [
+        prism_batch("202601", "2026-01-09", "R", "COMP", [prism_pay_group("WFRI", *week1)]),
+        prism_batch("202602", "2026-01-16", "R", "POSTCOMP", [prism_pay_group("WFRI", *week2)]),
+        prism_batch("202603", "2026-01-20", "M", "INITFAIL", []),
+        prism_batch("202604", "2026-01-23", "S", "TS.READY", [prism_pay_group("WFRI", "2026-01-10", "2026-01-16"),
+                                                              prism_pay_group("SEMI", "2026-01-01", "2026-01-15")]),
+        prism_batch("202605", "2026-01-30", "V", "HOLD", [prism_pay_group("", "2026-01-17", "2026-01-23")]),
+    ]
+    first = prism_voucher(
+        "V000101", ids[0], "202601", "2026-01-09", week1, gross=1076.41, net=891.38, checkNumber="1001",
+        checkAmt=891.38, hsaPeoMatch=0.0, isManualCheck=False,
+        earning=[prism_earning("REG", "E", "Earnings", 40, 25.0), prism_earning("OT", "E", "Earnings", 2, 37.5)],
+        otherEarningsDetail=[{"otherEarnCode": "FRINGE", "otherEarnsDesc": "Fringe Benefit", "otherEarnAmount": 1.41}],
+        employeeTax=[prism_employee_tax("00-10", "Federal Income Tax", 986.41, 80.0),
+                     prism_employee_tax("00-11", "Medicare", 1036.41, 15.03)],
+        companyTax=[prism_company_tax("00-15", "Medicare - Employer", 1036.41, 15.03)],
+        deduction=[prism_voucher_deduction("401k", "K", "401k", 50.0),
+                   prism_voucher_deduction("MED", "C", "Medical", 40.0)],
+        employerContributions=[{"code": "MED", "description": "Medical", "amount": 189.17},
+                               {"code": "EAP", "description": "Employee Assistance", "amount": 0.0}],
+        benefit=[{"planId": "MED", "premiumAmt": 229.17, "empContrib": 189.17, "empDeduct": 40.0,
+                  "coveragePeriod": "M", "adjRef": "", "premiumCost": 229.17}],
+    )
+    second = prism_voucher(
+        "V000102", ids[1], "202601", "2026-01-09", week1, gross=297.0, net=242.0,
+        earning=[prism_earning("VAC", "E", "Earnings", 8, 30.0),
+                 prism_earning("EXP", "R", "Expense Reimbursement", 1, 45.0),
+                 prism_earning("MILES", "Q", "Mileage", 1, 12.0)],  # undocumented pay class
+        employeeTax=[prism_employee_tax("00-10", "Federal Income Tax", 252.0, 20.0)],
+        deduction=[prism_voucher_deduction("CLUB", "ZZ", "Social Club", 10.0)],  # undocumented type
+        otherDeduction=[{"otherDeductCode": "UNIF", "otherDeductDescription": "Uniforms", "otherDeductAmount": 25.0,
+                         "otherDeductOneTimeSwitch": "N"}],
+        directDeposit=[{"transitNum": "991234567", "accountNum": "000123456789", "status": "A", "amount": 242.0}],
+    )
+    arrears = prism_voucher("V000103", ids[2], "202601", "2026-01-09", week1, voucher_type="A")
+    voided = prism_voucher(
+        "V000201", ids[0], "202602", "2026-01-16", week2, voucher_type="S", gross=500.0, net=500.0,
+        checkNumber="1002", checkAmt=500.0, voidDate="2026-01-20", voidVoucherId="V000202",
+        earning=[prism_earning("BON", "E", "Earnings", 0, 0.0, amount=500.0)],
+    )
+    orphan = prism_voucher("V000901", ids[3], "202699", "2026-02-06", ("2026-01-24", "2026-01-30"),
+                           voucher_type="J", status="PEND")
+    return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
+        "get_batch_list_by_date": {"errorCode": "0", "errorMessage": "", "extension": None, "batchList": batches},
+        "get_payroll_voucher_for_batch": {
+            "202601": [prism_voucher_page([first, second]), prism_voucher_page([arrears], key="payrollVouchers")],
+            "202602": [prism_voucher_page([voided])],
+            "202603": [{"errorCode": "1", "errorMessage": "No vouchers found for batch", "extension": None}],
+            "202699": [prism_voucher_page([orphan])],
+        },
+        "get_batch_info": {"202601": {"errorCode": "0", "errorMessage": "", "extension": None, "batchControl": {
+            "batchStatus": "COMP", "batchId": "202601", "payDate": "2026-01-09",
+            "batchDescription": "202601 - 01-09-26 WFRI", "batchType": "R", "processor": "synthetic",
+            "deliveryMethod": "PICKUP"}}},
+    })
+
+
 # --- isolved -----------------------------------------------------------------
 # Injected cases: employmentStatus "Leave of Absence" and gender "Non-binary"
 # (unmapped_label), employmentCategoryCode FT/PT and integer payFrequency
@@ -960,7 +1084,7 @@ def build_ukg_deductions(seed: int):
 
 BUILDERS = {
     "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits,
-                "deduction": build_prismhr_deductions},
+                "deduction": build_prismhr_deductions, "payroll": build_prismhr_payroll},
     "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
                 "deduction": build_isolved_deductions},
     "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,

@@ -1,4 +1,4 @@
-"""PrismHR employee, direct deposit and deduction adapter.
+"""PrismHR employee, direct deposit, deduction and payroll adapter.
 
 Input: a capture bundle whose ``responses.get_employee`` holds raw
 ``GET /employee/v1/getEmployee`` responses requested with
@@ -13,6 +13,13 @@ employee's ``directDeposit`` header holds the ``achVoucher[]`` bank lines.
 Deductions come from ``responses.get_deductions``, keyed by employee ID: the
 ``GET /deductions/v1/getDeductions`` response, whose
 ``employeeDeductions.deduction[]`` lists the employee's deduction rules.
+
+Payroll comes from ``responses.get_batch_list_by_date`` (one
+``GET /payroll/v1/getBatchListByDate`` response, the pay runs),
+``responses.get_payroll_voucher_for_batch`` (batch ID -> the pages of
+``getPayrollVoucherForBatch``, the paychecks) and the optional
+``responses.get_batch_info`` (batch ID -> ``getBatchInfo``, for the batch
+description).
 
 Every code table below cites the OpenAPI description it rests on. Codes the
 spec does not explain stay raw with an ``undocumented_code`` issue.
@@ -34,13 +41,17 @@ from ..canonical import (
     CompanySource,
     Compensation,
     Contact,
+    ContributionLine,
     DateRange,
     Deduction,
     DeductionCategory,
+    DeductionLine,
     DeductionSource,
     DepositSource,
     DepositStatus,
     DirectDeposit,
+    EarningCategory,
+    EarningLine,
     Email,
     EmailKind,
     Employee,
@@ -55,16 +66,27 @@ from ..canonical import (
     MaritalStatus,
     MatchMethod,
     NormalizedOutput,
+    Paycheck,
+    PaycheckSource,
+    PaycheckStatus,
+    PaycheckType,
     Payee,
+    PaymentLine,
+    PaymentMethod,
     PayPeriod,
+    PayRun,
+    PayRunSource,
+    PayRunStatus,
+    PayRunType,
     PayType,
     Person,
     Phone,
     PhoneKind,
     Severity,
     SourceRef,
+    TaxLine,
 )
-from ._common import CodeTable, Collector, Reader, boolean, is_blank, text
+from ._common import CodeTable, Collector, Reader, boolean, is_blank, line_readers, nonzero, text
 
 PROVIDER = "prismhr"
 SPEC = "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas"
@@ -195,6 +217,63 @@ MATCH_METHOD = CodeTable(
     f"{DEDUCTION}/matchMethod/description",
 )
 MATCH_METHOD_LABELS = {"F": "flat", "P": "percent"}
+
+BATCH = f"{SPEC}/BatchList/properties"
+VOUCHER = f"{SPEC}/PayrollVoucher/properties"
+BATCH_TYPE_LABELS = {"R": "Regular", "M": "Manual", "S": "Special", "V": "Void"}
+BATCH_TYPE = CodeTable(
+    "batch.batchType", PayRunType,
+    {"R": PayRunType.REGULAR, "M": PayRunType.MANUAL, "S": PayRunType.SPECIAL, "V": PayRunType.VOID},
+    f"{BATCH}/batchType/description",
+)
+# The batch status codes are listed only in the getBatchStatus operation's
+# description, as an HTML table of code and meaning.
+BATCH_STATUS_LABELS = {
+    "TS.READY": "Payroll is ready for time sheet entry", "TS.ENTRY": "Time sheet entry in progress",
+    "TSOKCOMP": "Time sheet entry complete", "INITIAL": "Payroll calculation in progress",
+    "INITOK": "Payroll calculation completed", "INITWARN": "Payroll calculation completed with warning",
+    "INITFAIL": "Payroll calculation completed with errors", "AP.PEND": "Calculation pending approval",
+    "AP.READY": "Payroll calculation results approved by client",
+    "AP.FAIL": "Payroll calculation results rejected by client",
+    "INITCOMP": "Payroll calculation completed; payroll is ready to finalize",
+    "POST": "Payroll is being finalized", "POST.PEND": "Finalization pending approval",
+    "POST.FAIL": "Payroll finalization complete with errors",
+    "POSTCOMP": "Payroll finalization complete; payroll is ready to print", "WT.PEND": "Wire transfer pending",
+    "PRINT": "Payroll is printing", "PRINTFAIL": "Payroll printed with errors",
+    "PRINTCOMP": "Payroll has been printed", "COMP": "Payroll is complete",
+}
+_BATCH_STATUS_GROUPS = {
+    PayRunStatus.OPEN: ("TS.READY", "TS.ENTRY", "TSOKCOMP", "INITIAL", "INITOK", "INITWARN", "AP.PEND",
+                        "AP.READY", "INITCOMP"),
+    PayRunStatus.SUBMITTED: ("POST", "POST.PEND", "POSTCOMP", "WT.PEND", "PRINT", "PRINTCOMP"),
+    PayRunStatus.COMPLETED: ("COMP",),
+    PayRunStatus.FAILED: ("INITFAIL", "AP.FAIL", "POST.FAIL", "PRINTFAIL"),
+}
+BATCH_STATUS = CodeTable(
+    "batch.batchStatus", PayRunStatus,
+    {code: member for member, codes in _BATCH_STATUS_GROUPS.items() for code in codes},
+    "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/paths/~1payroll~1v1~1getBatchStatus/get/description",
+)
+VOUCHER_TYPE_LABELS = {"R": "Regular", "V": "Vacation", "S": "Supplemental", "A": "Arrears", "J": "Adjustment"}
+VOUCHER_TYPE = CodeTable(
+    "payrollVoucher.type", PaycheckType,
+    {"R": PaycheckType.REGULAR, "V": PaycheckType.VACATION, "S": PaycheckType.SUPPLEMENTAL,
+     "A": PaycheckType.ARREARS, "J": PaycheckType.ADJUSTMENT},
+    f"{VOUCHER}/type/description",
+)
+# The spec says only "voucher status, such as printed": no code is documented.
+VOUCHER_STATUS = CodeTable("payrollVoucher.status", PaycheckStatus, {}, f"{VOUCHER}/status/description")
+# The voucher's earning line names payClass without listing codes; the pay code
+# record lists them.
+PAY_CLASS = CodeTable(
+    "earning.payClass", EarningCategory,
+    {"E": EarningCategory.EARNINGS, "R": EarningCategory.REIMBURSEMENT, "F": EarningCategory.FRINGE,
+     "RT": EarningCategory.TIPS, "M": EarningCategory.MEMO},
+    f"{SPEC}/ClientCodes-PayCode/properties/payClass/description",
+)
+CHECK_PAYMENT = CodedValue(raw=None, label="checkAmt", value=PaymentMethod.CHECK)
+DEPOSIT_PAYMENT = CodedValue(raw=None, label="directDeposit", value=PaymentMethod.DIRECT_DEPOSIT)
+LIVE_ONLY_VOUCHER_FIELDS = ("hsaPeoMatch", "isManualCheck")
 
 
 def _use_percent(raw: Any) -> Optional[bool]:
@@ -600,6 +679,229 @@ def _employee_records(bundle: Bundle, response_key: str, issues: Collector):
                 yield record
 
 
+class _PrismPayrollMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.issues = issues
+        self.company_id = bundle.request["client_id"]
+        self.company_key = f"{PROVIDER}:{self.company_id}"
+        self.listing = bundle.response("get_batch_list_by_date") or {}
+        self.pages = bundle.response("get_payroll_voucher_for_batch") or {}
+        self.batch_info = bundle.response("get_batch_info") or {}
+        self._reported: set = set()
+
+    def _report_once(self, marker: str, path: str, message: str) -> None:
+        if marker not in self._reported:
+            self._reported.add(marker)
+            self.issues.add(IssueCode.SPEC_LIVE_MISMATCH, Severity.INFO, path, "read the live shape",
+                            message=message)
+
+    def _money(self, r: Reader, name: str, key: str):
+        return self.issues.money(r.get(name), r.path(name), key)
+
+    def runs(self) -> list[PayRun]:
+        error_code = self.listing.get("errorCode")
+        if error_code not in (None, "0", 0):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "get_batch_list_by_date.errorCode",
+                            "no pay runs emitted", raw_value=error_code,
+                            message=text(self.listing.get("errorMessage")))
+            return []
+        batches = self.listing.get("batchList") or []
+        if not isinstance(batches, list):
+            raise ValueError("responses.get_batch_list_by_date.batchList must be a list")
+        return [self._run(Reader(batch, f"batchList[{index}]"))
+                for index, batch in enumerate(batches) if isinstance(batch, dict)]
+
+    def _run(self, r: Reader) -> PayRun:
+        batch_id = text(r.get("batchId")) or ""
+        key = f"{self.company_key}:run:{batch_id}"
+        raw_type, raw_status = r.peek("batchType"), r.peek("batchStatus")
+        period, pay_group = self._pay_group(r, key)
+        description, extra = self._batch_info(batch_id)
+        return PayRun(
+            key=key,
+            company_key=self.company_key,
+            source=PayRunSource(provider=PROVIDER, company_id=self.company_id, pay_run_id=batch_id),
+            type=self.issues.code(BATCH_TYPE, r.get("batchType"), r.path("batchType"), key,
+                                  label=_label(BATCH_TYPE_LABELS, raw_type)),
+            status=self.issues.code(BATCH_STATUS, r.get("batchStatus"), r.path("batchStatus"), key,
+                                    label=_label(BATCH_STATUS_LABELS, raw_status)),
+            pay_date=self.issues.date(r.get("payDate"), r.path("payDate"), key),
+            period=period,
+            description=description,
+            pay_group=pay_group,
+            unmapped={**r.unmapped(), **extra},
+        )
+
+    def _pay_group(self, r: Reader, key: str):
+        """The period and pay group of a batch with exactly one pay group."""
+        groups = r.peek("payGroup")
+        if groups is None or groups == []:
+            r.consume("payGroup")
+            return None, None
+        if not isinstance(groups, list):
+            return None, None
+        if len(groups) > 1:
+            self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path("payGroup"),
+                            "period and pay group set null; pay groups kept in unmapped", key,
+                            message=f"batch lists {len(groups)} pay groups; a pay run holds one")
+            return None, None
+        group = r.sub("payGroup", 0)
+        start = self.issues.date(group.get("payPeriodStartDate"), group.path("payPeriodStartDate"), key)
+        end = self.issues.date(group.get("payPeriodEndDate"), group.path("payPeriodEndDate"), key)
+        period = DateRange(start=start, end=end) if start is not None or end is not None else None
+        return period, Collector.raw_code(group.get("payGroupId"))
+
+    def _batch_info(self, batch_id: str):
+        """The batch description, and the other getBatchInfo fields for ``unmapped``."""
+        control = (self.batch_info.get(batch_id) or {}).get("batchControl")
+        if not isinstance(control, dict):
+            return None, {}
+        r = Reader(control, "batchControl")
+        for repeated in ("batchId", "payDate", "batchType", "batchStatus"):
+            r.consume(repeated)
+        return text(r.get("batchDescription")), r.unmapped()
+
+    def paychecks(self, run_keys: Dict[str, str]) -> list[Paycheck]:
+        checks: list[Paycheck] = []
+        for batch_id, pages in self.pages.items():
+            if not isinstance(pages, list):
+                raise ValueError(f"responses.get_payroll_voucher_for_batch[{batch_id!r}] must be a list")
+            for index, page in enumerate(pages):
+                checks.extend(self._page(batch_id, index, page, run_keys))
+        return checks
+
+    def _page(self, batch_id: str, index: int, page: Any, run_keys: Dict[str, str]) -> list[Paycheck]:
+        where = f"get_payroll_voucher_for_batch[{batch_id!r}][{index}]"
+        if not isinstance(page, dict):
+            raise ValueError(f"responses.{where} must be an object")
+        error_code = page.get("errorCode")
+        if error_code not in (None, "0", 0):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, f"{where}.errorCode", "page skipped",
+                            f"{self.company_key}:run:{batch_id}", error_code, text(page.get("errorMessage")))
+            return []
+        name = "payrollVouchers"
+        if "payrollVoucher" in page:
+            name = "payrollVoucher"
+            self._report_once("live:payrollVoucher", f"{where}.payrollVoucher",
+                              "the live API lists vouchers under 'payrollVoucher'; the spec names the array "
+                              f"'payrollVouchers' ({SPEC}/PayrollResponseWithPagination)")
+        vouchers = page.get(name) or []
+        if not isinstance(vouchers, list):
+            raise ValueError(f"responses.{where}.{name} must be a list")
+        return [self._paycheck(Reader(voucher, f"{name}[{position}]"), run_keys)
+                for position, voucher in enumerate(vouchers) if isinstance(voucher, dict)]
+
+    def _paycheck(self, r: Reader, run_keys: Dict[str, str]) -> Paycheck:
+        employee_id = text(r.get("employeeId")) or ""
+        voucher_id = text(r.get("voucherId")) or ""
+        batch_id = text(r.get("batchId"))
+        employee_key = f"{self.company_key}:{employee_id}"
+        key = f"{employee_key}:chk:{voucher_id}"
+        run_key = run_keys.get(batch_id) if batch_id else None
+        if batch_id and run_key is None:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, r.path("batchId"), "pay_run_key set null",
+                            key, batch_id, "the voucher's batch is not in getBatchListByDate")
+        for field_name in LIVE_ONLY_VOUCHER_FIELDS:
+            if r.has(field_name):
+                self._report_once(f"live:{field_name}", r.path(field_name),
+                                  f"'{field_name}' is returned live but is not in the spec ({SPEC}/PayrollVoucher)")
+        raw_type = r.peek("type")
+        start = self.issues.date(r.get("payPeriodStart"), r.path("payPeriodStart"), key)
+        end = self.issues.date(r.get("payPeriodEnd"), r.path("payPeriodEnd"), key)
+        return Paycheck(
+            key=key,
+            employee_key=employee_key,
+            company_key=self.company_key,
+            source=PaycheckSource(provider=PROVIDER, company_id=self.company_id, employee_id=employee_id,
+                                  paycheck_id=voucher_id, pay_run_id=batch_id),
+            pay_run_key=run_key,
+            type=self.issues.code(VOUCHER_TYPE, r.get("type"), r.path("type"), key,
+                                  label=_label(VOUCHER_TYPE_LABELS, raw_type)),
+            status=self.issues.code_once(VOUCHER_STATUS, r.get("status"), r.path("status"), key),
+            pay_date=self.issues.date(r.get("payDate"), r.path("payDate"), key),
+            period=DateRange(start=start, end=end) if start is not None or end is not None else None,
+            check_number=text(r.get("checkNumber")),
+            gross_pay=self._money(r, "totalEarnings", key),
+            net_pay=self._money(r, "netPay", key),
+            void_date=self.issues.date(r.get("voidDate"), r.path("voidDate"), key),
+            earnings=self._earnings(r, key),
+            taxes=self._taxes(r, key),
+            deductions=self._deductions(r, key),
+            employer_contributions=[
+                ContributionLine(code=Collector.raw_code(c.get("code"), c.get("description")),
+                                 amount=self._money(c, "amount", key), unmapped=c.unmapped())
+                for c in line_readers(r, "employerContributions")],
+            payments=self._payments(r, key),
+            unmapped=r.unmapped(),
+        )
+
+    def _earnings(self, r: Reader, key: str) -> list[EarningLine]:
+        lines = []
+        for line in line_readers(r, "earning"):
+            if line.has("payAmount"):
+                self._report_once("live:payAmount", line.path("payAmount"),
+                                  "payAmount is described as 'pay per hour or unit' "
+                                  f"({SPEC}/Earning/properties/payAmount/description) but live it equals "
+                                  "hoursUnits x unitRate; it is mapped as the line amount")
+            category = self.issues.code(PAY_CLASS, line.get("payClass"), line.path("payClass"), key,
+                                        label=text(line.get("payClassDescription")))
+            lines.append(EarningLine(
+                code=Collector.raw_code(line.get("payCode")),
+                category=category,
+                hours=self.issues.decimal(line.get("hoursUnits"), line.path("hoursUnits"), key),
+                rate=self._money(line, "unitRate", key),
+                amount=self._money(line, "payAmount", key),
+                unmapped=line.unmapped(),
+            ))
+        for line in line_readers(r, "otherEarningsDetail"):
+            lines.append(EarningLine(code=Collector.raw_code(line.get("otherEarnCode"), line.get("otherEarnsDesc")),
+                                     amount=self._money(line, "otherEarnAmount", key), unmapped=line.unmapped()))
+        return lines
+
+    def _taxes(self, r: Reader, key: str) -> list[TaxLine]:
+        lines = [TaxLine(code=Collector.raw_code(t.get("empTaxDeductCode"), t.get("empTaxDeductCodeDesc")),
+                         employee_amount=self._money(t, "empTaxAmount", key),
+                         employee_taxable_wages=self._money(t, "empTaxableAmount", key),
+                         unmapped=t.unmapped())
+                 for t in line_readers(r, "employeeTax")]
+        lines += [TaxLine(code=Collector.raw_code(t.get("comTaxDeductCode"), t.get("comTaxDeductCodeDesc")),
+                          employer_amount=self._money(t, "comTaxAmount", key),
+                          employer_taxable_wages=self._money(t, "comTaxableAmount", key),
+                          unmapped=t.unmapped())
+                  for t in line_readers(r, "companyTax")]
+        return lines
+
+    def _deductions(self, r: Reader, key: str) -> list[DeductionLine]:
+        lines = []
+        for line in line_readers(r, "deduction"):
+            raw_type = line.peek("deductType")
+            lines.append(DeductionLine(
+                code=Collector.raw_code(line.get("deductCode"), line.get("deductDescription")),
+                category=self.issues.code(DEDUCTION_TYPE, line.get("deductType"), line.path("deductType"), key,
+                                          label=_label(DEDUCTION_TYPE_LABELS, raw_type)),
+                amount=self._money(line, "deductAmount", key),
+                unmapped=line.unmapped(),
+            ))
+        for line in line_readers(r, "otherDeduction"):
+            lines.append(DeductionLine(
+                code=Collector.raw_code(line.get("otherDeductCode"), line.get("otherDeductDescription")),
+                amount=self._money(line, "otherDeductAmount", key), unmapped=line.unmapped()))
+        return lines
+
+    def _payments(self, r: Reader, key: str) -> list[PaymentLine]:
+        payments = []
+        if not is_blank(r.peek("checkNumber")) or nonzero(r.peek("checkAmt")):
+            payments.append(PaymentLine(method=CHECK_PAYMENT, amount=self._money(r, "checkAmt", key)))
+        for line in line_readers(r, "directDeposit"):
+            payments.append(PaymentLine(
+                method=DEPOSIT_PAYMENT,
+                amount=self._money(line, "amount", key),
+                account_last4=self.issues.last4(line.get("accountNum"), line.path("accountNum"), key),
+                unmapped=line.unmapped(),
+            ))
+        return payments
+
+
 def _company(company_id: str, issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
                "company name set null",
@@ -649,8 +951,20 @@ def normalize_deductions(bundle: Bundle) -> NormalizedOutput:
     return NormalizedOutput(provider=PROVIDER, company=company, deductions=deductions, issues=issues.issues)
 
 
+def normalize_payroll(bundle: Bundle) -> NormalizedOutput:
+    """Pay runs from the batch list, then every captured voucher page in capture order."""
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _PrismPayrollMapper(bundle, issues)
+    pay_runs = mapper.runs()
+    paychecks = mapper.paychecks({run.source.pay_run_id: run.key for run in pay_runs})
+    company = _company(mapper.company_id, issues)
+    return NormalizedOutput(provider=PROVIDER, company=company, pay_runs=pay_runs, paychecks=paychecks,
+                            issues=issues.issues)
+
+
 NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
-               "deduction": normalize_deductions}
+               "deduction": normalize_deductions, "payroll": normalize_payroll}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:
