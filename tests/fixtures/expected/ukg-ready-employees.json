@@ -1,0 +1,1226 @@
+{
+  "provider": "ukg-ready",
+  "company": {
+    "key": "ukg-ready:33704016",
+    "source": {
+      "provider": "ukg-ready",
+      "company_id": "33704016",
+      "secondary_ids": {
+        "ein_name": "Primary EIN"
+      }
+    },
+    "name": null,
+    "ein": "12-3456789"
+  },
+  "employees": [
+    {
+      "key": "ukg-ready:33704016:12935181566",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181566",
+        "secondary_ids": {
+          "employee_id": "1",
+          "username": "abrennan"
+        }
+      },
+      "person": {
+        "first_name": "Avery",
+        "middle_name": "T",
+        "last_name": "Brennan",
+        "preferred_name": null,
+        "birth_date": "1994-03-03",
+        "gender": {
+          "raw": "MALE",
+          "label": null,
+          "value": "male"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "ALIEN_WITH_WORK_PERMIT",
+          "label": null,
+          "value": "work_permit"
+        },
+        "ethnicity": {
+          "raw": "ASIAN",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "9772"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "1443 Summit Dr",
+            "line2": null,
+            "city": "Georgetown",
+            "region": "TX",
+            "postal_code": "78626",
+            "country": "USA"
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "8117171862",
+            "extension": null,
+            "preferred": false
+          },
+          {
+            "kind": "mobile",
+            "number": "9516618227",
+            "extension": null,
+            "preferred": true
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "abrennan@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": null,
+        "employment_type": {
+          "raw": 35330178,
+          "label": "FT Exempt",
+          "value": "unknown"
+        },
+        "hire_date": "2019-02-17",
+        "original_hire_date": null,
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": null,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": null,
+        "job_code": null,
+        "department": null,
+        "location": null,
+        "division": null,
+        "manager_employee_id": null,
+        "job_start_date": null
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": 35043009,
+          "label": "Salaried",
+          "value": "unknown"
+        },
+        "pay_frequency": null,
+        "rate": {
+          "amount": "114002.48",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "YEAR",
+          "label": null,
+          "value": "annual"
+        },
+        "hourly_rate": {
+          "amount": "54.8089",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "114002.48",
+          "currency": "USD"
+        },
+        "per_period_amount": null,
+        "standard_hours": "2080.00",
+        "standard_hours_period": {
+          "raw": "YEAR",
+          "label": null,
+          "value": "annual"
+        },
+        "standard_work_day_hours": "0.00",
+        "effective_date": "2026-01-01"
+      },
+      "unmapped": {
+        "id": 12935181566,
+        "primary_account_id": 12935181566,
+        "ein_name": "Primary EIN",
+        "_links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566",
+        "_links.country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/country-fields",
+        "_links.demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/demographics",
+        "_links.badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/badges",
+        "_links.pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/pay-info",
+        "_links.profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/profiles",
+        "dates.started": "2019-02-17",
+        "photo_href": "[redacted]",
+        "isPhotoUploaded": false,
+        "locked": false,
+        "force_change_password": "[redacted]",
+        "first_screen.id": "SCREEN:101",
+        "address.state_code": "TX",
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "ein.id": 35419520,
+        "add_to_new_hire_export": true,
+        "hardware_settings.in_touch.security_level": "EMPLOYEE",
+        "hardware_settings.in_touch.pin": 0,
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers[0].type": "[redacted]",
+        "national_id_numbers[0].value": "[redacted]",
+        "national_id_numbers[0].primary": "[redacted]",
+        "pay_info.ttoc": [],
+        "pay_info.payroll_classification": "REGULAR",
+        "compensation_history.compensations[0].id": 1900123112935181566,
+        "compensation_history.compensations[0].employee.account_id": 12935181566,
+        "compensation_history.compensations[0].effective_from": "1900-12-31",
+        "compensation_history.compensations[0].amount": 0.0,
+        "compensation_history.compensations[0].hourly_pay": 0.0,
+        "compensation_history.compensations[0].amount_period": "HOUR",
+        "compensation_history.compensations[0].time": 7488000000,
+        "compensation_history.compensations[0].time_period": "YEAR",
+        "compensation_history.compensations[0].num_pp_in_year": 0,
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/1900123112935181566",
+        "compensation_history.compensations[0].currency": "USD",
+        "compensation_history.compensations[1].id": 2026010112935181566,
+        "compensation_history.compensations[1].employee.account_id": 12935181566,
+        "compensation_history.compensations[1].num_pp_in_year": 26,
+        "compensation_history.compensations[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2026010112935181566",
+        "compensation_history.compensations[2].id": 2027010112935181566,
+        "compensation_history.compensations[2].employee.account_id": 12935181566,
+        "compensation_history.compensations[2].effective_from": "2027-01-01",
+        "compensation_history.compensations[2].amount": 119702.6,
+        "compensation_history.compensations[2].hourly_pay": 57.5493,
+        "compensation_history.compensations[2].amount_period": "YEAR",
+        "compensation_history.compensations[2].time": 7488000000,
+        "compensation_history.compensations[2].time_period": "YEAR",
+        "compensation_history.compensations[2].num_pp_in_year": 26,
+        "compensation_history.compensations[2]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2027010112935181566",
+        "compensation_history.compensations[2].currency": "USD"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181567",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181567",
+        "secondary_ids": {
+          "employee_id": "2",
+          "username": "tlindqvist"
+        }
+      },
+      "person": {
+        "first_name": "Tatum",
+        "middle_name": "J",
+        "last_name": "Lindqvist",
+        "preferred_name": null,
+        "birth_date": "1984-11-13",
+        "gender": {
+          "raw": "FEMALE",
+          "label": null,
+          "value": "female"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "PERMANENT_RESIDENT",
+          "label": null,
+          "value": "permanent_resident"
+        },
+        "ethnicity": {
+          "raw": "HISPANIC_OR_LATINO",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "3548"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "8487 Summit Dr",
+            "line2": null,
+            "city": "Georgetown",
+            "region": "TX",
+            "postal_code": "78626",
+            "country": "USA"
+          },
+          {
+            "kind": "mailing",
+            "line1": "PO Box 77",
+            "line2": null,
+            "city": "Georgetown",
+            "region": "TX",
+            "postal_code": "78626",
+            "country": "USA"
+          }
+        ],
+        "phones": [
+          {
+            "kind": "mobile",
+            "number": "6533934411",
+            "extension": null,
+            "preferred": false
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "tlindqvist@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": null,
+        "employment_type": {
+          "raw": 35330176,
+          "label": "FT Non-Exempt",
+          "value": "unknown"
+        },
+        "hire_date": "2024-09-24",
+        "original_hire_date": null,
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": null,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": null,
+        "job_code": null,
+        "department": null,
+        "location": null,
+        "division": null,
+        "manager_employee_id": "12935181566",
+        "job_start_date": null
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": 35043008,
+          "label": "Hourly",
+          "value": "unknown"
+        },
+        "pay_frequency": null,
+        "rate": {
+          "amount": "34.0942",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "HOUR",
+          "label": null,
+          "value": "hourly"
+        },
+        "hourly_rate": {
+          "amount": "34.0942",
+          "currency": "USD"
+        },
+        "annual_amount": null,
+        "per_period_amount": null,
+        "standard_hours": "80.00",
+        "standard_hours_period": {
+          "raw": "PAY_PERIOD",
+          "label": null,
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": "8.00",
+        "effective_date": "2025-07-01"
+      },
+      "unmapped": {
+        "id": 12935181567,
+        "primary_account_id": 12935181567,
+        "ein_name": "Primary EIN",
+        "_links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567",
+        "_links.country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/country-fields",
+        "_links.demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/demographics",
+        "_links.badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/badges",
+        "_links.pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/pay-info",
+        "_links.profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/profiles",
+        "dates.started": "2024-09-24",
+        "photo_href": "[redacted]",
+        "isPhotoUploaded": false,
+        "locked": false,
+        "force_change_password": "[redacted]",
+        "first_screen.id": "SCREEN:101",
+        "address.state_code": "TX",
+        "use_separate_mailing_address": true,
+        "timezone": "America/Chicago",
+        "ein.id": 35419520,
+        "add_to_new_hire_export": true,
+        "hardware_settings.in_touch.security_level": "EMPLOYEE",
+        "hardware_settings.in_touch.pin": 0,
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers[0].type": "[redacted]",
+        "national_id_numbers[0].value": "[redacted]",
+        "national_id_numbers[0].primary": "[redacted]",
+        "mailing_address.state_code": "TX",
+        "pay_info.eeo4_classification": "UNKNOWN",
+        "pay_info.eeo4_function": "UNKNOWN",
+        "pay_info.ttoc": [],
+        "pay_info.payroll_classification": "REGULAR",
+        "compensation_history.compensations[0].id": 2025070112935181567,
+        "compensation_history.compensations[0].employee.account_id": 12935181567,
+        "compensation_history.compensations[0].num_pp_in_year": 26,
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025070112935181567"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181568",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181568",
+        "secondary_ids": {
+          "employee_id": "3",
+          "username": "rdelgado"
+        }
+      },
+      "person": {
+        "first_name": "Riley",
+        "middle_name": "L",
+        "last_name": "Delgado",
+        "preferred_name": null,
+        "birth_date": "1994-07-24",
+        "gender": {
+          "raw": "FEMALE",
+          "label": null,
+          "value": "female"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "US_CITIZEN",
+          "label": null,
+          "value": "citizen"
+        },
+        "ethnicity": {
+          "raw": "WHITE",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "9205"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "6530 Maple Ave",
+            "line2": null,
+            "city": "Clayton",
+            "region": "MO",
+            "postal_code": "63105",
+            "country": "USA"
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "7834776820",
+            "extension": null,
+            "preferred": false
+          },
+          {
+            "kind": "mobile",
+            "number": "5622537040",
+            "extension": null,
+            "preferred": true
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "rdelgado@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Terminated",
+          "label": null,
+          "value": "terminated"
+        },
+        "status_date": null,
+        "employment_type": {
+          "raw": 35330178,
+          "label": "FT Exempt",
+          "value": "unknown"
+        },
+        "hire_date": "2019-11-21",
+        "original_hire_date": null,
+        "rehire_date": null,
+        "termination_date": "2024-06-28",
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": null,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": null,
+        "job_code": null,
+        "department": null,
+        "location": null,
+        "division": null,
+        "manager_employee_id": "12935181566",
+        "job_start_date": null
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": 35043009,
+          "label": "Salaried",
+          "value": "unknown"
+        },
+        "pay_frequency": null,
+        "rate": {
+          "amount": "72000.0",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "YEAR",
+          "label": null,
+          "value": "annual"
+        },
+        "hourly_rate": {
+          "amount": "34.6154",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "72000.0",
+          "currency": "USD"
+        },
+        "per_period_amount": null,
+        "standard_hours": "2080.00",
+        "standard_hours_period": {
+          "raw": "YEAR",
+          "label": null,
+          "value": "annual"
+        },
+        "standard_work_day_hours": "8.00",
+        "effective_date": "2023-01-01"
+      },
+      "unmapped": {
+        "id": 12935181568,
+        "primary_account_id": 12935181568,
+        "ein_name": "Primary EIN",
+        "_links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568",
+        "_links.country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/country-fields",
+        "_links.demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/demographics",
+        "_links.badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/badges",
+        "_links.pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/pay-info",
+        "_links.profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/profiles",
+        "dates.started": "2019-11-21",
+        "photo_href": "[redacted]",
+        "isPhotoUploaded": false,
+        "locked": false,
+        "force_change_password": "[redacted]",
+        "first_screen.id": "SCREEN:101",
+        "address.state_code": "MO",
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "ein.id": 35419520,
+        "add_to_new_hire_export": true,
+        "hardware_settings.in_touch.security_level": "EMPLOYEE",
+        "hardware_settings.in_touch.pin": 0,
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers[0].type": "[redacted]",
+        "national_id_numbers[0].value": "[redacted]",
+        "national_id_numbers[0].primary": "[redacted]",
+        "pay_info.ttoc": [],
+        "pay_info.payroll_classification": "REGULAR",
+        "compensation_history.compensations[0].id": 2023010112935181568,
+        "compensation_history.compensations[0].employee.account_id": 12935181568,
+        "compensation_history.compensations[0].num_pp_in_year": 26,
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2023010112935181568"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181569",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181569",
+        "secondary_ids": {
+          "employee_id": "4",
+          "username": "tnakamura"
+        }
+      },
+      "person": {
+        "first_name": "Tatum",
+        "middle_name": "B",
+        "last_name": "Nakamura",
+        "preferred_name": null,
+        "birth_date": "1973-08-06",
+        "gender": null,
+        "marital_status": null,
+        "citizenship": null,
+        "ethnicity": null,
+        "ssn_last4": "5399"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "6189 Willow Way",
+            "line2": null,
+            "city": "Clayton",
+            "region": "MO",
+            "postal_code": "63105",
+            "country": "USA"
+          }
+        ],
+        "phones": [
+          {
+            "kind": "mobile",
+            "number": "2648353643",
+            "extension": null,
+            "preferred": false
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "tnakamura@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": null,
+        "employment_type": {
+          "raw": 35330177,
+          "label": "PT Hourly",
+          "value": "unknown"
+        },
+        "hire_date": "2016-02-26",
+        "original_hire_date": null,
+        "rehire_date": "2022-02-14",
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": null,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": null,
+        "job_code": null,
+        "department": null,
+        "location": null,
+        "division": null,
+        "manager_employee_id": "12935181567",
+        "job_start_date": null
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": 35043008,
+          "label": "Hourly",
+          "value": "unknown"
+        },
+        "pay_frequency": null,
+        "rate": {
+          "amount": "2400.0",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "PAY_PERIOD",
+          "label": null,
+          "value": "pay_period"
+        },
+        "hourly_rate": {
+          "amount": "30.0",
+          "currency": "USD"
+        },
+        "annual_amount": null,
+        "per_period_amount": {
+          "amount": "2400.0",
+          "currency": "USD"
+        },
+        "standard_hours": "80.00",
+        "standard_hours_period": {
+          "raw": "PAY_PERIOD",
+          "label": null,
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": "8.00",
+        "effective_date": "2025-01-01"
+      },
+      "unmapped": {
+        "id": 12935181569,
+        "primary_account_id": 12935181569,
+        "ein_name": "Primary EIN",
+        "_links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569",
+        "_links.country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/country-fields",
+        "_links.demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/demographics",
+        "_links.badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/badges",
+        "_links.pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/pay-info",
+        "_links.profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/profiles",
+        "dates.started": "2016-02-26",
+        "photo_href": "[redacted]",
+        "isPhotoUploaded": false,
+        "locked": false,
+        "force_change_password": "[redacted]",
+        "first_screen.id": "SCREEN:101",
+        "address.state_code": "MO",
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "ein.id": 35419520,
+        "add_to_new_hire_export": true,
+        "hardware_settings.in_touch.security_level": "EMPLOYEE",
+        "hardware_settings.in_touch.pin": 0,
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers[0].type": "[redacted]",
+        "national_id_numbers[0].value": "[redacted]",
+        "national_id_numbers[0].primary": "[redacted]",
+        "managers[1].index": 1,
+        "managers[1].empl_ref.account_id": 12935181566,
+        "demographics": null,
+        "pay_info.ttoc": [],
+        "pay_info.payroll_classification": "REGULAR",
+        "compensation_history.compensations[0].id": 2025010112935181569,
+        "compensation_history.compensations[0].employee.account_id": 12935181569,
+        "compensation_history.compensations[0].num_pp_in_year": 26,
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025010112935181569",
+        "compensation_history.compensations[1].id": 2025010112935181569,
+        "compensation_history.compensations[1].employee.account_id": 12935181569,
+        "compensation_history.compensations[1].effective_from": "2025-01-01",
+        "compensation_history.compensations[1].amount": 2500.0,
+        "compensation_history.compensations[1].hourly_pay": 31.25,
+        "compensation_history.compensations[1].amount_period": "PAY_PERIOD",
+        "compensation_history.compensations[1].time": 288000000,
+        "compensation_history.compensations[1].time_period": "PAY_PERIOD",
+        "compensation_history.compensations[1].num_pp_in_year": 26,
+        "compensation_history.compensations[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025010112935181569",
+        "compensation_history.compensations[1].currency": "USD"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181570",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181570",
+        "secondary_ids": {
+          "employee_id": "5",
+          "username": "rdelgado"
+        }
+      },
+      "person": {
+        "first_name": "Rowan",
+        "middle_name": "A",
+        "last_name": "Delgado",
+        "preferred_name": null,
+        "birth_date": "1978-11-27",
+        "gender": {
+          "raw": "UNDEFINED",
+          "label": null,
+          "value": "unknown"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "US_CITIZEN",
+          "label": null,
+          "value": "citizen"
+        },
+        "ethnicity": {
+          "raw": "TWO_OR_MORE_RACES",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "1087"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "6486 Harbor Rd",
+            "line2": null,
+            "city": "Franklin",
+            "region": "TN",
+            "postal_code": "37064",
+            "country": "USA"
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "5644229366",
+            "extension": null,
+            "preferred": false
+          },
+          {
+            "kind": "mobile",
+            "number": "4898247318",
+            "extension": null,
+            "preferred": true
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "rdelgado@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Suspended",
+          "label": null,
+          "value": "unknown"
+        },
+        "status_date": null,
+        "employment_type": {
+          "raw": 99999999,
+          "label": null,
+          "value": "unknown"
+        },
+        "hire_date": "2020-12-25",
+        "original_hire_date": null,
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": null,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": null,
+        "job_code": null,
+        "department": null,
+        "location": null,
+        "division": null,
+        "manager_employee_id": "12935181566",
+        "job_start_date": null
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": 35043008,
+          "label": "Hourly",
+          "value": "unknown"
+        },
+        "pay_frequency": null,
+        "rate": {
+          "amount": "36.0942",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "HOUR",
+          "label": null,
+          "value": "hourly"
+        },
+        "hourly_rate": {
+          "amount": "36.0942",
+          "currency": "USD"
+        },
+        "annual_amount": null,
+        "per_period_amount": null,
+        "standard_hours": "2080.00",
+        "standard_hours_period": {
+          "raw": "YEAR",
+          "label": null,
+          "value": "annual"
+        },
+        "standard_work_day_hours": "8.00",
+        "effective_date": "2024-05-06"
+      },
+      "unmapped": {
+        "id": 12935181570,
+        "primary_account_id": 12935181570,
+        "ein_name": "Primary EIN",
+        "_links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570",
+        "_links.country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/country-fields",
+        "_links.demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/demographics",
+        "_links.badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/badges",
+        "_links.pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/pay-info",
+        "_links.profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/profiles",
+        "dates.started": "2020-12-25",
+        "photo_href": "[redacted]",
+        "isPhotoUploaded": false,
+        "locked": false,
+        "force_change_password": "[redacted]",
+        "first_screen.id": "SCREEN:101",
+        "address.state_code": "TN",
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "ein.id": 35419520,
+        "add_to_new_hire_export": true,
+        "hardware_settings.in_touch.security_level": "EMPLOYEE",
+        "hardware_settings.in_touch.pin": 0,
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers[0].type": "[redacted]",
+        "national_id_numbers[0].value": "[redacted]",
+        "national_id_numbers[0].primary": "[redacted]",
+        "pay_info.ttoc": [],
+        "pay_info.payroll_classification": "REGULAR",
+        "compensation_history.compensations[0].id": 2024050612935181570,
+        "compensation_history.compensations[0].employee.account_id": 12935181570,
+        "compensation_history.compensations[0].num_pp_in_year": 26,
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024050612935181570"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181571",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181571",
+        "secondary_ids": {
+          "employee_id": "6",
+          "username": "ebrennan"
+        }
+      },
+      "person": {
+        "first_name": "Emerson",
+        "middle_name": "M",
+        "last_name": "Brennan",
+        "preferred_name": null,
+        "birth_date": "1964-07-08",
+        "gender": {
+          "raw": "MALE",
+          "label": null,
+          "value": "male"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "PERMANENT_RESIDENT",
+          "label": null,
+          "value": "permanent_resident"
+        },
+        "ethnicity": {
+          "raw": "HISPANIC_OR_LATINO",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "7741"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "2196 Summit Dr",
+            "line2": null,
+            "city": "Ashland",
+            "region": "VA",
+            "postal_code": "23005",
+            "country": "USA"
+          }
+        ],
+        "phones": [
+          {
+            "kind": "mobile",
+            "number": "4517172349",
+            "extension": null,
+            "preferred": false
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "ebrennan@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": null,
+        "employment_type": {
+          "raw": 35330179,
+          "label": "Consultant",
+          "value": "unknown"
+        },
+        "hire_date": "2022-09-12",
+        "original_hire_date": null,
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": null,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": null,
+        "job_code": null,
+        "department": null,
+        "location": null,
+        "division": null,
+        "manager_employee_id": "12935181567",
+        "job_start_date": null
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": 35043009,
+          "label": "Salaried",
+          "value": "unknown"
+        },
+        "pay_frequency": null,
+        "rate": null,
+        "rate_period": null,
+        "hourly_rate": null,
+        "annual_amount": null,
+        "per_period_amount": null,
+        "standard_hours": null,
+        "standard_hours_period": null,
+        "standard_work_day_hours": "8.00",
+        "effective_date": null
+      },
+      "unmapped": {
+        "id": 12935181571,
+        "primary_account_id": 12935181571,
+        "ein_name": "Primary EIN",
+        "_links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571",
+        "_links.country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/country-fields",
+        "_links.demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/demographics",
+        "_links.badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/badges",
+        "_links.pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/pay-info",
+        "_links.profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/profiles",
+        "dates.started": "2022-09-12",
+        "photo_href": "[redacted]",
+        "isPhotoUploaded": false,
+        "locked": false,
+        "force_change_password": "[redacted]",
+        "first_screen.id": "SCREEN:101",
+        "address.state_code": "VA",
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "ein.id": 35419520,
+        "add_to_new_hire_export": true,
+        "hardware_settings.in_touch.security_level": "EMPLOYEE",
+        "hardware_settings.in_touch.pin": 0,
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers[0].type": "[redacted]",
+        "national_id_numbers[0].value": "[redacted]",
+        "national_id_numbers[0].primary": "[redacted]",
+        "pay_info.eeo4_classification": "PROFESSIONALS",
+        "pay_info.eeo4_function": "PROFESSIONALS",
+        "pay_info.ttoc": [],
+        "pay_info.payroll_classification": "REGULAR",
+        "compensation_history.compensations": []
+      }
+    }
+  ],
+  "issues": [
+    {
+      "code": "spec_live_mismatch",
+      "severity": "info",
+      "source_path": "ein_name",
+      "action": "kept in unmapped",
+      "record_key": null,
+      "raw_value": null,
+      "message": "live detail response carries 'ein_name', which the schema lists only on the employee list (contracts/ukg-ready/reference-schemas.json#/schemas/104)"
+    },
+    {
+      "code": "spec_live_mismatch",
+      "severity": "info",
+      "source_path": "_links.country-fields",
+      "action": "kept in unmapped",
+      "record_key": null,
+      "raw_value": null,
+      "message": "live detail response links 'country-fields', which the schema does not list (contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/_links)"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.employee_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181566",
+      "raw_value": 35330178,
+      "message": "pay_info.employee_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type (id only; names come from GET /v2/companies/{cid}/lookup/employee-types and are tenant-defined))"
+    },
+    {
+      "code": "out_of_schema_value",
+      "severity": "warning",
+      "source_path": "compensation_history.compensations[0].num_pp_in_year",
+      "action": "kept in unmapped",
+      "record_key": "ukg-ready:33704016:12935181566",
+      "raw_value": 0,
+      "message": "schema minimum is 1 (contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/num_pp_in_year)"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.pay_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181566",
+      "raw_value": 35043009,
+      "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.employee_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181567",
+      "raw_value": 35330176,
+      "message": "pay_info.employee_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type (id only; names come from GET /v2/companies/{cid}/lookup/employee-types and are tenant-defined))"
+    },
+    {
+      "code": "out_of_schema_value",
+      "severity": "warning",
+      "source_path": "pay_info.eeo4_classification",
+      "action": "kept in unmapped",
+      "record_key": "ukg-ready:33704016:12935181567",
+      "raw_value": "UNKNOWN",
+      "message": "'UNKNOWN' is not in the schema enum (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/eeo4_classification/enum)"
+    },
+    {
+      "code": "out_of_schema_value",
+      "severity": "warning",
+      "source_path": "pay_info.eeo4_function",
+      "action": "kept in unmapped",
+      "record_key": "ukg-ready:33704016:12935181567",
+      "raw_value": "UNKNOWN",
+      "message": "'UNKNOWN' is not in the schema enum (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/eeo4_function/enum)"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.pay_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181567",
+      "raw_value": 35043008,
+      "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.employee_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181568",
+      "raw_value": 35330178,
+      "message": "pay_info.employee_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type (id only; names come from GET /v2/companies/{cid}/lookup/employee-types and are tenant-defined))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.pay_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181568",
+      "raw_value": 35043009,
+      "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "demographics",
+      "action": "fields from demographics set null",
+      "record_key": "ukg-ready:33704016:12935181569",
+      "raw_value": null,
+      "message": "bundle has no responses.demographics['12935181569'] entry"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.employee_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181569",
+      "raw_value": 35330177,
+      "message": "pay_info.employee_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type (id only; names come from GET /v2/companies/{cid}/lookup/employee-types and are tenant-defined))"
+    },
+    {
+      "code": "multiple_current_rates",
+      "severity": "warning",
+      "source_path": "compensation_history.compensations",
+      "action": "used the first row in response order",
+      "record_key": "ukg-ready:33704016:12935181569",
+      "raw_value": "2025-01-01",
+      "message": "2 compensation rows share effective_from 2025-01-01"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.pay_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181569",
+      "raw_value": 35043008,
+      "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
+    },
+    {
+      "code": "missing_lookup",
+      "severity": "warning",
+      "source_path": "pay_info.employee_type.id",
+      "action": "kept raw id; label null; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181570",
+      "raw_value": 99999999,
+      "message": "pay_info.employee_type.id: id not present in the bundled lookup (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type (id only; names come from GET /v2/companies/{cid}/lookup/employee-types and are tenant-defined))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "status",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181570",
+      "raw_value": "Suspended",
+      "message": "status: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/status (string, no enum); labels from live GET /v2/companies/{cid}/employees capture (docs/DECISIONS.md allowlist entries))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.pay_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181570",
+      "raw_value": 35043008,
+      "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.employee_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181571",
+      "raw_value": 35330179,
+      "message": "pay_info.employee_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type (id only; names come from GET /v2/companies/{cid}/lookup/employee-types and are tenant-defined))"
+    },
+    {
+      "code": "invalid_date",
+      "severity": "error",
+      "source_path": "dates.seniority",
+      "action": "set null",
+      "record_key": "ukg-ready:33704016:12935181571",
+      "raw_value": "2020-13-01",
+      "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "pay_info.pay_type.id",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181571",
+      "raw_value": 35043009,
+      "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "responses",
+      "action": "company name set null",
+      "record_key": null,
+      "raw_value": null,
+      "message": "the employee endpoints do not return the company name; a company endpoint is a later task"
+    }
+  ],
+  "schema_version": "1"
+}

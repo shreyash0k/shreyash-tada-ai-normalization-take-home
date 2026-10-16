@@ -1,0 +1,910 @@
+{
+  "bundle_version": 1,
+  "provider": "ukg-ready",
+  "captured_at": "2026-10-15",
+  "request": {
+    "company_id": "33704016"
+  },
+  "responses": {
+    "employees": {
+      "employees": [
+        {
+          "id": 12935181566,
+          "employee_id": "1",
+          "username": "abrennan",
+          "first_name": "Avery",
+          "last_name": "Brennan",
+          "primary_account_id": 12935181566,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2019-02-17",
+            "started": "2019-02-17"
+          }
+        },
+        {
+          "id": 12935181567,
+          "employee_id": "2",
+          "username": "tlindqvist",
+          "first_name": "Tatum",
+          "last_name": "Lindqvist",
+          "primary_account_id": 12935181567,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2024-09-24",
+            "started": "2024-09-24"
+          }
+        },
+        {
+          "id": 12935181568,
+          "employee_id": "3",
+          "username": "rdelgado",
+          "first_name": "Riley",
+          "last_name": "Delgado",
+          "primary_account_id": 12935181568,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/profiles"
+          },
+          "status": "Terminated",
+          "dates": {
+            "hired": "2019-11-21",
+            "started": "2019-11-21",
+            "terminated": "2024-06-28"
+          }
+        },
+        {
+          "id": 12935181569,
+          "employee_id": "4",
+          "username": "tnakamura",
+          "first_name": "Tatum",
+          "last_name": "Nakamura",
+          "primary_account_id": 12935181569,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2016-02-26",
+            "started": "2016-02-26",
+            "re_hired": "2022-02-14"
+          }
+        },
+        {
+          "id": 12935181570,
+          "employee_id": "5",
+          "username": "rdelgado",
+          "first_name": "Rowan",
+          "last_name": "Delgado",
+          "primary_account_id": 12935181570,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/profiles"
+          },
+          "status": "Suspended",
+          "dates": {
+            "hired": "2020-12-25",
+            "started": "2020-12-25"
+          }
+        },
+        {
+          "id": 12935181571,
+          "employee_id": "6",
+          "username": "ebrennan",
+          "first_name": "Emerson",
+          "last_name": "Brennan",
+          "primary_account_id": 12935181571,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2022-09-12",
+            "started": "2022-09-12",
+            "seniority": "2020-13-01"
+          }
+        }
+      ]
+    },
+    "employee": {
+      "12935181566": {
+        "id": 12935181566,
+        "employee_id": "1",
+        "username": "abrennan",
+        "first_name": "Avery",
+        "last_name": "Brennan",
+        "primary_account_id": 12935181566,
+        "ein_name": "Primary EIN",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181566",
+        "isPhotoUploaded": false,
+        "middle_name": "T",
+        "status": "Active",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "703-40-9772",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "1443 Summit Dr",
+          "country": "USA",
+          "city": "Georgetown",
+          "state": "TX",
+          "zip": "78626",
+          "state_code": "TX"
+        },
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2019-02-17",
+          "started": "2019-02-17",
+          "birthday": "1994-03-03"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "9516618227",
+          "home_phone": "8117171862",
+          "work_phone": "",
+          "preferred_phone": "CELL"
+        },
+        "primary_email": "abrennan@example.test",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "703-40-9772",
+            "primary": true
+          }
+        ]
+      },
+      "12935181567": {
+        "id": 12935181567,
+        "employee_id": "2",
+        "username": "tlindqvist",
+        "first_name": "Tatum",
+        "last_name": "Lindqvist",
+        "primary_account_id": 12935181567,
+        "ein_name": "Primary EIN",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181567",
+        "isPhotoUploaded": false,
+        "middle_name": "J",
+        "status": "Active",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "180-33-3548",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "8487 Summit Dr",
+          "country": "USA",
+          "city": "Georgetown",
+          "state": "TX",
+          "zip": "78626",
+          "state_code": "TX"
+        },
+        "use_separate_mailing_address": true,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2024-09-24",
+          "started": "2024-09-24",
+          "birthday": "1984-11-13"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "6533934411",
+          "home_phone": "",
+          "work_phone": "",
+          "preferred_phone": "HOME"
+        },
+        "primary_email": "tlindqvist@example.test",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "180-33-3548",
+            "primary": true
+          }
+        ],
+        "mailing_address": {
+          "address_line_1": "PO Box 77",
+          "country": "USA",
+          "city": "Georgetown",
+          "state": "TX",
+          "zip": "78626",
+          "state_code": "TX"
+        },
+        "managers": [
+          {
+            "index": 0,
+            "empl_ref": {
+              "account_id": 12935181566
+            }
+          }
+        ]
+      },
+      "12935181568": {
+        "id": 12935181568,
+        "employee_id": "3",
+        "username": "rdelgado",
+        "first_name": "Riley",
+        "last_name": "Delgado",
+        "primary_account_id": 12935181568,
+        "ein_name": "Primary EIN",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181568",
+        "isPhotoUploaded": false,
+        "middle_name": "L",
+        "status": "Terminated",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "556-26-9205",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "6530 Maple Ave",
+          "country": "USA",
+          "city": "Clayton",
+          "state": "MO",
+          "zip": "63105",
+          "state_code": "MO"
+        },
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2019-11-21",
+          "started": "2019-11-21",
+          "terminated": "2024-06-28",
+          "birthday": "1994-07-24"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "5622537040",
+          "home_phone": "7834776820",
+          "work_phone": "",
+          "preferred_phone": "CELL"
+        },
+        "primary_email": "rdelgado@example.test",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "556-26-9205",
+            "primary": true
+          }
+        ],
+        "managers": [
+          {
+            "index": 0,
+            "empl_ref": {
+              "account_id": 12935181566
+            }
+          }
+        ]
+      },
+      "12935181569": {
+        "id": 12935181569,
+        "employee_id": "4",
+        "username": "tnakamura",
+        "first_name": "Tatum",
+        "last_name": "Nakamura",
+        "primary_account_id": 12935181569,
+        "ein_name": "Primary EIN",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181569",
+        "isPhotoUploaded": false,
+        "middle_name": "B",
+        "status": "Active",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "768-19-5399",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "6189 Willow Way",
+          "country": "USA",
+          "city": "Clayton",
+          "state": "MO",
+          "zip": "63105",
+          "state_code": "MO"
+        },
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2016-02-26",
+          "started": "2016-02-26",
+          "re_hired": "2022-02-14",
+          "birthday": "1973-08-06"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "2648353643",
+          "home_phone": "",
+          "work_phone": "",
+          "preferred_phone": "HOME"
+        },
+        "primary_email": "tnakamura@example.test",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "768-19-5399",
+            "primary": true
+          }
+        ],
+        "managers": [
+          {
+            "index": 0,
+            "empl_ref": {
+              "account_id": 12935181567
+            }
+          },
+          {
+            "index": 1,
+            "empl_ref": {
+              "account_id": 12935181566
+            }
+          }
+        ]
+      },
+      "12935181570": {
+        "id": 12935181570,
+        "employee_id": "5",
+        "username": "rdelgado",
+        "first_name": "Rowan",
+        "last_name": "Delgado",
+        "primary_account_id": 12935181570,
+        "ein_name": "Primary EIN",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181570",
+        "isPhotoUploaded": false,
+        "middle_name": "A",
+        "status": "Suspended",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "420-57-1087",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "6486 Harbor Rd",
+          "country": "USA",
+          "city": "Franklin",
+          "state": "TN",
+          "zip": "37064",
+          "state_code": "TN"
+        },
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2020-12-25",
+          "started": "2020-12-25",
+          "birthday": "1978-11-27"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "4898247318",
+          "home_phone": "5644229366",
+          "work_phone": "",
+          "preferred_phone": "CELL"
+        },
+        "primary_email": "rdelgado@example.test",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "420-57-1087",
+            "primary": true
+          }
+        ],
+        "managers": [
+          {
+            "index": 0,
+            "empl_ref": {
+              "account_id": 12935181566
+            }
+          }
+        ]
+      },
+      "12935181571": {
+        "id": 12935181571,
+        "employee_id": "6",
+        "username": "ebrennan",
+        "first_name": "Emerson",
+        "last_name": "Brennan",
+        "primary_account_id": 12935181571,
+        "ein_name": "Primary EIN",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181571",
+        "isPhotoUploaded": false,
+        "middle_name": "M",
+        "status": "Active",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "326-83-7741",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "2196 Summit Dr",
+          "country": "USA",
+          "city": "Ashland",
+          "state": "VA",
+          "zip": "23005",
+          "state_code": "VA"
+        },
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2022-09-12",
+          "started": "2022-09-12",
+          "seniority": "2020-13-01",
+          "birthday": "1964-07-08"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "4517172349",
+          "home_phone": "",
+          "work_phone": "",
+          "preferred_phone": "HOME"
+        },
+        "primary_email": "ebrennan@example.test",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "326-83-7741",
+            "primary": true
+          }
+        ],
+        "managers": [
+          {
+            "index": 0,
+            "empl_ref": {
+              "account_id": 12935181567
+            }
+          }
+        ]
+      }
+    },
+    "demographics": {
+      "12935181566": {
+        "citizenship": "ALIEN_WITH_WORK_PERMIT",
+        "ethnicity": "ASIAN",
+        "gender": "MALE"
+      },
+      "12935181567": {
+        "citizenship": "PERMANENT_RESIDENT",
+        "ethnicity": "HISPANIC_OR_LATINO",
+        "gender": "FEMALE"
+      },
+      "12935181568": {
+        "citizenship": "US_CITIZEN",
+        "ethnicity": "WHITE",
+        "gender": "FEMALE"
+      },
+      "12935181570": {
+        "citizenship": "US_CITIZEN",
+        "ethnicity": "TWO_OR_MORE_RACES",
+        "gender": "UNDEFINED"
+      },
+      "12935181571": {
+        "citizenship": "PERMANENT_RESIDENT",
+        "ethnicity": "HISPANIC_OR_LATINO",
+        "gender": "MALE"
+      }
+    },
+    "pay_info": {
+      "12935181566": {
+        "standard_work_day": 0,
+        "employee_type": {
+          "id": 35330178
+        },
+        "pay_type": {
+          "id": 35043009
+        },
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181567": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 35330176
+        },
+        "pay_type": {
+          "id": 35043008
+        },
+        "eeo4_classification": "UNKNOWN",
+        "eeo4_function": "UNKNOWN",
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181568": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 35330178
+        },
+        "pay_type": {
+          "id": 35043009
+        },
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181569": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 35330177
+        },
+        "pay_type": {
+          "id": 35043008
+        },
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181570": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 99999999
+        },
+        "pay_type": {
+          "id": 35043008
+        },
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181571": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 35330179
+        },
+        "pay_type": {
+          "id": 35043009
+        },
+        "eeo4_classification": "PROFESSIONALS",
+        "eeo4_function": "PROFESSIONALS",
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      }
+    },
+    "compensation_history": {
+      "12935181566": {
+        "compensations": [
+          {
+            "id": 1900123112935181566,
+            "employee": {
+              "account_id": 12935181566
+            },
+            "effective_from": "1900-12-31",
+            "amount": 0.0,
+            "hourly_pay": 0.0,
+            "amount_period": "HOUR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 0,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/1900123112935181566"
+            },
+            "currency": "USD"
+          },
+          {
+            "id": 2026010112935181566,
+            "employee": {
+              "account_id": 12935181566
+            },
+            "effective_from": "2026-01-01",
+            "amount": 114002.48,
+            "hourly_pay": 54.8089,
+            "amount_period": "YEAR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2026010112935181566"
+            },
+            "currency": "USD"
+          },
+          {
+            "id": 2027010112935181566,
+            "employee": {
+              "account_id": 12935181566
+            },
+            "effective_from": "2027-01-01",
+            "amount": 119702.6,
+            "hourly_pay": 57.5493,
+            "amount_period": "YEAR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2027010112935181566"
+            },
+            "currency": "USD"
+          }
+        ]
+      },
+      "12935181567": {
+        "compensations": [
+          {
+            "id": 2025070112935181567,
+            "employee": {
+              "account_id": 12935181567
+            },
+            "effective_from": "2025-07-01",
+            "amount": 34.0942,
+            "hourly_pay": 34.0942,
+            "amount_period": "HOUR",
+            "time": 288000000,
+            "time_period": "PAY_PERIOD",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025070112935181567"
+            },
+            "currency": "USD"
+          }
+        ]
+      },
+      "12935181568": {
+        "compensations": [
+          {
+            "id": 2023010112935181568,
+            "employee": {
+              "account_id": 12935181568
+            },
+            "effective_from": "2023-01-01",
+            "amount": 72000.0,
+            "hourly_pay": 34.6154,
+            "amount_period": "YEAR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2023010112935181568"
+            },
+            "currency": "USD"
+          }
+        ]
+      },
+      "12935181569": {
+        "compensations": [
+          {
+            "id": 2025010112935181569,
+            "employee": {
+              "account_id": 12935181569
+            },
+            "effective_from": "2025-01-01",
+            "amount": 2400.0,
+            "hourly_pay": 30.0,
+            "amount_period": "PAY_PERIOD",
+            "time": 288000000,
+            "time_period": "PAY_PERIOD",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025010112935181569"
+            },
+            "currency": "USD"
+          },
+          {
+            "id": 2025010112935181569,
+            "employee": {
+              "account_id": 12935181569
+            },
+            "effective_from": "2025-01-01",
+            "amount": 2500.0,
+            "hourly_pay": 31.25,
+            "amount_period": "PAY_PERIOD",
+            "time": 288000000,
+            "time_period": "PAY_PERIOD",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025010112935181569"
+            },
+            "currency": "USD"
+          }
+        ]
+      },
+      "12935181570": {
+        "compensations": [
+          {
+            "id": 2024050612935181570,
+            "employee": {
+              "account_id": 12935181570
+            },
+            "effective_from": "2024-05-06",
+            "amount": 36.0942,
+            "hourly_pay": 36.0942,
+            "amount_period": "HOUR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024050612935181570"
+            },
+            "currency": "USD"
+          }
+        ]
+      },
+      "12935181571": {
+        "compensations": []
+      }
+    },
+    "lookup_employee_types": {
+      "items": [
+        {
+          "id": 35330176,
+          "name": "FT Non-Exempt"
+        },
+        {
+          "id": 35330178,
+          "name": "FT Exempt"
+        },
+        {
+          "id": 35330177,
+          "name": "PT Hourly"
+        },
+        {
+          "id": 35330181,
+          "name": "Temp"
+        },
+        {
+          "id": 35330179,
+          "name": "Consultant"
+        }
+      ]
+    },
+    "lookup_pay_types": {
+      "items": [
+        {
+          "id": 35043008,
+          "name": "Hourly"
+        },
+        {
+          "id": 35043009,
+          "name": "Salaried"
+        }
+      ]
+    },
+    "lookup_eins": {
+      "items": [
+        {
+          "id": 35419520,
+          "ein_name": "Primary EIN",
+          "ein_tax_id": "12-3456789",
+          "ein_country_id": "USA"
+        }
+      ]
+    }
+  }
+}
