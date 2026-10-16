@@ -20,10 +20,9 @@ account digits, account type, allocation, priority, status, effective dates).
 Each provider has seeded synthetic fixtures, a golden expected output, and
 edge-case tests for both data types.
 
-A local web page shows how each provider's employee fields map into the
-canonical model: mapped, not mapped yet, or not offered (see
-[Field coverage page](#field-coverage-page)). It does not cover direct
-deposits yet.
+A local web app shows how each provider's employee and direct deposit fields
+map into the canonical model: mapped, not mapped yet, or not offered (see
+[Field coverage page](#field-coverage-page)).
 
 Not implemented yet: company detail, deductions, payroll, the
 optional write path, and grouped issue reporting. `normalize --entity company`
@@ -78,9 +77,10 @@ starter are tracked in
 | `src/normalization/adapters/` | One adapter per provider plus shared helpers (`_common.py`) |
 | `src/normalization/references.py` | Reference-pack readiness checks |
 | `src/normalization/field_map.py` | Per-provider source and status of each canonical employee field |
+| `src/normalization/deposit_field_map.py` | Per-provider source and status of each canonical direct deposit field |
 | `scripts/generate_fixtures.py` | Seeded fixture generator |
-| `scripts/export_web_data.py` | Writes the coverage data the web page reads |
-| `web/` | Next.js field coverage page (static export) |
+| `scripts/export_web_data.py` | Writes the coverage data the web pages read |
+| `web/` | Next.js field coverage pages (static export) |
 | `web/public/logos/` | Provider logos used by the coverage page |
 | `tests/` | Unit tests; `tests/fixtures/<provider>/` holds the employee and direct-deposit bundles, `tests/fixtures/expected/` the expected outputs |
 | `docs/canonical/` | JSON Schema for the normalized output |
@@ -150,13 +150,15 @@ python3 scripts/generate_fixtures.py --check  # exit 1 if the committed files di
 
 ## Field coverage page
 
-The page lists every canonical employee field against PrismHR, isolved and
-UKG Ready. Each cell is one of three states: mapped, not mapped yet, or not
-offered. A mapped cell shows the provider field it comes from. Hovering a
-state or a cell shows what the state means, the full source path, and the spec
-entry it rests on. The data comes from `src/normalization/field_map.py` and
-holds statuses, source paths and evidence, never provider values. The logos in
-`web/public/logos/` are trademarks of their owners.
+Two pages, linked from a nav at the top, list every canonical field against
+PrismHR, isolved and UKG Ready: employee fields at `/` and direct deposit
+fields at `/direct-deposits`. Each cell is one of three states: mapped, not
+mapped yet, or not offered. A mapped cell shows the provider field it comes
+from. Hovering a state or a cell shows what the state means, the full source
+path, and the spec entry it rests on. The data comes from
+`src/normalization/field_map.py` and `src/normalization/deposit_field_map.py`
+and holds statuses, source paths and evidence, never provider values. The
+logos in `web/public/logos/` are trademarks of their owners.
 
 ```sh
 python3 scripts/export_web_data.py          # rewrite web/src/data/coverage.json
@@ -170,9 +172,9 @@ npm run lint    # ESLint
 npm run build   # static site in web/out/
 ```
 
-The Python tests fail if the field map or the committed `coverage.json` falls
-out of step. The field map itself is checked against the golden outputs. After
-changing the field map, re-run the export. After changing an adapter,
+The Python tests fail if either field map or the committed `coverage.json`
+falls out of step. Each field map is checked against its golden outputs. After
+changing a field map, re-run the export. After changing an adapter,
 regenerate the fixtures with `scripts/generate_fixtures.py` first, since that
 check reads the golden outputs.
 
