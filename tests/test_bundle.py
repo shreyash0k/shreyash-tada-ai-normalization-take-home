@@ -79,17 +79,27 @@ class BundleEnvelopeChecks(unittest.TestCase):
         data["responses"]["deductions"] = []
         self.assertRejected(data, "responses.deductions must be a JSON dict", entity="deduction")
 
+    def test_payroll_keys_per_provider(self):
+        self.assertRejected(raw_bundle("prismhr"), "responses.get_batch_list_by_date is required", entity="payroll")
+        self.assertRejected(raw_bundle("isolved"), "responses.payroll_run_history is required", entity="payroll")
+        self.assertRejected(raw_bundle("ukg-ready"), "responses.payrolls is required", entity="payroll")
+        data = raw_bundle("prismhr")
+        data["responses"].update(get_batch_list_by_date={"batchList": []}, get_payroll_voucher_for_batch=[])
+        self.assertRejected(data, "responses.get_payroll_voucher_for_batch must be a JSON dict", entity="payroll")
+
     def test_one_bundle_can_feed_every_entity(self):
         data = raw_bundle("isolved")
         data["responses"]["direct_deposits"] = raw_bundle("isolved", "direct-deposit")["responses"]["direct_deposits"]
         data["responses"]["pay_items"] = raw_bundle("isolved", "deduction")["responses"]["pay_items"]
+        payroll = raw_bundle("isolved", "payroll")["responses"]
+        data["responses"].update(payroll_run_history=payroll["payroll_run_history"], checks=payroll["checks"])
         for entity in ENTITIES:
             with self.subTest(entity=entity):
                 self.assertEqual(parse_bundle(data, entity=entity).provider, "isolved")
 
     def test_entities_without_bundles_are_refused(self):
         with self.assertRaises(ValueError):
-            parse_bundle(raw_bundle("prismhr"), entity="payroll")
+            parse_bundle(raw_bundle("prismhr"), entity="company")
 
     def test_optional_keys_may_be_absent(self):
         data = copy.deepcopy(raw_bundle("isolved"))

@@ -1,6 +1,6 @@
 """Helpers shared by every adapter.
 
-Three ideas live here:
+Four ideas live here:
 
 * ``Reader`` wraps a raw provider document and remembers which JSON paths an
   adapter consumed. Whatever is left over becomes the employee's ``unmapped``
@@ -11,6 +11,8 @@ Three ideas live here:
 * ``CodeTable`` is a documented code -> canonical enum mapping with its
   evidence pointer. ``Collector.code`` turns a raw code into a ``CodedValue``
   and reports codes the table does not know.
+* ``line_readers`` gives each line of a paycheck its own ``Reader``, so a
+  line's ``unmapped`` holds only that line's leftover fields.
 """
 import re
 from dataclasses import dataclass
@@ -146,6 +148,7 @@ class Collector:
 
     def __init__(self):
         self.issues: list[Issue] = []
+        self._seen: dict[str, set] = {}
 
     def add(self, code: IssueCode, severity: Severity, source_path: str, action: str,
             record_key: Optional[str] = None, raw_value: Any = None,
@@ -245,6 +248,15 @@ class Collector:
             member = table.enum.UNKNOWN
         return CodedValue(raw=raw, label=label, value=member)
 
+    def code_once(self, table: CodeTable, raw: Any, path: str, record_key: Optional[str],
+                  label: Optional[str] = None,
+                  issue_code: Optional[IssueCode] = None) -> Optional[CodedValue]:
+        """Like ``code``, but a value the table does not know is reported only the first time it appears."""
+        seen = self._seen.setdefault(table.name, set())
+        target = self if str(raw) not in seen else Collector()
+        seen.add(str(raw))
+        return target.code(table, raw, path, record_key, label, issue_code)
+
     @staticmethod
     def raw_code(raw: Any, label: Optional[str] = None) -> Optional[CodedValue]:
         """A tenant-defined code with no canonical domain: keep raw and label only."""
@@ -253,6 +265,26 @@ class Collector:
         if not isinstance(raw, (str, int)) or isinstance(raw, bool):
             raw = str(raw)
         return CodedValue(raw=raw, label=text(label), value=None)
+
+
+def line_readers(reader: Reader, name: str) -> list[Reader]:
+    """One reader per object in the array ``name``, each keeping its own leftovers.
+
+    The array is consumed from ``reader`` when it is a list or null; any other
+    value stays in the parent's ``unmapped``.
+    """
+    items = reader.peek(name)
+    if items is not None and not isinstance(items, list):
+        return []
+    reader.consume(name)
+    base = reader.path(name)
+    return [Reader(item, f"{base}[{index}]") for index, item in enumerate(items or [])
+            if isinstance(item, dict)]
+
+
+def nonzero(raw: Any) -> bool:
+    """False for a missing, empty or zero amount."""
+    return raw not in (None, "", 0)
 
 
 def boolean(raw: Any) -> Optional[bool]:

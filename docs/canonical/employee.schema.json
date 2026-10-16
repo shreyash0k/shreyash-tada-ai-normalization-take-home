@@ -2,19 +2,21 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home/docs/canonical/employee.schema.json",
   "title": "NormalizedOutput",
-  "description": "Output of `normalize --entity employee`, `--entity direct-deposit` or `--entity deduction`: one company stub, the canonical records for the requested entity (the other lists are empty), and the issues found while normalizing. Dates are ISO 8601 strings; money amounts and percentages are decimal strings; enums are their string values.",
+  "description": "Output of `normalize --entity employee`, `--entity direct-deposit`, `--entity deduction` or `--entity payroll`: one company stub, the canonical records for the requested entity (the other lists are empty), and the issues found while normalizing. Dates are ISO 8601 strings; money amounts and percentages are decimal strings; enums are their string values.",
   "$ref": "#/$defs/NormalizedOutput",
   "$defs": {
     "NormalizedOutput": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["provider", "company", "employees", "direct_deposits", "deductions", "issues", "schema_version"],
+      "required": ["provider", "company", "employees", "direct_deposits", "deductions", "pay_runs", "paychecks", "issues", "schema_version"],
       "properties": {
         "provider": {"type": "string", "enum": ["prismhr", "isolved", "ukg-ready"]},
         "company": {"$ref": "#/$defs/Company"},
         "employees": {"type": "array", "items": {"$ref": "#/$defs/Employee"}},
         "direct_deposits": {"type": "array", "items": {"$ref": "#/$defs/DirectDeposit"}},
         "deductions": {"type": "array", "items": {"$ref": "#/$defs/Deduction"}},
+        "pay_runs": {"type": "array", "items": {"$ref": "#/$defs/PayRun"}},
+        "paychecks": {"type": "array", "items": {"$ref": "#/$defs/Paycheck"}},
         "issues": {"type": "array", "items": {"$ref": "#/$defs/Issue"}},
         "schema_version": {"type": "string", "const": "1"}
       }
@@ -270,6 +272,129 @@
       "properties": {
         "id": {"type": ["string", "null"]},
         "name": {"type": ["string", "null"]}
+      }
+    },
+    "PayRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "company_key", "source", "type", "status", "pay_date", "period", "description", "pay_group", "unmapped"],
+      "properties": {
+        "key": {"type": "string", "description": "company key + ':run:' + pay_run_id"},
+        "company_key": {"type": "string"},
+        "source": {"$ref": "#/$defs/PayRunSource"},
+        "type": {"$ref": "#/$defs/NullableCodedValue"},
+        "status": {"$ref": "#/$defs/NullableCodedValue"},
+        "pay_date": {"$ref": "#/$defs/NullableDate"},
+        "period": {"$ref": "#/$defs/NullableDateRange"},
+        "description": {"type": ["string", "null"]},
+        "pay_group": {"$ref": "#/$defs/NullableCodedValue", "description": "The provider's pay group or EIN ID and name; value is always null."},
+        "unmapped": {"type": "object", "description": "Every provider field of the run not consumed by a mapping, keyed by its source JSON path.", "additionalProperties": true}
+      }
+    },
+    "PayRunSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "company_id", "pay_run_id"],
+      "properties": {
+        "provider": {"type": "string"},
+        "company_id": {"type": "string"},
+        "pay_run_id": {"type": "string"}
+      }
+    },
+    "Paycheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "employee_key", "company_key", "source", "pay_run_key", "type", "status", "pay_date", "period", "check_number", "gross_pay", "net_pay", "void_date", "earnings", "taxes", "deductions", "employer_contributions", "payments", "unmapped"],
+      "properties": {
+        "key": {"type": "string", "description": "employee key + ':chk:' + paycheck_id"},
+        "employee_key": {"type": "string"},
+        "company_key": {"type": "string"},
+        "source": {"$ref": "#/$defs/PaycheckSource"},
+        "pay_run_key": {"type": ["string", "null"], "description": "Key of the pay run, or null when the run was not captured."},
+        "type": {"$ref": "#/$defs/NullableCodedValue"},
+        "status": {"$ref": "#/$defs/NullableCodedValue"},
+        "pay_date": {"$ref": "#/$defs/NullableDate"},
+        "period": {"$ref": "#/$defs/NullableDateRange"},
+        "check_number": {"type": ["string", "null"]},
+        "gross_pay": {"$ref": "#/$defs/NullableMoney", "description": "As sent by the provider; never summed from the lines."},
+        "net_pay": {"$ref": "#/$defs/NullableMoney", "description": "As sent by the provider; never summed from the lines."},
+        "void_date": {"$ref": "#/$defs/NullableDate"},
+        "earnings": {"type": "array", "items": {"$ref": "#/$defs/EarningLine"}},
+        "taxes": {"type": "array", "items": {"$ref": "#/$defs/TaxLine"}},
+        "deductions": {"type": "array", "items": {"$ref": "#/$defs/DeductionLine"}},
+        "employer_contributions": {"type": "array", "items": {"$ref": "#/$defs/ContributionLine"}},
+        "payments": {"type": "array", "items": {"$ref": "#/$defs/PaymentLine"}},
+        "unmapped": {"type": "object", "description": "Every provider field of the paycheck not consumed by a mapping, keyed by its source JSON path.", "additionalProperties": true}
+      }
+    },
+    "PaycheckSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "company_id", "employee_id", "paycheck_id", "pay_run_id"],
+      "properties": {
+        "provider": {"type": "string"},
+        "company_id": {"type": "string"},
+        "employee_id": {"type": "string"},
+        "paycheck_id": {"type": "string"},
+        "pay_run_id": {"type": ["string", "null"]}
+      }
+    },
+    "EarningLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "category", "hours", "rate", "amount", "unmapped"],
+      "properties": {
+        "code": {"$ref": "#/$defs/NullableCodedValue", "description": "The tenant's earning code and name; value is always null."},
+        "category": {"$ref": "#/$defs/NullableCodedValue"},
+        "hours": {"$ref": "#/$defs/NullableDecimal"},
+        "rate": {"$ref": "#/$defs/NullableMoney"},
+        "amount": {"$ref": "#/$defs/NullableMoney"},
+        "unmapped": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "TaxLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "employee_amount", "employer_amount", "employee_taxable_wages", "employer_taxable_wages", "unmapped"],
+      "properties": {
+        "code": {"$ref": "#/$defs/NullableCodedValue"},
+        "employee_amount": {"$ref": "#/$defs/NullableMoney"},
+        "employer_amount": {"$ref": "#/$defs/NullableMoney"},
+        "employee_taxable_wages": {"$ref": "#/$defs/NullableMoney"},
+        "employer_taxable_wages": {"$ref": "#/$defs/NullableMoney"},
+        "unmapped": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "DeductionLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "category", "amount", "unmapped"],
+      "properties": {
+        "code": {"$ref": "#/$defs/NullableCodedValue"},
+        "category": {"$ref": "#/$defs/NullableCodedValue"},
+        "amount": {"$ref": "#/$defs/NullableMoney"},
+        "unmapped": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "ContributionLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "amount", "unmapped"],
+      "properties": {
+        "code": {"$ref": "#/$defs/NullableCodedValue"},
+        "amount": {"$ref": "#/$defs/NullableMoney"},
+        "unmapped": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "PaymentLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "amount", "account_last4", "unmapped"],
+      "properties": {
+        "method": {"$ref": "#/$defs/NullableCodedValue"},
+        "amount": {"$ref": "#/$defs/NullableMoney"},
+        "account_last4": {"type": ["string", "null"], "pattern": "^\\d{4}$"},
+        "unmapped": {"type": "object", "additionalProperties": true}
       }
     },
     "DateRange": {

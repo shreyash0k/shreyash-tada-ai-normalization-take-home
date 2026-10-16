@@ -1,0 +1,580 @@
+{
+  "bundle_version": 1,
+  "provider": "ukg-ready",
+  "captured_at": "2026-10-15",
+  "request": {
+    "company_id": "33704016"
+  },
+  "responses": {
+    "payrolls": {
+      "payrolls": [
+        {
+          "id": 4332470001,
+          "name": "Primary-EIN Regular Bi-Weekly 01/09/2026",
+          "start_date": "2025-12-21",
+          "end_date": "2026-01-03",
+          "pay_date": "2026-01-09",
+          "type": {
+            "id": 641,
+            "display_name": "Regular"
+          },
+          "status": "FINALIZED",
+          "ein": {
+            "id": 35419520,
+            "ein_name": "Primary EIN",
+            "ein_tax_id": "12-3456789"
+          },
+          "billable": true,
+          "direct_deposit_date": "2026-01-09",
+          "sch_submit_date_time": null,
+          "invoice_generator_id": null,
+          "adjustment_grab_YTD_from_payroll_id": null,
+          "dflt_pay_statement_type_id": 36656000,
+          "dflt_pay_stub_note": "",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001"
+          }
+        },
+        {
+          "id": 4332470002,
+          "name": "Correction 01/16/2026",
+          "start_date": "2025-12-21",
+          "end_date": "2026-01-03",
+          "pay_date": "2026-01-16",
+          "type": {
+            "id": 706,
+            "display_name": "Correction"
+          },
+          "status": "OPEN",
+          "ein": {
+            "id": 35419520,
+            "ein_name": "Primary EIN",
+            "ein_tax_id": "12-3456789"
+          },
+          "billable": true,
+          "direct_deposit_date": "2026-01-16",
+          "sch_submit_date_time": null,
+          "invoice_generator_id": null,
+          "adjustment_grab_YTD_from_payroll_id": null,
+          "dflt_pay_statement_type_id": 36656000,
+          "dflt_pay_stub_note": "",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470002"
+          }
+        },
+        {
+          "id": 4332470003,
+          "name": "Paused run",
+          "start_date": "2026-01-04",
+          "end_date": "2026-01-17",
+          "pay_date": "2026-01-23",
+          "type": {
+            "id": 641,
+            "display_name": "Regular"
+          },
+          "status": "PAUSED",
+          "ein": {
+            "id": 35419520,
+            "ein_name": "Primary EIN",
+            "ein_tax_id": "12-3456789"
+          },
+          "billable": true,
+          "direct_deposit_date": "2026-01-23",
+          "sch_submit_date_time": null,
+          "invoice_generator_id": null,
+          "adjustment_grab_YTD_from_payroll_id": null,
+          "dflt_pay_statement_type_id": 36656000,
+          "dflt_pay_stub_note": "",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470003"
+          }
+        },
+        {
+          "id": 4332470004,
+          "name": "Failed close",
+          "start_date": "2026-01-18",
+          "end_date": "2026-01-31",
+          "pay_date": "2026-02-06",
+          "type": {
+            "id": 641,
+            "display_name": "Regular"
+          },
+          "status": "CLOSE_FAILED",
+          "ein": {
+            "id": 35419520,
+            "ein_name": "Primary EIN",
+            "ein_tax_id": "12-3456789"
+          },
+          "billable": true,
+          "direct_deposit_date": "2026-02-06",
+          "sch_submit_date_time": null,
+          "invoice_generator_id": null,
+          "adjustment_grab_YTD_from_payroll_id": null,
+          "dflt_pay_statement_type_id": 36656000,
+          "dflt_pay_stub_note": "",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470004"
+          }
+        }
+      ]
+    },
+    "pay_statements": {
+      "4332470001": {
+        "pay_statements": [
+          {
+            "employee": {
+              "account_id": 12935181566
+            },
+            "id": 85940001,
+            "pay_date": "2026-01-09",
+            "status": "FINALIZED",
+            "type": {
+              "id": 36656000,
+              "display_name": "Regular"
+            },
+            "pay_period_start": "2025-12-21",
+            "pay_period_end": "2026-01-03",
+            "calcUpto": null,
+            "emptyEarning": false,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85940001"
+            }
+          },
+          {
+            "employee": {
+              "account_id": 12935181567
+            },
+            "id": 85940002,
+            "pay_date": "2026-01-09",
+            "status": "OPEN",
+            "type": {
+              "id": 36656002,
+              "display_name": "Gross Up"
+            },
+            "pay_period_start": "2025-12-21",
+            "pay_period_end": "2026-01-03",
+            "calcUpto": null,
+            "emptyEarning": false,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85940002"
+            }
+          },
+          {
+            "employee": {
+              "account_id": 12935181568
+            },
+            "id": 85940003,
+            "pay_date": "2026-01-09",
+            "status": "CLOSED",
+            "type": {
+              "id": 36656000,
+              "display_name": "Regular"
+            },
+            "pay_period_start": "2025-12-21",
+            "pay_period_end": "2026-01-03",
+            "calcUpto": null,
+            "emptyEarning": false,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85940003"
+            }
+          }
+        ]
+      },
+      "4332470002": {
+        "pay_statements": [
+          {
+            "employee": {
+              "account_id": 12935181569
+            },
+            "id": 85940004,
+            "pay_date": "2026-01-16",
+            "status": "INVALID",
+            "type": {
+              "id": 36656000,
+              "display_name": "Regular"
+            },
+            "pay_period_start": "2025-12-21",
+            "pay_period_end": "2026-01-03",
+            "calcUpto": null,
+            "emptyEarning": false,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470002/pay-statements/85940004"
+            }
+          }
+        ]
+      },
+      "4332470004": {
+        "pay_statements": []
+      },
+      "4332479999": {
+        "pay_statements": [
+          {
+            "employee": {
+              "account_id": 12935181570
+            },
+            "id": 85940005,
+            "pay_date": "2026-02-20",
+            "status": "NEW",
+            "type": {
+              "id": 36656000,
+              "display_name": "Regular"
+            },
+            "pay_period_start": "2026-02-01",
+            "pay_period_end": "2026-02-14",
+            "calcUpto": null,
+            "emptyEarning": false,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332479999/pay-statements/85940005"
+            }
+          }
+        ]
+      }
+    },
+    "pay_statement_detail": {
+      "85940001": {
+        "employee": {
+          "account_id": 12935181566
+        },
+        "id": 85940001,
+        "pay_date": "2026-01-09",
+        "status": "FINALIZED",
+        "type": {
+          "id": 36656000,
+          "display_name": "Regular"
+        },
+        "pay_period_start": "2025-12-21",
+        "pay_period_end": "2026-01-03",
+        "earnings": [
+          {
+            "id": 1,
+            "type_name": "Earning",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "hours": 288000000,
+            "base_rate": 25.0,
+            "quantity": 0,
+            "ee_amount": 2000.0,
+            "cost_centers": [],
+            "earning": {
+              "name": "Regular",
+              "external_id": "",
+              "code": "REG",
+              "id": 101
+            }
+          },
+          {
+            "id": 2,
+            "type_name": "Earning",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "hours": 7200000,
+            "base_rate": 37.5,
+            "quantity": 0,
+            "ee_amount": 75.0,
+            "cost_centers": [],
+            "earning": {
+              "name": "Overtime",
+              "external_id": "",
+              "code": "OT",
+              "id": 102
+            }
+          }
+        ],
+        "deductions": [
+          {
+            "id": 3,
+            "type_name": "Deduction (Auto)",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "quantity": 0,
+            "base_rate": 0,
+            "vendor": null,
+            "cost_centers": [],
+            "deduction": {
+              "name": "401k",
+              "external_id": "",
+              "code": "401k"
+            },
+            "ee_gross_wage": 2075.0,
+            "ee_subject_wage": 2075.0,
+            "ee_gross_subject_wage": 2075.0,
+            "ee_amount": 120.0,
+            "er_amount": 60.0
+          },
+          {
+            "id": 4,
+            "type_name": "Deduction (Auto)",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "quantity": 0,
+            "base_rate": 0,
+            "vendor": null,
+            "cost_centers": [],
+            "deduction": {
+              "name": "Medical",
+              "external_id": "",
+              "code": "S125_Med"
+            },
+            "ee_gross_wage": 2075.0,
+            "ee_subject_wage": 2075.0,
+            "ee_gross_subject_wage": 2075.0,
+            "ee_amount": 45.5,
+            "er_amount": 0.0
+          },
+          {
+            "id": 5,
+            "type_name": "Deduction (Auto)",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "quantity": 0,
+            "base_rate": 0,
+            "vendor": null,
+            "cost_centers": [],
+            "deduction": {
+              "name": "HSA Employer",
+              "external_id": "",
+              "code": "ER_HSA"
+            },
+            "ee_gross_wage": 2075.0,
+            "ee_subject_wage": 2075.0,
+            "ee_gross_subject_wage": 2075.0,
+            "ee_amount": 0.0,
+            "er_amount": 25.0
+          },
+          {
+            "id": 6,
+            "type_name": "Deduction (Discarded)",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "quantity": 0,
+            "base_rate": 0,
+            "vendor": null,
+            "cost_centers": [],
+            "deduction": {
+              "name": "401K Loan 1",
+              "external_id": "",
+              "code": "401K Loan 1"
+            },
+            "ee_gross_wage": 2075.0,
+            "ee_subject_wage": 2075.0,
+            "ee_gross_subject_wage": 2075.0,
+            "ee_amount": 30.0
+          }
+        ],
+        "taxes": [
+          {
+            "id": 7,
+            "type_name": "Tax",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "ee_amount": 210.0,
+            "er_amount": 0.0,
+            "ee_gross_wage": 2075.0,
+            "ee_subject_wage": 1954.5,
+            "ee_gross_subject_wage": 1954.5,
+            "er_gross_wage": 2075.0,
+            "er_subject_wage": 1954.5,
+            "er_gross_subject_wage": 1954.5,
+            "company_tax": {
+              "code": "FIT",
+              "name": "Federal Income Tax",
+              "abbrev": "FIT"
+            }
+          },
+          {
+            "id": 8,
+            "type_name": "Tax",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "ee_amount": 128.65,
+            "er_amount": 128.65,
+            "ee_gross_wage": 2075.0,
+            "ee_subject_wage": 2075.0,
+            "ee_gross_subject_wage": 2075.0,
+            "er_gross_wage": 2075.0,
+            "er_subject_wage": 2075.0,
+            "er_gross_subject_wage": 2075.0,
+            "company_tax": {
+              "code": "SS",
+              "name": "Social Security",
+              "abbrev": "SS"
+            }
+          }
+        ],
+        "messages": [
+          {
+            "id": 11,
+            "type_name": "Message",
+            "message": {
+              "text": "Synthetic note",
+              "severity": "INFO"
+            },
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            }
+          }
+        ],
+        "payments": [
+          {
+            "id": 9,
+            "hours": 0,
+            "quantity": 0,
+            "ee_amount": 1500.0,
+            "type_name": "Direct Deposit",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            }
+          },
+          {
+            "id": 10,
+            "hours": 0,
+            "quantity": 0,
+            "ee_amount": 40.85,
+            "type_name": "Check",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            }
+          }
+        ]
+      },
+      "85940002": {
+        "employee": {
+          "account_id": 12935181567
+        },
+        "id": 85940002,
+        "pay_date": "2026-01-09",
+        "status": "OPEN",
+        "type": {
+          "id": 36656002,
+          "display_name": "Gross Up"
+        },
+        "pay_period_start": "2025-12-21",
+        "pay_period_end": "2026-01-03",
+        "earnings": [
+          {
+            "id": 12,
+            "type_name": "Earning",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "hours": "eight hours",
+            "base_rate": 20.0,
+            "quantity": 0,
+            "ee_amount": 160.0,
+            "cost_centers": [],
+            "earning": {
+              "name": "Regular",
+              "external_id": "",
+              "code": "REG",
+              "id": 112
+            }
+          }
+        ],
+        "deductions": [],
+        "taxes": [],
+        "messages": [],
+        "payments": [
+          {
+            "id": 13,
+            "hours": 0,
+            "quantity": 0,
+            "ee_amount": 160.0,
+            "type_name": "Pay Card",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            }
+          }
+        ]
+      },
+      "85940004": {
+        "employee": {
+          "account_id": 12935181569
+        },
+        "id": 85940004,
+        "pay_date": "2026-01-16",
+        "status": "INVALID",
+        "type": {
+          "id": 36656000,
+          "display_name": "Regular"
+        },
+        "pay_period_start": "2025-12-21",
+        "pay_period_end": "2026-01-03",
+        "earnings": [],
+        "deductions": [],
+        "taxes": [],
+        "messages": [],
+        "payments": []
+      },
+      "85940005": {
+        "employee": {
+          "account_id": 12935181570
+        },
+        "id": 85940005,
+        "pay_date": "2026-02-20",
+        "status": "NEW",
+        "type": {
+          "id": 36656000,
+          "display_name": "Regular"
+        },
+        "pay_period_start": "2026-02-01",
+        "pay_period_end": "2026-02-14",
+        "earnings": [
+          {
+            "id": 14,
+            "type_name": "Earning",
+            "batch": {
+              "id": 1,
+              "display_name": "Auto"
+            },
+            "hours": 144000000,
+            "base_rate": 25.0,
+            "quantity": 0,
+            "ee_amount": 1000.0,
+            "cost_centers": [],
+            "earning": {
+              "name": "Regular",
+              "external_id": "",
+              "code": "REG",
+              "id": 114
+            }
+          }
+        ],
+        "deductions": [],
+        "taxes": [],
+        "messages": [],
+        "payments": []
+      }
+    },
+    "lookup_eins": {
+      "items": [
+        {
+          "id": 35419520,
+          "ein_name": "Primary EIN",
+          "ein_tax_id": "12-3456789",
+          "ein_country_id": "USA"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1745 @@
+{
+  "bundle_version": 1,
+  "provider": "isolved",
+  "captured_at": "2026-10-15",
+  "request": {
+    "client_id": "4046",
+    "legal_id": "5806"
+  },
+  "responses": {
+    "employees": [
+      {
+        "nextPageUrl": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees?pageSize=3&page=2",
+        "previousPageUrl": null,
+        "results": [
+          {
+            "id": 859201,
+            "acaEmploymentStatus": "ACA Full Time",
+            "annualSalary": 109947.34,
+            "birthDate": "1976-12-11T00:00:00",
+            "emailAddress": "casey1@example.test",
+            "employeeNumber": "1",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2021-12-05T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "Hispanic or Latino",
+            "gender": "Male",
+            "hireDate": "2021-12-05T00:00:00",
+            "hourlyRate": 52.8593,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "450",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2021-12-05T00:00:00",
+            "jobFLSAExempt": true,
+            "jobId": 92001,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Coordinator",
+            "legalCode": "BK422-1",
+            "maritalStatus": "Married",
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245001,
+              "address1": "2229 Birch Ct",
+              "address2": null,
+              "city": "Springfield",
+              "firstName": "Casey",
+              "lastName": "Whitfield",
+              "middleName": "D",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "IL0350270",
+              "state": "IL",
+              "suffix": null,
+              "zipCode": "62704",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2021-12-05T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Salary",
+            "perPaySalary": 9162.28,
+            "personal": {
+              "id": 1245001,
+              "faxNumber": null,
+              "homePhone": "4926397291",
+              "mobilePhone": "7495769595",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2021-12-05T00:00:00",
+            "ssn": "",
+            "statusDate": "2021-12-05T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "citizenship": "Citizen of the United States",
+            "isManager": true,
+            "isSupervisor": true
+          },
+          {
+            "id": 859202,
+            "acaEmploymentStatus": "ACA Full Time",
+            "annualSalary": 82162.91,
+            "birthDate": "1974-05-13T00:00:00",
+            "emailAddress": "casey2@example.test",
+            "employeeNumber": "2",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2019-07-27T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "White (Not Hispanic or Latino)",
+            "gender": "Female",
+            "hireDate": "2019-07-27T00:00:00",
+            "hourlyRate": 39.5014,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "100",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2019-07-27T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92002,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Technician",
+            "legalCode": "BK422-1",
+            "maritalStatus": "Single",
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245002,
+              "address1": "6839 Cedar Ln",
+              "address2": null,
+              "city": "Georgetown",
+              "firstName": "Casey",
+              "lastName": "Haddad",
+              "middleName": "D",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "TX0350270",
+              "state": "TX",
+              "suffix": null,
+              "zipCode": "78626",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2019-07-27T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Hourly",
+            "perPaySalary": 6846.91,
+            "personal": {
+              "id": 1245002,
+              "faxNumber": null,
+              "homePhone": null,
+              "mobilePhone": "6167438722",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2019-07-27T00:00:00",
+            "ssn": "",
+            "statusDate": "2019-07-27T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          },
+          {
+            "id": 859203,
+            "acaEmploymentStatus": "ACA Full Time",
+            "annualSalary": 49044.32,
+            "birthDate": "1972-07-22T00:00:00",
+            "emailAddress": "reese3@example.test",
+            "employeeNumber": "3",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2019-12-06T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Terminated",
+            "enableSelfService": false,
+            "ethnicOrigin": "Asian",
+            "gender": "Female",
+            "hireDate": "2019-12-06T00:00:00",
+            "hourlyRate": 23.579,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "200",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2019-12-06T00:00:00",
+            "jobFLSAExempt": true,
+            "jobId": 92003,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Analyst",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245003,
+              "address1": "1854 Birch Ct",
+              "address2": null,
+              "city": "Springfield",
+              "firstName": "Reese",
+              "lastName": "Petrov",
+              "middleName": "J",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "IL0350270",
+              "state": "IL",
+              "suffix": null,
+              "zipCode": "62704",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2019-12-06T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Salary",
+            "perPaySalary": 4087.03,
+            "personal": {
+              "id": 1245003,
+              "faxNumber": null,
+              "homePhone": "5238857460",
+              "mobilePhone": "9003802051",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2019-12-06T00:00:00",
+            "ssn": "884-21-4948",
+            "statusDate": "2024-03-29T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "terminationDate": "2024-03-29T00:00:00",
+            "terminationReason": "Retirement",
+            "terminationType": "Voluntary Termination",
+            "eligibleForRehire": false,
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          }
+        ],
+        "totalItems": 6,
+        "totalPages": 2.0
+      },
+      {
+        "nextPageUrl": null,
+        "previousPageUrl": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees?pageSize=3&page=1",
+        "results": [
+          {
+            "id": 859204,
+            "acaEmploymentStatus": "ACA Variable",
+            "annualSalary": 35802.62,
+            "birthDate": "1974-02-02T00:00:00",
+            "emailAddress": "rowan4@example.test",
+            "employeeNumber": "4",
+            "employmentCategoryCode": "PT",
+            "employmentCategoryEffectiveDate": "2022-03-27T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Leave of Absence",
+            "enableSelfService": false,
+            "ethnicOrigin": "White (Not Hispanic or Latino)",
+            "gender": "Non-binary",
+            "hireDate": "2022-03-27T00:00:00",
+            "hourlyRate": 17.2128,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "400",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2022-03-27T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92004,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Driver",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245004,
+              "address1": "5776 Maple Ave",
+              "address2": null,
+              "city": "Georgetown",
+              "firstName": "Rowan",
+              "lastName": "Haddad",
+              "middleName": "A",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "TX0350270",
+              "state": "TX",
+              "suffix": null,
+              "zipCode": "78626",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 86.67,
+            "originalHireDate": "2022-03-27T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Hourly",
+            "perPaySalary": 2983.55,
+            "personal": {
+              "id": 1245004,
+              "faxNumber": null,
+              "homePhone": null,
+              "mobilePhone": "6023047193",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2022-03-27T00:00:00",
+            "ssn": "",
+            "statusDate": "2022-03-27T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          },
+          {
+            "id": 859205,
+            "acaEmploymentStatus": "ACA Variable",
+            "annualSalary": 0.0,
+            "birthDate": "2001-12-01T00:00:00",
+            "emailAddress": "harper5@example.test",
+            "employeeNumber": "5",
+            "employmentCategoryCode": "PT",
+            "employmentCategoryEffectiveDate": "2019-03-23T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "Hispanic or Latino",
+            "gender": "Male",
+            "hireDate": "2019-03-23T00:00:00",
+            "hourlyRate": 41.7057,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "200",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2019-03-23T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92005,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Coordinator",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245005,
+              "address1": "5702 Cedar Ln",
+              "address2": null,
+              "city": "Fairview",
+              "firstName": "Harper",
+              "lastName": "Marchetti",
+              "middleName": "K",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "OR0350270",
+              "state": "OR",
+              "suffix": null,
+              "zipCode": "97024",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 86.67,
+            "originalHireDate": "2019-03-23T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "1099",
+            "perPaySalary": 0.0,
+            "personal": {
+              "id": 1245005,
+              "faxNumber": null,
+              "homePhone": "9329254866",
+              "mobilePhone": "3595914428",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "not-a-date",
+            "ssn": "",
+            "statusDate": "2019-03-23T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "rehireDate": "2023-01-09T00:00:00",
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          },
+          {
+            "id": 859206,
+            "annualSalary": 106221.23,
+            "birthDate": "1965-07-07T00:00:00",
+            "emailAddress": "skyler6@example.test",
+            "employeeNumber": "6",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2023-01-04T00:00:00",
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "White (Not Hispanic or Latino)",
+            "gender": "Female",
+            "hireDate": "2023-01-04T00:00:00",
+            "hourlyRate": 51.0679,
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "400",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2023-01-04T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92006,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Coordinator",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "nameAddress": {
+              "id": 1245006,
+              "address1": "3913 Harbor Rd",
+              "address2": null,
+              "city": "Springfield",
+              "firstName": "Skyler",
+              "lastName": "Marchetti",
+              "middleName": "C",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "IL0350270",
+              "state": "IL",
+              "suffix": null,
+              "zipCode": "62704",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2023-01-04T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Hourly",
+            "perPaySalary": 8851.77,
+            "personal": {
+              "id": 1245006,
+              "faxNumber": null,
+              "homePhone": null,
+              "mobilePhone": "6486218696",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "protectedVeteran": false,
+            "salaryEffectiveDate": "2023-01-04T00:00:00",
+            "ssn": "",
+            "statusDate": "2023-01-04T00:00:00",
+            "tobaccoUse": false,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ]
+          }
+        ],
+        "totalItems": 6,
+        "totalPages": 2.0
+      }
+    ],
+    "payroll_run_history": {
+      "7627": [
+        {
+          "id": 4100001,
+          "impoundDate": "2026-01-09T00:00:00",
+          "inputMethod": "Time Entry",
+          "payDate": "2026-01-09T00:00:00",
+          "payOfTheMonth": "1st Payroll of Month",
+          "payPeriod": 26,
+          "payrollRunType": "Regular Payroll",
+          "periodBeginDate": "2025-12-22T00:00:00",
+          "periodEndDate": "2026-01-04T00:00:00",
+          "processApprovedBy": null,
+          "processedBy": "synthetic",
+          "regularCheckAutoPay": false,
+          "runDate": "2026-01-09T00:00:00",
+          "runNumber": 1,
+          "runTime": "09:00:00",
+          "scheduledPayDate": "2026-01-09T00:00:00",
+          "scheduledRunDate": "2026-01-09T00:00:00",
+          "status": "Completed Payroll Run",
+          "submittedBy": null,
+          "submittedDate": null,
+          "submittedTime": null,
+          "suppressPayStubEmailAlert": false
+        },
+        {
+          "id": 4100002,
+          "impoundDate": "2026-01-23T00:00:00",
+          "inputMethod": "Time Entry",
+          "payDate": "2026-01-23T00:00:00",
+          "payOfTheMonth": "",
+          "payPeriod": 26,
+          "payrollRunType": "Regular Payroll",
+          "periodBeginDate": null,
+          "periodEndDate": null,
+          "processApprovedBy": null,
+          "processedBy": "synthetic",
+          "regularCheckAutoPay": false,
+          "runDate": "2026-01-23T00:00:00",
+          "runNumber": 0,
+          "runTime": "09:00:00",
+          "scheduledPayDate": "2026-01-23T00:00:00",
+          "scheduledRunDate": "2026-01-23T00:00:00",
+          "status": "Payroll Not Processed",
+          "submittedBy": null,
+          "submittedDate": null,
+          "submittedTime": null,
+          "suppressPayStubEmailAlert": false
+        },
+        {
+          "id": 4100003,
+          "impoundDate": "2026-01-09T00:00:00",
+          "inputMethod": "Time Entry",
+          "payDate": "2026-01-09T00:00:00",
+          "payOfTheMonth": "",
+          "payPeriod": 26,
+          "payrollRunType": "Data Conversion",
+          "periodBeginDate": null,
+          "periodEndDate": null,
+          "processApprovedBy": null,
+          "processedBy": "synthetic",
+          "regularCheckAutoPay": false,
+          "runDate": "2026-01-09T00:00:00",
+          "runNumber": 2,
+          "runTime": "09:00:00",
+          "scheduledPayDate": "2026-01-09T00:00:00",
+          "scheduledRunDate": "2026-01-09T00:00:00",
+          "status": "Completed Payroll Run",
+          "submittedBy": null,
+          "submittedDate": null,
+          "submittedTime": null,
+          "suppressPayStubEmailAlert": false
+        },
+        {
+          "id": 4100004,
+          "impoundDate": "2026-02-06T00:00:00",
+          "inputMethod": "Time Entry",
+          "payDate": "2026-02-06T00:00:00",
+          "payOfTheMonth": "",
+          "payPeriod": 26,
+          "payrollRunType": "Regular Payroll",
+          "periodBeginDate": null,
+          "periodEndDate": null,
+          "processApprovedBy": null,
+          "processedBy": "synthetic",
+          "regularCheckAutoPay": false,
+          "runDate": "2026-02-06T00:00:00",
+          "runNumber": 1,
+          "runTime": "09:00:00",
+          "scheduledPayDate": "2026-02-06T00:00:00",
+          "scheduledRunDate": "2026-02-06T00:00:00",
+          "status": "Payroll Voided",
+          "submittedBy": null,
+          "submittedDate": null,
+          "submittedTime": null,
+          "suppressPayStubEmailAlert": false
+        },
+        {
+          "id": 4100005,
+          "impoundDate": "2026-02-06T00:00:00",
+          "inputMethod": "Time Entry",
+          "payDate": "2026-02-06T00:00:00",
+          "payOfTheMonth": "",
+          "payPeriod": 26,
+          "payrollRunType": "Regular Payroll",
+          "periodBeginDate": null,
+          "periodEndDate": null,
+          "processApprovedBy": null,
+          "processedBy": "synthetic",
+          "regularCheckAutoPay": false,
+          "runDate": "2026-02-06T00:00:00",
+          "runNumber": 1,
+          "runTime": "09:00:00",
+          "scheduledPayDate": "2026-02-06T00:00:00",
+          "scheduledRunDate": "2026-02-06T00:00:00",
+          "status": "Completed Payroll Run",
+          "submittedBy": null,
+          "submittedDate": null,
+          "submittedTime": null,
+          "suppressPayStubEmailAlert": false
+        }
+      ]
+    },
+    "checks": {
+      "859201": [
+        {
+          "nextPageUrl": null,
+          "previousPageUrl": null,
+          "results": [
+            {
+              "id": 21000101,
+              "accruals": null,
+              "benefits": null,
+              "checkAmount": 0.0,
+              "checkDate": "2026-01-09T00:00:00",
+              "checkNumber": 5001,
+              "checkSequence": 1,
+              "checkTypeDescription": "Adjustment",
+              "deductions": [
+                {
+                  "id": 4,
+                  "checkDollars": 90.33,
+                  "currentDollars": 90.33,
+                  "ftdDollars": 0.0,
+                  "itemCode": "030",
+                  "itemDescription": "Medical Pre-tax",
+                  "mtdDollars": 90.33,
+                  "ptdDollars": 90.33,
+                  "qtdDollars": 90.33,
+                  "sequence": 1,
+                  "ytdDollars": 90.33,
+                  "links": []
+                },
+                {
+                  "id": 5,
+                  "checkDollars": 75.0,
+                  "currentDollars": 75.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "32",
+                  "itemDescription": "401K",
+                  "mtdDollars": 75.0,
+                  "ptdDollars": 75.0,
+                  "qtdDollars": 75.0,
+                  "sequence": 1,
+                  "ytdDollars": 75.0,
+                  "links": []
+                }
+              ],
+              "directDepositAmount": 1164.67,
+              "directDeposits": [
+                {
+                  "id": 7,
+                  "account": "000987654321",
+                  "depositAmount": 1164.67,
+                  "itemDescription": "Checking",
+                  "links": []
+                }
+              ],
+              "earnings": [
+                {
+                  "id": 1,
+                  "checkDollars": 1450.0,
+                  "currentDollars": 1450.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "01",
+                  "itemDescription": "Regular",
+                  "mtdDollars": 1450.0,
+                  "ptdDollars": 1450.0,
+                  "qtdDollars": 1450.0,
+                  "sequence": 1,
+                  "ytdDollars": 1450.0,
+                  "links": [],
+                  "checkHours": 80.0,
+                  "checkUnits": 0.0,
+                  "isMemoEarning": false,
+                  "labors": null
+                },
+                {
+                  "id": 2,
+                  "checkDollars": 50.0,
+                  "currentDollars": 50.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "14",
+                  "itemDescription": "Commission",
+                  "mtdDollars": 50.0,
+                  "ptdDollars": 50.0,
+                  "qtdDollars": 50.0,
+                  "sequence": 1,
+                  "ytdDollars": 50.0,
+                  "links": [],
+                  "checkHours": 0.0,
+                  "checkUnits": 0.0,
+                  "isMemoEarning": false,
+                  "labors": null
+                },
+                {
+                  "id": 3,
+                  "checkDollars": 45.0,
+                  "currentDollars": 45.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "001",
+                  "itemDescription": "401k Match",
+                  "mtdDollars": 45.0,
+                  "ptdDollars": 45.0,
+                  "qtdDollars": 45.0,
+                  "sequence": 1,
+                  "ytdDollars": 45.0,
+                  "links": [],
+                  "checkHours": 0.0,
+                  "checkUnits": 0.0,
+                  "isMemoEarning": true,
+                  "labors": null
+                }
+              ],
+              "employeeAddress1": "2229 Birch Ct",
+              "employeeAddress2": null,
+              "employeeCity": "Springfield",
+              "employeeFederalAddlAmountOrPercent": "0",
+              "employeeFederalExemptions": 0,
+              "employeeFederalFilingStatus": "Single",
+              "employeeId": 859201,
+              "employeeName": "Whitfield, Casey",
+              "employeeNumber": "1",
+              "employeeOrganizations": null,
+              "employeeSSN": "460-62-4377",
+              "employeeState": "IL",
+              "employeeStateAddlAmountOrPercent": "0",
+              "employeeStateExemptions": 0,
+              "employeeStateFilingStatus": "Single",
+              "employeeZipCode": "62704",
+              "garnishments": [
+                {
+                  "id": 6,
+                  "checkDollars": 50.0,
+                  "currentDollars": 50.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "GARN",
+                  "itemDescription": "Child Support",
+                  "mtdDollars": 50.0,
+                  "ptdDollars": 50.0,
+                  "qtdDollars": 50.0,
+                  "sequence": 1,
+                  "ytdDollars": 50.0,
+                  "links": []
+                }
+              ],
+              "grossPay": 1500.0,
+              "grossWages": 1500.0,
+              "isRemoteWorker": false,
+              "legalCompanyName": "Synthetic Legal Co",
+              "netPay": 1164.67,
+              "payrollRunNumber": 1,
+              "payrollRunType": "Regular Payroll",
+              "periodBeginDate": "2025-12-22T00:00:00",
+              "periodEndDate": "2026-01-04T00:00:00",
+              "reissueCheckDate": null,
+              "reissueCheckNumber": null,
+              "taxCategories": [
+                {
+                  "taxCategoryId": "FEDWT",
+                  "description": "FEDERAL WH"
+                }
+              ],
+              "taxes": null,
+              "vertexResidentGeoCode": "UT0350270",
+              "vertexSchoolDistrictCode": 0,
+              "vertexWorkGeoCode": "UT0350270",
+              "voucherNumber": "V21000101",
+              "links": []
+            },
+            {
+              "id": 21000102,
+              "accruals": null,
+              "benefits": null,
+              "checkAmount": 1080.0,
+              "checkDate": "2026-01-23T00:00:00",
+              "checkNumber": 5002,
+              "checkSequence": 1,
+              "checkTypeDescription": "Adjustment",
+              "deductions": [],
+              "directDepositAmount": 0.0,
+              "directDeposits": null,
+              "earnings": [
+                {
+                  "id": 8,
+                  "checkDollars": 1080.0,
+                  "currentDollars": 1080.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "01",
+                  "itemDescription": "Regular",
+                  "mtdDollars": 1080.0,
+                  "ptdDollars": 1080.0,
+                  "qtdDollars": 1080.0,
+                  "sequence": 1,
+                  "ytdDollars": 1080.0,
+                  "links": [],
+                  "checkHours": 80.0,
+                  "checkUnits": 0.0,
+                  "isMemoEarning": false,
+                  "labors": null
+                }
+              ],
+              "employeeAddress1": "2229 Birch Ct",
+              "employeeAddress2": null,
+              "employeeCity": "Springfield",
+              "employeeFederalAddlAmountOrPercent": "0",
+              "employeeFederalExemptions": 0,
+              "employeeFederalFilingStatus": "Single",
+              "employeeId": 859201,
+              "employeeName": "Whitfield, Casey",
+              "employeeNumber": "1",
+              "employeeOrganizations": null,
+              "employeeSSN": "554-37-5309",
+              "employeeState": "IL",
+              "employeeStateAddlAmountOrPercent": "0",
+              "employeeStateExemptions": 0,
+              "employeeStateFilingStatus": "Single",
+              "employeeZipCode": "62704",
+              "garnishments": null,
+              "grossPay": 1080.0,
+              "grossWages": 1080.0,
+              "isRemoteWorker": false,
+              "legalCompanyName": "Synthetic Legal Co",
+              "netPay": 1080.0,
+              "payrollRunNumber": 0,
+              "payrollRunType": "Regular Payroll",
+              "periodBeginDate": null,
+              "periodEndDate": null,
+              "reissueCheckDate": "2026-01-27T00:00:00",
+              "reissueCheckNumber": 5010,
+              "taxCategories": [
+                {
+                  "taxCategoryId": "FEDWT",
+                  "description": "FEDERAL WH"
+                }
+              ],
+              "taxes": null,
+              "vertexResidentGeoCode": "UT0350270",
+              "vertexSchoolDistrictCode": 0,
+              "vertexWorkGeoCode": "UT0350270",
+              "voucherNumber": "V21000102",
+              "links": []
+            }
+          ],
+          "totalItems": 2,
+          "totalPages": 1.0
+        }
+      ],
+      "859202": [
+        {
+          "nextPageUrl": null,
+          "previousPageUrl": null,
+          "results": [
+            {
+              "id": 21000201,
+              "accruals": null,
+              "benefits": null,
+              "checkAmount": 360.32,
+              "checkDate": "2026-02-06T00:00:00",
+              "checkNumber": 5101,
+              "checkSequence": 1,
+              "checkTypeDescription": "Manual Check",
+              "deductions": [],
+              "directDepositAmount": 0.0,
+              "directDeposits": null,
+              "earnings": [
+                {
+                  "id": 9,
+                  "checkDollars": 400.0,
+                  "currentDollars": 400.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "01",
+                  "itemDescription": "Regular",
+                  "mtdDollars": 400.0,
+                  "ptdDollars": 400.0,
+                  "qtdDollars": 400.0,
+                  "sequence": 1,
+                  "ytdDollars": 400.0,
+                  "links": [],
+                  "checkHours": 16.0,
+                  "checkUnits": 0.0,
+                  "isMemoEarning": false,
+                  "labors": null
+                }
+              ],
+              "employeeAddress1": "6839 Cedar Ln",
+              "employeeAddress2": null,
+              "employeeCity": "Georgetown",
+              "employeeFederalAddlAmountOrPercent": "0",
+              "employeeFederalExemptions": 0,
+              "employeeFederalFilingStatus": "Single",
+              "employeeId": 859202,
+              "employeeName": "Haddad, Casey",
+              "employeeNumber": "2",
+              "employeeOrganizations": null,
+              "employeeSSN": "741-82-6525",
+              "employeeState": "TX",
+              "employeeStateAddlAmountOrPercent": "0",
+              "employeeStateExemptions": 0,
+              "employeeStateFilingStatus": "Single",
+              "employeeZipCode": "78626",
+              "garnishments": null,
+              "grossPay": 400.0,
+              "grossWages": 400.0,
+              "isRemoteWorker": false,
+              "legalCompanyName": "Synthetic Legal Co",
+              "netPay": 360.32,
+              "payrollRunNumber": 1,
+              "payrollRunType": "Regular Payroll",
+              "periodBeginDate": null,
+              "periodEndDate": null,
+              "reissueCheckDate": null,
+              "reissueCheckNumber": null,
+              "taxCategories": [
+                {
+                  "taxCategoryId": "FEDWT",
+                  "description": "FEDERAL WH"
+                }
+              ],
+              "taxes": null,
+              "vertexResidentGeoCode": "UT0350270",
+              "vertexSchoolDistrictCode": 0,
+              "vertexWorkGeoCode": "UT0350270",
+              "voucherNumber": "V21000201",
+              "links": []
+            }
+          ],
+          "totalItems": 1,
+          "totalPages": 1.0
+        }
+      ],
+      "859203": [
+        {
+          "nextPageUrl": null,
+          "previousPageUrl": null,
+          "results": [
+            {
+              "id": 21000301,
+              "accruals": null,
+              "benefits": null,
+              "checkAmount": 0.0,
+              "checkDate": "2026-03-06T00:00:00",
+              "checkNumber": 5201,
+              "checkSequence": 1,
+              "checkTypeDescription": "Adjustment",
+              "deductions": [],
+              "directDepositAmount": 190.0,
+              "directDeposits": null,
+              "earnings": [],
+              "employeeAddress1": "1854 Birch Ct",
+              "employeeAddress2": null,
+              "employeeCity": "Springfield",
+              "employeeFederalAddlAmountOrPercent": "0",
+              "employeeFederalExemptions": 0,
+              "employeeFederalFilingStatus": "Single",
+              "employeeId": 859203,
+              "employeeName": "Petrov, Reese",
+              "employeeNumber": "3",
+              "employeeOrganizations": null,
+              "employeeSSN": "137-32-3195",
+              "employeeState": "IL",
+              "employeeStateAddlAmountOrPercent": "0",
+              "employeeStateExemptions": 0,
+              "employeeStateFilingStatus": "Single",
+              "employeeZipCode": "62704",
+              "garnishments": null,
+              "grossPay": 190.0,
+              "grossWages": 190.0,
+              "isRemoteWorker": false,
+              "legalCompanyName": "Synthetic Legal Co",
+              "netPay": 190.0,
+              "payrollRunNumber": 9,
+              "payrollRunType": "Regular Payroll",
+              "periodBeginDate": null,
+              "periodEndDate": null,
+              "reissueCheckDate": null,
+              "reissueCheckNumber": null,
+              "taxCategories": [
+                {
+                  "taxCategoryId": "FEDWT",
+                  "description": "FEDERAL WH"
+                }
+              ],
+              "taxes": null,
+              "vertexResidentGeoCode": "UT0350270",
+              "vertexSchoolDistrictCode": 0,
+              "vertexWorkGeoCode": "UT0350270",
+              "voucherNumber": "V21000301",
+              "links": []
+            }
+          ],
+          "totalItems": 1,
+          "totalPages": 1.0
+        }
+      ],
+      "859204": [
+        {
+          "nextPageUrl": null,
+          "previousPageUrl": null,
+          "results": [],
+          "totalItems": 0,
+          "totalPages": 1.0
+        }
+      ],
+      "859206": [
+        {
+          "nextPageUrl": null,
+          "previousPageUrl": null,
+          "results": [
+            {
+              "id": 21000601,
+              "accruals": null,
+              "benefits": null,
+              "checkAmount": 300.0,
+              "checkDate": "2026-01-09T00:00:00",
+              "checkNumber": 5601,
+              "checkSequence": 1,
+              "checkTypeDescription": "Adjustment",
+              "deductions": [],
+              "directDepositAmount": 0.0,
+              "directDeposits": null,
+              "earnings": [
+                {
+                  "id": 10,
+                  "checkDollars": 300.0,
+                  "currentDollars": 300.0,
+                  "ftdDollars": 0.0,
+                  "itemCode": "01",
+                  "itemDescription": "Regular",
+                  "mtdDollars": 300.0,
+                  "ptdDollars": 300.0,
+                  "qtdDollars": 300.0,
+                  "sequence": 1,
+                  "ytdDollars": 300.0,
+                  "links": [],
+                  "checkHours": 12.0,
+                  "checkUnits": 0.0,
+                  "isMemoEarning": false,
+                  "labors": null
+                }
+              ],
+              "employeeAddress1": "3913 Harbor Rd",
+              "employeeAddress2": null,
+              "employeeCity": "Springfield",
+              "employeeFederalAddlAmountOrPercent": "0",
+              "employeeFederalExemptions": 0,
+              "employeeFederalFilingStatus": "Single",
+              "employeeId": 859206,
+              "employeeName": "Marchetti, Skyler",
+              "employeeNumber": "6",
+              "employeeOrganizations": null,
+              "employeeSSN": "143-92-8600",
+              "employeeState": "IL",
+              "employeeStateAddlAmountOrPercent": "0",
+              "employeeStateExemptions": 0,
+              "employeeStateFilingStatus": "Single",
+              "employeeZipCode": "62704",
+              "garnishments": null,
+              "grossPay": 300.0,
+              "grossWages": 300.0,
+              "isRemoteWorker": false,
+              "legalCompanyName": "Synthetic Legal Co",
+              "netPay": 300.0,
+              "payrollRunNumber": 2,
+              "payrollRunType": "Regular Payroll",
+              "periodBeginDate": null,
+              "periodEndDate": null,
+              "reissueCheckDate": null,
+              "reissueCheckNumber": null,
+              "taxCategories": [
+                {
+                  "taxCategoryId": "FEDWT",
+                  "description": "FEDERAL WH"
+                }
+              ],
+              "taxes": null,
+              "vertexResidentGeoCode": "UT0350270",
+              "vertexSchoolDistrictCode": 0,
+              "vertexWorkGeoCode": "UT0350270",
+              "voucherNumber": "V21000601",
+              "links": []
+            }
+          ],
+          "totalItems": 1,
+          "totalPages": 1.0
+        }
+      ]
+    },
+    "check_detail": {
+      "21000101": {
+        "id": 21000101,
+        "accruals": null,
+        "benefits": [
+          {
+            "benefitDescription": "401(k) plan",
+            "benefitTitle": "401(k)",
+            "checkEligibleWages": 1500.0,
+            "checkEmployeeCatchUp": 0.0,
+            "checkEmployeeDeduction": 75.0,
+            "checkEmployerContribution": 45.0,
+            "checkMatchEligibleWages": 0.0,
+            "ytdEmployeeDeduction": 75.0,
+            "ytdEmployerContribution": 45.0
+          },
+          {
+            "benefitDescription": "Leave Accrual plan",
+            "benefitTitle": "Leave Accrual",
+            "checkEligibleWages": 1500.0,
+            "checkEmployeeCatchUp": 0.0,
+            "checkEmployeeDeduction": 0.0,
+            "checkEmployerContribution": 0.0,
+            "checkMatchEligibleWages": 0.0,
+            "ytdEmployeeDeduction": 0.0,
+            "ytdEmployerContribution": 0.0
+          }
+        ],
+        "checkAmount": 0.0,
+        "checkDate": "2026-01-09T00:00:00",
+        "checkNumber": 5001,
+        "checkSequence": 1,
+        "checkTypeDescription": "Adjustment",
+        "deductions": [
+          {
+            "id": 4,
+            "checkDollars": 90.33,
+            "currentDollars": 90.33,
+            "ftdDollars": 0.0,
+            "itemCode": "030",
+            "itemDescription": "Medical Pre-tax",
+            "mtdDollars": 90.33,
+            "ptdDollars": 90.33,
+            "qtdDollars": 90.33,
+            "sequence": 1,
+            "ytdDollars": 90.33,
+            "links": []
+          },
+          {
+            "id": 5,
+            "checkDollars": 75.0,
+            "currentDollars": 75.0,
+            "ftdDollars": 0.0,
+            "itemCode": "32",
+            "itemDescription": "401K",
+            "mtdDollars": 75.0,
+            "ptdDollars": 75.0,
+            "qtdDollars": 75.0,
+            "sequence": 1,
+            "ytdDollars": 75.0,
+            "links": []
+          }
+        ],
+        "directDepositAmount": 1164.67,
+        "directDeposits": [
+          {
+            "id": 7,
+            "account": "000987654321",
+            "depositAmount": 1164.67,
+            "itemDescription": "Checking",
+            "links": []
+          }
+        ],
+        "earnings": [
+          {
+            "id": 1,
+            "checkDollars": 1450.0,
+            "currentDollars": 1450.0,
+            "ftdDollars": 0.0,
+            "itemCode": "01",
+            "itemDescription": "Regular",
+            "mtdDollars": 1450.0,
+            "ptdDollars": 1450.0,
+            "qtdDollars": 1450.0,
+            "sequence": 1,
+            "ytdDollars": 1450.0,
+            "links": [],
+            "checkHours": 80.0,
+            "checkUnits": 0.0,
+            "isMemoEarning": false,
+            "labors": null
+          },
+          {
+            "id": 2,
+            "checkDollars": 50.0,
+            "currentDollars": 50.0,
+            "ftdDollars": 0.0,
+            "itemCode": "14",
+            "itemDescription": "Commission",
+            "mtdDollars": 50.0,
+            "ptdDollars": 50.0,
+            "qtdDollars": 50.0,
+            "sequence": 1,
+            "ytdDollars": 50.0,
+            "links": [],
+            "checkHours": 0.0,
+            "checkUnits": 0.0,
+            "isMemoEarning": false,
+            "labors": null
+          },
+          {
+            "id": 3,
+            "checkDollars": 45.0,
+            "currentDollars": 45.0,
+            "ftdDollars": 0.0,
+            "itemCode": "001",
+            "itemDescription": "401k Match",
+            "mtdDollars": 45.0,
+            "ptdDollars": 45.0,
+            "qtdDollars": 45.0,
+            "sequence": 1,
+            "ytdDollars": 45.0,
+            "links": [],
+            "checkHours": 0.0,
+            "checkUnits": 0.0,
+            "isMemoEarning": true,
+            "labors": null
+          }
+        ],
+        "employeeAddress1": "2229 Birch Ct",
+        "employeeAddress2": null,
+        "employeeCity": "Springfield",
+        "employeeFederalAddlAmountOrPercent": "0",
+        "employeeFederalExemptions": 0,
+        "employeeFederalFilingStatus": "Single",
+        "employeeId": 859201,
+        "employeeName": "Whitfield, Casey",
+        "employeeNumber": "1",
+        "employeeOrganizations": [],
+        "employeeSSN": "460-62-4377",
+        "employeeState": "IL",
+        "employeeStateAddlAmountOrPercent": "0",
+        "employeeStateExemptions": 0,
+        "employeeStateFilingStatus": "Single",
+        "employeeZipCode": "62704",
+        "garnishments": [
+          {
+            "id": 6,
+            "checkDollars": 50.0,
+            "currentDollars": 50.0,
+            "ftdDollars": 0.0,
+            "itemCode": "GARN",
+            "itemDescription": "Child Support",
+            "mtdDollars": 50.0,
+            "ptdDollars": 50.0,
+            "qtdDollars": 50.0,
+            "sequence": 1,
+            "ytdDollars": 50.0,
+            "links": []
+          }
+        ],
+        "grossPay": 1500.0,
+        "grossWages": 1500.0,
+        "isRemoteWorker": false,
+        "legalCompanyName": "Synthetic Legal Co",
+        "netPay": 1164.67,
+        "payrollRunNumber": 1,
+        "payrollRunType": "Regular Payroll",
+        "periodBeginDate": "2025-12-22T00:00:00",
+        "periodEndDate": "2026-01-04T00:00:00",
+        "reissueCheckDate": null,
+        "reissueCheckNumber": null,
+        "taxCategories": [
+          {
+            "taxCategoryId": "FEDWT",
+            "description": "FEDERAL WH"
+          }
+        ],
+        "taxes": [
+          {
+            "id": 11,
+            "checkDollars": 120.0,
+            "currentDollars": 120.0,
+            "ftdDollars": 0.0,
+            "itemCode": null,
+            "itemDescription": "FEDERAL WH",
+            "mtdDollars": 120.0,
+            "ptdDollars": 120.0,
+            "qtdDollars": 120.0,
+            "sequence": 1,
+            "ytdDollars": 120.0,
+            "links": [],
+            "isEmployeeTax": true,
+            "checkTaxableWages": 1334.67
+          },
+          {
+            "id": 12,
+            "checkDollars": 93.0,
+            "currentDollars": 93.0,
+            "ftdDollars": 0.0,
+            "itemCode": null,
+            "itemDescription": "SOC SEC ER",
+            "mtdDollars": 93.0,
+            "ptdDollars": 93.0,
+            "qtdDollars": 93.0,
+            "sequence": 1,
+            "ytdDollars": 93.0,
+            "links": [],
+            "isEmployeeTax": false,
+            "checkTaxableWages": 1500.0
+          }
+        ],
+        "vertexResidentGeoCode": "UT0350270",
+        "vertexSchoolDistrictCode": 0,
+        "vertexWorkGeoCode": "UT0350270",
+        "voucherNumber": "V21000101",
+        "links": []
+      },
+      "21000201": {
+        "id": 21000201,
+        "accruals": null,
+        "benefits": [],
+        "checkAmount": 360.32,
+        "checkDate": "2026-02-06T00:00:00",
+        "checkNumber": 5101,
+        "checkSequence": 1,
+        "checkTypeDescription": "Manual Check",
+        "deductions": [],
+        "directDepositAmount": 0.0,
+        "directDeposits": null,
+        "earnings": [
+          {
+            "id": 9,
+            "checkDollars": 400.0,
+            "currentDollars": 400.0,
+            "ftdDollars": 0.0,
+            "itemCode": "01",
+            "itemDescription": "Regular",
+            "mtdDollars": 400.0,
+            "ptdDollars": 400.0,
+            "qtdDollars": 400.0,
+            "sequence": 1,
+            "ytdDollars": 400.0,
+            "links": [],
+            "checkHours": 16.0,
+            "checkUnits": 0.0,
+            "isMemoEarning": false,
+            "labors": null
+          }
+        ],
+        "employeeAddress1": "6839 Cedar Ln",
+        "employeeAddress2": null,
+        "employeeCity": "Georgetown",
+        "employeeFederalAddlAmountOrPercent": "0",
+        "employeeFederalExemptions": 0,
+        "employeeFederalFilingStatus": "Single",
+        "employeeId": 859202,
+        "employeeName": "Haddad, Casey",
+        "employeeNumber": "2",
+        "employeeOrganizations": [],
+        "employeeSSN": "741-82-6525",
+        "employeeState": "TX",
+        "employeeStateAddlAmountOrPercent": "0",
+        "employeeStateExemptions": 0,
+        "employeeStateFilingStatus": "Single",
+        "employeeZipCode": "78626",
+        "garnishments": null,
+        "grossPay": 400.0,
+        "grossWages": 400.0,
+        "isRemoteWorker": false,
+        "legalCompanyName": "Synthetic Legal Co",
+        "netPay": 360.32,
+        "payrollRunNumber": 1,
+        "payrollRunType": "Regular Payroll",
+        "periodBeginDate": null,
+        "periodEndDate": null,
+        "reissueCheckDate": null,
+        "reissueCheckNumber": null,
+        "taxCategories": [
+          {
+            "taxCategoryId": "FEDWT",
+            "description": "FEDERAL WH"
+          }
+        ],
+        "taxes": [
+          {
+            "id": 13,
+            "checkDollars": 39.68,
+            "currentDollars": 39.68,
+            "ftdDollars": 0.0,
+            "itemCode": null,
+            "itemDescription": "FEDERAL WH",
+            "mtdDollars": 39.68,
+            "ptdDollars": 39.68,
+            "qtdDollars": 39.68,
+            "sequence": 1,
+            "ytdDollars": 39.68,
+            "links": [],
+            "isEmployeeTax": "yes",
+            "checkTaxableWages": 400.0
+          }
+        ],
+        "vertexResidentGeoCode": "UT0350270",
+        "vertexSchoolDistrictCode": 0,
+        "vertexWorkGeoCode": "UT0350270",
+        "voucherNumber": "V21000201",
+        "links": []
+      },
+      "21000601": {
+        "id": 21000601,
+        "accruals": null,
+        "benefits": [],
+        "checkAmount": 300.0,
+        "checkDate": "2026-01-09T00:00:00",
+        "checkNumber": 5601,
+        "checkSequence": 1,
+        "checkTypeDescription": "Adjustment",
+        "deductions": [],
+        "directDepositAmount": 0.0,
+        "directDeposits": null,
+        "earnings": [
+          {
+            "id": 10,
+            "checkDollars": 300.0,
+            "currentDollars": 300.0,
+            "ftdDollars": 0.0,
+            "itemCode": "01",
+            "itemDescription": "Regular",
+            "mtdDollars": 300.0,
+            "ptdDollars": 300.0,
+            "qtdDollars": 300.0,
+            "sequence": 1,
+            "ytdDollars": 300.0,
+            "links": [],
+            "checkHours": 12.0,
+            "checkUnits": 0.0,
+            "isMemoEarning": false,
+            "labors": null
+          }
+        ],
+        "employeeAddress1": "3913 Harbor Rd",
+        "employeeAddress2": null,
+        "employeeCity": "Springfield",
+        "employeeFederalAddlAmountOrPercent": "0",
+        "employeeFederalExemptions": 0,
+        "employeeFederalFilingStatus": "Single",
+        "employeeId": 859206,
+        "employeeName": "Marchetti, Skyler",
+        "employeeNumber": "6",
+        "employeeOrganizations": [],
+        "employeeSSN": "143-92-8600",
+        "employeeState": "IL",
+        "employeeStateAddlAmountOrPercent": "0",
+        "employeeStateExemptions": 0,
+        "employeeStateFilingStatus": "Single",
+        "employeeZipCode": "62704",
+        "garnishments": null,
+        "grossPay": 300.0,
+        "grossWages": 300.0,
+        "isRemoteWorker": false,
+        "legalCompanyName": "Synthetic Legal Co",
+        "netPay": 300.0,
+        "payrollRunNumber": 2,
+        "payrollRunType": "Regular Payroll",
+        "periodBeginDate": null,
+        "periodEndDate": null,
+        "reissueCheckDate": null,
+        "reissueCheckNumber": null,
+        "taxCategories": [
+          {
+            "taxCategoryId": "FEDWT",
+            "description": "FEDERAL WH"
+          }
+        ],
+        "taxes": [],
+        "vertexResidentGeoCode": "UT0350270",
+        "vertexSchoolDistrictCode": 0,
+        "vertexWorkGeoCode": "UT0350270",
+        "voucherNumber": "V21000601",
+        "links": []
+      }
+    }
+  }
+}

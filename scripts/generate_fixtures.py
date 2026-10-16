@@ -388,6 +388,130 @@ def build_prismhr_deductions(seed: int):
     })
 
 
+# PrismHR payroll. Injected cases: batch types R, M, S and V; one batch status
+# per group plus an undocumented one (HOLD); a batch with two pay groups, one
+# with none and one with an empty payGroupId; voucher pages under the live key
+# payrollVoucher and the spec key payrollVouchers; an arrears voucher with empty
+# arrays; a voided voucher; pay classes E, R, F and an undocumented one; other
+# earnings and other deductions; a direct deposit; the live-only hsaPeoMatch and
+# isManualCheck; an undocumented voucher status on every voucher (reported once)
+# and a second one; an error page; a voucher whose batch is not listed.
+
+def prism_pay_group(group_id, start, end):
+    return {"payGroupId": group_id, "payPeriodStartDate": start, "payPeriodEndDate": end,
+            "weeksWorked": 1, "deductPeriod": "1"}
+
+
+def prism_batch(batch_id, pay_date, batch_type, status, groups):
+    return {"batchId": batch_id, "payDate": pay_date, "batchType": batch_type, "batchStatus": status,
+            "payGroup": groups}
+
+
+def prism_earning(code, pay_class, class_description, hours, rate, amount=None):
+    return {"payCode": code, "payClass": pay_class, "payClassDescription": class_description, "chargeDate": "",
+            "hoursUnits": hours, "hoursWorked": hours, "unitRate": rate,
+            "payAmount": round(hours * rate, 2) if amount is None else amount,
+            "department": "OPS", "location": "HQ", "jobCode": "", "shift": ""}
+
+
+def prism_employee_tax(code, description, taxable, amount):
+    return {"empTaxDeductCode": code, "empTaxDeductCodeDesc": description, "empTaxableAmount": taxable,
+            "empTaxAmount": amount, "empOverLimitAmount": 0.0}
+
+
+def prism_company_tax(code, description, taxable, amount):
+    return {"comTaxEntity": "US", "comTaxDeductCode": code, "comTaxDeductCodeDesc": description,
+            "comExemptAmount": 0.0, "comShelteredAmount": 0.0, "comTaxableAmount": taxable, "comTaxType": "F",
+            "comTaxAmount": amount, "comOvrLimit": 0.0, "comTaxRate": 0.0145}
+
+
+def prism_voucher_deduction(code, deduction_type, description, amount):
+    return {"deductCode": code, "deductDescription": description, "deductAmount": amount,
+            "deductType": deduction_type, "deductUnionId": "", "planId": ""}
+
+
+def prism_voucher(voucher_id, employee_id, batch_id, pay_date, period, voucher_type="R", status="PRNT",
+                  gross=0.0, net=0.0, **extra):
+    voucher = {"voucherId": voucher_id, "status": status, "type": voucher_type, "voidDate": "", "checkNumber": "",
+               "payDate": pay_date, "employeeId": employee_id, "payPeriod": "W", "payPeriodStart": period[0],
+               "payPeriodEnd": period[1], "payGroup": "WFRI", "dateProcessed": pay_date, "totalEarnings": gross,
+               "employeeTax": [], "netPay": net, "voidVoucherId": "", "fitTaxableAmount": gross,
+               "earnAmount": gross, "otherEarnAmount": 0.0, "wcHomeClass": "8810", "wcState": "IL",
+               "workerComp": [], "earning": [], "otherEarningsDetail": [], "fsaMatch": [], "companyTax": [],
+               "batchId": batch_id, "deduction": [], "otherDeduction": [], "benefit": [], "bankAccount": "PAYROLL",
+               "checkNum": None, "checkAmt": 0.0, "payStubType": "S", "checkAccountACH": "", "directDeposit": [],
+               "employerContributions": [], "retirement": None, "glAcctDistribution": None,
+               "taxFilingStatus": [], "wcInformation": None, "fromArrears": [], "toArrears": [],
+               "importBatchNo": ""}
+    voucher.update(extra)
+    return voucher
+
+
+def prism_voucher_page(vouchers, key="payrollVoucher"):
+    return {"errorCode": "0", "errorMessage": "", "extension": None, key: vouchers,
+            "total": len(vouchers), "startpage": 0, "count": len(vouchers)}
+
+
+def build_prismhr_payroll(seed: int):
+    ids = build_prismhr(seed)["responses"]["get_employee_list"]["employeeList"]["employeeId"]
+    week1, week2 = ("2025-12-27", "2026-01-02"), ("2026-01-03", "2026-01-09")
+    batches = [
+        prism_batch("202601", "2026-01-09", "R", "COMP", [prism_pay_group("WFRI", *week1)]),
+        prism_batch("202602", "2026-01-16", "R", "POSTCOMP", [prism_pay_group("WFRI", *week2)]),
+        prism_batch("202603", "2026-01-20", "M", "INITFAIL", []),
+        prism_batch("202604", "2026-01-23", "S", "TS.READY", [prism_pay_group("WFRI", "2026-01-10", "2026-01-16"),
+                                                              prism_pay_group("SEMI", "2026-01-01", "2026-01-15")]),
+        prism_batch("202605", "2026-01-30", "V", "HOLD", [prism_pay_group("", "2026-01-17", "2026-01-23")]),
+    ]
+    first = prism_voucher(
+        "V000101", ids[0], "202601", "2026-01-09", week1, gross=1076.41, net=891.38, checkNumber="1001",
+        checkAmt=891.38, hsaPeoMatch=0.0, isManualCheck=False,
+        earning=[prism_earning("REG", "E", "Earnings", 40, 25.0), prism_earning("OT", "E", "Earnings", 2, 37.5)],
+        otherEarningsDetail=[{"otherEarnCode": "FRINGE", "otherEarnsDesc": "Fringe Benefit", "otherEarnAmount": 1.41}],
+        employeeTax=[prism_employee_tax("00-10", "Federal Income Tax", 986.41, 80.0),
+                     prism_employee_tax("00-11", "Medicare", 1036.41, 15.03)],
+        companyTax=[prism_company_tax("00-15", "Medicare - Employer", 1036.41, 15.03)],
+        deduction=[prism_voucher_deduction("401k", "K", "401k", 50.0),
+                   prism_voucher_deduction("MED", "C", "Medical", 40.0)],
+        employerContributions=[{"code": "MED", "description": "Medical", "amount": 189.17},
+                               {"code": "EAP", "description": "Employee Assistance", "amount": 0.0}],
+        benefit=[{"planId": "MED", "premiumAmt": 229.17, "empContrib": 189.17, "empDeduct": 40.0,
+                  "coveragePeriod": "M", "adjRef": "", "premiumCost": 229.17}],
+    )
+    second = prism_voucher(
+        "V000102", ids[1], "202601", "2026-01-09", week1, gross=297.0, net=242.0,
+        earning=[prism_earning("VAC", "E", "Earnings", 8, 30.0),
+                 prism_earning("EXP", "R", "Expense Reimbursement", 1, 45.0),
+                 prism_earning("MILES", "Q", "Mileage", 1, 12.0)],  # undocumented pay class
+        employeeTax=[prism_employee_tax("00-10", "Federal Income Tax", 252.0, 20.0)],
+        deduction=[prism_voucher_deduction("CLUB", "ZZ", "Social Club", 10.0)],  # undocumented type
+        otherDeduction=[{"otherDeductCode": "UNIF", "otherDeductDescription": "Uniforms", "otherDeductAmount": 25.0,
+                         "otherDeductOneTimeSwitch": "N"}],
+        directDeposit=[{"transitNum": "991234567", "accountNum": "000123456789", "status": "A", "amount": 242.0}],
+    )
+    arrears = prism_voucher("V000103", ids[2], "202601", "2026-01-09", week1, voucher_type="A")
+    voided = prism_voucher(
+        "V000201", ids[0], "202602", "2026-01-16", week2, voucher_type="S", gross=500.0, net=500.0,
+        checkNumber="1002", checkAmt=500.0, voidDate="2026-01-20", voidVoucherId="V000202",
+        earning=[prism_earning("BON", "E", "Earnings", 0, 0.0, amount=500.0)],
+    )
+    orphan = prism_voucher("V000901", ids[3], "202699", "2026-02-06", ("2026-01-24", "2026-01-30"),
+                           voucher_type="J", status="PEND")
+    return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
+        "get_batch_list_by_date": {"errorCode": "0", "errorMessage": "", "extension": None, "batchList": batches},
+        "get_payroll_voucher_for_batch": {
+            "202601": [prism_voucher_page([first, second]), prism_voucher_page([arrears], key="payrollVouchers")],
+            "202602": [prism_voucher_page([voided])],
+            "202603": [{"errorCode": "1", "errorMessage": "No vouchers found for batch", "extension": None}],
+            "202699": [prism_voucher_page([orphan])],
+        },
+        "get_batch_info": {"202601": {"errorCode": "0", "errorMessage": "", "extension": None, "batchControl": {
+            "batchStatus": "COMP", "batchId": "202601", "payDate": "2026-01-09",
+            "batchDescription": "202601 - 01-09-26 WFRI", "batchType": "R", "processor": "synthetic",
+            "deliveryMethod": "PICKUP"}}},
+    })
+
+
 # --- isolved -----------------------------------------------------------------
 # Injected cases: employmentStatus "Leave of Absence" and gender "Non-binary"
 # (unmapped_label), employmentCategoryCode FT/PT and integer payFrequency
@@ -638,6 +762,151 @@ def build_isolved_deductions(seed: int):
     return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
         "employees": employees,
         "pay_items": pay_items,
+    })
+
+
+# isolved payroll: the run history of one pay group, paged /checks per employee
+# and /checks/{id} detail for some checks. Injected cases: a run type and a run
+# status off the allowlists (unmapped_label), two runs sharing a pay date and
+# run number (the check that would join them gets no run), a check that joins
+# no run, checks with and without detail (missing_section), memo earnings, a
+# garnishment, benefits with and without an employer contribution, a
+# non-boolean isEmployeeTax (out_of_schema_value), check and direct deposit
+# payments, a reissued check, a check type off the allowlist, an employee with
+# an empty page and one missing from the map (missing_section).
+
+ISOLVED_PAY_GROUP = "7627"
+
+
+def isolved_datetime(value):
+    return f"{value}T00:00:00" if value else None
+
+
+def isolved_run(run_id, pay_date, number, run_type, status, period=(None, None), pay_of_month=""):
+    return {"id": run_id, "impoundDate": isolved_datetime(pay_date), "inputMethod": "Time Entry",
+            "payDate": isolved_datetime(pay_date), "payOfTheMonth": pay_of_month, "payPeriod": 26,
+            "payrollRunType": run_type, "periodBeginDate": isolved_datetime(period[0]),
+            "periodEndDate": isolved_datetime(period[1]), "processApprovedBy": None, "processedBy": "synthetic",
+            "regularCheckAutoPay": False, "runDate": isolved_datetime(pay_date), "runNumber": number,
+            "runTime": "09:00:00", "scheduledPayDate": isolved_datetime(pay_date),
+            "scheduledRunDate": isolved_datetime(pay_date), "status": status, "submittedBy": None,
+            "submittedDate": None, "submittedTime": None, "suppressPayStubEmailAlert": False}
+
+
+def isolved_item(item_id, code, description, dollars, **extra):
+    item = {"id": item_id, "checkDollars": dollars, "currentDollars": dollars, "ftdDollars": 0.0,
+            "itemCode": code, "itemDescription": description, "mtdDollars": dollars, "ptdDollars": dollars,
+            "qtdDollars": dollars, "sequence": 1, "ytdDollars": dollars, "links": []}
+    item.update(extra)
+    return item
+
+
+def isolved_earning(item_id, code, description, hours, dollars, memo=False):
+    return isolved_item(item_id, code, description, dollars, checkHours=hours, checkUnits=0.0,
+                        isMemoEarning=memo, labors=None)
+
+
+def isolved_tax(item_id, description, employee_side, dollars, wages):
+    return isolved_item(item_id, None, description, dollars, isEmployeeTax=employee_side,
+                        checkTaxableWages=wages)
+
+
+def isolved_benefit(title, employee_deduction, employer_contribution):
+    return {"benefitDescription": f"{title} plan", "benefitTitle": title, "checkEligibleWages": 1500.0,
+            "checkEmployeeCatchUp": 0.0, "checkEmployeeDeduction": employee_deduction,
+            "checkEmployerContribution": employer_contribution, "checkMatchEligibleWages": 0.0,
+            "ytdEmployeeDeduction": employee_deduction, "ytdEmployerContribution": employer_contribution}
+
+
+def isolved_check(pool: Pool, person, check_id, number, check_date, run_number, check_type, gross, net,
+                  check_amount=0.0, deposit_amount=0.0, period=(None, None), **extra):
+    address = person["nameAddress"]
+    check = {"id": check_id, "accruals": None, "benefits": None, "checkAmount": check_amount,
+             "checkDate": isolved_datetime(check_date), "checkNumber": number, "checkSequence": 1,
+             "checkTypeDescription": check_type, "deductions": [], "directDepositAmount": deposit_amount,
+             "directDeposits": None, "earnings": [], "employeeAddress1": address["address1"],
+             "employeeAddress2": None, "employeeCity": address["city"], "employeeFederalAddlAmountOrPercent": "0",
+             "employeeFederalExemptions": 0, "employeeFederalFilingStatus": "Single", "employeeId": person["id"],
+             "employeeName": f"{address['lastName']}, {address['firstName']}",
+             "employeeNumber": person["employeeNumber"], "employeeOrganizations": None,
+             "employeeSSN": pool.ssn(), "employeeState": address["state"],
+             "employeeStateAddlAmountOrPercent": "0", "employeeStateExemptions": 0,
+             "employeeStateFilingStatus": "Single", "employeeZipCode": address["zipCode"], "garnishments": None,
+             "grossPay": gross, "grossWages": gross, "isRemoteWorker": False,
+             "legalCompanyName": "Synthetic Legal Co", "netPay": net, "payrollRunNumber": run_number,
+             "payrollRunType": "Regular Payroll", "periodBeginDate": isolved_datetime(period[0]),
+             "periodEndDate": isolved_datetime(period[1]), "reissueCheckDate": None, "reissueCheckNumber": None,
+             "taxCategories": [{"taxCategoryId": "FEDWT", "description": "FEDERAL WH"}], "taxes": None,
+             "vertexResidentGeoCode": "UT0350270", "vertexSchoolDistrictCode": 0, "vertexWorkGeoCode": "UT0350270",
+             "voucherNumber": f"V{check_id}", "links": []}
+    check.update(extra)
+    return check
+
+
+def isolved_check_detail(check, taxes=(), benefits=()):
+    detail = dict(check)
+    detail.update(taxes=list(taxes), benefits=list(benefits), employeeOrganizations=[])
+    return detail
+
+
+def build_isolved_payroll(seed: int):
+    employees = build_isolved(seed)["responses"]["employees"]
+    people = [r for page in employees for r in page["results"]]
+    pool = Pool(seed, "isolved-payroll")
+    period = ("2025-12-22", "2026-01-04")
+    runs = [
+        isolved_run(4100001, "2026-01-09", 1, "Regular Payroll", "Completed Payroll Run", period,
+                    "1st Payroll of Month"),
+        isolved_run(4100002, "2026-01-23", 0, "Regular Payroll", "Payroll Not Processed"),
+        isolved_run(4100003, "2026-01-09", 2, "Data Conversion", "Completed Payroll Run"),  # off-allowlist type
+        isolved_run(4100004, "2026-02-06", 1, "Regular Payroll", "Payroll Voided"),  # off-allowlist status
+        isolved_run(4100005, "2026-02-06", 1, "Regular Payroll", "Completed Payroll Run"),  # same slot as 4100004
+    ]
+    first = isolved_check(
+        pool, people[0], 21000101, 5001, "2026-01-09", 1, "Adjustment", 1500.0, 1164.67,
+        deposit_amount=1164.67, period=period,
+        earnings=[isolved_earning(1, "01", "Regular", 80.0, 1450.0),
+                  isolved_earning(2, "14", "Commission", 0.0, 50.0),
+                  isolved_earning(3, "001", "401k Match", 0.0, 45.0, memo=True)],
+        deductions=[isolved_item(4, "030", "Medical Pre-tax", 90.33), isolved_item(5, "32", "401K", 75.0)],
+        garnishments=[isolved_item(6, "GARN", "Child Support", 50.0)],
+        directDeposits=[{"id": 7, "account": "000987654321", "depositAmount": 1164.67,
+                         "itemDescription": "Checking", "links": []}],
+    )
+    reissued = isolved_check(
+        pool, people[0], 21000102, 5002, "2026-01-23", 0, "Adjustment", 1080.0, 1080.0, check_amount=1080.0,
+        reissueCheckDate="2026-01-27T00:00:00", reissueCheckNumber=5010,
+        earnings=[isolved_earning(8, "01", "Regular", 80.0, 1080.0)],
+    )
+    manual = isolved_check(pool, people[1], 21000201, 5101, "2026-02-06", 1, "Manual Check", 400.0, 360.32,
+                           check_amount=360.32, earnings=[isolved_earning(9, "01", "Regular", 16.0, 400.0)])
+    unjoined = isolved_check(pool, people[2], 21000301, 5201, "2026-03-06", 9, "Adjustment", 190.0, 190.0,
+                             deposit_amount=190.0)
+    converted = isolved_check(pool, people[5], 21000601, 5601, "2026-01-09", 2, "Adjustment", 300.0, 300.0,
+                              check_amount=300.0, earnings=[isolved_earning(10, "01", "Regular", 12.0, 300.0)])
+    checks = {
+        str(people[0]["id"]): [isolved_page([first, reissued], 1, 1, 2)],
+        str(people[1]["id"]): [isolved_page([manual], 1, 1, 1)],
+        str(people[2]["id"]): [isolved_page([unjoined], 1, 1, 1)],
+        str(people[3]["id"]): [isolved_page([], 1, 1, 0)],  # no checks
+        # people[4] has no entry -> missing_section
+        str(people[5]["id"]): [isolved_page([converted], 1, 1, 1)],
+    }
+    details = {
+        str(first["id"]): isolved_check_detail(
+            first,
+            taxes=[isolved_tax(11, "FEDERAL WH", True, 120.0, 1334.67),
+                   isolved_tax(12, "SOC SEC ER", False, 93.0, 1500.0)],
+            benefits=[isolved_benefit("401(k)", 75.0, 45.0), isolved_benefit("Leave Accrual", 0.0, 0.0)]),
+        str(manual["id"]): isolved_check_detail(
+            manual, taxes=[isolved_tax(13, "FEDERAL WH", "yes", 39.68, 400.0)]),  # not a boolean
+        str(converted["id"]): isolved_check_detail(converted),
+    }
+    return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
+        "employees": employees,
+        "payroll_run_history": {ISOLVED_PAY_GROUP: runs},
+        "checks": checks,
+        "check_detail": details,
     })
 
 
@@ -958,18 +1227,143 @@ def build_ukg_deductions(seed: int):
     })
 
 
+# UKG Ready payroll: the /payrolls list, /pay-statements per payroll id and the
+# statement detail per statement id. Injected cases: payroll statuses of each
+# group plus one outside the enum (out_of_schema_value), a payroll type and a
+# statement type off the allowlist (unmapped_label), a payroll with no
+# statements entry and one with an empty list, a statement with no detail
+# (missing_section), hours in milliseconds and one that is not a number
+# (invalid_number), deductions with both amounts, the employee amount only,
+# the employer amount only and a discarded one, both payment types and an
+# unknown one, the live-only calcUpto and emptyEarning, and a statement whose
+# payroll is not listed. No statement carries gross or net totals.
+
+UKG_PAYROLL = f"{UKG_BASE}/payrolls"
+UKG_EIN = {"id": 35419520, "ein_name": "Primary EIN", "ein_tax_id": "12-3456789"}
+
+
+def ukg_payroll(payroll_id, name, status, pay_date, start, end, type_id=641, type_name="Regular"):
+    return {"id": payroll_id, "name": name, "start_date": start, "end_date": end, "pay_date": pay_date,
+            "type": {"id": type_id, "display_name": type_name}, "status": status, "ein": dict(UKG_EIN),
+            "billable": True, "direct_deposit_date": pay_date, "sch_submit_date_time": None,
+            "invoice_generator_id": None, "adjustment_grab_YTD_from_payroll_id": None,
+            "dflt_pay_statement_type_id": 36656000, "dflt_pay_stub_note": "",
+            "_links": {"self": f"{UKG_PAYROLL}/{payroll_id}"}}
+
+
+def ukg_statement(statement_id, aid, payroll_id, status, pay_date, start, end, type_id=36656000,
+                  type_name="Regular"):
+    return {"employee": {"account_id": aid}, "id": statement_id, "pay_date": pay_date, "status": status,
+            "type": {"id": type_id, "display_name": type_name}, "pay_period_start": start,
+            "pay_period_end": end, "calcUpto": None, "emptyEarning": False,
+            "_links": {"self": f"{UKG_PAYROLL}/{payroll_id}/pay-statements/{statement_id}"}}
+
+
+def ukg_earning(line_id, code, name, hours_ms, rate, amount):
+    return {"id": line_id, "type_name": "Earning", "batch": {"id": 1, "display_name": "Auto"},
+            "hours": hours_ms, "base_rate": rate, "quantity": 0, "ee_amount": amount,
+            "cost_centers": [], "earning": {"name": name, "external_id": "", "code": code, "id": line_id + 100}}
+
+
+def ukg_statement_deduction(line_id, code, name, ee=None, er=None, type_name="Deduction (Auto)"):
+    line = {"id": line_id, "type_name": type_name, "batch": {"id": 1, "display_name": "Auto"},
+            "quantity": 0, "base_rate": 0, "vendor": None, "cost_centers": [],
+            "deduction": {"name": name, "external_id": "", "code": code},
+            "ee_gross_wage": 2075.0, "ee_subject_wage": 2075.0, "ee_gross_subject_wage": 2075.0}
+    if ee is not None:
+        line["ee_amount"] = ee
+    if er is not None:
+        line["er_amount"] = er
+    return line
+
+
+def ukg_statement_tax(line_id, code, name, ee, er, wage):
+    return {"id": line_id, "type_name": "Tax", "batch": {"id": 1, "display_name": "Auto"},
+            "ee_amount": ee, "er_amount": er, "ee_gross_wage": 2075.0, "ee_subject_wage": wage,
+            "ee_gross_subject_wage": wage, "er_gross_wage": 2075.0, "er_subject_wage": wage,
+            "er_gross_subject_wage": wage, "company_tax": {"code": code, "name": name, "abbrev": code}}
+
+
+def ukg_detail(statement, earnings=(), deductions=(), taxes=(), payments=(), messages=()):
+    detail = {k: v for k, v in statement.items() if k not in ("calcUpto", "emptyEarning", "_links")}
+    detail.update(earnings=list(earnings), deductions=list(deductions), taxes=list(taxes),
+                  messages=list(messages), payments=list(payments))
+    return detail
+
+
+def build_ukg_payroll(seed: int):
+    ids = [r["id"] for r in build_ukg(seed)["responses"]["employees"]["employees"]]
+    period = ("2025-12-21", "2026-01-03")
+    payrolls = [
+        ukg_payroll(4332470001, "Primary-EIN Regular Bi-Weekly 01/09/2026", "FINALIZED", "2026-01-09", *period),
+        ukg_payroll(4332470002, "Correction 01/16/2026", "OPEN", "2026-01-16", *period, type_id=706,
+                    type_name="Correction"),  # off-allowlist type
+        ukg_payroll(4332470003, "Paused run", "PAUSED", "2026-01-23", "2026-01-04", "2026-01-17"),  # not in enum
+        ukg_payroll(4332470004, "Failed close", "CLOSE_FAILED", "2026-02-06", "2026-01-18", "2026-01-31"),
+    ]
+    first = ukg_statement(85940001, ids[0], 4332470001, "FINALIZED", "2026-01-09", *period)
+    gross_up = ukg_statement(85940002, ids[1], 4332470001, "OPEN", "2026-01-09", *period, type_id=36656002,
+                             type_name="Gross Up")  # off-allowlist type
+    no_detail = ukg_statement(85940003, ids[2], 4332470001, "CLOSED", "2026-01-09", *period)
+    invalid = ukg_statement(85940004, ids[3], 4332470002, "INVALID", "2026-01-16", *period)
+    orphan = ukg_statement(85940005, ids[4], 4332479999, "NEW", "2026-02-20", "2026-02-01", "2026-02-14")
+    details = [
+        ukg_detail(
+            first,
+            earnings=[ukg_earning(1, "REG", "Regular", 288_000_000, 25.0, 2000.0),
+                      ukg_earning(2, "OT", "Overtime", 7_200_000, 37.5, 75.0)],
+            deductions=[ukg_statement_deduction(3, "401k", "401k", ee=120.0, er=60.0),
+                        ukg_statement_deduction(4, "S125_Med", "Medical", ee=45.5, er=0.0),
+                        ukg_statement_deduction(5, "ER_HSA", "HSA Employer", ee=0.0, er=25.0),
+                        ukg_statement_deduction(6, "401K Loan 1", "401K Loan 1", ee=30.0,
+                                                type_name="Deduction (Discarded)")],
+            taxes=[ukg_statement_tax(7, "FIT", "Federal Income Tax", 210.0, 0.0, 1954.5),
+                   ukg_statement_tax(8, "SS", "Social Security", 128.65, 128.65, 2075.0)],
+            payments=[{"id": 9, "hours": 0, "quantity": 0, "ee_amount": 1500.0, "type_name": "Direct Deposit",
+                       "batch": {"id": 1, "display_name": "Auto"}},
+                      {"id": 10, "hours": 0, "quantity": 0, "ee_amount": 40.85, "type_name": "Check",
+                       "batch": {"id": 1, "display_name": "Auto"}}],
+            messages=[{"id": 11, "type_name": "Message", "message": {"text": "Synthetic note", "severity": "INFO"},
+                       "batch": {"id": 1, "display_name": "Auto"}}]),
+        ukg_detail(
+            gross_up,
+            earnings=[ukg_earning(12, "REG", "Regular", "eight hours", 20.0, 160.0)],  # not a number
+            payments=[{"id": 13, "hours": 0, "quantity": 0, "ee_amount": 160.0, "type_name": "Pay Card",
+                       "batch": {"id": 1, "display_name": "Auto"}}]),
+        ukg_detail(invalid),
+        ukg_detail(orphan, earnings=[ukg_earning(14, "REG", "Regular", 144_000_000, 25.0, 1000.0)]),
+    ]
+
+    def listing(*statements):
+        return {"pay_statements": list(statements)}
+
+    return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
+        "payrolls": {"payrolls": payrolls},
+        "pay_statements": {
+            "4332470001": listing(first, gross_up, no_detail),
+            "4332470002": listing(invalid),
+            # 4332470003 has no entry -> missing_section
+            "4332470004": listing(),
+            "4332479999": listing(orphan),  # payroll not in the list
+        },
+        "pay_statement_detail": {str(detail["id"]): detail for detail in details},
+        "lookup_eins": {"items": [dict(UKG_EIN, ein_country_id="USA")]},
+    })
+
+
 BUILDERS = {
     "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits,
-                "deduction": build_prismhr_deductions},
+                "deduction": build_prismhr_deductions, "payroll": build_prismhr_payroll},
     "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
-                "deduction": build_isolved_deductions},
+                "deduction": build_isolved_deductions, "payroll": build_isolved_payroll},
     "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
-                  "deduction": build_ukg_deductions},
+                  "deduction": build_ukg_deductions, "payroll": build_ukg_payroll},
 }
 # Bundle file name and golden-output suffix per entity.
 ENTITY_FILES = {"employee": ("employee-bundle.json", "employees"),
                 "direct-deposit": ("direct-deposit-bundle.json", "direct-deposits"),
-                "deduction": ("deduction-bundle.json", "deductions")}
+                "deduction": ("deduction-bundle.json", "deductions"),
+                "payroll": ("payroll-bundle.json", "payroll")}
 
 
 def dumps(data) -> str:

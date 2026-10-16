@@ -337,6 +337,8 @@
     }
   ],
   "deductions": [],
+  "pay_runs": [],
+  "paychecks": [],
   "issues": [
     {
       "code": "inconsistent_allocation",

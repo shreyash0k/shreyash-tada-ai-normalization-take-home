@@ -17,8 +17,9 @@ def load_json(path: Path):
 
 
 PROVIDERS = ("prismhr", "isolved", "ukg-ready")
-ENTITIES = ("employee", "direct-deposit", "deduction")
-_GOLDEN_SUFFIX = {"employee": "employees", "direct-deposit": "direct-deposits", "deduction": "deductions"}
+ENTITIES = ("employee", "direct-deposit", "deduction", "payroll")
+_GOLDEN_SUFFIX = {"employee": "employees", "direct-deposit": "direct-deposits", "deduction": "deductions",
+                  "payroll": "payroll"}
 
 
 def bundle_path(provider: str, entity: str = "employee") -> Path:

@@ -7,6 +7,7 @@ from .company import Company
 from .deduction import Deduction
 from .direct_deposit import DirectDeposit
 from .employee import Employee
+from .payroll import Paycheck, PayRun
 
 
 class IssueCode(CanonicalEnum):
@@ -51,5 +52,7 @@ class NormalizedOutput(Model):
     employees: list[Employee] = field(default_factory=list)
     direct_deposits: list[DirectDeposit] = field(default_factory=list)
     deductions: list[Deduction] = field(default_factory=list)
+    pay_runs: list[PayRun] = field(default_factory=list)
+    paychecks: list[Paycheck] = field(default_factory=list)
     issues: list[Issue] = field(default_factory=list)
     schema_version: str = "1"

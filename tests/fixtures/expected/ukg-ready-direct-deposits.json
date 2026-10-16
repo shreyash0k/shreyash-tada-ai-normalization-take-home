@@ -601,6 +601,8 @@
     }
   ],
   "deductions": [],
+  "pay_runs": [],
+  "paychecks": [],
   "issues": [
     {
       "code": "invalid_number",
