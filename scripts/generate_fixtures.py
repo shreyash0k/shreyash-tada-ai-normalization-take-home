@@ -1227,13 +1227,137 @@ def build_ukg_deductions(seed: int):
     })
 
 
+# UKG Ready payroll: the /payrolls list, /pay-statements per payroll id and the
+# statement detail per statement id. Injected cases: payroll statuses of each
+# group plus one outside the enum (out_of_schema_value), a payroll type and a
+# statement type off the allowlist (unmapped_label), a payroll with no
+# statements entry and one with an empty list, a statement with no detail
+# (missing_section), hours in milliseconds and one that is not a number
+# (invalid_number), deductions with both amounts, the employee amount only,
+# the employer amount only and a discarded one, both payment types and an
+# unknown one, the live-only calcUpto and emptyEarning, and a statement whose
+# payroll is not listed. No statement carries gross or net totals.
+
+UKG_PAYROLL = f"{UKG_BASE}/payrolls"
+UKG_EIN = {"id": 35419520, "ein_name": "Primary EIN", "ein_tax_id": "12-3456789"}
+
+
+def ukg_payroll(payroll_id, name, status, pay_date, start, end, type_id=641, type_name="Regular"):
+    return {"id": payroll_id, "name": name, "start_date": start, "end_date": end, "pay_date": pay_date,
+            "type": {"id": type_id, "display_name": type_name}, "status": status, "ein": dict(UKG_EIN),
+            "billable": True, "direct_deposit_date": pay_date, "sch_submit_date_time": None,
+            "invoice_generator_id": None, "adjustment_grab_YTD_from_payroll_id": None,
+            "dflt_pay_statement_type_id": 36656000, "dflt_pay_stub_note": "",
+            "_links": {"self": f"{UKG_PAYROLL}/{payroll_id}"}}
+
+
+def ukg_statement(statement_id, aid, payroll_id, status, pay_date, start, end, type_id=36656000,
+                  type_name="Regular"):
+    return {"employee": {"account_id": aid}, "id": statement_id, "pay_date": pay_date, "status": status,
+            "type": {"id": type_id, "display_name": type_name}, "pay_period_start": start,
+            "pay_period_end": end, "calcUpto": None, "emptyEarning": False,
+            "_links": {"self": f"{UKG_PAYROLL}/{payroll_id}/pay-statements/{statement_id}"}}
+
+
+def ukg_earning(line_id, code, name, hours_ms, rate, amount):
+    return {"id": line_id, "type_name": "Earning", "batch": {"id": 1, "display_name": "Auto"},
+            "hours": hours_ms, "base_rate": rate, "quantity": 0, "ee_amount": amount,
+            "cost_centers": [], "earning": {"name": name, "external_id": "", "code": code, "id": line_id + 100}}
+
+
+def ukg_statement_deduction(line_id, code, name, ee=None, er=None, type_name="Deduction (Auto)"):
+    line = {"id": line_id, "type_name": type_name, "batch": {"id": 1, "display_name": "Auto"},
+            "quantity": 0, "base_rate": 0, "vendor": None, "cost_centers": [],
+            "deduction": {"name": name, "external_id": "", "code": code},
+            "ee_gross_wage": 2075.0, "ee_subject_wage": 2075.0, "ee_gross_subject_wage": 2075.0}
+    if ee is not None:
+        line["ee_amount"] = ee
+    if er is not None:
+        line["er_amount"] = er
+    return line
+
+
+def ukg_statement_tax(line_id, code, name, ee, er, wage):
+    return {"id": line_id, "type_name": "Tax", "batch": {"id": 1, "display_name": "Auto"},
+            "ee_amount": ee, "er_amount": er, "ee_gross_wage": 2075.0, "ee_subject_wage": wage,
+            "ee_gross_subject_wage": wage, "er_gross_wage": 2075.0, "er_subject_wage": wage,
+            "er_gross_subject_wage": wage, "company_tax": {"code": code, "name": name, "abbrev": code}}
+
+
+def ukg_detail(statement, earnings=(), deductions=(), taxes=(), payments=(), messages=()):
+    detail = {k: v for k, v in statement.items() if k not in ("calcUpto", "emptyEarning", "_links")}
+    detail.update(earnings=list(earnings), deductions=list(deductions), taxes=list(taxes),
+                  messages=list(messages), payments=list(payments))
+    return detail
+
+
+def build_ukg_payroll(seed: int):
+    ids = [r["id"] for r in build_ukg(seed)["responses"]["employees"]["employees"]]
+    period = ("2025-12-21", "2026-01-03")
+    payrolls = [
+        ukg_payroll(4332470001, "Primary-EIN Regular Bi-Weekly 01/09/2026", "FINALIZED", "2026-01-09", *period),
+        ukg_payroll(4332470002, "Correction 01/16/2026", "OPEN", "2026-01-16", *period, type_id=706,
+                    type_name="Correction"),  # off-allowlist type
+        ukg_payroll(4332470003, "Paused run", "PAUSED", "2026-01-23", "2026-01-04", "2026-01-17"),  # not in enum
+        ukg_payroll(4332470004, "Failed close", "CLOSE_FAILED", "2026-02-06", "2026-01-18", "2026-01-31"),
+    ]
+    first = ukg_statement(85940001, ids[0], 4332470001, "FINALIZED", "2026-01-09", *period)
+    gross_up = ukg_statement(85940002, ids[1], 4332470001, "OPEN", "2026-01-09", *period, type_id=36656002,
+                             type_name="Gross Up")  # off-allowlist type
+    no_detail = ukg_statement(85940003, ids[2], 4332470001, "CLOSED", "2026-01-09", *period)
+    invalid = ukg_statement(85940004, ids[3], 4332470002, "INVALID", "2026-01-16", *period)
+    orphan = ukg_statement(85940005, ids[4], 4332479999, "NEW", "2026-02-20", "2026-02-01", "2026-02-14")
+    details = [
+        ukg_detail(
+            first,
+            earnings=[ukg_earning(1, "REG", "Regular", 288_000_000, 25.0, 2000.0),
+                      ukg_earning(2, "OT", "Overtime", 7_200_000, 37.5, 75.0)],
+            deductions=[ukg_statement_deduction(3, "401k", "401k", ee=120.0, er=60.0),
+                        ukg_statement_deduction(4, "S125_Med", "Medical", ee=45.5, er=0.0),
+                        ukg_statement_deduction(5, "ER_HSA", "HSA Employer", ee=0.0, er=25.0),
+                        ukg_statement_deduction(6, "401K Loan 1", "401K Loan 1", ee=30.0,
+                                                type_name="Deduction (Discarded)")],
+            taxes=[ukg_statement_tax(7, "FIT", "Federal Income Tax", 210.0, 0.0, 1954.5),
+                   ukg_statement_tax(8, "SS", "Social Security", 128.65, 128.65, 2075.0)],
+            payments=[{"id": 9, "hours": 0, "quantity": 0, "ee_amount": 1500.0, "type_name": "Direct Deposit",
+                       "batch": {"id": 1, "display_name": "Auto"}},
+                      {"id": 10, "hours": 0, "quantity": 0, "ee_amount": 40.85, "type_name": "Check",
+                       "batch": {"id": 1, "display_name": "Auto"}}],
+            messages=[{"id": 11, "type_name": "Message", "message": {"text": "Synthetic note", "severity": "INFO"},
+                       "batch": {"id": 1, "display_name": "Auto"}}]),
+        ukg_detail(
+            gross_up,
+            earnings=[ukg_earning(12, "REG", "Regular", "eight hours", 20.0, 160.0)],  # not a number
+            payments=[{"id": 13, "hours": 0, "quantity": 0, "ee_amount": 160.0, "type_name": "Pay Card",
+                       "batch": {"id": 1, "display_name": "Auto"}}]),
+        ukg_detail(invalid),
+        ukg_detail(orphan, earnings=[ukg_earning(14, "REG", "Regular", 144_000_000, 25.0, 1000.0)]),
+    ]
+
+    def listing(*statements):
+        return {"pay_statements": list(statements)}
+
+    return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
+        "payrolls": {"payrolls": payrolls},
+        "pay_statements": {
+            "4332470001": listing(first, gross_up, no_detail),
+            "4332470002": listing(invalid),
+            # 4332470003 has no entry -> missing_section
+            "4332470004": listing(),
+            "4332479999": listing(orphan),  # payroll not in the list
+        },
+        "pay_statement_detail": {str(detail["id"]): detail for detail in details},
+        "lookup_eins": {"items": [dict(UKG_EIN, ein_country_id="USA")]},
+    })
+
+
 BUILDERS = {
     "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits,
                 "deduction": build_prismhr_deductions, "payroll": build_prismhr_payroll},
     "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
                 "deduction": build_isolved_deductions, "payroll": build_isolved_payroll},
     "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
-                  "deduction": build_ukg_deductions},
+                  "deduction": build_ukg_deductions, "payroll": build_ukg_payroll},
 }
 # Bundle file name and golden-output suffix per entity.
 ENTITY_FILES = {"employee": ("employee-bundle.json", "employees"),

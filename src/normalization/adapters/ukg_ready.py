@@ -1,4 +1,4 @@
-"""UKG Ready employee, direct deposit and deduction adapter.
+"""UKG Ready employee, direct deposit, deduction and payroll adapter.
 
 Input: a capture bundle with the company employee list
 (``GET /v2/companies/{cid}/employees``) and, keyed by account id as a string,
@@ -15,6 +15,13 @@ Deductions come from ``responses.deductions``, keyed by account id (the
 ``responses.deduction_detail``, keyed by deduction id (the body of
 ``GET .../employees/{aid}/deductions/{id}``). Only the detail carries the
 amounts, frequency and limits.
+
+Payroll comes from ``responses.payrolls`` (the ``GET .../payrolls`` list, the
+pay runs), ``responses.pay_statements`` (payroll id -> the
+``.../payrolls/{id}/pay-statements`` list) and
+``responses.pay_statement_detail`` (statement id -> the statement detail,
+which carries the lines). Pay statements have no gross or net totals, and
+earnings hours arrive in milliseconds like every other UKG duration.
 
 UKG's closed schema enums (gender, citizenship, amount_period, time_period)
 map directly. Tenant-configured lookups (employee types, pay types) resolve to
@@ -40,13 +47,16 @@ from ..canonical import (
     CompanySource,
     Compensation,
     Contact,
+    ContributionLine,
     DateRange,
     Deduction,
     DeductionFrequency,
+    DeductionLine,
     DeductionSource,
     DepositSource,
     DepositStatus,
     DirectDeposit,
+    EarningLine,
     Email,
     EmailKind,
     Employee,
@@ -60,16 +70,27 @@ from ..canonical import (
     Limits,
     Money,
     NormalizedOutput,
+    Paycheck,
+    PaycheckSource,
+    PaycheckStatus,
+    PaycheckType,
     Payee,
+    PaymentLine,
+    PaymentMethod,
     PayPeriod,
+    PayRun,
+    PayRunSource,
+    PayRunStatus,
+    PayRunType,
     PayType,
     Person,
     Phone,
     PhoneKind,
     Severity,
     SourceRef,
+    TaxLine,
 )
-from ._common import CodeTable, Collector, Reader, boolean, is_blank, text
+from ._common import CodeTable, Collector, Reader, boolean, is_blank, line_readers, nonzero, text
 
 PROVIDER = "ukg-ready"
 SCHEMAS = "contracts/ukg-ready/reference-schemas.json#/schemas"
@@ -154,6 +175,43 @@ DEDUCTION_CALC_METHOD = CodeTable(
 )
 PREFERRED_PHONE = {"HOME": "home_phone", "CELL": "cell_phone", "WORK": "work_phone"}
 EEO4_FIELDS = ("eeo4_classification", "eeo4_function")
+
+PAYROLL = f"{SCHEMAS}/358/schema/properties/payrolls/items/properties"
+STATEMENT = f"{SCHEMAS}/364/schema/properties"
+LIVE_PAYROLL = ("live GET /v2/companies/{cid}/payrolls and .../pay-statements captures "
+                "(docs/DECISIONS.md payroll entries)")
+PAYROLL_STATUS = CodeTable(
+    "payrolls.status", PayRunStatus,
+    {"NEW": PayRunStatus.OPEN, "OPEN": PayRunStatus.OPEN, "CLOSED": PayRunStatus.SUBMITTED,
+     "SUBMITTED": PayRunStatus.SUBMITTED, "FINALIZED": PayRunStatus.COMPLETED,
+     "OPEN_FAILED": PayRunStatus.FAILED, "CLOSE_FAILED": PayRunStatus.FAILED,
+     "ROLLBACK_FAILED": PayRunStatus.FAILED, "FINALIZE_FAILED": PayRunStatus.FAILED},
+    f"{PAYROLL}/status/enum",
+)
+STATEMENT_STATUS = CodeTable(
+    "pay_statements.status", PaycheckStatus,
+    {"INVALID": PaycheckStatus.INVALID, "NEW": PaycheckStatus.OPEN, "OPEN": PaycheckStatus.OPEN,
+     "CLOSED": PaycheckStatus.CLOSED, "FINALIZED": PaycheckStatus.FINALIZED},
+    f"{STATEMENT}/status/enum",
+)
+# Payroll and statement types are tenant lookups (id and display_name).
+PAYROLL_TYPE = CodeTable(
+    "payrolls.type.display_name", PayRunType, {"Regular": PayRunType.REGULAR},
+    f"{PAYROLL}/type (tenant lookup); labels from {LIVE_PAYROLL}",
+    kind="label",
+)
+STATEMENT_TYPE = CodeTable(
+    "pay_statements.type.display_name", PaycheckType, {"Regular": PaycheckType.REGULAR},
+    f"{STATEMENT}/type (tenant lookup); labels from {LIVE_PAYROLL}",
+    kind="label",
+)
+PAYMENT_TYPE = CodeTable(
+    "payments.type_name", PaymentMethod,
+    {"Check": PaymentMethod.CHECK, "Direct Deposit": PaymentMethod.DIRECT_DEPOSIT},
+    f"{STATEMENT}/payments/items/properties/type_name (string, no enum); labels from {LIVE_PAYROLL}",
+    kind="label",
+)
+LIVE_ONLY_STATEMENT_FIELDS = ("calcUpto", "emptyEarning")
 
 
 def _ms_to_hours(value: Any) -> Optional[Decimal]:
@@ -585,6 +643,159 @@ class _UkgDeductionMapper:
         )
 
 
+class _UkgPayrollMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.issues = issues
+        self.company_id = bundle.request["company_id"]
+        self.company_key = f"{PROVIDER}:{self.company_id}"
+        self.payrolls = bundle.response("payrolls") or {}
+        self.statements = bundle.response("pay_statements") or {}
+        self.details = bundle.response("pay_statement_detail") or {}
+        self._reported: set = set()
+
+    def _money(self, r: Reader, name: str, key: str):
+        return self.issues.money(r.get(name), r.path(name), key)
+
+    def _typed(self, table: CodeTable, r: Reader, key: str) -> Optional[CodedValue]:
+        """A tenant type lookup: the id stays raw, the display name is matched against the allowlist."""
+        type_id, name = text(r.get("type", "id")), text(r.get("type", "display_name"))
+        if type_id is None and name is None:
+            return None
+        coded = self.issues.code_once(table, name, r.path("type", "display_name"), key)
+        return CodedValue(raw=type_id, label=name, value=coded.value if coded else table.enum.UNKNOWN)
+
+    def runs(self) -> list[PayRun]:
+        items = self.payrolls.get("payrolls") or []
+        if not isinstance(items, list):
+            raise ValueError("responses.payrolls.payrolls must be a list")
+        return [self._run(Reader(item, f"payrolls[{index}]"))
+                for index, item in enumerate(items) if isinstance(item, dict)]
+
+    def _run(self, r: Reader) -> PayRun:
+        payroll_id = text(r.get("id")) or ""
+        key = f"{self.company_key}:run:{payroll_id}"
+        start = self.issues.date(r.get("start_date"), r.path("start_date"), key)
+        end = self.issues.date(r.get("end_date"), r.path("end_date"), key)
+        ein = r.sub("ein")
+        return PayRun(
+            key=key,
+            company_key=self.company_key,
+            source=PayRunSource(provider=PROVIDER, company_id=self.company_id, pay_run_id=payroll_id),
+            type=self._typed(PAYROLL_TYPE, r, key),
+            status=self.issues.code(PAYROLL_STATUS, r.get("status"), r.path("status"), key,
+                                    issue_code=IssueCode.OUT_OF_SCHEMA_VALUE),
+            pay_date=self.issues.date(r.get("pay_date"), r.path("pay_date"), key),
+            period=DateRange(start=start, end=end) if start is not None or end is not None else None,
+            description=text(r.get("name")),
+            pay_group=Collector.raw_code(text(ein.get("id")), ein.get("ein_name")),
+            unmapped=r.unmapped(),
+        )
+
+    def paychecks(self, run_keys: Dict[str, str]) -> list[Paycheck]:
+        for payroll_id, run_key in run_keys.items():
+            if payroll_id not in self.statements:
+                self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "pay_statements",
+                                "no paychecks emitted for this pay run", run_key,
+                                message=f"bundle has no responses.pay_statements[{payroll_id!r}] entry")
+        checks = []
+        for payroll_id, envelope in self.statements.items():
+            items = envelope.get("pay_statements") if isinstance(envelope, dict) else None
+            if not isinstance(items, list):
+                raise ValueError(f"responses.pay_statements[{payroll_id!r}].pay_statements must be a list")
+            for index, item in enumerate(items):
+                if isinstance(item, dict):
+                    checks.append(self._paycheck(item, index, payroll_id, run_keys.get(payroll_id)))
+        return checks
+
+    def _paycheck(self, item: Dict[str, Any], index: int, payroll_id: str, run_key: Optional[str]) -> Paycheck:
+        statement_id = text(item.get("id")) or str(index)
+        detail = self.details.get(statement_id)
+        merged = dict(item)
+        if isinstance(detail, dict):
+            merged.update(detail)
+        r = Reader(merged, f"pay_statements[{index}]")
+        r.consume("id")
+        aid = text(r.get("employee", "account_id")) or ""
+        employee_key = f"{self.company_key}:{aid}"
+        key = f"{employee_key}:chk:{statement_id}"
+        if not isinstance(detail, dict):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "pay_statement_detail",
+                            "no lines emitted; list fields only", key,
+                            message=f"bundle has no responses.pay_statement_detail[{statement_id!r}] entry")
+        if run_key is None:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, f"pay_statements[{payroll_id!r}]",
+                            "pay_run_key set null", key, payroll_id, "the payroll is not in the payrolls list")
+        for field_name in LIVE_ONLY_STATEMENT_FIELDS:
+            if r.has(field_name) and field_name not in self._reported:
+                self._reported.add(field_name)
+                self.issues.add(IssueCode.SPEC_LIVE_MISMATCH, Severity.INFO, r.path(field_name),
+                                "kept in unmapped",
+                                message=f"live pay-statements returns '{field_name}', which the schema does not "
+                                        f"list ({SCHEMAS}/362)")
+        start = self.issues.date(r.get("pay_period_start"), r.path("pay_period_start"), key)
+        end = self.issues.date(r.get("pay_period_end"), r.path("pay_period_end"), key)
+        deductions, contributions = self._deductions(r, key)
+        return Paycheck(
+            key=key,
+            employee_key=employee_key,
+            company_key=self.company_key,
+            source=PaycheckSource(provider=PROVIDER, company_id=self.company_id, employee_id=aid,
+                                  paycheck_id=statement_id, pay_run_id=payroll_id),
+            pay_run_key=run_key,
+            type=self._typed(STATEMENT_TYPE, r, key),
+            status=self.issues.code(STATEMENT_STATUS, r.get("status"), r.path("status"), key,
+                                    issue_code=IssueCode.OUT_OF_SCHEMA_VALUE),
+            pay_date=self.issues.date(r.get("pay_date"), r.path("pay_date"), key),
+            period=DateRange(start=start, end=end) if start is not None or end is not None else None,
+            earnings=self._earnings(r, key),
+            taxes=[TaxLine(code=Collector.raw_code(t.get("company_tax", "code"), t.get("company_tax", "name")),
+                           employee_amount=self._money(t, "ee_amount", key),
+                           employer_amount=self._money(t, "er_amount", key),
+                           employee_taxable_wages=self._money(t, "ee_subject_wage", key),
+                           employer_taxable_wages=self._money(t, "er_subject_wage", key),
+                           unmapped=t.unmapped())
+                   for t in line_readers(r, "taxes")],
+            deductions=deductions,
+            employer_contributions=contributions,
+            payments=[PaymentLine(method=self.issues.code_once(PAYMENT_TYPE, p.get("type_name"),
+                                                               p.path("type_name"), key),
+                                  amount=self._money(p, "ee_amount", key), unmapped=p.unmapped())
+                      for p in line_readers(r, "payments")],
+            unmapped=r.unmapped(),
+        )
+
+    def _earnings(self, r: Reader, key: str) -> list[EarningLine]:
+        lines = []
+        for line in line_readers(r, "earnings"):
+            raw_hours = line.get("hours")
+            hours = _ms_to_hours(raw_hours)
+            if raw_hours is not None and hours is None:
+                self.issues.add(IssueCode.INVALID_NUMBER, Severity.ERROR, line.path("hours"), "set null", key,
+                                raw_hours, "hours must be a number of milliseconds")
+            lines.append(EarningLine(
+                code=Collector.raw_code(line.get("earning", "code"), line.get("earning", "name")),
+                hours=hours,
+                rate=self._money(line, "base_rate", key),
+                amount=self._money(line, "ee_amount", key),
+                unmapped=line.unmapped(),
+            ))
+        return lines
+
+    def _deductions(self, r: Reader, key: str) -> tuple[list[DeductionLine], list[ContributionLine]]:
+        """Split each line into the employee's deduction and the employer's contribution, when nonzero."""
+        deductions, contributions = [], []
+        for line in line_readers(r, "deductions"):
+            code = Collector.raw_code(line.get("deduction", "code"), line.get("deduction", "name"))
+            employee = self._money(line, "ee_amount", key) if nonzero(line.peek("ee_amount")) else None
+            employer = self._money(line, "er_amount", key) if nonzero(line.peek("er_amount")) else None
+            unmapped = line.unmapped()
+            if employee is not None or employer is None:
+                deductions.append(DeductionLine(code=code, amount=employee, unmapped=unmapped))
+            if employer is not None:
+                contributions.append(ContributionLine(code=code, amount=employer, unmapped=unmapped))
+        return deductions, contributions
+
+
 def _listed_employees(bundle: Bundle) -> list[Dict[str, Any]]:
     listed = bundle.response("employees").get("employees")
     if not isinstance(listed, list):
@@ -654,8 +865,24 @@ def normalize_deductions(bundle: Bundle) -> NormalizedOutput:
     return NormalizedOutput(provider=PROVIDER, company=company, deductions=deductions, issues=issues.issues)
 
 
+def normalize_payroll(bundle: Bundle) -> NormalizedOutput:
+    """Pay runs in list order, then every captured statement in capture order."""
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _UkgPayrollMapper(bundle, issues)
+    pay_runs = mapper.runs()
+    paychecks = mapper.paychecks({run.source.pay_run_id: run.key for run in pay_runs})
+    if paychecks:
+        issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "pay_statement_detail", "gross_pay and net_pay set null",
+                   message=f"pay statements carry no gross or net totals ({STATEMENT}); "
+                           "they are never summed from the lines")
+    company = _company(mapper.company_id, bundle, issues)
+    return NormalizedOutput(provider=PROVIDER, company=company, pay_runs=pay_runs, paychecks=paychecks,
+                            issues=issues.issues)
+
+
 NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
-               "deduction": normalize_deductions}
+               "deduction": normalize_deductions, "payroll": normalize_payroll}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:
