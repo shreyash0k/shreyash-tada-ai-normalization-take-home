@@ -145,12 +145,13 @@ cd web
 npm install
 npm run dev     # http://localhost:3000
 npm test        # unit tests for cell states and labels
+npm run lint    # ESLint
 npm run build   # static site in web/out/
 ```
 
 The Python tests fail if the field map or the committed `coverage.json` falls
-out of step with the adapters' output, so re-run the export after changing an
-adapter.
+out of step with the golden outputs. After changing an adapter, regenerate the
+fixtures with `scripts/generate_fixtures.py`, then re-run the export.
 
 ## Live demo data (optional)
 

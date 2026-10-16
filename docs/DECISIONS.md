@@ -835,9 +835,9 @@ during implementation.
   for every synthetic employee.
 - **Decision:** Each field and provider pair is "mapped", "not mapped
   yet" or "not offered", and every one cites a spec path. "Not offered"
-  cites the schema that lacks the field and says what the provider has
-  instead. A mapped field that no fixture employee fills shows as "empty
-  in sample", with a note when the cause is the fixture generator.
+  cites the schema that lacks the field and says why it is missing. A
+  mapped field that no fixture employee fills shows as "empty in
+  sample", with a note when the cause is the fixture generator.
 - **Reason:** "Not offered" is a claim about the provider, so it needs the
   same evidence as a mapping. Separating "empty in sample" stops gaps in
   the synthetic data from reading as gaps in the adapter.
@@ -858,26 +858,33 @@ during implementation.
   call can be relied on to return.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/107/schema/properties/termination_details`
   and `#/schemas/107/schema/properties/rehire_details`;
-  `#/schemas/106/schema/properties/dates`.
+  `#/schemas/106/schema/properties/dates`;
+  `src/normalization/field_map.py` (`UKG_READY`).
 - **Status:** Open.
 
-### 39. UKG Ready job title and organization are not mapped yet
+### 39. Job titles behind a lookup, and UKG Ready organization, are not mapped yet
 
-- **Context:** UKG Ready gives an employee's default job only as an ID
-  (`pay_info.default_job`), and its organization as up to nine
-  cost-centre levels (`cost_centers_info`, levels 0 to 8). Each company
-  defines what each level means. The job names come from a separate
-  configuration call (`config/cost-center-jobs`) that the bundle does not
-  fetch.
-- **Decision:** The output has the job code but no job title,
-  department, location or division for UKG Ready. The coverage page shows
-  those four as "not mapped yet".
-- **Reason:** Picking a cost-centre level for department or location
-  would guess at a per-company setting. A title needs the jobs
-  configuration, which the bundle would have to add first.
-- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job`
+- **Context:** PrismHR and UKG Ready put only a job code on the employee
+  record; the title lives in a separate list of jobs. For PrismHR that list
+  is the job code table (`getClientCodes` with the `Job` option), where
+  each entry's `jobTitle` is the "position/job title". For UKG Ready it is
+  the jobs configuration (`config/cost-center-jobs`), and the employee's
+  default job is an ID (`pay_info.default_job`). The bundle fetches
+  neither list. UKG Ready also gives organization as up to nine
+  cost-centre levels (`cost_centers_info`, levels 0 to 8), and each
+  company defines what each level means.
+- **Decision:** The adapters map the job code but no job title for PrismHR
+  or UKG Ready, and no department, location or division for UKG Ready.
+  The coverage page shows these as "not mapped yet".
+- **Reason:** A title needs the provider's job list, which the bundle
+  would have to fetch first. Picking a cost-centre level for department
+  or location would guess at a per-company setting.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle`
+  and `#/paths/~1clientMaster~1v1~1getClientCodes`;
+  `contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job`
   and `#/schemas/106/schema/properties/cost_centers_info`;
-  `src/normalization/field_map.py` (`UKG_READY`).
+  `src/normalization/bundle.py` (`PROVIDER_SPECS`);
+  `src/normalization/field_map.py` (`PRISMHR`, `UKG_READY`).
 - **Status:** Open.
 
 ### 40. UKG Ready contractor flag is in tax-info, which the bundle does not fetch

@@ -10,8 +10,8 @@ Statuses:
 * ``mapped``: the adapter fills the field from ``source``.
 * ``not_mapped_yet``: the provider offers the data at ``source``, but the
   adapter does not use it yet. ``reason`` says why.
-* ``not_offered``: the provider has no such field. ``reason`` says what it
-  has instead, and ``evidence`` points at the schema that lacks it.
+* ``not_offered``: the provider has no such field. ``reason`` says why,
+  and ``evidence`` points at the schema that lacks it.
 """
 import re
 from dataclasses import dataclass
@@ -156,7 +156,10 @@ PRISMHR = {
     "employment.rehire_eligible": mapped("client.rehireOk", P + "Client/properties/rehireOk"),
     "employment.flsa_exempt": mapped("client.flsaExempt", P + "Client/properties/flsaExempt"),
     "employment.contractor_1099": mapped("client.employee1099", P + "Client/properties/employee1099"),
-    "job.title": not_offered("getEmployee has a job code but no job title.", P + "Client/properties"),
+    "job.title": not_mapped_yet(
+        "client.jobCode, named by GET /clientMaster/v1/getClientCodes (options Job): jobTitle",
+        P + "JobCode/properties/jobTitle",
+        "The bundle does not fetch the job code table, so the title is not available."),
     "job.job_code": mapped("client.jobCode", P + "Client/properties/jobCode"),
     "job.department": mapped("client.homeDepartment", P + "Client/properties/homeDepartment"),
     "job.location": mapped("client.homeLocation", P + "Client/properties/homeLocation"),

@@ -7,7 +7,7 @@
       "summary": {
         "employees": 7,
         "fields_total": 52,
-        "fields_offered": 45,
+        "fields_offered": 46,
         "fields_mapped": 44
       },
       "coverage": [
@@ -388,12 +388,12 @@
         {
           "field": "job.title",
           "section": "job",
-          "status": "not_offered",
+          "status": "not_mapped_yet",
           "filled": 0,
           "total": 7,
-          "source": null,
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties",
-          "reason": "getEmployee has a job code but no job title.",
+          "source": "client.jobCode, named by GET /clientMaster/v1/getClientCodes (options Job): jobTitle",
+          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle",
+          "reason": "The bundle does not fetch the job code table, so the title is not available.",
           "sample_gap": null
         },
         {
