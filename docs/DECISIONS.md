@@ -986,7 +986,7 @@ during implementation.
   `contracts/ukg-ready/reference-schemas.json#/schemas/133` and
   `#/schemas/244` (deduction code lookup);
   `tests/test_deduction_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
-- **Status:** Open.
+- **Status:** Decided.
 
 ## Direct deposit normalization
 
