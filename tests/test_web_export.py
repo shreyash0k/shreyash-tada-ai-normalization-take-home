@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest import mock
 
 from _fixtures import expected_output
-from normalization import deduction_field_map, deposit_field_map, field_map
+from normalization import deduction_field_map, deposit_field_map, field_map, payroll_field_map
 from normalization.bundle import PROVIDER_SPECS
 from normalization.field_map import MAPPED, NOT_OFFERED
 
@@ -16,7 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import export_web_data  # noqa: E402
 
 PROVIDERS = tuple(PROVIDER_SPECS)
-ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map, "deduction": deduction_field_map}
+ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map, "deduction": deduction_field_map,
+               "payroll": payroll_field_map}
 
 
 class WebExportChecks(unittest.TestCase):
@@ -89,10 +90,21 @@ class WebExportChecks(unittest.TestCase):
                     if value:
                         with self.subTest(provider=provider, deduction=deduction["key"]):
                             self.assertNotIn(value, self.text)
+            payroll = expected_output(provider, "payroll")
+            for run in payroll["pay_runs"]:
+                if run["description"]:
+                    with self.subTest(provider=provider, run=run["key"]):
+                        self.assertNotIn(run["description"], self.text)
+            for paycheck in payroll["paychecks"]:
+                for earning in paycheck["earnings"]:
+                    label = (earning["code"] or {}).get("label")
+                    if label:
+                        with self.subTest(provider=provider, paycheck=paycheck["key"], label=label):
+                            self.assertNotIn(label, self.text)
 
     def test_missing_field_map_entry_fails_the_export(self):
         for module, field in ((field_map, "person.first_name"), (deposit_field_map, "bank_name"),
-                              (deduction_field_map, "code")):
+                              (deduction_field_map, "code"), (payroll_field_map, "pay_run.type")):
             with self.subTest(field=field), mock.patch.dict(module.FIELD_MAP["prismhr"]):
                 del module.FIELD_MAP["prismhr"][field]
                 with self.assertRaises(export_web_data.ExportError):

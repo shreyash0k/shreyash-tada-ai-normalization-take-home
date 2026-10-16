@@ -12,6 +12,16 @@ export const DEPOSIT_SECTIONS: Record<string, string> = {
   status_dates: "Status and dates",
 };
 
+export const PAYROLL_SECTIONS: Record<string, string> = {
+  pay_run: "Pay run",
+  paycheck: "Paycheck",
+  earnings: "Earnings",
+  taxes: "Taxes",
+  deductions: "Deductions taken",
+  employer_contributions: "Employer contributions",
+  payments: "Payments",
+};
+
 export const DEDUCTION_SECTIONS: Record<string, string> = {
   deduction: "Deduction",
   calculation: "Calculation",

@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Field coverage",
   description:
-    "How PrismHR, isolved and UKG Ready employee, direct deposit and deduction fields map into one canonical model.",
+    "How PrismHR, isolved and UKG Ready employee, direct deposit, deduction and payroll fields map into one canonical model.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

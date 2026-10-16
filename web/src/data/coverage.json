@@ -2097,6 +2097,857 @@
           }
         ]
       }
+    ],
+    "payroll": [
+      {
+        "id": "prismhr",
+        "name": "PrismHR",
+        "summary": {
+          "fields_total": 34,
+          "fields_offered": 34,
+          "fields_mapped": 34
+        },
+        "coverage": [
+          {
+            "field": "pay_run.type",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "batchType",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/BatchList/properties/batchType",
+            "reason": null
+          },
+          {
+            "field": "pay_run.status",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "batchStatus",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/BatchList/properties/batchStatus",
+            "reason": null
+          },
+          {
+            "field": "pay_run.pay_date",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "payDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/BatchList/properties/payDate",
+            "reason": null
+          },
+          {
+            "field": "pay_run.period.start",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "payGroup[0].payPeriodStartDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/BatchByDateResponse-BatchList-PayGroup/properties/payPeriodStartDate",
+            "reason": null
+          },
+          {
+            "field": "pay_run.period.end",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "payGroup[0].payPeriodEndDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/BatchByDateResponse-BatchList-PayGroup/properties/payPeriodEndDate",
+            "reason": null
+          },
+          {
+            "field": "pay_run.description",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "batchDescription",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/BatchControl/properties/batchDescription",
+            "reason": null
+          },
+          {
+            "field": "pay_run.pay_group",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "payGroup[0].payGroupId",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/BatchByDateResponse-BatchList-PayGroup/properties/payGroupId",
+            "reason": null
+          },
+          {
+            "field": "paycheck.type",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "type",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/type",
+            "reason": null
+          },
+          {
+            "field": "paycheck.status",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/status",
+            "reason": null
+          },
+          {
+            "field": "paycheck.pay_date",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "payDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/payDate",
+            "reason": null
+          },
+          {
+            "field": "paycheck.period.start",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "payPeriodStart",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/payPeriodStart",
+            "reason": null
+          },
+          {
+            "field": "paycheck.period.end",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "payPeriodEnd",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/payPeriodEnd",
+            "reason": null
+          },
+          {
+            "field": "paycheck.check_number",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "checkNumber",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/checkNumber",
+            "reason": null
+          },
+          {
+            "field": "paycheck.gross_pay",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "totalEarnings",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/totalEarnings",
+            "reason": null
+          },
+          {
+            "field": "paycheck.net_pay",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "netPay",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/netPay",
+            "reason": null
+          },
+          {
+            "field": "paycheck.void_date",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "voidDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/voidDate",
+            "reason": null
+          },
+          {
+            "field": "earnings.code",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "payCode, or otherEarnCode labelled by otherEarnsDesc",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Earning/properties/payCode",
+            "reason": null
+          },
+          {
+            "field": "earnings.category",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "payClass, labelled by payClassDescription",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Earning/properties/payClass",
+            "reason": null
+          },
+          {
+            "field": "earnings.hours",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "hoursUnits",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Earning/properties/hoursUnits",
+            "reason": null
+          },
+          {
+            "field": "earnings.rate",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "unitRate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Earning/properties/unitRate",
+            "reason": null
+          },
+          {
+            "field": "earnings.amount",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "payAmount, or otherEarnAmount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Earning/properties/payAmount",
+            "reason": null
+          },
+          {
+            "field": "taxes.code",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "empTaxDeductCode, labelled by empTaxDeductCodeDesc, or comTaxDeductCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeTax/properties/empTaxDeductCode",
+            "reason": null
+          },
+          {
+            "field": "taxes.employee_amount",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "empTaxAmount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeTax/properties/empTaxAmount",
+            "reason": null
+          },
+          {
+            "field": "taxes.employer_amount",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "comTaxAmount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/CompanyTax/properties/comTaxAmount",
+            "reason": null
+          },
+          {
+            "field": "taxes.employee_taxable_wages",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "empTaxableAmount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeTax/properties/empTaxableAmount",
+            "reason": null
+          },
+          {
+            "field": "taxes.employer_taxable_wages",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "comTaxableAmount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/CompanyTax/properties/comTaxableAmount",
+            "reason": null
+          },
+          {
+            "field": "deductions.code",
+            "section": "deductions",
+            "status": "mapped",
+            "source": "deductCode, labelled by deductDescription, or otherDeductCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Deduction/properties/deductCode",
+            "reason": null
+          },
+          {
+            "field": "deductions.category",
+            "section": "deductions",
+            "status": "mapped",
+            "source": "deductType",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Deduction/properties/deductType",
+            "reason": null
+          },
+          {
+            "field": "deductions.amount",
+            "section": "deductions",
+            "status": "mapped",
+            "source": "deductAmount, or otherDeductAmount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Deduction/properties/deductAmount",
+            "reason": null
+          },
+          {
+            "field": "employer_contributions.code",
+            "section": "employer_contributions",
+            "status": "mapped",
+            "source": "code, labelled by description",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployerContribution/properties/code",
+            "reason": null
+          },
+          {
+            "field": "employer_contributions.amount",
+            "section": "employer_contributions",
+            "status": "mapped",
+            "source": "amount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployerContribution/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "payments.method",
+            "section": "payments",
+            "status": "mapped",
+            "source": "checkAmt for a paper check, directDeposit for a deposit",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/checkAmt",
+            "reason": null
+          },
+          {
+            "field": "payments.amount",
+            "section": "payments",
+            "status": "mapped",
+            "source": "checkAmt, or directDeposit.amount",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/checkAmt",
+            "reason": null
+          },
+          {
+            "field": "payments.account_last4",
+            "section": "payments",
+            "status": "mapped",
+            "source": "directDeposit.accountNum",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher-DirectDeposit/properties/accountNum",
+            "reason": null
+          }
+        ]
+      },
+      {
+        "id": "isolved",
+        "name": "isolved",
+        "summary": {
+          "fields_total": 34,
+          "fields_offered": 30,
+          "fields_mapped": 30
+        },
+        "coverage": [
+          {
+            "field": "pay_run.type",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "payrollRunType",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/payrollRunType",
+            "reason": null
+          },
+          {
+            "field": "pay_run.status",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/status",
+            "reason": null
+          },
+          {
+            "field": "pay_run.pay_date",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "payDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/payDate",
+            "reason": null
+          },
+          {
+            "field": "pay_run.period.start",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "periodBeginDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/periodBeginDate",
+            "reason": null
+          },
+          {
+            "field": "pay_run.period.end",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "periodEndDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/periodEndDate",
+            "reason": null
+          },
+          {
+            "field": "pay_run.description",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "payOfTheMonth",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/payOfTheMonth",
+            "reason": null
+          },
+          {
+            "field": "pay_run.pay_group",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "the paygroupId the run history was fetched under",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/paths/~1api~1clients~1{clientId}~1legals~1{legalId}~1paygroupId~1{paygroupId}~1payrollRunHistory",
+            "reason": null
+          },
+          {
+            "field": "paycheck.type",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "checkTypeDescription",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/checkTypeDescription",
+            "reason": null
+          },
+          {
+            "field": "paycheck.status",
+            "section": "paycheck",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties",
+            "reason": "Checks have no status. The run has one; the check does not."
+          },
+          {
+            "field": "paycheck.pay_date",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "checkDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/checkDate",
+            "reason": null
+          },
+          {
+            "field": "paycheck.period.start",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "periodBeginDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/periodBeginDate",
+            "reason": null
+          },
+          {
+            "field": "paycheck.period.end",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "periodEndDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/periodEndDate",
+            "reason": null
+          },
+          {
+            "field": "paycheck.check_number",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "checkNumber",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/checkNumber",
+            "reason": null
+          },
+          {
+            "field": "paycheck.gross_pay",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "grossPay",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/grossPay",
+            "reason": null
+          },
+          {
+            "field": "paycheck.net_pay",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "netPay",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/netPay",
+            "reason": null
+          },
+          {
+            "field": "paycheck.void_date",
+            "section": "paycheck",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/reissueCheckDate",
+            "reason": "Checks carry a reissue date (reissueCheckDate), not a void date."
+          },
+          {
+            "field": "earnings.code",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "itemCode, labelled by itemDescription",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckEarningAccumulationModel/properties/itemCode",
+            "reason": null
+          },
+          {
+            "field": "earnings.category",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "isMemoEarning, when true",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckEarningAccumulationModel/properties/isMemoEarning",
+            "reason": null
+          },
+          {
+            "field": "earnings.hours",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "checkHours",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckEarningAccumulationModel/properties/checkHours",
+            "reason": null
+          },
+          {
+            "field": "earnings.rate",
+            "section": "earnings",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckEarningAccumulationModel/properties",
+            "reason": "Earning lines have hours and dollars, but no rate."
+          },
+          {
+            "field": "earnings.amount",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "checkDollars",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckEarningAccumulationModel/properties/checkDollars",
+            "reason": null
+          },
+          {
+            "field": "taxes.code",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "itemCode, labelled by itemDescription",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckTaxAccumulationModel/properties/itemCode",
+            "reason": null
+          },
+          {
+            "field": "taxes.employee_amount",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "checkDollars, when isEmployeeTax is true",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckTaxAccumulationModel/properties/checkDollars",
+            "reason": null
+          },
+          {
+            "field": "taxes.employer_amount",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "checkDollars, when isEmployeeTax is false",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckTaxAccumulationModel/properties/checkDollars",
+            "reason": null
+          },
+          {
+            "field": "taxes.employee_taxable_wages",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "checkTaxableWages, when isEmployeeTax is true",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckTaxAccumulationModel/properties/checkTaxableWages",
+            "reason": null
+          },
+          {
+            "field": "taxes.employer_taxable_wages",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "checkTaxableWages, when isEmployeeTax is false",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckTaxAccumulationModel/properties/checkTaxableWages",
+            "reason": null
+          },
+          {
+            "field": "deductions.code",
+            "section": "deductions",
+            "status": "mapped",
+            "source": "itemCode, labelled by itemDescription",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckAccumulationModel/properties/itemCode",
+            "reason": null
+          },
+          {
+            "field": "deductions.category",
+            "section": "deductions",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckAccumulationModel/properties",
+            "reason": "Deduction lines have a code and an amount, but no type."
+          },
+          {
+            "field": "deductions.amount",
+            "section": "deductions",
+            "status": "mapped",
+            "source": "checkDollars",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckAccumulationModel/properties/checkDollars",
+            "reason": null
+          },
+          {
+            "field": "employer_contributions.code",
+            "section": "employer_contributions",
+            "status": "mapped",
+            "source": "benefitTitle",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckBenefitTypeAccumulationModel/properties/benefitTitle",
+            "reason": null
+          },
+          {
+            "field": "employer_contributions.amount",
+            "section": "employer_contributions",
+            "status": "mapped",
+            "source": "checkEmployerContribution",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckBenefitTypeAccumulationModel/properties/checkEmployerContribution",
+            "reason": null
+          },
+          {
+            "field": "payments.method",
+            "section": "payments",
+            "status": "mapped",
+            "source": "checkAmount for a paper check, directDeposits for each account, otherwise directDepositAmount",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/checkAmount",
+            "reason": null
+          },
+          {
+            "field": "payments.amount",
+            "section": "payments",
+            "status": "mapped",
+            "source": "checkAmount, depositAmount, or directDepositAmount",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/checkAmount",
+            "reason": null
+          },
+          {
+            "field": "payments.account_last4",
+            "section": "payments",
+            "status": "mapped",
+            "source": "directDeposits.account",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckDirectDepositAccumulationModel/properties/account",
+            "reason": null
+          }
+        ]
+      },
+      {
+        "id": "ukg-ready",
+        "name": "UKG Ready",
+        "summary": {
+          "fields_total": 34,
+          "fields_offered": 27,
+          "fields_mapped": 27
+        },
+        "coverage": [
+          {
+            "field": "pay_run.type",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "type.id, labelled by type.display_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/type/properties/display_name",
+            "reason": null
+          },
+          {
+            "field": "pay_run.status",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/status",
+            "reason": null
+          },
+          {
+            "field": "pay_run.pay_date",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "pay_date",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/pay_date",
+            "reason": null
+          },
+          {
+            "field": "pay_run.period.start",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "start_date",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/start_date",
+            "reason": null
+          },
+          {
+            "field": "pay_run.period.end",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "end_date",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/end_date",
+            "reason": null
+          },
+          {
+            "field": "pay_run.description",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/name",
+            "reason": null
+          },
+          {
+            "field": "pay_run.pay_group",
+            "section": "pay_run",
+            "status": "mapped",
+            "source": "ein.id, labelled by ein_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/ein/properties/id",
+            "reason": null
+          },
+          {
+            "field": "paycheck.type",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "type.id, labelled by type.display_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/type/properties/display_name",
+            "reason": null
+          },
+          {
+            "field": "paycheck.status",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/status",
+            "reason": null
+          },
+          {
+            "field": "paycheck.pay_date",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "pay_date",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/pay_date",
+            "reason": null
+          },
+          {
+            "field": "paycheck.period.start",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "pay_period_start",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/pay_period_start",
+            "reason": null
+          },
+          {
+            "field": "paycheck.period.end",
+            "section": "paycheck",
+            "status": "mapped",
+            "source": "pay_period_end",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/pay_period_end",
+            "reason": null
+          },
+          {
+            "field": "paycheck.check_number",
+            "section": "paycheck",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties",
+            "reason": "Pay statements have no check number."
+          },
+          {
+            "field": "paycheck.gross_pay",
+            "section": "paycheck",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties",
+            "reason": "Pay statements carry lines, but no gross or net total."
+          },
+          {
+            "field": "paycheck.net_pay",
+            "section": "paycheck",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties",
+            "reason": "Pay statements carry lines, but no gross or net total."
+          },
+          {
+            "field": "paycheck.void_date",
+            "section": "paycheck",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties",
+            "reason": "Pay statements have no void date."
+          },
+          {
+            "field": "earnings.code",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "earning.code, labelled by earning.name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/earnings/items/properties/earning/properties/code",
+            "reason": null
+          },
+          {
+            "field": "earnings.category",
+            "section": "earnings",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/earnings/items/properties/type_name",
+            "reason": "type_name is an undescribed string that names the line, not a category."
+          },
+          {
+            "field": "earnings.hours",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "hours, converted from milliseconds",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/earnings/items/properties/hours",
+            "reason": null
+          },
+          {
+            "field": "earnings.rate",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "base_rate",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/earnings/items/properties/base_rate",
+            "reason": null
+          },
+          {
+            "field": "earnings.amount",
+            "section": "earnings",
+            "status": "mapped",
+            "source": "ee_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/earnings/items/properties/ee_amount",
+            "reason": null
+          },
+          {
+            "field": "taxes.code",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "company_tax.code, labelled by company_tax.name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/taxes/items/properties/company_tax/properties/code",
+            "reason": null
+          },
+          {
+            "field": "taxes.employee_amount",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "ee_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/taxes/items/properties/ee_amount",
+            "reason": null
+          },
+          {
+            "field": "taxes.employer_amount",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "er_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/taxes/items/properties/er_amount",
+            "reason": null
+          },
+          {
+            "field": "taxes.employee_taxable_wages",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "ee_subject_wage",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/taxes/items/properties/ee_subject_wage",
+            "reason": null
+          },
+          {
+            "field": "taxes.employer_taxable_wages",
+            "section": "taxes",
+            "status": "mapped",
+            "source": "er_subject_wage",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/taxes/items/properties/er_subject_wage",
+            "reason": null
+          },
+          {
+            "field": "deductions.code",
+            "section": "deductions",
+            "status": "mapped",
+            "source": "deduction.code, labelled by deduction.name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/deductions/items/properties/deduction/properties/code",
+            "reason": null
+          },
+          {
+            "field": "deductions.category",
+            "section": "deductions",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/deductions/items/properties/type_name",
+            "reason": "type_name names how the line was applied, not the deduction's type."
+          },
+          {
+            "field": "deductions.amount",
+            "section": "deductions",
+            "status": "mapped",
+            "source": "ee_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/deductions/items/properties/ee_amount",
+            "reason": null
+          },
+          {
+            "field": "employer_contributions.code",
+            "section": "employer_contributions",
+            "status": "mapped",
+            "source": "deduction.code, labelled by deduction.name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/deductions/items/properties/deduction/properties/code",
+            "reason": null
+          },
+          {
+            "field": "employer_contributions.amount",
+            "section": "employer_contributions",
+            "status": "mapped",
+            "source": "er_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/deductions/items/properties/er_amount",
+            "reason": null
+          },
+          {
+            "field": "payments.method",
+            "section": "payments",
+            "status": "mapped",
+            "source": "type_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/payments/items/properties/type_name",
+            "reason": null
+          },
+          {
+            "field": "payments.amount",
+            "section": "payments",
+            "status": "mapped",
+            "source": "ee_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/payments/items/properties/ee_amount",
+            "reason": null
+          },
+          {
+            "field": "payments.account_last4",
+            "section": "payments",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/payments/items/properties",
+            "reason": "Payment lines have a method and an amount, but no account number."
+          }
+        ]
+      }
     ]
   }
 }

@@ -22,6 +22,14 @@ describe("fieldLabel", () => {
     expect(fieldLabel("effective.start")).toBe("effective start");
     expect(fieldLabel("effective.end")).toBe("effective end");
   });
+  it("labels payroll rows", () => {
+    expect(fieldLabel("pay_run.type")).toBe("type");
+    expect(fieldLabel("pay_run.period.start")).toBe("period start");
+    expect(fieldLabel("paycheck.period.end")).toBe("period end");
+    expect(fieldLabel("paycheck.gross_pay")).toBe("gross pay");
+    expect(fieldLabel("taxes.employee_taxable_wages")).toBe("employee taxable wages");
+    expect(fieldLabel("payments.account_last4")).toBe("account, last 4");
+  });
   it("labels deduction rows", () => {
     expect(fieldLabel("code")).toBe("code");
     expect(fieldLabel("limits.per_pay")).toBe("per pay");

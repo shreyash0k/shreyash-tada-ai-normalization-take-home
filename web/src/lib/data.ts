@@ -3,7 +3,7 @@ import type { ProviderId } from "./providers";
 
 export type FieldStatus = "mapped" | "not_mapped_yet" | "not_offered";
 
-export type EntityId = "employee" | "direct-deposit" | "deduction";
+export type EntityId = "employee" | "direct-deposit" | "deduction" | "payroll";
 
 export type CoverageEntry = {
   field: string;
