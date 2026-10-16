@@ -17,6 +17,7 @@ from normalization.canonical import (
     CodedValue,
     Company,
     CompanySource,
+    CompanyStatus,
     Compensation,
     Contact,
     ContributionLine,
@@ -40,6 +41,7 @@ from normalization.canonical import (
     Paycheck,
     PaycheckSource,
     Payee,
+    PayGroup,
     PaymentLine,
     PaymentMethod,
     PayRun,
@@ -48,7 +50,9 @@ from normalization.canonical import (
     Person,
     Severity,
     SourceRef,
+    TaxId,
     TaxLine,
+    WorkLocation,
 )
 from normalization.canonical import common, company, deduction, direct_deposit, employee, issues, payroll
 from normalization.canonical.schema_check import validate
@@ -95,7 +99,7 @@ class ConstructionChecks(unittest.TestCase):
             person.first_name = "Grace"
 
     def test_every_canonical_enum_ends_with_unknown(self):
-        for module in (common, direct_deposit, deduction, payroll, issues):
+        for module in (common, company, direct_deposit, deduction, payroll, issues):
             for name in dir(module):
                 member = getattr(module, name)
                 if isinstance(member, type) and issubclass(member, common.CanonicalEnum) \
@@ -155,6 +159,32 @@ class ConstructionChecks(unittest.TestCase):
                      source=PayRunSource(provider="prismhr", company_id="132", pay_run_id="20161"))
         self.assertEqual(run.to_dict()["unmapped"], {})
 
+    def test_company_fields_are_checked(self):
+        source = CompanySource(provider="isolved", company_id="4046-5806")
+        stub = Company(key="isolved:4046-5806", source=source).to_dict()
+        self.assertEqual((stub["tax_ids"], stub["work_locations"], stub["pay_groups"], stub["unmapped"]),
+                         ([], [], [], {}))
+        self.assertIsNone(stub["status"])
+        record = Company(
+            key="isolved:4046-5806", source=source, legal_name="Example Co",
+            status=CodedValue("Active", None, CompanyStatus.ACTIVE),
+            address=Address(kind=AddressKind.LEGAL, line1="200 State St"),
+            tax_ids=[TaxId(key="isolved:4046-5806:ein:568888888", tax_id="568888888")],
+            work_locations=[WorkLocation(key="isolved:4046-5806:loc:25721", source_id="25721", active=True)],
+            pay_groups=[PayGroup(key="isolved:4046-5806:pg:7627", source_id="7627",
+                                 effective=DateRange(start=date(2018, 1, 21)))],
+        )
+        data = record.to_dict()
+        self.assertEqual(data["address"]["kind"], "legal")
+        self.assertEqual(data["status"]["value"], "active")
+        self.assertEqual(data["pay_groups"][0]["effective"], {"start": "2018-01-21", "end": None})
+        with self.assertRaises(TypeError):
+            WorkLocation(key="k", source_id=1)
+        with self.assertRaises(TypeError):
+            Company(key="k", source=source, work_locations=[PayGroup(key="k", source_id="1")])
+        with self.assertRaises(TypeError):
+            Company(key="k", source=source, status_date="2016-12-01")
+
 
 class SerializationChecks(unittest.TestCase):
     def test_to_dict_renders_dates_decimals_and_enums(self):
@@ -189,6 +219,7 @@ class SchemaAgreementChecks(unittest.TestCase):
     MODELS = {
         "NormalizedOutput": issues.NormalizedOutput, "Issue": issues.Issue,
         "Company": company.Company, "CompanySource": company.CompanySource,
+        "TaxId": company.TaxId, "WorkLocation": company.WorkLocation, "PayGroup": company.PayGroup,
         "Employee": employee.Employee, "SourceRef": employee.SourceRef, "Person": employee.Person,
         "Contact": employee.Contact, "Employment": employee.Employment, "Job": employee.Job,
         "Compensation": employee.Compensation, "CodedValue": common.CodedValue,

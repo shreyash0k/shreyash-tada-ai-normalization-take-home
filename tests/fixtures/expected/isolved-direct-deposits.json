@@ -10,7 +10,23 @@
       }
     },
     "name": null,
-    "ein": null
+    "ein": null,
+    "legal_name": null,
+    "status": null,
+    "status_date": null,
+    "entity_type": null,
+    "service_type": null,
+    "naics_code": null,
+    "sic_code": null,
+    "address": null,
+    "phone": null,
+    "email": null,
+    "website": null,
+    "parent": null,
+    "tax_ids": [],
+    "work_locations": [],
+    "pay_groups": [],
+    "unmapped": {}
   },
   "employees": [],
   "direct_deposits": [
