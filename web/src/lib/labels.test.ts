@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fieldLabel } from "./labels";
+import { fieldLabel, shortSource } from "./labels";
 
 describe("fieldLabel", () => {
   it("drops the section and spaces out scalar names", () => {
@@ -12,5 +12,14 @@ describe("fieldLabel", () => {
   });
   it("says when the provider did not state the kind", () => {
     expect(fieldLabel("contact.emails[unknown]")).toBe("email, kind not stated");
+  });
+});
+
+describe("shortSource", () => {
+  it("keeps a plain source path", () => {
+    expect(shortSource("client.workEmail")).toBe("client.workEmail");
+  });
+  it("drops the lookup note after the first comma", () => {
+    expect(shortSource("client.jobCode, named by GET /clientMaster/v1/getClientCodes")).toBe("client.jobCode");
   });
 });

@@ -5,8 +5,8 @@ Usage::
     python scripts/export_web_data.py          # write the file
     python scripts/export_web_data.py --check  # exit 1 if the committed file is out of date
 
-The file holds statuses, counts, source paths and evidence only, never
-provider values, so the web app needs neither Python nor the fixtures.
+The file holds statuses, source paths and evidence only, never provider
+values, so the web app needs neither Python nor the fixtures.
 """
 import argparse
 import json
@@ -18,10 +18,9 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from normalization.bundle import PROVIDER_SPECS  # noqa: E402
 from normalization.field_map import (  # noqa: E402
-    FIELD_MAP, MAPPED, NOT_OFFERED, canonical_fields, is_filled,
+    FIELD_MAP, MAPPED, NOT_OFFERED, canonical_fields,
 )
 
-EXPECTED = ROOT / "tests" / "fixtures" / "expected"
 OUTPUT = ROOT / "web" / "src" / "data" / "coverage.json"
 EXPORT_VERSION = 1
 PROVIDER_NAMES = {"prismhr": "PrismHR", "isolved": "isolved", "ukg-ready": "UKG Ready"}
@@ -31,20 +30,11 @@ class ExportError(ValueError):
     pass
 
 
-def _employees(provider: str) -> list[dict]:
-    path = EXPECTED / f"{provider}-employees.json"
-    if not path.exists():
-        raise ExportError(f"{provider}: golden output {path.relative_to(ROOT)} is missing")
-    with path.open(encoding="utf-8") as stream:
-        return json.load(stream)["employees"]
-
-
 def provider_coverage(provider: str) -> dict:
     entries = FIELD_MAP.get(provider, {})
     missing = [field for field in canonical_fields() if field not in entries]
     if missing:
         raise ExportError(f"{provider}: field map has no entry for {', '.join(missing)}")
-    employees = _employees(provider)
     rows = []
     for field in canonical_fields():
         entry = entries[field]
@@ -52,18 +42,14 @@ def provider_coverage(provider: str) -> dict:
             "field": field,
             "section": field.split(".", 1)[0],
             "status": entry.status,
-            "filled": sum(1 for employee in employees if is_filled(employee, field)),
-            "total": len(employees),
             "source": entry.source,
             "evidence": entry.evidence,
             "reason": entry.reason,
-            "sample_gap": entry.sample_gap,
         })
     return {
         "id": provider,
         "name": PROVIDER_NAMES[provider],
         "summary": {
-            "employees": len(employees),
             "fields_total": len(rows),
             "fields_offered": sum(1 for row in rows if row["status"] != NOT_OFFERED),
             "fields_mapped": sum(1 for row in rows if row["status"] == MAPPED),

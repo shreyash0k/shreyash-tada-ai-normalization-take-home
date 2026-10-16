@@ -1,4 +1,4 @@
-"""The web app's coverage file: current, complete, and consistent with the golden outputs."""
+"""The web app's coverage file: current, complete, and consistent with the field map."""
 import contextlib
 import io
 import json
@@ -9,7 +9,7 @@ from unittest import mock
 
 from _fixtures import expected_output
 from normalization.bundle import PROVIDER_SPECS
-from normalization.field_map import FIELD_MAP, canonical_fields, is_filled
+from normalization.field_map import FIELD_MAP, MAPPED, NOT_OFFERED, canonical_fields
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import export_web_data  # noqa: E402
@@ -44,19 +44,21 @@ class WebExportChecks(unittest.TestCase):
                 self.assertEqual([row["field"] for row in rows], list(canonical_fields()))
                 for row in rows:
                     entry = FIELD_MAP[provider][row["field"]]
-                    self.assertEqual((row["status"], row["source"], row["evidence"]),
-                                     (entry.status, entry.source, entry.evidence))
+                    self.assertEqual(set(row), {"field", "section", "status", "source", "evidence", "reason"})
+                    self.assertEqual((row["status"], row["source"], row["evidence"], row["reason"]),
+                                     (entry.status, entry.source, entry.evidence, entry.reason))
 
-    def test_counts_agree_with_golden_output(self):
+    def test_summary_counts_follow_field_map(self):
         for provider in PROVIDERS:
-            employees = expected_output(provider)["employees"]
-            data = self.by_id[provider]
+            entries = FIELD_MAP[provider]
+            summary = self.by_id[provider]["summary"]
             with self.subTest(provider=provider):
-                self.assertEqual(data["summary"]["employees"], len(employees))
-                self.assertEqual(data["summary"]["fields_total"], len(canonical_fields()))
-                for row in data["coverage"]:
-                    self.assertEqual(row["total"], len(employees))
-                    self.assertEqual(row["filled"], sum(is_filled(e, row["field"]) for e in employees))
+                self.assertEqual(set(summary), {"fields_total", "fields_offered", "fields_mapped"})
+                self.assertEqual(summary["fields_total"], len(canonical_fields()))
+                self.assertEqual(summary["fields_offered"],
+                                 sum(entry.status != NOT_OFFERED for entry in entries.values()))
+                self.assertEqual(summary["fields_mapped"],
+                                 sum(entry.status == MAPPED for entry in entries.values()))
 
     def test_export_holds_no_provider_values(self):
         for provider in PROVIDERS:

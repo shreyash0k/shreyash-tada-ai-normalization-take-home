@@ -1,13 +1,21 @@
-import { CELL_STATES, CELL_STATE_LABEL } from "@/lib/cell-state";
+"use client";
+
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cellStyle } from "./coverage-cell";
+import { STATUSES, STATUS_DESCRIPTION, STATUS_LABEL } from "@/lib/status";
 
 export function CoverageLegend() {
   return (
     <ul className="flex flex-wrap gap-3 text-xs text-neutral-600">
-      {CELL_STATES.map((state) => (
-        <li key={state} className="flex items-center gap-1.5">
-          <span className="inline-block size-4 rounded border" style={cellStyle(state, "#404040", "#e5e5e5")} />
-          {CELL_STATE_LABEL[state]}
+      {STATUSES.map((status) => (
+        <li key={status}>
+          <Tooltip>
+            <TooltipTrigger className="flex items-center gap-1.5">
+              <span className="inline-block size-4 rounded border" style={cellStyle(status, "#404040", "#e5e5e5")} />
+              {STATUS_LABEL[status]}
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs text-left">{STATUS_DESCRIPTION[status]}</TooltipContent>
+          </Tooltip>
         </li>
       ))}
     </ul>

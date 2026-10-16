@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { cellState } from "@/lib/cell-state";
 import type { CoverageEntry, ProviderCoverage } from "@/lib/data";
 import { fieldLabel } from "@/lib/labels";
 import { PROVIDER_STYLE } from "@/lib/providers";
@@ -29,7 +29,7 @@ export function CoverageGrid({ providers }: { providers: ProviderCoverage[] }) {
       cells: lookups.map((lookup) => lookup.get(field) as CoverageEntry),
     }));
   }, [providers]);
-  const visible = gapsOnly ? rows.filter((row) => row.cells.some((cell) => cellState(cell) !== "filled")) : rows;
+  const visible = gapsOnly ? rows.filter((row) => row.cells.some((cell) => cell.status !== "mapped")) : rows;
   const sections = Object.keys(SECTION_TITLES).filter((section) => visible.some((row) => row.section === section));
 
   return (
@@ -86,15 +86,12 @@ export function CoverageGrid({ providers }: { providers: ProviderCoverage[] }) {
 }
 
 function ProviderHeader({ provider }: { provider: ProviderCoverage }) {
-  const { accent } = PROVIDER_STYLE[provider.id];
-  const { employees, fields_offered: offered, fields_mapped: mapped, fields_total: total } = provider.summary;
+  const { accent, logo } = PROVIDER_STYLE[provider.id];
+  const { fields_offered: offered, fields_mapped: mapped, fields_total: total } = provider.summary;
   return (
     <th className="min-w-48 px-2 py-3 text-left align-bottom font-medium">
-      <div className="flex items-center gap-2">
-        <span className="size-2.5 rounded-full" style={{ backgroundColor: accent }} />
-        {provider.name}
-      </div>
-      <div className="mt-0.5 text-xs font-normal text-neutral-500">{employees} synthetic employees</div>
+      <Image src={logo} alt="" width={140} height={32} className="h-7 w-auto max-w-40 object-contain object-left" />
+      <div className="mt-1">{provider.name}</div>
       <Bar label="offered" value={offered} total={total} color={accent} opacity={0.35} />
       <Bar label="mapped" value={mapped} total={total} color={accent} opacity={1} />
     </th>

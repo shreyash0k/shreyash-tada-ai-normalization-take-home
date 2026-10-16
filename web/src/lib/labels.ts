@@ -10,3 +10,8 @@ export function fieldLabel(field: string): string {
   }
   return name.replaceAll("_", " ");
 }
+
+export function shortSource(source: string): string {
+  const comma = source.indexOf(", ");
+  return comma === -1 ? source : source.slice(0, comma);
+}

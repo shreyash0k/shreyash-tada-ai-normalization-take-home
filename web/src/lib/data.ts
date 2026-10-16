@@ -7,16 +7,12 @@ export type CoverageEntry = {
   field: string;
   section: string;
   status: FieldStatus;
-  filled: number;
-  total: number;
   source: string | null;
   evidence: string;
   reason: string | null;
-  sample_gap: string | null;
 };
 
 export type ProviderSummary = {
-  employees: number;
   fields_total: number;
   fields_offered: number;
   fields_mapped: number;

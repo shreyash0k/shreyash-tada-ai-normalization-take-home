@@ -833,17 +833,19 @@ during implementation.
   and the adapter use it, have the data and the adapter not use it, or
   have no such field at all. A field the adapter uses can still be empty
   for every synthetic employee.
-- **Decision:** Each field and provider pair is "mapped", "not mapped
-  yet" or "not offered", and every one cites a spec path. "Not offered"
-  cites the schema that lacks the field and says why it is missing. A
-  mapped field that no fixture employee fills shows as "empty in
-  sample", with a note when the cause is the fixture generator.
-- **Reason:** "Not offered" is a claim about the provider, so it needs the
-  same evidence as a mapping. Separating "empty in sample" stops gaps in
-  the synthetic data from reading as gaps in the adapter.
+- **Decision:** The page shows three states: "mapped", "not mapped yet"
+  and "not offered". A mapped cell shows the provider field it comes
+  from. Every state cites a spec path, and "not offered" cites the schema
+  that lacks the field and says why it is missing. A mapped field that no
+  fixture employee fills still needs a generator note in the field map,
+  and the tests enforce that. The page does not show it.
+- **Reason:** The page shows the mapping into the canonical model, not
+  how complete the synthetic sample is. "Not offered" is a claim about
+  the provider, so it needs the same evidence as a mapping.
 - **Evidence:** `src/normalization/field_map.py`;
-  `tests/test_field_map.py`; `tests/test_web_export.py::test_counts_agree_with_golden_output`.
-- **Status:** Open.
+  `tests/test_field_map.py::test_mapped_rows_are_filled_or_explain_the_gap`;
+  `web/src/lib/status.ts`.
+- **Status:** Decided.
 
 ### 38. UKG Ready termination and rehire details are write-only
 
