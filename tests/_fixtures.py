@@ -17,7 +17,7 @@ def load_json(path: Path):
 
 
 PROVIDERS = ("prismhr", "isolved", "ukg-ready")
-ENTITIES = ("employee", "direct-deposit", "deduction")
+ENTITIES = ("employee", "direct-deposit", "deduction", "payroll")
 _GOLDEN_SUFFIX = {"employee": "employees", "direct-deposit": "direct-deposits", "deduction": "deductions",
                   "payroll": "payroll"}
 

@@ -1,8 +1,9 @@
 """Local entry point.
 
-``normalize --entity employee``, ``--entity direct-deposit`` and ``--entity
-deduction`` read a capture bundle (see ``bundle.py``) and write a
-``NormalizedOutput`` document described by ``docs/canonical/employee.schema.json``.
+``normalize --entity employee``, ``--entity direct-deposit``, ``--entity
+deduction`` and ``--entity payroll`` read a capture bundle (see
+``bundle.py``) and write a ``NormalizedOutput`` document described by
+``docs/canonical/employee.schema.json``.
 """
 import argparse
 import json
@@ -50,6 +51,8 @@ def main(argv=None):
                 counted = f"{len(result.direct_deposits)} direct deposits"
             elif args.entity == "deduction":
                 counted = f"{len(result.deductions)} deductions"
+            elif args.entity == "payroll":
+                counted = f"{len(result.pay_runs)} pay runs, {len(result.paychecks)} paychecks"
             else:
                 counted = f"{len(result.employees)} employees"
             summary = f"{counted}, {len(result.issues)} issues"

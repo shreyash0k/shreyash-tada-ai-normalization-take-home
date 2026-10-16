@@ -55,6 +55,19 @@ class StarterChecks(unittest.TestCase):
             self.assertEqual(stderr.getvalue().strip(), "11 deductions, 9 issues")
             self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["deductions"]), 11)
 
+    def test_normalize_command_writes_payroll(self):
+        bundle = Path(__file__).resolve().parent / "fixtures" / "ukg-ready" / "payroll-bundle.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "out.json"
+            stderr = io.StringIO()
+            with contextlib.redirect_stderr(stderr):
+                code = main(["normalize", "--provider", "ukg-ready", "--entity", "payroll",
+                             "--input", str(bundle), "--output", str(output)])
+            self.assertEqual(code, 0)
+            self.assertEqual(stderr.getvalue().strip(), "4 pay runs, 5 paychecks, 12 issues")
+            written = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual((len(written["pay_runs"]), len(written["paychecks"])), (4, 5))
+
     def test_normalize_command_rejects_a_bundle_missing_the_entity_responses(self):
         bundle = Path(__file__).resolve().parent / "fixtures" / "prismhr" / "employee-bundle.json"
         with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stderr(io.StringIO()):

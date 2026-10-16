@@ -91,6 +91,8 @@ class BundleEnvelopeChecks(unittest.TestCase):
         data = raw_bundle("isolved")
         data["responses"]["direct_deposits"] = raw_bundle("isolved", "direct-deposit")["responses"]["direct_deposits"]
         data["responses"]["pay_items"] = raw_bundle("isolved", "deduction")["responses"]["pay_items"]
+        payroll = raw_bundle("isolved", "payroll")["responses"]
+        data["responses"].update(payroll_run_history=payroll["payroll_run_history"], checks=payroll["checks"])
         for entity in ENTITIES:
             with self.subTest(entity=entity):
                 self.assertEqual(parse_bundle(data, entity=entity).provider, "isolved")
