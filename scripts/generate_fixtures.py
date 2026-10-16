@@ -512,6 +512,59 @@ def build_prismhr_payroll(seed: int):
     })
 
 
+# Company cases: an unmasked federalIdNumber; the seven live-only clientMaster
+# fields (spec_live_mismatch); an obsolete and a remote location; pay group
+# SEMI with no schedule row; the live singular key clientPayrollSchedule
+# (spec_live_mismatch).
+
+def prism_location(location_id, name, line1, city, state, zipcode, obsolete_date=None, remote=False):
+    return {"id": location_id, "locationName": name, "geoCode": "", "addressLine1": line1, "addressLine2": "",
+            "zipCode": zipcode, "zipSuffix": "", "city": city, "county": "", "state": state,
+            "workCompState": state, "latitude": "", "longitude": "", "obsoleteDate": obsolete_date,
+            "locationObsolete": obsolete_date is not None, "locationContact": [], "remoteLocation": remote}
+
+
+def prism_schedule(group_id, description, period, period_description):
+    return {"groupId": group_id, "groupDesc": description, "scheduleId": "", "scheduleDesc": "",
+            "weekEndOnDay": "", "printFaxBack": False, "payPeriod": period, "payPeriodDesc": period_description,
+            "payDay": "", "skipWeekends": False, "callInDays": "", "deliverDays": "", "thirdPartyCode": "",
+            "payPeriodEnd": "", "periodEndType": "", "periodEndTypeDesc": "", "periodEndType2": None,
+            "periodEndType2Desc": ""}
+
+
+def build_prismhr_company(seed: int):
+    pool = Pool(seed, "prismhr-company")
+    office = pool.address()
+    master = {
+        "id": PRISM_CLIENT_ID, "clientName": "Synthetic Demo Staffing", "legalName": "Synthetic Demo Staffing LLP",
+        "serviceType": "PEO", "categoryCode": "", "costCenter": "", "statusClass": "A", "status": "A",
+        "statusDate": "2019-04-01", "corporationType": "M", "addressLine1": office["line1"], "addressLine2": "Suite 200",
+        "city": office["city"], "stateCode": office["state"], "zipCode": office["zip"], "zipSuffix": "1234",
+        "mainPhone": pool.phone(), "mainPhoneExt": "101", "fax": "", "websiteUrl": "https://staffing.example",
+        "emailAddress": "payroll@staffing.example", "businessDescription": "Temporary staffing", "sicCode": "7363",
+        "naicsCode": "561320", "federalIdNumber": "99-0000132", "employerId": "", "payrollDate": "",
+        "eVerify": True, "externalPtoUsed": False, "notificationEmailList": [],
+        "payrollFinalizationNotification": "N", "positionRatesUsed": "N", "reverseWireAccount": "",
+        "taxesToSuppress": [], "checksum": "synthetic",
+    }
+    locations = [prism_location(str(number), f"Site {number}", f"{pool.rng.randint(100, 9899)} Commerce Way",
+                                *pool.rng.choice(CITIES)) for number in (1, 2, 3)]
+    locations.append(prism_location("OLD", "Closed Warehouse", "1 Dock St", "Springfield", "IL", "62704",
+                                    obsolete_date="2024-06-30"))
+    locations.append(prism_location("REM", "Remote Workers", "", "", "IL", "", remote=True))
+    return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
+        "get_client_master": {"errorCode": "0", "errorMessage": "", "extension": None, "clientMaster": master},
+        "get_client_codes": {"errorCode": "0", "errorMessage": "", "extension": None, "clientCodes": {
+            "clientId": PRISM_CLIENT_ID, "locationCode": locations,
+            "payGroups": [{"payGroupCode": "WFRI", "description": "Weekly Paid Friday"},
+                          {"payGroupCode": "M", "description": "MONTHLY"},
+                          {"payGroupCode": "SEMI", "description": "Semi-monthly"}]}},
+        "get_payroll_schedule": {"errorCode": "0", "errorMessage": "", "extension": None, "clientPayrollSchedule": [
+            prism_schedule("M", "MONTHLY", "M", "Monthly (PayDay {1-28}{EOM})"),
+            prism_schedule("WFRI", "Weekly Paid Friday", "W", "Weekly (PayDay {MON-SUN})")]},
+    })
+
+
 # --- isolved -----------------------------------------------------------------
 # Injected cases: employmentStatus "Leave of Absence" and gender "Non-binary"
 # (unmapped_label), employmentCategoryCode FT/PT and integer payFrequency
@@ -908,6 +961,55 @@ def build_isolved_payroll(seed: int):
         "checks": checks,
         "check_detail": details,
     })
+
+
+# Company cases: the includeDetails shape with dbaName and naicsCode absent, as
+# live (dbaName: missing_section); active and inactive work locations and pay
+# groups; an integer payFrequency (undocumented_code); services and workers'
+# comp codes passed through to unmapped.
+
+def isolved_work_location(location_id, code, description, line1, city, state, zipcode, inactive=False):
+    return {"id": location_id, "address1": line1, "address2": None, "addressDescription": None, "city": city,
+            "geoCode": "000000000", "includeWorkSiteTaxFiling": False, "isInactive": inactive,
+            "isRemoteWorkersOnly": False, "minimumWageRule": None, "overrideTaxCode": None,
+            "reportingUnitNumber": None, "schoolDistrictCode": None, "state": state, "taxDistrict": None,
+            "timeZone": "Mountain Standard Time", "workLocationCode": code, "workLocationDescription": description,
+            "zipCode": zipcode, "links": [{"href": f"{ISOLVED_BASE[:-len('/employees')]}/workLocations/{location_id}",
+                                           "rel": "self"}]}
+
+
+def isolved_legal_pay_group(group_id, name, frequency, inactive=False):
+    return {"id": group_id, "enableiSolvedPayroll": True, "enableiSolvedTime": False,
+            "inputMethod": "Web Submit and Process", "isInactive": inactive, "normalHours": 173.33,
+            "payFrequency": frequency, "payGroupName": name, "payrollType": "Regular Payroll"}
+
+
+def build_isolved_company(seed: int):
+    pool = Pool(seed, "isolved-company")
+    office = pool.address()
+    legal = {
+        "id": int(ISOLVED_LEGAL_ID), "allowRemoteWorkers": False,
+        "client": {"id": int(ISOLVED_CLIENT_ID), "clientCode": "SYN42", "clientName": "Synthetic Demo Holdings",
+                   "securityServiceGroup": {"id": 2, "name": "Demo"}, "links": []},
+        "compensationPlans": None, "federalEIN": "990004046", "forceDirectDepositPrenote": False,
+        "iSolvedTimeEnabled": False,
+        "legalAddress": {"addressDescription": "Legal", "city": office["city"], "phoneNumber": pool.phone(),
+                         "state": office["state"], "streetAddress1": office["line1"], "streetAddress2": None,
+                         "zipCode": office["zip"]},
+        "legalCode": "SYN42-1", "legalName": "Synthetic Scrap Metal Inc",
+        "payGroups": [isolved_legal_pay_group(int(ISOLVED_PAY_GROUP), "Monthly", 12),
+                      isolved_legal_pay_group(int(ISOLVED_PAY_GROUP) + 1, "Old Weekly", 52, inactive=True)],
+        "services": [{"code": "BASE", "startDate": "2018-08-13T00:00:00"},
+                     {"code": "ACA", "startDate": "2024-06-12T00:00:00"}],
+        "status": "Active",
+        "workersComps": [{"code": "8810", "description": "Clerical", "state": "UT"}],
+        "workLocations": [isolved_work_location(25721, "UT1", "SALT LAKE CITY, UT", "100 Main St", "Salt Lake City",
+                                                "UT", "84101"),
+                          isolved_work_location(25722, "UT2", "OGDEN, UT", "5 Depot Rd", "Ogden", "UT", "84401",
+                                                inactive=True)],
+        "links": [{"href": ISOLVED_BASE[:-len("/employees")], "rel": "self"}],
+    }
+    return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {"legal": legal})
 
 
 # --- UKG Ready ---------------------------------------------------------------
@@ -1351,16 +1453,57 @@ def build_ukg_payroll(seed: int):
     })
 
 
+# Company cases: one EIN (the two-EIN case is a test variant); a profile per
+# period_type, every_n_weeks with 2 and 3 weeks, the out-of-enum "fortnightly"
+# (out_of_schema_value), and one profile with effective_to.
+
+def ukg_profile(profile_id, name, active, period_type, params=None, effective_from="2018-01-21",
+                effective_to=None, description=None):
+    profile = {"id": profile_id, "name": name, "active": active, "effective_from": effective_from,
+               "period_type": {"type": period_type, "params": params or {}}}
+    if effective_to:
+        profile["effective_to"] = effective_to
+    if description:
+        profile["description"] = description
+    return profile
+
+
+def build_ukg_company(seed: int):
+    profiles = [
+        ukg_profile(36562688, "Primary-EIN Regular Bi-Weekly", True, "every_n_weeks",
+                    {"start_date": "2017-10-29", "num_weeks": 2}, description="Primary EIN payroll"),
+        ukg_profile(36562692, "Weekly", False, "weekly", {"week_day": "SUNDAY"}, effective_from="2013-12-15"),
+        ukg_profile(36562698, "Semi-Monthly", False, "semi_monthly", {"starting_on_first": 1, "starting_on_sec": 16},
+                    effective_from="2019-01-01"),
+        ukg_profile(36562689, "Monthly", False, "monthly", {"start_day": 1}, effective_from="2018-01-01"),
+        ukg_profile(36562700, "Every Three Weeks", False, "every_n_weeks",
+                    {"start_date": "2017-10-29", "num_weeks": 3}),
+        ukg_profile(36562701, "Quarterly", False, "quarterly", {"start_date": "2018-01-01"}),
+        ukg_profile(36562702, "Monthly Second Friday", False, "monthly_weekday", {"week_num": 2, "week_day": "FRIDAY"}),
+        ukg_profile(36562703, "Every Ten Days", False, "every_n_days", {"start_date": "2018-01-01", "num_days": 10}),
+        ukg_profile(36562699, "Test", False, "user_defined", effective_from="2023-05-01", effective_to="2023-10-01"),
+        ukg_profile(36562704, "Fortnightly", False, "fortnightly"),
+    ]
+    return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
+        "lookup_eins": {"items": [dict(UKG_EIN, ein_country_id="USA", ein_currency_code="USD")]},
+        "lookup_pay_period_profiles": {"items": profiles},
+    })
+
+
 BUILDERS = {
-    "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits,
-                "deduction": build_prismhr_deductions, "payroll": build_prismhr_payroll},
-    "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
-                "deduction": build_isolved_deductions, "payroll": build_isolved_payroll},
-    "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
-                  "deduction": build_ukg_deductions, "payroll": build_ukg_payroll},
+    "prismhr": {"company": build_prismhr_company, "employee": build_prismhr,
+                "direct-deposit": build_prismhr_direct_deposits, "deduction": build_prismhr_deductions,
+                "payroll": build_prismhr_payroll},
+    "isolved": {"company": build_isolved_company, "employee": build_isolved,
+                "direct-deposit": build_isolved_direct_deposits, "deduction": build_isolved_deductions,
+                "payroll": build_isolved_payroll},
+    "ukg-ready": {"company": build_ukg_company, "employee": build_ukg,
+                  "direct-deposit": build_ukg_direct_deposits, "deduction": build_ukg_deductions,
+                  "payroll": build_ukg_payroll},
 }
 # Bundle file name and golden-output suffix per entity.
-ENTITY_FILES = {"employee": ("employee-bundle.json", "employees"),
+ENTITY_FILES = {"company": ("company-bundle.json", "company"),
+                "employee": ("employee-bundle.json", "employees"),
                 "direct-deposit": ("direct-deposit-bundle.json", "direct-deposits"),
                 "deduction": ("deduction-bundle.json", "deductions"),
                 "payroll": ("payroll-bundle.json", "payroll")}

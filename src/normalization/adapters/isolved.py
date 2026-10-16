@@ -25,6 +25,11 @@ runs), ``responses.checks`` (employee ``id`` -> the pages of
 adds tax lines and benefits). Checks carry no run ID: a check belongs to the
 run with the same pay date and run number.
 
+The company comes from ``responses.legal``: one
+``GET /api/clients/{clientId}/legals/{legalId}?includeDetails=true`` response
+(``LegalModel``). Without ``includeDetails`` the legal omits its address,
+work locations, services and workers' comp codes.
+
 isolved returns English descriptions rather than codes for most coded fields
 ("Active", "Male", "Salary"). Only the short allowlists below map to canonical
 values; everything else stays raw with an issue.
@@ -43,6 +48,7 @@ from ..canonical import (
     CodedValue,
     Company,
     CompanySource,
+    CompanyStatus,
     Compensation,
     Contact,
     ContributionLine,
@@ -69,6 +75,7 @@ from ..canonical import (
     Paycheck,
     PaycheckSource,
     PaycheckType,
+    PayGroup,
     PaymentLine,
     PaymentMethod,
     PayPeriod,
@@ -82,7 +89,9 @@ from ..canonical import (
     PhoneKind,
     Severity,
     SourceRef,
+    TaxId,
     TaxLine,
+    WorkLocation,
 )
 from ._common import CodeTable, Collector, Reader, boolean, line_readers, nonzero, text
 
@@ -127,6 +136,18 @@ PAY_FREQUENCY = CodeTable(
     "payFrequency", PayPeriod, {},
     f"{SPEC}.EmployeeModel/properties/payFrequency (integer, 'payment frequency for the employee')",
 )
+LEGAL = f"{SPEC}.LegalModel/properties"
+LIVE_LEGAL = "live GET /api/clients/{clientId}/legals/{legalId}?includeDetails=true capture"
+COMPANY_STATUS = CodeTable(
+    "legal.status", CompanyStatus, {"Active": CompanyStatus.ACTIVE},
+    f"{LEGAL}/status ('Current Legal Company Status'); labels from {LIVE_LEGAL}",
+    kind="label",
+)
+GROUP_PAY_FREQUENCY = CodeTable(
+    "payGroups.payFrequency", PayPeriod, {},
+    f"{SPEC}.PayGroupModel/properties/payFrequency (integer, 'Pay Frequency')",
+)
+LEGAL_DETAIL_KEYS = ("legalAddress", "workLocations", "services", "workersComps")
 # Spec: normalHours is "Normal work hours for the employee per pay period".
 STANDARD_HOURS_PERIOD = CodedValue(raw=None, label="per pay period", value=PayPeriod.PAY_PERIOD)
 
@@ -728,6 +749,96 @@ def _population(bundle: Bundle) -> tuple[list[str], set[str]]:
     return employee_ids, legal_codes
 
 
+class _IsolvedCompanyMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.bundle = bundle
+        self.issues = issues
+        self.company_id = f"{bundle.request['client_id']}-{bundle.request['legal_id']}"
+        self.key = f"{PROVIDER}:{self.company_id}"
+
+    def company(self) -> Company:
+        legal = self.bundle.response("legal")
+        r = Reader(legal)
+        if not any(r.has(name) for name in LEGAL_DETAIL_KEYS):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "legal",
+                            "address and work locations left empty", self.key,
+                            message="the legal was fetched without includeDetails=true, which omits "
+                                    + ", ".join(LEGAL_DETAIL_KEYS))
+        name = text(r.get("dbaName"))
+        if name is None:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "dbaName", "name set null; see legal_name",
+                            self.key, message="the legal record has no DBA name")
+        client = r.sub("client")
+        secondary = {}
+        for label, value in (("legalCode", r.get("legalCode")), ("clientCode", client.get("clientCode"))):
+            if text(value) is not None:
+                secondary[label] = text(value)
+        ein = text(r.get("federalEIN"))
+        return Company(
+            key=self.key,
+            source=CompanySource(provider=PROVIDER, company_id=self.company_id, secondary_ids=secondary),
+            name=name,
+            ein=ein,
+            legal_name=text(r.get("legalName")),
+            status=self.issues.code(COMPANY_STATUS, r.get("status"), "status", self.key),
+            naics_code=text(r.get("naicsCode")),
+            address=self._address(r.sub("legalAddress")),
+            phone=self._phone(r.sub("legalAddress")),
+            parent=Collector.raw_code(text(client.get("id")), text(client.get("clientName"))),
+            tax_ids=[TaxId(key=f"{self.key}:ein:{ein}", tax_id=ein)] if ein else [],
+            work_locations=[self._location(line) for line in line_readers(r, "workLocations")],
+            pay_groups=[self._pay_group(line) for line in line_readers(r, "payGroups")],
+            unmapped=r.unmapped(),
+        )
+
+    @staticmethod
+    def _address(r: Reader) -> Optional[Address]:
+        fields = {
+            "line1": text(r.get("streetAddress1")), "line2": text(r.get("streetAddress2")),
+            "city": text(r.get("city")), "region": text(r.get("state")), "postal_code": text(r.get("zipCode")),
+        }
+        if all(value is None for value in fields.values()):
+            return None
+        return Address(kind=AddressKind.LEGAL, **fields)
+
+    @staticmethod
+    def _phone(r: Reader) -> Optional[Phone]:
+        number = text(r.get("phoneNumber"))
+        return Phone(kind=PhoneKind.WORK, number=number) if number is not None else None
+
+    def _location(self, r: Reader) -> WorkLocation:
+        source_id = text(r.get("id")) or ""
+        fields = {
+            "line1": text(r.get("address1")), "line2": text(r.get("address2")),
+            "city": text(r.get("city")), "region": text(r.get("state")), "postal_code": text(r.get("zipCode")),
+        }
+        inactive = boolean(r.get("isInactive"))
+        return WorkLocation(
+            key=f"{self.key}:loc:{source_id}",
+            source_id=source_id,
+            code=Collector.raw_code(text(r.get("workLocationCode")), text(r.get("workLocationDescription"))),
+            address=None if all(v is None for v in fields.values()) else Address(kind=AddressKind.WORK, **fields),
+            active=None if inactive is None else not inactive,
+            remote=boolean(r.get("isRemoteWorkersOnly")),
+            unmapped=r.unmapped(),
+        )
+
+    def _pay_group(self, r: Reader) -> PayGroup:
+        source_id = text(r.get("id")) or ""
+        key = f"{self.key}:pg:{source_id}"
+        name = text(r.get("payGroupName"))
+        inactive = boolean(r.get("isInactive"))
+        return PayGroup(
+            key=key,
+            source_id=source_id,
+            code=Collector.raw_code(source_id, name),
+            frequency=self.issues.code_once(GROUP_PAY_FREQUENCY, r.get("payFrequency"), r.path("payFrequency"), key,
+                                            label=name),
+            active=None if inactive is None else not inactive,
+            unmapped=r.unmapped(),
+        )
+
+
 def _company(company_id: str, legal_codes: set[str], issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
                "company name set null",
@@ -797,8 +908,17 @@ def normalize_payroll(bundle: Bundle) -> NormalizedOutput:
                             issues=issues.issues)
 
 
-NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
-               "deduction": normalize_deductions, "payroll": normalize_payroll}
+def normalize_company(bundle: Bundle) -> NormalizedOutput:
+    """The legal company with its work locations and pay groups."""
+    _check_provider(bundle)
+    issues = Collector()
+    company = _IsolvedCompanyMapper(bundle, issues).company()
+    return NormalizedOutput(provider=PROVIDER, company=company, issues=issues.issues)
+
+
+NORMALIZERS = {"company": normalize_company, "employee": normalize_employees,
+               "direct-deposit": normalize_direct_deposits, "deduction": normalize_deductions,
+               "payroll": normalize_payroll}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:

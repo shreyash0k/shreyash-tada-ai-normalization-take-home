@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home/docs/canonical/employee.schema.json",
   "title": "NormalizedOutput",
-  "description": "Output of `normalize --entity employee`, `--entity direct-deposit`, `--entity deduction` or `--entity payroll`: one company stub, the canonical records for the requested entity (the other lists are empty), and the issues found while normalizing. Dates are ISO 8601 strings; money amounts and percentages are decimal strings; enums are their string values.",
+  "description": "Output of `normalize --entity company`, `--entity employee`, `--entity direct-deposit`, `--entity deduction` or `--entity payroll`: one company (the full record for `company`, a stub otherwise), the canonical records for the requested entity (the other lists are empty), and the issues found while normalizing. Dates are ISO 8601 strings; money amounts and percentages are decimal strings; enums are their string values.",
   "$ref": "#/$defs/NormalizedOutput",
   "$defs": {
     "NormalizedOutput": {
@@ -24,12 +24,75 @@
     "Company": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["key", "source", "name", "ein"],
+      "description": "The full record comes from `--entity company`; every other entity carries a stub with only key, source and ein filled in.",
+      "required": ["key", "source", "name", "ein", "legal_name", "status", "status_date", "entity_type", "service_type", "naics_code", "sic_code", "address", "phone", "email", "website", "parent", "tax_ids", "work_locations", "pay_groups", "unmapped"],
       "properties": {
         "key": {"type": "string", "description": "provider:company_id"},
         "source": {"$ref": "#/$defs/CompanySource"},
+        "name": {"type": ["string", "null"], "description": "Doing-business-as name; never derived from legal_name."},
+        "ein": {"type": ["string", "null"], "description": "The federal EIN as received, when the company has exactly one."},
+        "legal_name": {"type": ["string", "null"]},
+        "status": {"$ref": "#/$defs/NullableCodedValue", "description": "Canonical value is a CompanyStatus."},
+        "status_date": {"$ref": "#/$defs/NullableDate"},
+        "entity_type": {"$ref": "#/$defs/NullableCodedValue", "description": "Legal form code and its documented label; value is always null."},
+        "service_type": {"$ref": "#/$defs/NullableCodedValue", "description": "Service the provider supplies to the company; value is always null."},
+        "naics_code": {"type": ["string", "null"]},
+        "sic_code": {"type": ["string", "null"]},
+        "address": {"oneOf": [{"$ref": "#/$defs/Address"}, {"type": "null"}]},
+        "phone": {"oneOf": [{"$ref": "#/$defs/Phone"}, {"type": "null"}]},
+        "email": {"oneOf": [{"$ref": "#/$defs/Email"}, {"type": "null"}]},
+        "website": {"type": ["string", "null"]},
+        "parent": {"$ref": "#/$defs/NullableCodedValue", "description": "The owning group's ID and name; value is always null."},
+        "tax_ids": {"type": "array", "items": {"$ref": "#/$defs/TaxId"}},
+        "work_locations": {"type": "array", "items": {"$ref": "#/$defs/WorkLocation"}},
+        "pay_groups": {"type": "array", "items": {"$ref": "#/$defs/PayGroup"}},
+        "unmapped": {
+          "type": "object",
+          "description": "Every provider field of the company not consumed by a mapping, keyed by its source JSON path.",
+          "additionalProperties": true
+        }
+      }
+    },
+    "TaxId": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "source_id", "tax_id", "name", "country", "unmapped"],
+      "properties": {
+        "key": {"type": "string", "description": "company key + ':ein:' + source_id (or tax_id)"},
+        "source_id": {"type": ["string", "null"]},
+        "tax_id": {"type": ["string", "null"], "description": "As received."},
         "name": {"type": ["string", "null"]},
-        "ein": {"type": ["string", "null"]}
+        "country": {"type": ["string", "null"]},
+        "unmapped": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "WorkLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "source_id", "code", "address", "active", "end_date", "remote", "unmapped"],
+      "properties": {
+        "key": {"type": "string", "description": "company key + ':loc:' + source_id"},
+        "source_id": {"type": "string"},
+        "code": {"$ref": "#/$defs/NullableCodedValue", "description": "The location code employees refer to, and its name; value is always null."},
+        "address": {"oneOf": [{"$ref": "#/$defs/Address"}, {"type": "null"}]},
+        "active": {"type": ["boolean", "null"]},
+        "end_date": {"$ref": "#/$defs/NullableDate"},
+        "remote": {"type": ["boolean", "null"]},
+        "unmapped": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "PayGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "source_id", "code", "frequency", "active", "effective", "unmapped"],
+      "properties": {
+        "key": {"type": "string", "description": "company key + ':pg:' + source_id"},
+        "source_id": {"type": "string"},
+        "code": {"$ref": "#/$defs/NullableCodedValue", "description": "The pay group code and name; value is always null."},
+        "frequency": {"$ref": "#/$defs/NullableCodedValue", "description": "Canonical value is a PayPeriod."},
+        "active": {"type": ["boolean", "null"]},
+        "effective": {"$ref": "#/$defs/NullableDateRange"},
+        "unmapped": {"type": "object", "additionalProperties": true}
       }
     },
     "CompanySource": {
@@ -421,7 +484,7 @@
       "additionalProperties": false,
       "required": ["kind", "line1", "line2", "city", "region", "postal_code", "country"],
       "properties": {
-        "kind": {"type": "string", "enum": ["home", "mailing", "w2", "work", "unknown"]},
+        "kind": {"type": "string", "enum": ["home", "mailing", "w2", "work", "legal", "unknown"]},
         "line1": {"type": ["string", "null"]},
         "line2": {"type": ["string", "null"]},
         "city": {"type": ["string", "null"]},

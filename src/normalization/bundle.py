@@ -16,7 +16,7 @@ Synthetic fixtures and hand-saved live downloads both use this shape, so
 tests and live checks run through the same adapter code.
 
 Which responses must be present depends on the entity being normalized
-(``employee``, ``direct-deposit``, ``deduction`` or ``payroll``). A bundle may carry
+(``company``, ``employee``, ``direct-deposit``, ``deduction`` or ``payroll``). A bundle may carry
 responses for more than one entity, so one capture can feed several runs.
 """
 import json
@@ -28,7 +28,7 @@ from typing import Any
 BUNDLE_VERSION = 1
 
 
-BUNDLE_ENTITIES = ("employee", "direct-deposit", "deduction", "payroll")
+BUNDLE_ENTITIES = ("company", "employee", "direct-deposit", "deduction", "payroll")
 
 
 @dataclass(frozen=True, slots=True)
@@ -53,6 +53,8 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
     "prismhr": ResponseSpec(
         request_keys=("client_id",),
         required={
+            # One getClientMaster response.
+            "company": {"get_client_master": dict},
             # getEmployee returns at most 20 employees per call, so a company is a
             # list of responses, each holding `employee[]`.
             "employee": {"get_employee": list},
@@ -65,6 +67,8 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             "payroll": {"get_batch_list_by_date": dict, "get_payroll_voucher_for_batch": dict},
         },
         optional={
+            # getClientCodes with options=Location,PGroups, and getPayrollSchedule.
+            "company": {"get_client_codes": dict, "get_payroll_schedule": dict},
             # Maps of employeeId -> response.
             "employee": {"get_employee_list": dict, "get_address_info": dict},
             "direct-deposit": {},
@@ -78,6 +82,8 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
     "isolved": ResponseSpec(
         request_keys=("client_id", "legal_id"),
         required={
+            # The /legals/{id}?includeDetails=true response.
+            "company": {"legal": dict},
             # One paged response per page, each holding `results[]`.
             "employee": {"employees": list},
             # Employee id (string) -> the /directdeposits array. The employee
@@ -90,6 +96,7 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             "payroll": {"employees": list, "payroll_run_history": dict, "checks": dict},
         },
         optional={
+            "company": {},
             # Maps of employee id (string) -> response.
             "employee": {"employee_detail": dict, "personal": dict, "name_address": dict},
             "direct-deposit": {},
@@ -101,6 +108,8 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
     "ukg-ready": ResponseSpec(
         request_keys=("company_id",),
         required={
+            # UKG Ready has no company endpoint; the EIN lookup is the company's only record.
+            "company": {"lookup_eins": dict},
             "employee": {
                 "employees": dict,  # the list response: {"employees": [...]}
                 "employee": dict,  # account id -> detail response
@@ -121,6 +130,7 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             "payroll": {"payrolls": dict, "pay_statements": dict, "pay_statement_detail": dict},
         },
         optional={
+            "company": {"lookup_pay_period_profiles": dict},
             "employee": {},
             "direct-deposit": {"lookup_eins": dict},
             "deduction": {"lookup_eins": dict},

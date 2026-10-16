@@ -86,6 +86,7 @@ class AddressKind(CanonicalEnum):
     MAILING = "mailing"
     W2 = "w2"
     WORK = "work"
+    LEGAL = "legal"
     UNKNOWN = "unknown"
 
 

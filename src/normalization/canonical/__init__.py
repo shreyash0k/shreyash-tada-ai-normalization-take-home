@@ -20,7 +20,7 @@ from .common import (
     PhoneKind,
     to_jsonable,
 )
-from .company import Company, CompanySource
+from .company import Company, CompanySource, CompanyStatus, PayGroup, TaxId, WorkLocation
 from .deduction import (
     Calculation,
     CalculationMethod,
@@ -65,7 +65,7 @@ __all__ = [
     "Address", "AddressKind", "CanonicalEnum", "Citizenship", "CodedValue", "DateRange",
     "Email", "EmailKind", "EmploymentStatus", "EmploymentType", "Gender", "MaritalStatus",
     "Model", "Money", "PayPeriod", "PayType", "Phone", "PhoneKind", "to_jsonable",
-    "Company", "CompanySource",
+    "Company", "CompanySource", "CompanyStatus", "PayGroup", "TaxId", "WorkLocation",
     "AccountType", "Allocation", "AllocationMethod", "DepositSource", "DepositStatus", "DirectDeposit",
     "Calculation", "CalculationMethod", "Deduction", "DeductionCategory", "DeductionFrequency",
     "DeductionSource", "EmployerMatch", "Limits", "MatchMethod", "Payee",

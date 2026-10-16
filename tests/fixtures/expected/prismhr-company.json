@@ -1,0 +1,341 @@
+{
+  "provider": "prismhr",
+  "company": {
+    "key": "prismhr:132",
+    "source": {
+      "provider": "prismhr",
+      "company_id": "132",
+      "secondary_ids": {}
+    },
+    "name": "Synthetic Demo Staffing",
+    "ein": "99-0000132",
+    "legal_name": "Synthetic Demo Staffing LLP",
+    "status": {
+      "raw": "A",
+      "label": "Active",
+      "value": "active"
+    },
+    "status_date": "2019-04-01",
+    "entity_type": {
+      "raw": "M",
+      "label": "Limited Liability Partnership",
+      "value": null
+    },
+    "service_type": {
+      "raw": "PEO",
+      "label": "Professional Employer Services",
+      "value": null
+    },
+    "naics_code": "561320",
+    "sic_code": "7363",
+    "address": {
+      "kind": "mailing",
+      "line1": "9397 Harbor Rd",
+      "line2": "Suite 200",
+      "city": "Clayton",
+      "region": "MO",
+      "postal_code": "63105-1234",
+      "country": null
+    },
+    "phone": {
+      "kind": "work",
+      "number": "2718096898",
+      "extension": "101",
+      "preferred": null
+    },
+    "email": {
+      "kind": "work",
+      "address": "payroll@staffing.example"
+    },
+    "website": "https://staffing.example",
+    "parent": null,
+    "tax_ids": [
+      {
+        "key": "prismhr:132:ein:99-0000132",
+        "source_id": null,
+        "tax_id": "99-0000132",
+        "name": null,
+        "country": null,
+        "unmapped": {}
+      }
+    ],
+    "work_locations": [
+      {
+        "key": "prismhr:132:loc:1",
+        "source_id": "1",
+        "code": {
+          "raw": "1",
+          "label": "Site 1",
+          "value": null
+        },
+        "address": {
+          "kind": "work",
+          "line1": "1986 Commerce Way",
+          "line2": null,
+          "city": "Riverton",
+          "region": "UT",
+          "postal_code": "84065",
+          "country": null
+        },
+        "active": true,
+        "end_date": null,
+        "remote": false,
+        "unmapped": {
+          "clientCodes.locationCode[0].geoCode": "",
+          "clientCodes.locationCode[0].county": "",
+          "clientCodes.locationCode[0].workCompState": "UT",
+          "clientCodes.locationCode[0].latitude": "",
+          "clientCodes.locationCode[0].longitude": "",
+          "clientCodes.locationCode[0].locationContact": []
+        }
+      },
+      {
+        "key": "prismhr:132:loc:2",
+        "source_id": "2",
+        "code": {
+          "raw": "2",
+          "label": "Site 2",
+          "value": null
+        },
+        "address": {
+          "kind": "work",
+          "line1": "4595 Commerce Way",
+          "line2": null,
+          "city": "Springfield",
+          "region": "IL",
+          "postal_code": "62704",
+          "country": null
+        },
+        "active": true,
+        "end_date": null,
+        "remote": false,
+        "unmapped": {
+          "clientCodes.locationCode[1].geoCode": "",
+          "clientCodes.locationCode[1].county": "",
+          "clientCodes.locationCode[1].workCompState": "IL",
+          "clientCodes.locationCode[1].latitude": "",
+          "clientCodes.locationCode[1].longitude": "",
+          "clientCodes.locationCode[1].locationContact": []
+        }
+      },
+      {
+        "key": "prismhr:132:loc:3",
+        "source_id": "3",
+        "code": {
+          "raw": "3",
+          "label": "Site 3",
+          "value": null
+        },
+        "address": {
+          "kind": "work",
+          "line1": "1097 Commerce Way",
+          "line2": null,
+          "city": "Springfield",
+          "region": "IL",
+          "postal_code": "62704",
+          "country": null
+        },
+        "active": true,
+        "end_date": null,
+        "remote": false,
+        "unmapped": {
+          "clientCodes.locationCode[2].geoCode": "",
+          "clientCodes.locationCode[2].county": "",
+          "clientCodes.locationCode[2].workCompState": "IL",
+          "clientCodes.locationCode[2].latitude": "",
+          "clientCodes.locationCode[2].longitude": "",
+          "clientCodes.locationCode[2].locationContact": []
+        }
+      },
+      {
+        "key": "prismhr:132:loc:OLD",
+        "source_id": "OLD",
+        "code": {
+          "raw": "OLD",
+          "label": "Closed Warehouse",
+          "value": null
+        },
+        "address": {
+          "kind": "work",
+          "line1": "1 Dock St",
+          "line2": null,
+          "city": "Springfield",
+          "region": "IL",
+          "postal_code": "62704",
+          "country": null
+        },
+        "active": false,
+        "end_date": "2024-06-30",
+        "remote": false,
+        "unmapped": {
+          "clientCodes.locationCode[3].geoCode": "",
+          "clientCodes.locationCode[3].county": "",
+          "clientCodes.locationCode[3].workCompState": "IL",
+          "clientCodes.locationCode[3].latitude": "",
+          "clientCodes.locationCode[3].longitude": "",
+          "clientCodes.locationCode[3].locationContact": []
+        }
+      },
+      {
+        "key": "prismhr:132:loc:REM",
+        "source_id": "REM",
+        "code": {
+          "raw": "REM",
+          "label": "Remote Workers",
+          "value": null
+        },
+        "address": {
+          "kind": "work",
+          "line1": null,
+          "line2": null,
+          "city": null,
+          "region": "IL",
+          "postal_code": null,
+          "country": null
+        },
+        "active": true,
+        "end_date": null,
+        "remote": true,
+        "unmapped": {
+          "clientCodes.locationCode[4].geoCode": "",
+          "clientCodes.locationCode[4].county": "",
+          "clientCodes.locationCode[4].workCompState": "IL",
+          "clientCodes.locationCode[4].latitude": "",
+          "clientCodes.locationCode[4].longitude": "",
+          "clientCodes.locationCode[4].locationContact": []
+        }
+      }
+    ],
+    "pay_groups": [
+      {
+        "key": "prismhr:132:pg:WFRI",
+        "source_id": "WFRI",
+        "code": {
+          "raw": "WFRI",
+          "label": "Weekly Paid Friday",
+          "value": null
+        },
+        "frequency": {
+          "raw": "W",
+          "label": "Weekly (PayDay {MON-SUN})",
+          "value": "weekly"
+        },
+        "active": null,
+        "effective": null,
+        "unmapped": {
+          "clientPayrollSchedule[1].scheduleId": "",
+          "clientPayrollSchedule[1].scheduleDesc": "",
+          "clientPayrollSchedule[1].weekEndOnDay": "",
+          "clientPayrollSchedule[1].printFaxBack": false,
+          "clientPayrollSchedule[1].payDay": "",
+          "clientPayrollSchedule[1].skipWeekends": false,
+          "clientPayrollSchedule[1].callInDays": "",
+          "clientPayrollSchedule[1].deliverDays": "",
+          "clientPayrollSchedule[1].thirdPartyCode": "",
+          "clientPayrollSchedule[1].payPeriodEnd": "",
+          "clientPayrollSchedule[1].periodEndType": "",
+          "clientPayrollSchedule[1].periodEndTypeDesc": "",
+          "clientPayrollSchedule[1].periodEndType2": null,
+          "clientPayrollSchedule[1].periodEndType2Desc": ""
+        }
+      },
+      {
+        "key": "prismhr:132:pg:M",
+        "source_id": "M",
+        "code": {
+          "raw": "M",
+          "label": "MONTHLY",
+          "value": null
+        },
+        "frequency": {
+          "raw": "M",
+          "label": "Monthly (PayDay {1-28}{EOM})",
+          "value": "monthly"
+        },
+        "active": null,
+        "effective": null,
+        "unmapped": {
+          "clientPayrollSchedule[0].scheduleId": "",
+          "clientPayrollSchedule[0].scheduleDesc": "",
+          "clientPayrollSchedule[0].weekEndOnDay": "",
+          "clientPayrollSchedule[0].printFaxBack": false,
+          "clientPayrollSchedule[0].payDay": "",
+          "clientPayrollSchedule[0].skipWeekends": false,
+          "clientPayrollSchedule[0].callInDays": "",
+          "clientPayrollSchedule[0].deliverDays": "",
+          "clientPayrollSchedule[0].thirdPartyCode": "",
+          "clientPayrollSchedule[0].payPeriodEnd": "",
+          "clientPayrollSchedule[0].periodEndType": "",
+          "clientPayrollSchedule[0].periodEndTypeDesc": "",
+          "clientPayrollSchedule[0].periodEndType2": null,
+          "clientPayrollSchedule[0].periodEndType2Desc": ""
+        }
+      },
+      {
+        "key": "prismhr:132:pg:SEMI",
+        "source_id": "SEMI",
+        "code": {
+          "raw": "SEMI",
+          "label": "Semi-monthly",
+          "value": null
+        },
+        "frequency": null,
+        "active": null,
+        "effective": null,
+        "unmapped": {}
+      }
+    ],
+    "unmapped": {
+      "clientMaster.id": "132",
+      "clientMaster.categoryCode": "",
+      "clientMaster.costCenter": "",
+      "clientMaster.status": "A",
+      "clientMaster.fax": "",
+      "clientMaster.businessDescription": "Temporary staffing",
+      "clientMaster.employerId": "",
+      "clientMaster.payrollDate": "",
+      "clientMaster.eVerify": true,
+      "clientMaster.externalPtoUsed": false,
+      "clientMaster.notificationEmailList": [],
+      "clientMaster.payrollFinalizationNotification": "N",
+      "clientMaster.positionRatesUsed": "N",
+      "clientMaster.reverseWireAccount": "",
+      "clientMaster.taxesToSuppress": [],
+      "clientMaster.checksum": "synthetic"
+    }
+  },
+  "employees": [],
+  "direct_deposits": [],
+  "deductions": [],
+  "pay_runs": [],
+  "paychecks": [],
+  "issues": [
+    {
+      "code": "spec_live_mismatch",
+      "severity": "info",
+      "source_path": "clientMaster",
+      "action": "kept under the live names in unmapped",
+      "record_key": null,
+      "raw_value": [
+        "eVerify",
+        "externalPtoUsed",
+        "notificationEmailList",
+        "payrollFinalizationNotification",
+        "positionRatesUsed",
+        "reverseWireAccount",
+        "taxesToSuppress"
+      ],
+      "message": "the live API returns fields the spec does not list on ClientMaster (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientMaster/properties); 'eVerify' is spelled 'everify' in the spec"
+    },
+    {
+      "code": "spec_live_mismatch",
+      "severity": "info",
+      "source_path": "clientPayrollSchedule",
+      "action": "read the live shape",
+      "record_key": null,
+      "raw_value": null,
+      "message": "the live API lists schedules under 'clientPayrollSchedule'; the spec names the array 'clientPayrollSchedules' (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollScheduleResponse)"
+    }
+  ],
+  "schema_version": "1"
+}

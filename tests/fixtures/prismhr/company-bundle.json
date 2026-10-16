@@ -1,0 +1,218 @@
+{
+  "bundle_version": 1,
+  "provider": "prismhr",
+  "captured_at": "2026-10-15",
+  "request": {
+    "client_id": "132"
+  },
+  "responses": {
+    "get_client_master": {
+      "errorCode": "0",
+      "errorMessage": "",
+      "extension": null,
+      "clientMaster": {
+        "id": "132",
+        "clientName": "Synthetic Demo Staffing",
+        "legalName": "Synthetic Demo Staffing LLP",
+        "serviceType": "PEO",
+        "categoryCode": "",
+        "costCenter": "",
+        "statusClass": "A",
+        "status": "A",
+        "statusDate": "2019-04-01",
+        "corporationType": "M",
+        "addressLine1": "9397 Harbor Rd",
+        "addressLine2": "Suite 200",
+        "city": "Clayton",
+        "stateCode": "MO",
+        "zipCode": "63105",
+        "zipSuffix": "1234",
+        "mainPhone": "2718096898",
+        "mainPhoneExt": "101",
+        "fax": "",
+        "websiteUrl": "https://staffing.example",
+        "emailAddress": "payroll@staffing.example",
+        "businessDescription": "Temporary staffing",
+        "sicCode": "7363",
+        "naicsCode": "561320",
+        "federalIdNumber": "99-0000132",
+        "employerId": "",
+        "payrollDate": "",
+        "eVerify": true,
+        "externalPtoUsed": false,
+        "notificationEmailList": [],
+        "payrollFinalizationNotification": "N",
+        "positionRatesUsed": "N",
+        "reverseWireAccount": "",
+        "taxesToSuppress": [],
+        "checksum": "synthetic"
+      }
+    },
+    "get_client_codes": {
+      "errorCode": "0",
+      "errorMessage": "",
+      "extension": null,
+      "clientCodes": {
+        "clientId": "132",
+        "locationCode": [
+          {
+            "id": "1",
+            "locationName": "Site 1",
+            "geoCode": "",
+            "addressLine1": "1986 Commerce Way",
+            "addressLine2": "",
+            "zipCode": "84065",
+            "zipSuffix": "",
+            "city": "Riverton",
+            "county": "",
+            "state": "UT",
+            "workCompState": "UT",
+            "latitude": "",
+            "longitude": "",
+            "obsoleteDate": null,
+            "locationObsolete": false,
+            "locationContact": [],
+            "remoteLocation": false
+          },
+          {
+            "id": "2",
+            "locationName": "Site 2",
+            "geoCode": "",
+            "addressLine1": "4595 Commerce Way",
+            "addressLine2": "",
+            "zipCode": "62704",
+            "zipSuffix": "",
+            "city": "Springfield",
+            "county": "",
+            "state": "IL",
+            "workCompState": "IL",
+            "latitude": "",
+            "longitude": "",
+            "obsoleteDate": null,
+            "locationObsolete": false,
+            "locationContact": [],
+            "remoteLocation": false
+          },
+          {
+            "id": "3",
+            "locationName": "Site 3",
+            "geoCode": "",
+            "addressLine1": "1097 Commerce Way",
+            "addressLine2": "",
+            "zipCode": "62704",
+            "zipSuffix": "",
+            "city": "Springfield",
+            "county": "",
+            "state": "IL",
+            "workCompState": "IL",
+            "latitude": "",
+            "longitude": "",
+            "obsoleteDate": null,
+            "locationObsolete": false,
+            "locationContact": [],
+            "remoteLocation": false
+          },
+          {
+            "id": "OLD",
+            "locationName": "Closed Warehouse",
+            "geoCode": "",
+            "addressLine1": "1 Dock St",
+            "addressLine2": "",
+            "zipCode": "62704",
+            "zipSuffix": "",
+            "city": "Springfield",
+            "county": "",
+            "state": "IL",
+            "workCompState": "IL",
+            "latitude": "",
+            "longitude": "",
+            "obsoleteDate": "2024-06-30",
+            "locationObsolete": true,
+            "locationContact": [],
+            "remoteLocation": false
+          },
+          {
+            "id": "REM",
+            "locationName": "Remote Workers",
+            "geoCode": "",
+            "addressLine1": "",
+            "addressLine2": "",
+            "zipCode": "",
+            "zipSuffix": "",
+            "city": "",
+            "county": "",
+            "state": "IL",
+            "workCompState": "IL",
+            "latitude": "",
+            "longitude": "",
+            "obsoleteDate": null,
+            "locationObsolete": false,
+            "locationContact": [],
+            "remoteLocation": true
+          }
+        ],
+        "payGroups": [
+          {
+            "payGroupCode": "WFRI",
+            "description": "Weekly Paid Friday"
+          },
+          {
+            "payGroupCode": "M",
+            "description": "MONTHLY"
+          },
+          {
+            "payGroupCode": "SEMI",
+            "description": "Semi-monthly"
+          }
+        ]
+      }
+    },
+    "get_payroll_schedule": {
+      "errorCode": "0",
+      "errorMessage": "",
+      "extension": null,
+      "clientPayrollSchedule": [
+        {
+          "groupId": "M",
+          "groupDesc": "MONTHLY",
+          "scheduleId": "",
+          "scheduleDesc": "",
+          "weekEndOnDay": "",
+          "printFaxBack": false,
+          "payPeriod": "M",
+          "payPeriodDesc": "Monthly (PayDay {1-28}{EOM})",
+          "payDay": "",
+          "skipWeekends": false,
+          "callInDays": "",
+          "deliverDays": "",
+          "thirdPartyCode": "",
+          "payPeriodEnd": "",
+          "periodEndType": "",
+          "periodEndTypeDesc": "",
+          "periodEndType2": null,
+          "periodEndType2Desc": ""
+        },
+        {
+          "groupId": "WFRI",
+          "groupDesc": "Weekly Paid Friday",
+          "scheduleId": "",
+          "scheduleDesc": "",
+          "weekEndOnDay": "",
+          "printFaxBack": false,
+          "payPeriod": "W",
+          "payPeriodDesc": "Weekly (PayDay {MON-SUN})",
+          "payDay": "",
+          "skipWeekends": false,
+          "callInDays": "",
+          "deliverDays": "",
+          "thirdPartyCode": "",
+          "payPeriodEnd": "",
+          "periodEndType": "",
+          "periodEndTypeDesc": "",
+          "periodEndType2": null,
+          "periodEndType2Desc": ""
+        }
+      ]
+    }
+  }
+}

@@ -23,6 +23,11 @@ pay runs), ``responses.pay_statements`` (payroll id -> the
 which carries the lines). Pay statements have no gross or net totals, and
 earnings hours arrive in milliseconds like every other UKG duration.
 
+The company comes from ``responses.lookup_eins`` (``GET .../lookup/eins``, the
+tax ids) and the optional ``responses.lookup_pay_period_profiles``
+(``GET .../lookup/pay-period-profiles``, read as pay groups). UKG Ready has no
+company profile endpoint, so name, address and status stay empty.
+
 UKG's closed schema enums (gender, citizenship, amount_period, time_period)
 map directly. Tenant-configured lookups (employee types, pay types) resolve to
 their display name but stay canonical ``unknown``. Durations arrive in
@@ -75,6 +80,7 @@ from ..canonical import (
     PaycheckStatus,
     PaycheckType,
     Payee,
+    PayGroup,
     PaymentLine,
     PaymentMethod,
     PayPeriod,
@@ -88,6 +94,7 @@ from ..canonical import (
     PhoneKind,
     Severity,
     SourceRef,
+    TaxId,
     TaxLine,
 )
 from ._common import CodeTable, Collector, Reader, boolean, is_blank, line_readers, nonzero, text
@@ -212,6 +219,17 @@ PAYMENT_TYPE = CodeTable(
     kind="label",
 )
 LIVE_ONLY_STATEMENT_FIELDS = ("calcUpto", "emptyEarning")
+
+PROFILE = f"{SCHEMAS}/273/schema/properties/items/items/properties"
+# every_n_weeks is resolved from params.num_weeks; the other types name no fixed frequency.
+PERIOD_TYPE = CodeTable(
+    "period_type.type", PayPeriod,
+    {"weekly": PayPeriod.WEEKLY, "semi_monthly": PayPeriod.SEMIMONTHLY, "monthly": PayPeriod.MONTHLY,
+     "every_n_weeks": PayPeriod.UNKNOWN, "quarterly": PayPeriod.UNKNOWN, "monthly_weekday": PayPeriod.UNKNOWN,
+     "every_n_days": PayPeriod.UNKNOWN, "user_defined": PayPeriod.UNKNOWN},
+    f"{PROFILE}/period_type/properties/type",
+)
+EVERY_N_WEEKS = {1: PayPeriod.WEEKLY, 2: PayPeriod.BIWEEKLY}
 
 
 def _ms_to_hours(value: Any) -> Optional[Decimal]:
@@ -803,6 +821,81 @@ def _listed_employees(bundle: Bundle) -> list[Dict[str, Any]]:
     return [record for record in listed if isinstance(record, dict)]
 
 
+class _UkgCompanyMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.bundle = bundle
+        self.issues = issues
+        self.company_id = bundle.request["company_id"]
+        self.key = f"{PROVIDER}:{self.company_id}"
+
+    def company(self) -> Company:
+        self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
+                        "name, legal name, status and address set null", self.key,
+                        message="UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404")
+        self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "responses", "work locations left empty",
+                        self.key, message="UKG Ready has no work location records; cost centres are "
+                                          "tenant-defined trees")
+        tax_ids = self._tax_ids()
+        ein = None
+        if len(tax_ids) == 1:
+            ein = tax_ids[0].tax_id
+        elif len(tax_ids) > 1:
+            self.issues.add(IssueCode.MISSING_LOOKUP, Severity.WARNING, "lookup_eins.items", "company ein set null",
+                            self.key, len(tax_ids), "several EINs; each one is listed under tax_ids")
+        return Company(
+            key=self.key,
+            source=CompanySource(provider=PROVIDER, company_id=self.company_id),
+            ein=ein,
+            tax_ids=tax_ids,
+            pay_groups=self._pay_groups(),
+        )
+
+    def _tax_ids(self) -> list[TaxId]:
+        tax_ids = []
+        for r in line_readers(Reader(self.bundle.response("lookup_eins"), "lookup_eins"), "items"):
+            source_id = text(r.get("id"))
+            tax_ids.append(TaxId(
+                key=f"{self.key}:ein:{source_id}",
+                source_id=source_id,
+                tax_id=text(r.get("ein_tax_id")),
+                name=text(r.get("ein_name")),
+                country=text(r.get("ein_country_id")),
+                unmapped=r.unmapped(),
+            ))
+        return tax_ids
+
+    def _pay_groups(self) -> list[PayGroup]:
+        response = self.bundle.response("lookup_pay_period_profiles")
+        if response is None:
+            return []
+        groups = []
+        for r in line_readers(Reader(response, "lookup_pay_period_profiles"), "items"):
+            source_id = text(r.get("id")) or ""
+            key = f"{self.key}:pg:{source_id}"
+            start = self.issues.date(r.get("effective_from"), r.path("effective_from"), key)
+            end = self.issues.date(r.get("effective_to"), r.path("effective_to"), key)
+            groups.append(PayGroup(
+                key=key,
+                source_id=source_id,
+                code=Collector.raw_code(source_id, text(r.get("name"))),
+                frequency=self._frequency(r, key),
+                active=boolean(r.get("active")),
+                effective=DateRange(start=start, end=end) if start or end else None,
+                unmapped=r.unmapped(),
+            ))
+        return groups
+
+    def _frequency(self, r: Reader, key: str) -> Optional[CodedValue]:
+        period = r.sub("period_type")
+        raw = period.get("type")
+        coded = self.issues.code_once(PERIOD_TYPE, raw, period.path("type"), key, label=text(raw),
+                                      issue_code=IssueCode.OUT_OF_SCHEMA_VALUE)
+        if raw == "every_n_weeks":
+            weeks = period.get("params", "num_weeks")
+            coded = CodedValue(raw=raw, label=coded.label, value=EVERY_N_WEEKS.get(weeks, PayPeriod.UNKNOWN))
+        return coded
+
+
 def _company(company_id: str, bundle: Bundle, issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses", "company name set null",
                message="the employee endpoints do not return the company name; "
@@ -881,8 +974,17 @@ def normalize_payroll(bundle: Bundle) -> NormalizedOutput:
                             issues=issues.issues)
 
 
-NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
-               "deduction": normalize_deductions, "payroll": normalize_payroll}
+def normalize_company(bundle: Bundle) -> NormalizedOutput:
+    """The company's EINs and pay-period profiles; UKG Ready has no company profile."""
+    _check_provider(bundle)
+    issues = Collector()
+    company = _UkgCompanyMapper(bundle, issues).company()
+    return NormalizedOutput(provider=PROVIDER, company=company, issues=issues.issues)
+
+
+NORMALIZERS = {"company": normalize_company, "employee": normalize_employees,
+               "direct-deposit": normalize_direct_deposits, "deduction": normalize_deductions,
+               "payroll": normalize_payroll}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:

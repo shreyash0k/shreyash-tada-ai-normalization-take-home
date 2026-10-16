@@ -1,0 +1,296 @@
+{
+  "provider": "ukg-ready",
+  "company": {
+    "key": "ukg-ready:33704016",
+    "source": {
+      "provider": "ukg-ready",
+      "company_id": "33704016",
+      "secondary_ids": {}
+    },
+    "name": null,
+    "ein": "12-3456789",
+    "legal_name": null,
+    "status": null,
+    "status_date": null,
+    "entity_type": null,
+    "service_type": null,
+    "naics_code": null,
+    "sic_code": null,
+    "address": null,
+    "phone": null,
+    "email": null,
+    "website": null,
+    "parent": null,
+    "tax_ids": [
+      {
+        "key": "ukg-ready:33704016:ein:35419520",
+        "source_id": "35419520",
+        "tax_id": "12-3456789",
+        "name": "Primary EIN",
+        "country": "USA",
+        "unmapped": {
+          "lookup_eins.items[0].ein_currency_code": "USD"
+        }
+      }
+    ],
+    "work_locations": [],
+    "pay_groups": [
+      {
+        "key": "ukg-ready:33704016:pg:36562688",
+        "source_id": "36562688",
+        "code": {
+          "raw": "36562688",
+          "label": "Primary-EIN Regular Bi-Weekly",
+          "value": null
+        },
+        "frequency": {
+          "raw": "every_n_weeks",
+          "label": "every_n_weeks",
+          "value": "biweekly"
+        },
+        "active": true,
+        "effective": {
+          "start": "2018-01-21",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[0].period_type.params.start_date": "2017-10-29",
+          "lookup_pay_period_profiles.items[0].description": "Primary EIN payroll"
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562692",
+        "source_id": "36562692",
+        "code": {
+          "raw": "36562692",
+          "label": "Weekly",
+          "value": null
+        },
+        "frequency": {
+          "raw": "weekly",
+          "label": "weekly",
+          "value": "weekly"
+        },
+        "active": false,
+        "effective": {
+          "start": "2013-12-15",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[1].period_type.params.week_day": "SUNDAY"
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562698",
+        "source_id": "36562698",
+        "code": {
+          "raw": "36562698",
+          "label": "Semi-Monthly",
+          "value": null
+        },
+        "frequency": {
+          "raw": "semi_monthly",
+          "label": "semi_monthly",
+          "value": "semimonthly"
+        },
+        "active": false,
+        "effective": {
+          "start": "2019-01-01",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[2].period_type.params.starting_on_first": 1,
+          "lookup_pay_period_profiles.items[2].period_type.params.starting_on_sec": 16
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562689",
+        "source_id": "36562689",
+        "code": {
+          "raw": "36562689",
+          "label": "Monthly",
+          "value": null
+        },
+        "frequency": {
+          "raw": "monthly",
+          "label": "monthly",
+          "value": "monthly"
+        },
+        "active": false,
+        "effective": {
+          "start": "2018-01-01",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[3].period_type.params.start_day": 1
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562700",
+        "source_id": "36562700",
+        "code": {
+          "raw": "36562700",
+          "label": "Every Three Weeks",
+          "value": null
+        },
+        "frequency": {
+          "raw": "every_n_weeks",
+          "label": "every_n_weeks",
+          "value": "unknown"
+        },
+        "active": false,
+        "effective": {
+          "start": "2018-01-21",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[4].period_type.params.start_date": "2017-10-29"
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562701",
+        "source_id": "36562701",
+        "code": {
+          "raw": "36562701",
+          "label": "Quarterly",
+          "value": null
+        },
+        "frequency": {
+          "raw": "quarterly",
+          "label": "quarterly",
+          "value": "unknown"
+        },
+        "active": false,
+        "effective": {
+          "start": "2018-01-21",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[5].period_type.params.start_date": "2018-01-01"
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562702",
+        "source_id": "36562702",
+        "code": {
+          "raw": "36562702",
+          "label": "Monthly Second Friday",
+          "value": null
+        },
+        "frequency": {
+          "raw": "monthly_weekday",
+          "label": "monthly_weekday",
+          "value": "unknown"
+        },
+        "active": false,
+        "effective": {
+          "start": "2018-01-21",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[6].period_type.params.week_num": 2,
+          "lookup_pay_period_profiles.items[6].period_type.params.week_day": "FRIDAY"
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562703",
+        "source_id": "36562703",
+        "code": {
+          "raw": "36562703",
+          "label": "Every Ten Days",
+          "value": null
+        },
+        "frequency": {
+          "raw": "every_n_days",
+          "label": "every_n_days",
+          "value": "unknown"
+        },
+        "active": false,
+        "effective": {
+          "start": "2018-01-21",
+          "end": null
+        },
+        "unmapped": {
+          "lookup_pay_period_profiles.items[7].period_type.params.start_date": "2018-01-01",
+          "lookup_pay_period_profiles.items[7].period_type.params.num_days": 10
+        }
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562699",
+        "source_id": "36562699",
+        "code": {
+          "raw": "36562699",
+          "label": "Test",
+          "value": null
+        },
+        "frequency": {
+          "raw": "user_defined",
+          "label": "user_defined",
+          "value": "unknown"
+        },
+        "active": false,
+        "effective": {
+          "start": "2023-05-01",
+          "end": "2023-10-01"
+        },
+        "unmapped": {}
+      },
+      {
+        "key": "ukg-ready:33704016:pg:36562704",
+        "source_id": "36562704",
+        "code": {
+          "raw": "36562704",
+          "label": "Fortnightly",
+          "value": null
+        },
+        "frequency": {
+          "raw": "fortnightly",
+          "label": "fortnightly",
+          "value": "unknown"
+        },
+        "active": false,
+        "effective": {
+          "start": "2018-01-21",
+          "end": null
+        },
+        "unmapped": {}
+      }
+    ],
+    "unmapped": {}
+  },
+  "employees": [],
+  "direct_deposits": [],
+  "deductions": [],
+  "pay_runs": [],
+  "paychecks": [],
+  "issues": [
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "responses",
+      "action": "name, legal name, status and address set null",
+      "record_key": "ukg-ready:33704016",
+      "raw_value": null,
+      "message": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404"
+    },
+    {
+      "code": "missing_section",
+      "severity": "info",
+      "source_path": "responses",
+      "action": "work locations left empty",
+      "record_key": "ukg-ready:33704016",
+      "raw_value": null,
+      "message": "UKG Ready has no work location records; cost centres are tenant-defined trees"
+    },
+    {
+      "code": "out_of_schema_value",
+      "severity": "warning",
+      "source_path": "lookup_pay_period_profiles.items[9].period_type.type",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:pg:36562704",
+      "raw_value": "fortnightly",
+      "message": "period_type.type: value is not one of the documented codes (contracts/ukg-ready/reference-schemas.json#/schemas/273/schema/properties/items/items/properties/period_type/properties/type)"
+    }
+  ],
+  "schema_version": "1"
+}

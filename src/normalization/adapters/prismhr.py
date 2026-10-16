@@ -21,6 +21,13 @@ Payroll comes from ``responses.get_batch_list_by_date`` (one
 ``responses.get_batch_info`` (batch ID -> ``getBatchInfo``, for the batch
 description).
 
+The company comes from ``responses.get_client_master`` (one
+``GET /clientMaster/v1/getClientMaster`` response) plus the optional
+``responses.get_client_codes`` (``getClientCodes`` with
+``options=Location,PGroups``: work locations and pay groups) and
+``responses.get_payroll_schedule`` (``getPayrollSchedule``: each pay group's
+frequency).
+
 Every code table below cites the OpenAPI description it rests on. Codes the
 spec does not explain stay raw with an ``undocumented_code`` issue.
 """
@@ -39,6 +46,7 @@ from ..canonical import (
     CodedValue,
     Company,
     CompanySource,
+    CompanyStatus,
     Compensation,
     Contact,
     ContributionLine,
@@ -71,6 +79,7 @@ from ..canonical import (
     PaycheckStatus,
     PaycheckType,
     Payee,
+    PayGroup,
     PaymentLine,
     PaymentMethod,
     PayPeriod,
@@ -84,9 +93,11 @@ from ..canonical import (
     PhoneKind,
     Severity,
     SourceRef,
+    TaxId,
     TaxLine,
+    WorkLocation,
 )
-from ._common import CodeTable, Collector, Reader, boolean, is_blank, line_readers, nonzero, text
+from ._common import CodeTable, Collector, Reader, boolean, is_blank, is_masked, line_readers, nonzero, text
 
 PROVIDER = "prismhr"
 SPEC = "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas"
@@ -271,6 +282,42 @@ PAY_CLASS = CodeTable(
      "RT": EarningCategory.TIPS, "M": EarningCategory.MEMO},
     f"{SPEC}/ClientCodes-PayCode/properties/payClass/description",
 )
+CLIENT = f"{SPEC}/ClientMaster/properties"
+CLIENT_STATUS_LABELS = {"A": "Active", "P": "Pending", "I": "Inactive",
+                        "C": "Client Cancelling, Pre-Termination", "T": "Terminated"}
+CLIENT_STATUS = CodeTable(
+    "clientMaster.statusClass", CompanyStatus,
+    {"A": CompanyStatus.ACTIVE, "P": CompanyStatus.PENDING, "I": CompanyStatus.INACTIVE,
+     "C": CompanyStatus.TERMINATING, "T": CompanyStatus.TERMINATED},
+    f"{CLIENT}/statusClass/description",
+)
+# Corporation and service types have no canonical domain: the code keeps the spec's label only.
+CORPORATION_TYPE_LABELS = {
+    "L": "Limited Liability Corporation", "S": "S-Corporation", "C": "C-Corporation",
+    "I": "Individual/Sole Proprieter", "P": "Partnership", "A": "Limited Partnership",
+    "M": "Limited Liability Partnership", "R": "Professional Corporation", "V": "Personal Service Corporation",
+    "B": "Board Owned", "J": "Joint Venture", "T": "Tax Exempt", "U": "Trust", "H": "Church Organization",
+    "N": "Not for Profit", "O": "Other",
+}
+SERVICE_TYPE_LABELS = {
+    "ASO": "Administrative Services Only", "PEO": "Professional Employer Services",
+    "PAY": "Payroll Processing Only", "ASA": "Admin Services/Alt. Billing", "COR": "Corporate Payroll",
+    "HRN": "HR Services, No Payroll",
+}
+# The spec lists the payPeriod codes on payPeriodDesc; payPeriod itself says only "pay period number".
+# Every MD* code is a monthly schedule with a particular pay-day rule. Daily has no canonical member.
+SCHEDULE_PAY_PERIOD = CodeTable(
+    "clientPayrollSchedule.payPeriod", PayPeriod,
+    {"D": PayPeriod.UNKNOWN, "W": PayPeriod.WEEKLY, "B": PayPeriod.BIWEEKLY, "S": PayPeriod.SEMIMONTHLY,
+     "M": PayPeriod.MONTHLY, "MDNO": PayPeriod.MONTHLY, "MDNW": PayPeriod.MONTHLY, "MDLW": PayPeriod.MONTHLY,
+     "MDAD": PayPeriod.MONTHLY, "MDBD": PayPeriod.MONTHLY},
+    f"{SPEC}/ClientPayrollSchedule/properties/payPeriodDesc/description",
+)
+LIVE_ONLY_CLIENT_FIELDS = ("eVerify", "externalPtoUsed", "notificationEmailList", "payrollFinalizationNotification",
+                           "positionRatesUsed", "reverseWireAccount", "taxesToSuppress")
+# Spec name first, live name second.
+SCHEDULE_KEYS = ("clientPayrollSchedules", "clientPayrollSchedule")
+
 CHECK_PAYMENT = CodedValue(raw=None, label="checkAmt", value=PaymentMethod.CHECK)
 DEPOSIT_PAYMENT = CodedValue(raw=None, label="directDeposit", value=PaymentMethod.DIRECT_DEPOSIT)
 LIVE_ONLY_VOUCHER_FIELDS = ("hsaPeoMatch", "isManualCheck")
@@ -902,6 +949,151 @@ class _PrismPayrollMapper:
         return payments
 
 
+class _PrismCompanyMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.bundle = bundle
+        self.issues = issues
+        self.company_id = bundle.request["client_id"]
+        self.key = f"{PROVIDER}:{self.company_id}"
+
+    def company(self) -> Company:
+        master = self.bundle.response("get_client_master").get("clientMaster")
+        if not isinstance(master, dict):
+            raise ValueError("responses.get_client_master.clientMaster must be an object")
+        r = Reader(master, "clientMaster")
+        live = [name for name in LIVE_ONLY_CLIENT_FIELDS if r.has(name)]
+        if live:
+            self.issues.add(IssueCode.SPEC_LIVE_MISMATCH, Severity.INFO, "clientMaster",
+                            "kept under the live names in unmapped", raw_value=live,
+                            message=f"the live API returns fields the spec does not list on ClientMaster "
+                                    f"({CLIENT}); 'eVerify' is spelled 'everify' in the spec")
+        ein = text(r.get("federalIdNumber"))
+        if is_masked(ein):
+            self.issues.add(IssueCode.MASKED_VALUE, Severity.WARNING, r.path("federalIdNumber"),
+                            "ein set null; no tax id emitted", self.key, ein,
+                            "provider returned a masked federal ID; PrismHR masks PII unless it is unmasked")
+            ein = None
+        codes = self._client_codes()
+        raw_status = r.peek("statusClass")
+        return Company(
+            key=self.key,
+            source=CompanySource(provider=PROVIDER, company_id=self.company_id),
+            name=text(r.get("clientName")),
+            ein=ein,
+            legal_name=text(r.get("legalName")),
+            status=self.issues.code(CLIENT_STATUS, r.get("statusClass"), r.path("statusClass"), self.key,
+                                    label=_label(CLIENT_STATUS_LABELS, raw_status)),
+            status_date=self.issues.date(r.get("statusDate"), r.path("statusDate"), self.key),
+            entity_type=self._labelled(r, "corporationType", CORPORATION_TYPE_LABELS),
+            service_type=self._labelled(r, "serviceType", SERVICE_TYPE_LABELS),
+            naics_code=text(r.get("naicsCode")),
+            sic_code=text(r.get("sicCode")),
+            address=_address(r, AddressKind.MAILING, "addressLine1", "addressLine2", "city", "stateCode",
+                             "zipCode", "zipSuffix"),
+            phone=_phone(r, PhoneKind.WORK, "mainPhone", "mainPhoneExt"),
+            email=_email(r, EmailKind.WORK, "emailAddress"),
+            website=text(r.get("websiteUrl")),
+            tax_ids=[TaxId(key=f"{self.key}:ein:{ein}", tax_id=ein)] if ein else [],
+            work_locations=self._locations(codes) if codes is not None else [],
+            pay_groups=self._pay_groups(codes) if codes is not None else [],
+            unmapped=r.unmapped(),
+        )
+
+    def _labelled(self, r: Reader, name: str, labels: Dict[str, str]) -> Optional[CodedValue]:
+        """A documented code with no canonical domain: raw plus the spec's label."""
+        coded = Collector.raw_code(r.get(name))
+        if coded is None:
+            return None
+        label = _label(labels, coded.raw)
+        if label is None:
+            self.issues.add(IssueCode.UNDOCUMENTED_CODE, Severity.WARNING, r.path(name), "kept raw value; label set null",
+                            self.key, coded.raw, f"code is not listed in {CLIENT}/{name}/description")
+        return CodedValue(raw=coded.raw, label=label)
+
+    def _client_codes(self) -> Optional[Dict[str, Any]]:
+        response = self.bundle.response("get_client_codes")
+        if response is None:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "responses.get_client_codes",
+                            "work locations and pay groups left empty",
+                            message="getClientCodes with options=Location,PGroups was not captured")
+            return None
+        codes = response.get("clientCodes")
+        if not isinstance(codes, dict):
+            raise ValueError("responses.get_client_codes.clientCodes must be an object")
+        return codes
+
+    @staticmethod
+    def _rows(container: Dict[str, Any], name: str, where: str) -> list:
+        rows = container.get(name) or []
+        if not isinstance(rows, list):
+            raise ValueError(f"responses.{where}.{name} must be a list")
+        return [(index, row) for index, row in enumerate(rows) if isinstance(row, dict)]
+
+    def _locations(self, codes: Dict[str, Any]) -> list[WorkLocation]:
+        locations = []
+        for index, row in self._rows(codes, "locationCode", "get_client_codes.clientCodes"):
+            r = Reader(row, f"clientCodes.locationCode[{index}]")
+            source_id = text(r.get("id")) or ""
+            key = f"{self.key}:loc:{source_id}"
+            obsolete = boolean(r.get("locationObsolete"))
+            locations.append(WorkLocation(
+                key=key,
+                source_id=source_id,
+                code=Collector.raw_code(source_id, r.get("locationName")),
+                address=_address(r, AddressKind.WORK, "addressLine1", "addressLine2", "city", "state",
+                                 "zipCode", "zipSuffix"),
+                active=None if obsolete is None else not obsolete,
+                end_date=self.issues.date(r.get("obsoleteDate"), r.path("obsoleteDate"), key),
+                remote=boolean(r.get("remoteLocation")),
+                unmapped=r.unmapped(),
+            ))
+        return locations
+
+    def _schedules(self) -> Dict[str, Reader]:
+        """getPayrollSchedule rows by pay group code; the first row of a group wins."""
+        response = self.bundle.response("get_payroll_schedule")
+        if response is None:
+            return {}
+        name = SCHEDULE_KEYS[0]
+        if SCHEDULE_KEYS[1] in response:
+            name = SCHEDULE_KEYS[1]
+            self.issues.add(IssueCode.SPEC_LIVE_MISMATCH, Severity.INFO, name, "read the live shape",
+                            message="the live API lists schedules under 'clientPayrollSchedule'; the spec names "
+                                    f"the array 'clientPayrollSchedules' ({SPEC}/PayrollScheduleResponse)")
+        schedules: Dict[str, Reader] = {}
+        for index, row in self._rows(response, name, "get_payroll_schedule"):
+            r = Reader(row, f"{name}[{index}]")
+            group = text(r.peek("groupId"))
+            if group is not None and group not in schedules:
+                schedules[group] = r
+        return schedules
+
+    def _pay_groups(self, codes: Dict[str, Any]) -> list[PayGroup]:
+        schedules = self._schedules()
+        groups = []
+        for index, row in self._rows(codes, "payGroups", "get_client_codes.clientCodes"):
+            r = Reader(row, f"clientCodes.payGroups[{index}]")
+            source_id = text(r.get("payGroupCode")) or ""
+            key = f"{self.key}:pg:{source_id}"
+            frequency, extra = None, {}
+            schedule = schedules.get(source_id)
+            if schedule is not None:
+                schedule.consume("groupId")
+                schedule.consume("groupDesc")
+                frequency = self.issues.code_once(SCHEDULE_PAY_PERIOD, schedule.get("payPeriod"),
+                                                  schedule.path("payPeriod"), key,
+                                                  label=text(schedule.get("payPeriodDesc")))
+                extra = schedule.unmapped()
+            groups.append(PayGroup(
+                key=key,
+                source_id=source_id,
+                code=Collector.raw_code(source_id, r.get("description")),
+                frequency=frequency,
+                unmapped={**r.unmapped(), **extra},
+            ))
+        return groups
+
+
 def _company(company_id: str, issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
                "company name set null",
@@ -963,8 +1155,17 @@ def normalize_payroll(bundle: Bundle) -> NormalizedOutput:
                             issues=issues.issues)
 
 
-NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
-               "deduction": normalize_deductions, "payroll": normalize_payroll}
+def normalize_company(bundle: Bundle) -> NormalizedOutput:
+    """The full client record with its worksite locations and pay groups."""
+    _check_provider(bundle)
+    issues = Collector()
+    company = _PrismCompanyMapper(bundle, issues).company()
+    return NormalizedOutput(provider=PROVIDER, company=company, issues=issues.issues)
+
+
+NORMALIZERS = {"company": normalize_company, "employee": normalize_employees,
+               "direct-deposit": normalize_direct_deposits, "deduction": normalize_deductions,
+               "payroll": normalize_payroll}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:
