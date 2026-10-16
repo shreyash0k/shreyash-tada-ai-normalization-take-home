@@ -19,11 +19,14 @@ from normalization.canonical import (
     CompanySource,
     Compensation,
     Contact,
+    ContributionLine,
     DateRange,
     Deduction,
+    DeductionLine,
     DeductionSource,
     DepositSource,
     DirectDeposit,
+    EarningLine,
     Employee,
     Employment,
     EmploymentStatus,
@@ -34,13 +37,20 @@ from normalization.canonical import (
     Limits,
     Money,
     NormalizedOutput,
+    Paycheck,
+    PaycheckSource,
     Payee,
+    PaymentLine,
+    PaymentMethod,
+    PayRun,
+    PayRunSource,
     PayType,
     Person,
     Severity,
     SourceRef,
+    TaxLine,
 )
-from normalization.canonical import common, company, deduction, direct_deposit, employee, issues
+from normalization.canonical import common, company, deduction, direct_deposit, employee, issues, payroll
 from normalization.canonical.schema_check import validate
 
 
@@ -85,7 +95,7 @@ class ConstructionChecks(unittest.TestCase):
             person.first_name = "Grace"
 
     def test_every_canonical_enum_ends_with_unknown(self):
-        for module in (common, direct_deposit, deduction, issues):
+        for module in (common, direct_deposit, deduction, payroll, issues):
             for name in dir(module):
                 member = getattr(module, name)
                 if isinstance(member, type) and issubclass(member, common.CanonicalEnum) \
@@ -123,6 +133,27 @@ class ConstructionChecks(unittest.TestCase):
             Calculation(amount=Decimal("5"))
         with self.assertRaises(TypeError):
             Limits(per_pay=100)
+
+    def test_payroll_fields_are_checked(self):
+        source = PaycheckSource(provider="ukg-ready", company_id="33704016", employee_id="1", paycheck_id="9")
+        check = Paycheck(key="ukg-ready:33704016:1:chk:9", employee_key="ukg-ready:33704016:1",
+                         company_key="ukg-ready:33704016", source=source, pay_date=date(2026, 1, 9),
+                         earnings=[EarningLine(hours=Decimal("80.00"), amount=Money(Decimal("2000")))],
+                         taxes=[TaxLine(employer_amount=Money(Decimal("128.65")))],
+                         deductions=[DeductionLine(amount=Money(Decimal("45.5")))],
+                         employer_contributions=[ContributionLine(amount=Money(Decimal("60")))],
+                         payments=[PaymentLine(method=CodedValue("Check", None, PaymentMethod.CHECK))])
+        data = check.to_dict()
+        self.assertEqual(data["earnings"][0]["hours"], "80.00")
+        self.assertIsNone(data["pay_run_key"])
+        self.assertEqual(data["payments"][0]["method"]["value"], "check")
+        with self.assertRaises(TypeError):
+            EarningLine(hours=80)
+        with self.assertRaises(TypeError):
+            Paycheck(key="k", employee_key="e", company_key="c", source=source, earnings=[TaxLine()])
+        run = PayRun(key="prismhr:132:run:20161", company_key="prismhr:132",
+                     source=PayRunSource(provider="prismhr", company_id="132", pay_run_id="20161"))
+        self.assertEqual(run.to_dict()["unmapped"], {})
 
 
 class SerializationChecks(unittest.TestCase):
@@ -167,6 +198,11 @@ class SchemaAgreementChecks(unittest.TestCase):
         "Deduction": deduction.Deduction, "DeductionSource": deduction.DeductionSource,
         "Calculation": deduction.Calculation, "Limits": deduction.Limits,
         "EmployerMatch": deduction.EmployerMatch, "Payee": deduction.Payee,
+        "PayRun": payroll.PayRun, "PayRunSource": payroll.PayRunSource,
+        "Paycheck": payroll.Paycheck, "PaycheckSource": payroll.PaycheckSource,
+        "EarningLine": payroll.EarningLine, "TaxLine": payroll.TaxLine,
+        "DeductionLine": payroll.DeductionLine, "ContributionLine": payroll.ContributionLine,
+        "PaymentLine": payroll.PaymentLine,
     }
 
     def test_each_model_field_set_matches_schema_properties(self):

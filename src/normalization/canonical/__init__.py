@@ -43,6 +43,23 @@ from .direct_deposit import (
 )
 from .employee import Compensation, Contact, Employee, Employment, Job, Person, SourceRef
 from .issues import Issue, IssueCode, NormalizedOutput, Severity
+from .payroll import (
+    ContributionLine,
+    DeductionLine,
+    EarningCategory,
+    EarningLine,
+    Paycheck,
+    PaycheckSource,
+    PaycheckStatus,
+    PaycheckType,
+    PaymentLine,
+    PaymentMethod,
+    PayRun,
+    PayRunSource,
+    PayRunStatus,
+    PayRunType,
+    TaxLine,
+)
 
 __all__ = [
     "Address", "AddressKind", "CanonicalEnum", "Citizenship", "CodedValue", "DateRange",
@@ -54,4 +71,7 @@ __all__ = [
     "DeductionSource", "EmployerMatch", "Limits", "MatchMethod", "Payee",
     "Compensation", "Contact", "Employee", "Employment", "Job", "Person", "SourceRef",
     "Issue", "IssueCode", "NormalizedOutput", "Severity",
+    "ContributionLine", "DeductionLine", "EarningCategory", "EarningLine", "Paycheck", "PaycheckSource",
+    "PaycheckStatus", "PaycheckType", "PaymentLine", "PaymentMethod", "PayRun", "PayRunSource",
+    "PayRunStatus", "PayRunType", "TaxLine",
 ]

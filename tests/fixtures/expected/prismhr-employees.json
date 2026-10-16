@@ -2551,6 +2551,8 @@
   ],
   "direct_deposits": [],
   "deductions": [],
+  "pay_runs": [],
+  "paychecks": [],
   "issues": [
     {
       "code": "spec_live_mismatch",

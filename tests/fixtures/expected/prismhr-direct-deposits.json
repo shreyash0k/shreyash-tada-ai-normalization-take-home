@@ -409,6 +409,8 @@
     }
   ],
   "deductions": [],
+  "pay_runs": [],
+  "paychecks": [],
   "issues": [
     {
       "code": "masked_value",
