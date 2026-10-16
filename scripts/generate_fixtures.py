@@ -1453,6 +1453,43 @@ def build_ukg_payroll(seed: int):
     })
 
 
+# Company cases: one EIN (the two-EIN case is a test variant); a profile per
+# period_type, every_n_weeks with 2 and 3 weeks, the out-of-enum "fortnightly"
+# (out_of_schema_value), and one profile with effective_to.
+
+def ukg_profile(profile_id, name, active, period_type, params=None, effective_from="2018-01-21",
+                effective_to=None, description=None):
+    profile = {"id": profile_id, "name": name, "active": active, "effective_from": effective_from,
+               "period_type": {"type": period_type, "params": params or {}}}
+    if effective_to:
+        profile["effective_to"] = effective_to
+    if description:
+        profile["description"] = description
+    return profile
+
+
+def build_ukg_company(seed: int):
+    profiles = [
+        ukg_profile(36562688, "Primary-EIN Regular Bi-Weekly", True, "every_n_weeks",
+                    {"start_date": "2017-10-29", "num_weeks": 2}, description="Primary EIN payroll"),
+        ukg_profile(36562692, "Weekly", False, "weekly", {"week_day": "SUNDAY"}, effective_from="2013-12-15"),
+        ukg_profile(36562698, "Semi-Monthly", False, "semi_monthly", {"starting_on_first": 1, "starting_on_sec": 16},
+                    effective_from="2019-01-01"),
+        ukg_profile(36562689, "Monthly", False, "monthly", {"start_day": 1}, effective_from="2018-01-01"),
+        ukg_profile(36562700, "Every Three Weeks", False, "every_n_weeks",
+                    {"start_date": "2017-10-29", "num_weeks": 3}),
+        ukg_profile(36562701, "Quarterly", False, "quarterly", {"start_date": "2018-01-01"}),
+        ukg_profile(36562702, "Monthly Second Friday", False, "monthly_weekday", {"week_num": 2, "week_day": "FRIDAY"}),
+        ukg_profile(36562703, "Every Ten Days", False, "every_n_days", {"start_date": "2018-01-01", "num_days": 10}),
+        ukg_profile(36562699, "Test", False, "user_defined", effective_from="2023-05-01", effective_to="2023-10-01"),
+        ukg_profile(36562704, "Fortnightly", False, "fortnightly"),
+    ]
+    return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
+        "lookup_eins": {"items": [dict(UKG_EIN, ein_country_id="USA", ein_currency_code="USD")]},
+        "lookup_pay_period_profiles": {"items": profiles},
+    })
+
+
 BUILDERS = {
     "prismhr": {"company": build_prismhr_company, "employee": build_prismhr,
                 "direct-deposit": build_prismhr_direct_deposits, "deduction": build_prismhr_deductions,
@@ -1460,8 +1497,9 @@ BUILDERS = {
     "isolved": {"company": build_isolved_company, "employee": build_isolved,
                 "direct-deposit": build_isolved_direct_deposits, "deduction": build_isolved_deductions,
                 "payroll": build_isolved_payroll},
-    "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
-                  "deduction": build_ukg_deductions, "payroll": build_ukg_payroll},
+    "ukg-ready": {"company": build_ukg_company, "employee": build_ukg,
+                  "direct-deposit": build_ukg_direct_deposits, "deduction": build_ukg_deductions,
+                  "payroll": build_ukg_payroll},
 }
 # Bundle file name and golden-output suffix per entity.
 ENTITY_FILES = {"company": ("company-bundle.json", "company"),
