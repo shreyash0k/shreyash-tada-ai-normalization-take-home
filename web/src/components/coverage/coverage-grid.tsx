@@ -9,17 +9,15 @@ import { PROVIDER_STYLE } from "@/lib/providers";
 import { CoverageCell } from "./coverage-cell";
 import { CoverageLegend } from "./coverage-legend";
 
-const SECTION_TITLES: Record<string, string> = {
-  person: "Person",
-  contact: "Contact",
-  employment: "Employment",
-  job: "Job",
-  compensation: "Compensation",
-};
-
 type Row = { field: string; section: string; cells: CoverageEntry[] };
 
-export function CoverageGrid({ providers }: { providers: ProviderCoverage[] }) {
+export function CoverageGrid({
+  providers,
+  sectionTitles,
+}: {
+  providers: ProviderCoverage[];
+  sectionTitles: Record<string, string>;
+}) {
   const [gapsOnly, setGapsOnly] = useState(false);
   const rows = useMemo<Row[]>(() => {
     const lookups = providers.map((provider) => new Map(provider.coverage.map((entry) => [entry.field, entry])));
@@ -30,7 +28,7 @@ export function CoverageGrid({ providers }: { providers: ProviderCoverage[] }) {
     }));
   }, [providers]);
   const visible = gapsOnly ? rows.filter((row) => row.cells.some((cell) => cell.status !== "mapped")) : rows;
-  const sections = Object.keys(SECTION_TITLES).filter((section) => visible.some((row) => row.section === section));
+  const sections = Object.keys(sectionTitles).filter((section) => visible.some((row) => row.section === section));
 
   return (
     <TooltipProvider delay={100}>
@@ -65,7 +63,7 @@ export function CoverageGrid({ providers }: { providers: ProviderCoverage[] }) {
                   colSpan={providers.length + 1}
                   className="bg-neutral-50/70 px-4 py-2 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500"
                 >
-                  {SECTION_TITLES[section]}
+                  {sectionTitles[section]}
                 </th>
               </tr>
               {visible.filter((row) => row.section === section).map((row) => (

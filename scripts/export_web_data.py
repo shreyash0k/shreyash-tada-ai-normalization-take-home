@@ -1,4 +1,4 @@
-"""Export the field coverage the web app shows into ``web/src/data/coverage.json``.
+"""Export the employee and direct deposit field coverage into ``web/src/data/coverage.json``.
 
 Usage::
 
@@ -16,31 +16,32 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from normalization import deposit_field_map, field_map  # noqa: E402
 from normalization.bundle import PROVIDER_SPECS  # noqa: E402
-from normalization.field_map import (  # noqa: E402
-    FIELD_MAP, MAPPED, NOT_OFFERED, canonical_fields,
-)
+from normalization.field_map import MAPPED, NOT_OFFERED  # noqa: E402
 
 OUTPUT = ROOT / "web" / "src" / "data" / "coverage.json"
-EXPORT_VERSION = 1
+EXPORT_VERSION = 2
 PROVIDER_NAMES = {"prismhr": "PrismHR", "isolved": "isolved", "ukg-ready": "UKG Ready"}
+ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map}
 
 
 class ExportError(ValueError):
     pass
 
 
-def provider_coverage(provider: str) -> dict:
-    entries = FIELD_MAP.get(provider, {})
-    missing = [field for field in canonical_fields() if field not in entries]
+def provider_coverage(entity: str, provider: str) -> dict:
+    module = ENTITY_MAPS[entity]
+    entries = module.FIELD_MAP.get(provider, {})
+    missing = [field for field in module.canonical_fields() if field not in entries]
     if missing:
-        raise ExportError(f"{provider}: field map has no entry for {', '.join(missing)}")
+        raise ExportError(f"{provider} {entity}: field map has no entry for {', '.join(missing)}")
     rows = []
-    for field in canonical_fields():
+    for field in module.canonical_fields():
         entry = entries[field]
         rows.append({
             "field": field,
-            "section": field.split(".", 1)[0],
+            "section": module.section(field),
             "status": entry.status,
             "source": entry.source,
             "evidence": entry.evidence,
@@ -61,7 +62,8 @@ def provider_coverage(provider: str) -> dict:
 def render() -> str:
     data = {
         "export_version": EXPORT_VERSION,
-        "providers": [provider_coverage(provider) for provider in PROVIDER_SPECS],
+        "entities": {entity: [provider_coverage(entity, provider) for provider in PROVIDER_SPECS]
+                     for entity in ENTITY_MAPS},
     }
     return json.dumps(data, indent=2, ensure_ascii=False, allow_nan=False) + "\n"
 

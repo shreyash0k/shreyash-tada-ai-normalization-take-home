@@ -1,6 +1,13 @@
 const LIST_NOUN: Record<string, string> = { addresses: "address", phones: "phone", emails: "email" };
 
+const LABEL_OVERRIDES: Record<string, string> = {
+  account_number_last4: "account number, last 4",
+  "effective.start": "effective start",
+  "effective.end": "effective end",
+};
+
 export function fieldLabel(field: string): string {
+  if (field in LABEL_OVERRIDES) return LABEL_OVERRIDES[field];
   const name = field.slice(field.indexOf(".") + 1);
   const list = name.match(/^(addresses|phones|emails)\[(\w+)\]$/);
   if (list) {

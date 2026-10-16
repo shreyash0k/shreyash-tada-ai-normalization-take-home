@@ -486,7 +486,7 @@ during implementation.
     expected is missing. Codes: `undocumented_code`, `unmapped_label`,
     `missing_section`, `missing_lookup`, `out_of_schema_value`,
     `multiple_current_rates`, `inconsistent_allocation` (a deposit line's
-    amount and percentage do not fit its method; entry 44).
+    amount and percentage do not fit its method; entry 45).
   - `info`: a note about the provider's behaviour, with nothing lost. Codes:
     `spec_live_mismatch`, `masked_value`.
 - **Reason:** A small fixed set of codes lets someone see at a glance how many
@@ -851,8 +851,8 @@ during implementation.
 
 ### 37. What the coverage statuses mean
 
-- **Context:** The field coverage page shows, for every canonical employee
-  field, whether each provider supplies it. A provider can have the data
+- **Context:** The field coverage pages show, for every canonical employee
+  and direct deposit field, whether each provider supplies it. A provider can have the data
   and the adapter use it, have the data and the adapter not use it, or
   have no such field at all. A field the adapter uses can still be empty
   for every synthetic employee.
@@ -866,6 +866,7 @@ during implementation.
   how complete the synthetic sample is. "Not offered" is a claim about
   the provider, so it needs the same evidence as a mapping.
 - **Evidence:** `src/normalization/field_map.py`;
+  `src/normalization/deposit_field_map.py`;
   `tests/test_field_map.py::test_mapped_rows_are_filled_or_explain_the_gap`;
   `web/src/lib/status.ts`.
 - **Status:** Decided.
@@ -929,9 +930,33 @@ during implementation.
   `src/normalization/field_map.py` (`UKG_READY`).
 - **Status:** Open.
 
+### 41. Direct deposit coverage: five fields are not offered
+
+- **Context:** The direct deposit coverage page lists the 11 value fields
+  of a deposit line against each provider. Most exist in all three specs.
+  Three gaps needed a call. UKG Ready lines carry a routing number but
+  nothing labelled as the bank name. PrismHR lines have no sequence
+  number. Neither PrismHR nor isolved lines have start or end dates. UKG
+  lines do have a `name` field, which is a string with no description in
+  the JSON schema and an integer in the XML schema.
+- **Decision:** The page shows five cells as "not offered", each with its
+  reason: UKG Ready bank name, PrismHR priority, and PrismHR and isolved
+  effective start and end. UKG's `name` is not read as the bank name.
+  Every other cell is "mapped"; none is "not mapped yet".
+- **Reason:** `name` could as well be a label for the account, and its
+  type is not even consistent, so calling it the bank name would be a
+  guess (entry 1). PrismHR does not document its list order as the
+  payment order (entry 50).
+- **Evidence:** `src/normalization/deposit_field_map.py`;
+  `contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/name`;
+  `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__employees__(aid)__direct-deposits.html`
+  (XML schema);
+  `tests/test_deposit_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
+- **Status:** Decided.
+
 ## Direct deposit normalization
 
-### 41. A direct deposit record holds the core of one bank line
+### 42. A direct deposit record holds the core of one bank line
 
 - **Context:** All three providers describe each split of an employee's
   pay into a bank account, but each wraps it in its own extras: prenote
@@ -952,7 +977,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_prenote_and_frequency_stay_unmapped`.
 - **Status:** Decided.
 
-### 42. What a capture bundle holds for direct deposits
+### 43. What a capture bundle holds for direct deposits
 
 - **Context:** Each provider serves deposits from a different call.
   PrismHR returns them on the same employee call when asked for the
@@ -977,7 +1002,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_missing_response`.
 - **Status:** Decided.
 
-### 43. Only the last four digits of a bank account number are emitted
+### 44. Only the last four digits of a bank account number are emitted
 
 - **Context:** isolved and UKG Ready send bank account numbers in full.
   PrismHR masks them completely (`*****`) but sends the routing number in
@@ -998,7 +1023,7 @@ during implementation.
   `tests/test_direct_deposit_isolved.py::test_account_numbers_are_reduced_to_last_four`.
 - **Status:** Decided.
 
-### 44. How each provider's allocation maps to one list of methods
+### 45. How each provider's allocation maps to one list of methods
 
 - **Context:** A deposit line takes a fixed amount, a percentage, or
   whatever is left. PrismHR (`method`) and UKG Ready (`calc_method`) say
@@ -1027,7 +1052,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_inconsistent_amounts_are_reported`.
 - **Status:** Decided.
 
-### 45. isolved allocation comes from which field is set
+### 46. isolved allocation comes from which field is set
 
 - **Context:** isolved has no method code. A line has either an `amount`
   or a `percent`, and the spec says `sequenceNumber` 0 is "Net Pay", the
@@ -1047,7 +1072,7 @@ during implementation.
   `test_method_follows_the_field_that_is_set`.
 - **Status:** Decided.
 
-### 46. isolved account type and status labels allowed so far
+### 47. isolved account type and status labels allowed so far
 
 - **Context:** isolved's spec describes `accountType` and `status` only
   as free-text descriptions, with no list of values. The live demo
@@ -1065,7 +1090,7 @@ during implementation.
   `tests/test_direct_deposit_isolved.py::test_labels_outside_the_allowlist_stay_raw`.
 - **Status:** Decided.
 
-### 47. PrismHR account type `IP` is instant pay, not a pay card
+### 48. PrismHR account type `IP` is instant pay, not a pay card
 
 - **Context:** PrismHR's spec lists the account types it returns as `C`
   "(checking account or pay card)", `S` "(savings account)" and `IP`
@@ -1081,7 +1106,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_undocumented_method_and_instant_pay`.
 - **Status:** Open.
 
-### 48. PrismHR `FS` and `PN` lose a detail when mapped
+### 49. PrismHR `FS` and `PN` lose a detail when mapped
 
 - **Context:** PrismHR's `FS` is "fixed, skip if can't take full amount",
   and `PN` is "percentage of net after fixed", meaning the percentage is
@@ -1096,7 +1121,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_fixed_skip_and_prenote`.
 - **Status:** Open.
 
-### 49. PrismHR deposit lines are identified by their position
+### 50. PrismHR deposit lines are identified by their position
 
 - **Context:** PrismHR deposit lines (`achVoucher`) have no ID or
   sequence number.
@@ -1112,7 +1137,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_line_position_is_the_deposit_id`.
 - **Status:** Open.
 
-### 50. PrismHR header status is not applied to each line
+### 51. PrismHR header status is not applied to each line
 
 - **Context:** PrismHR sends a header for the whole direct deposit setup,
   with its own status (`achStatus`), next to a status on each line. In
@@ -1127,7 +1152,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_header_fields_ride_along_in_unmapped`.
 - **Status:** Open.
 
-### 51. UKG Ready "reserve live check" lines are emitted without a bank
+### 52. UKG Ready "reserve live check" lines are emitted without a bank
 
 - **Context:** UKG Ready deposit lines have a `type` of either
   `DIRECT_DEPOSIT` or `RESERVE_LIVE_CHECK`. The second keeps part of the
@@ -1141,7 +1166,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_reserve_live_check_has_no_bank_fields`.
 - **Status:** Open.
 
-### 52. UKG Ready's employee deposit call is past its end of support
+### 53. UKG Ready's employee deposit call is past its end of support
 
 - **Context:** UKG's table of deprecated operations lists
   `GET v2/companies/{cid}/employees/{account_id}/direct-deposits` with
@@ -1157,7 +1182,7 @@ during implementation.
   `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys).
 - **Status:** Open.
 
-### 53. UKG Ready open-ended dates are kept as sent
+### 54. UKG Ready open-ended dates are kept as sent
 
 - **Context:** Live UKG lines carry `active_from` 1900-12-31 and
   `active_to` 2099-12-31, which look like stand-ins for "no start" and
@@ -1170,7 +1195,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_sequence_status_and_effective_dates`.
 - **Status:** Open.
 
-### 54. Where live deposit data differs from the specs
+### 55. Where live deposit data differs from the specs
 
 - **Context:** The live demo companies did not return everything the
   specs describe:
@@ -1184,7 +1209,7 @@ during implementation.
   - PrismHR sent `transitNum` in full and every `accountNum` masked.
 - **Decision:** A missing field is read as empty and raises no issue of
   its own. The isolved line with neither amount nor percent gets the
-  `inconsistent_allocation` warning from entry 45. The UKG label is kept
+  `inconsistent_allocation` warning from entry 46. The UKG label is kept
   as sent, and the amount currency defaults to USD.
 - **Reason:** These gaps do not change what the remaining fields mean,
   and reporting every absent optional field would bury the issues that
