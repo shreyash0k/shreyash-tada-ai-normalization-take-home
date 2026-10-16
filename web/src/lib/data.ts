@@ -3,6 +3,8 @@ import type { ProviderId } from "./providers";
 
 export type FieldStatus = "mapped" | "not_mapped_yet" | "not_offered";
 
+export type EntityId = "employee" | "direct-deposit";
+
 export type CoverageEntry = {
   field: string;
   section: string;
@@ -25,6 +27,6 @@ export type ProviderCoverage = {
   coverage: CoverageEntry[];
 };
 
-export type CoverageData = { export_version: number; providers: ProviderCoverage[] };
+export type CoverageData = { export_version: number; entities: Record<EntityId, ProviderCoverage[]> };
 
-export const providers: ProviderCoverage[] = (raw as unknown as CoverageData).providers;
+export const coverage: Record<EntityId, ProviderCoverage[]> = (raw as unknown as CoverageData).entities;

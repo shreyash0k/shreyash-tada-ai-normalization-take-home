@@ -13,6 +13,15 @@ describe("fieldLabel", () => {
   it("says when the provider did not state the kind", () => {
     expect(fieldLabel("contact.emails[unknown]")).toBe("email, kind not stated");
   });
+  it("keeps top-level deposit fields whole", () => {
+    expect(fieldLabel("bank_name")).toBe("bank name");
+    expect(fieldLabel("allocation.method")).toBe("method");
+  });
+  it("spells out deposit rows that read badly on their own", () => {
+    expect(fieldLabel("account_number_last4")).toBe("account number, last 4");
+    expect(fieldLabel("effective.start")).toBe("effective start");
+    expect(fieldLabel("effective.end")).toBe("effective end");
+  });
 });
 
 describe("shortSource", () => {
