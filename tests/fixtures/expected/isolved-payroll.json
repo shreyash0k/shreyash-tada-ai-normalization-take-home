@@ -1130,7 +1130,7 @@
       "action": "company name set null",
       "record_key": null,
       "raw_value": null,
-      "message": "the employees endpoint does not return the legal company name; a legal endpoint is a later task"
+      "message": "this bundle does not hold the legal record; --entity company reads it"
     }
   ],
   "schema_version": "1"

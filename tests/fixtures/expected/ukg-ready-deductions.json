@@ -509,7 +509,7 @@
       "action": "company name set null",
       "record_key": null,
       "raw_value": null,
-      "message": "the employee endpoints do not return the company name; a company endpoint is a later task"
+      "message": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404"
     }
   ],
   "schema_version": "1"

@@ -4,7 +4,9 @@ Input: a capture bundle whose ``responses.get_employee`` holds raw
 ``GET /employee/v1/getEmployee`` responses requested with
 ``options=Person,ContactInformation,Client,Compensation``. Each response
 carries up to twenty ``employee[]`` records with ``person``,
-``contactInformation``, ``client`` and ``compensation`` sections.
+``contactInformation``, ``client`` and ``compensation`` sections. The optional
+``responses.get_client_codes_job`` (``getClientCodes`` with ``options=Job``)
+names each job code's title.
 
 Direct deposits come from the same call requested with
 ``options=DirectDeposit`` (``responses.get_employee_direct_deposit``): each
@@ -141,11 +143,17 @@ HOURLY_PAY_PERIOD = CodeTable(
      "S": PayPeriod.SEMIMONTHLY, "M": PayPeriod.MONTHLY, "Y": PayPeriod.ANNUAL},
     f"{SPEC}/Compensation/properties/hourlyPayPeriod/description",
 )
-# Compensation.payPeriod is described only as "pay period associated with the
-# payGroup"; its codes are not explained on this schema, so none map.
+# The spec lists the schedule payPeriod codes on payPeriodDesc; payPeriod itself says only "pay period number".
+# Every MD* code is a monthly schedule with a particular pay-day rule. Daily has no canonical member.
+_SCHEDULE_PERIODS = {
+    "D": PayPeriod.UNKNOWN, "W": PayPeriod.WEEKLY, "B": PayPeriod.BIWEEKLY, "S": PayPeriod.SEMIMONTHLY,
+    "M": PayPeriod.MONTHLY, "MDNO": PayPeriod.MONTHLY, "MDNW": PayPeriod.MONTHLY, "MDLW": PayPeriod.MONTHLY,
+    "MDAD": PayPeriod.MONTHLY, "MDBD": PayPeriod.MONTHLY,
+}
+# Compensation.payPeriod is "pay period associated with the payGroup", so it carries the pay group's schedule code.
 PAY_PERIOD = CodeTable(
-    "compensation.payPeriod", PayPeriod, {},
-    f"{SPEC}/Compensation/properties/payPeriod/description (no code meanings)",
+    "compensation.payPeriod", PayPeriod, _SCHEDULE_PERIODS,
+    f"{SPEC}/ClientPayrollSchedule/properties/payPeriodDesc/description",
 )
 # Spec says "standard hours per pay period (for example, 40.00 if 40 hours per week)".
 STANDARD_HOURS_PERIOD = CodedValue(raw=None, label="per pay period", value=PayPeriod.PAY_PERIOD)
@@ -174,7 +182,7 @@ PERCENT_METHODS = {AllocationMethod.PERCENT, AllocationMethod.PERCENT_OF_NET}
 
 # The per-employee deduction record describes deductionType and deductionMethod
 # only as "defined by the service provider"; the code lists are on the
-# deduction code record (DeductionCodeDetail), as with gender in entry 36.
+# deduction code record (DeductionCodeDetail), as with gender in entry 34.
 DEDUCTION = f"{SPEC}/EmployeeDeductions-Deduction/properties"
 DEDUCTION_TYPE_LABELS = {
     "V": "Voluntary", "C": "Section 125", "P": "Post Tax Benefit", "F": "Flexible Spending Account",
@@ -304,13 +312,8 @@ SERVICE_TYPE_LABELS = {
     "PAY": "Payroll Processing Only", "ASA": "Admin Services/Alt. Billing", "COR": "Corporate Payroll",
     "HRN": "HR Services, No Payroll",
 }
-# The spec lists the payPeriod codes on payPeriodDesc; payPeriod itself says only "pay period number".
-# Every MD* code is a monthly schedule with a particular pay-day rule. Daily has no canonical member.
 SCHEDULE_PAY_PERIOD = CodeTable(
-    "clientPayrollSchedule.payPeriod", PayPeriod,
-    {"D": PayPeriod.UNKNOWN, "W": PayPeriod.WEEKLY, "B": PayPeriod.BIWEEKLY, "S": PayPeriod.SEMIMONTHLY,
-     "M": PayPeriod.MONTHLY, "MDNO": PayPeriod.MONTHLY, "MDNW": PayPeriod.MONTHLY, "MDLW": PayPeriod.MONTHLY,
-     "MDAD": PayPeriod.MONTHLY, "MDBD": PayPeriod.MONTHLY},
+    "clientPayrollSchedule.payPeriod", PayPeriod, _SCHEDULE_PERIODS,
     f"{SPEC}/ClientPayrollSchedule/properties/payPeriodDesc/description",
 )
 LIVE_ONLY_CLIENT_FIELDS = ("eVerify", "externalPtoUsed", "notificationEmailList", "payrollFinalizationNotification",
@@ -386,6 +389,36 @@ class _PrismEmployeeMapper:
         self.company_id = bundle.request["client_id"]
         self.company_key = f"{PROVIDER}:{self.company_id}"
         self.reported_mismatch: set[str] = set()
+        self.job_titles = self._job_titles()
+
+    def _job_titles(self) -> Optional[Dict[str, Optional[str]]]:
+        """Job code -> jobTitle from getClientCodes with options=Job, or None when it was not captured."""
+        response = self.bundle.response("get_client_codes_job")
+        if response is None:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "responses.get_client_codes_job",
+                            "job titles left empty",
+                            message="getClientCodes with options=Job was not captured")
+            return None
+        codes = response.get("clientCodes")
+        if not isinstance(codes, dict):
+            raise ValueError("responses.get_client_codes_job.clientCodes must be an object")
+        rows = codes.get("jobCode") or []
+        if not isinstance(rows, list):
+            raise ValueError("responses.get_client_codes_job.clientCodes.jobCode must be a list")
+        return {text(row.get("id")): text(row.get("jobTitle")) for row in rows
+                if isinstance(row, dict) and text(row.get("id")) is not None}
+
+    def _job_title(self, client: Reader, key: str) -> Optional[str]:
+        code = text(client.peek("jobCode"))
+        if code is None or self.job_titles is None:
+            return None
+        if code not in self.job_titles:
+            self.issues.add(IssueCode.MISSING_LOOKUP, Severity.WARNING, client.path("jobCode"),
+                            "kept the job code; title null", key, code,
+                            "job code not present in the bundled getClientCodes job table "
+                            f"({SPEC}/JobCode/properties/jobTitle)")
+            return None
+        return self.job_titles[code]
 
     def _report_live_shape(self, record: Reader) -> None:
         """Emit spec_live_mismatch once per bundle for each renamed or extra field."""
@@ -465,6 +498,7 @@ class _PrismEmployeeMapper:
         emails = [e for e in (
             _email(contact, EmailKind.UNKNOWN, "emailAddress"),  # spec: "the employee's email address"
             _email(client, EmailKind.WORK, "workEmail"),
+            _email(client, EmailKind.OTHER, "benefitEmail"),  # spec: used for online benefits enrollment
         ) if e is not None]
 
         rehire_ok = text(client.get("rehireOk"))
@@ -484,6 +518,7 @@ class _PrismEmployeeMapper:
         )
 
         job = Job(
+            title=self._job_title(client, key),
             job_code=Collector.raw_code(client.get("jobCode")),
             department=Collector.raw_code(client.get("homeDepartment")),
             location=Collector.raw_code(client.get("homeLocation")),
@@ -1097,7 +1132,8 @@ class _PrismCompanyMapper:
 def _company(company_id: str, issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
                "company name set null",
-               message="getEmployee does not return the client name; a client endpoint is a later task")
+               message="this bundle does not hold the client record; "
+                       "--entity company reads it from getClientMaster")
     return Company(key=f"{PROVIDER}:{company_id}",
                    source=CompanySource(provider=PROVIDER, company_id=company_id))
 

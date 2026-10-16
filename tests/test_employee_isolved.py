@@ -87,7 +87,10 @@ class IsolvedEmployeeChecks(unittest.TestCase):
     def test_detail_overlay_supplies_organizations_and_taxes(self):
         detailed = self.employee(859201)
         self.assertEqual(detailed["job"]["department"], {"raw": "100", "label": "Executives", "value": None})
-        self.assertEqual(detailed["job"]["location"], {"raw": "10", "label": "Main Yard", "value": None})
+        self.assertEqual(detailed["job"]["location"],
+                         {"raw": "UT1", "label": "UT1 - SALT LAKE CITY, UT", "value": None})
+        self.assertEqual(detailed["unmapped"]["organizations[0].title"], "Location")
+        self.assertEqual(detailed["unmapped"]["organizations[0].value"], "10")
         self.assertIn("taxes.federal.filingStatus", detailed["unmapped"])
         self.assertIn("organizations[0].organizationId", detailed["unmapped"])
         plain = self.employee(859202)
@@ -97,7 +100,9 @@ class IsolvedEmployeeChecks(unittest.TestCase):
     def test_personal_and_name_address_overrides(self):
         overridden = self.employee(859202)
         self.assertEqual(overridden["person"]["preferred_name"], "Jo")
-        self.assertEqual([p["kind"] for p in overridden["contact"]["phones"]], ["mobile", "work"])
+        self.assertEqual([p["kind"] for p in overridden["contact"]["phones"]], ["mobile", "work", "other"])
+        self.assertEqual(overridden["contact"]["phones"][2]["number"], "(801) 555-0142")
+        self.assertNotIn("personal.faxNumber", overridden["unmapped"])
         self.assertEqual([e["kind"] for e in overridden["contact"]["emails"]], ["unknown", "personal"])
         self.assertEqual(overridden["job"]["manager_employee_id"], "859201")
 

@@ -297,7 +297,7 @@ class _IsolvedEmployeeMapper:
                 addresses.append(Address(kind=AddressKind.W2, **w2))
         phones = []
         for field, kind in (("homePhone", PhoneKind.HOME), ("mobilePhone", PhoneKind.MOBILE),
-                            ("officePhone", PhoneKind.WORK)):
+                            ("officePhone", PhoneKind.WORK), ("faxNumber", PhoneKind.OTHER)):
             number = text(personal.get(field))
             if number is not None:
                 phones.append(Phone(kind=kind, number=number))
@@ -323,22 +323,18 @@ class _IsolvedEmployeeMapper:
             flsa_exempt=boolean(r.get("jobFLSAExempt")),
         )
 
-        department = location = None
+        department = None
         organizations = r.peek("organizations")  # consume only the rows we read
         if isinstance(organizations, list):
             for index, org in enumerate(organizations):
                 if not isinstance(org, dict):
                     continue
                 org_reader = Reader(org, f"organizations[{index}]", r.used)
-                title = org_reader.peek("title")
-                if title == "Department" and department is None:
+                if org_reader.peek("title") == "Department" and department is None:
                     org_reader.consume("title")
                     department = Collector.raw_code(org_reader.get("value"), org_reader.get("valueDescription"))
-                elif title == "Location" and location is None:
-                    org_reader.consume("title")
-                    location = Collector.raw_code(org_reader.get("value"), org_reader.get("valueDescription"))
-        if location is None:
-            location = Collector.raw_code(r.get("workLocation"), r.get("workLocationDashDescription"))
+        # The client-titled "Location" organization row is not a work location code; it stays in unmapped.
+        location = Collector.raw_code(r.get("workLocation"), r.get("workLocationDashDescription"))
         manager = r.sub("assignedManager")
         job = Job(
             title=text(r.get("jobTitle")),
@@ -842,8 +838,8 @@ class _IsolvedCompanyMapper:
 def _company(company_id: str, legal_codes: set[str], issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
                "company name set null",
-               message="the employees endpoint does not return the legal company name; "
-                       "a legal endpoint is a later task")
+               message="this bundle does not hold the legal record; "
+                       "--entity company reads it")
     secondary = {}
     if len(legal_codes) == 1:
         secondary["legalCode"] = next(iter(legal_codes))

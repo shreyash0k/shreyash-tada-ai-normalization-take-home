@@ -180,7 +180,7 @@
         "frequency": {
           "raw": "monthly_weekday",
           "label": "monthly_weekday",
-          "value": "unknown"
+          "value": "monthly"
         },
         "active": false,
         "effective": {

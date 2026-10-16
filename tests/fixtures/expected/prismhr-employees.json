@@ -105,6 +105,10 @@
           {
             "kind": "unknown",
             "address": "finley.kowalczyk@example.test"
+          },
+          {
+            "kind": "other",
+            "address": "finley.benefits@example.test"
           }
         ]
       },
@@ -131,7 +135,7 @@
         "contractor_1099": false
       },
       "job": {
-        "title": null,
+        "title": "Warehouse Associate",
         "job_code": {
           "raw": "WHSE",
           "label": null,
@@ -160,7 +164,7 @@
         "pay_frequency": {
           "raw": "B",
           "label": null,
-          "value": "unknown"
+          "value": "biweekly"
         },
         "rate": {
           "amount": "2007.21",
@@ -252,7 +256,6 @@
         "client.newHireReportDate": "",
         "client.clockNum": "",
         "client.primaryEmailSource": "",
-        "client.benefitEmail": "",
         "client.returnDate": "",
         "client.probationDate": "2016-10-25",
         "client.courtOrderMedical": false,
@@ -487,7 +490,7 @@
         "contractor_1099": false
       },
       "job": {
-        "title": null,
+        "title": "Office Staff",
         "job_code": {
           "raw": "OFFICE",
           "label": null,
@@ -520,7 +523,7 @@
         "pay_frequency": {
           "raw": "S",
           "label": null,
-          "value": "unknown"
+          "value": "semimonthly"
         },
         "rate": {
           "amount": "22.6990",
@@ -612,7 +615,6 @@
         "client.newHireReportDate": "",
         "client.clockNum": "",
         "client.primaryEmailSource": "",
-        "client.benefitEmail": "",
         "client.returnDate": "",
         "client.probationDate": "2015-05-17",
         "client.courtOrderMedical": false,
@@ -855,7 +857,7 @@
         "contractor_1099": false
       },
       "job": {
-        "title": null,
+        "title": "Office Staff",
         "job_code": {
           "raw": "OFFICE",
           "label": null,
@@ -884,7 +886,7 @@
         "pay_frequency": {
           "raw": "M",
           "label": null,
-          "value": "unknown"
+          "value": "monthly"
         },
         "rate": {
           "amount": "46.5025",
@@ -976,7 +978,6 @@
         "client.newHireReportDate": "",
         "client.clockNum": "",
         "client.primaryEmailSource": "",
-        "client.benefitEmail": "",
         "client.returnDate": "",
         "client.probationDate": "2018-08-28",
         "client.courtOrderMedical": false,
@@ -1215,7 +1216,7 @@
         "contractor_1099": false
       },
       "job": {
-        "title": null,
+        "title": "Warehouse Associate",
         "job_code": {
           "raw": "WHSE",
           "label": null,
@@ -1244,7 +1245,7 @@
         "pay_frequency": {
           "raw": "B",
           "label": null,
-          "value": "unknown"
+          "value": "biweekly"
         },
         "rate": {
           "amount": "3747.13",
@@ -1336,7 +1337,6 @@
         "client.newHireReportDate": "",
         "client.clockNum": "",
         "client.primaryEmailSource": "",
-        "client.benefitEmail": "",
         "client.returnDate": "",
         "client.probationDate": "2015-01-09",
         "client.courtOrderMedical": false,
@@ -1573,7 +1573,7 @@
         "contractor_1099": false
       },
       "job": {
-        "title": null,
+        "title": "Warehouse Associate",
         "job_code": {
           "raw": "WHSE",
           "label": null,
@@ -1606,7 +1606,7 @@
         "pay_frequency": {
           "raw": "M",
           "label": null,
-          "value": "unknown"
+          "value": "monthly"
         },
         "rate": {
           "amount": "3983.42",
@@ -1698,7 +1698,6 @@
         "client.newHireReportDate": "",
         "client.clockNum": "",
         "client.primaryEmailSource": "",
-        "client.benefitEmail": "",
         "client.returnDate": "",
         "client.probationDate": "2022-04-03",
         "client.courtOrderMedical": false,
@@ -1972,7 +1971,7 @@
         "pay_frequency": {
           "raw": "W",
           "label": null,
-          "value": "unknown"
+          "value": "weekly"
         },
         "rate": {
           "amount": "36.6744",
@@ -2064,7 +2063,6 @@
         "client.newHireReportDate": "",
         "client.clockNum": "",
         "client.primaryEmailSource": "",
-        "client.benefitEmail": "",
         "client.returnDate": "",
         "client.probationDate": "2017-09-09",
         "client.courtOrderMedical": false,
@@ -2330,7 +2328,7 @@
         "pay_frequency": {
           "raw": "W",
           "label": null,
-          "value": "unknown"
+          "value": "weekly"
         },
         "rate": {
           "amount": "2188.83",
@@ -2422,7 +2420,6 @@
         "client.newHireReportDate": "",
         "client.clockNum": "",
         "client.primaryEmailSource": "",
-        "client.benefitEmail": "",
         "client.returnDate": "",
         "client.probationDate": "2025-09-15",
         "client.courtOrderMedical": false,
@@ -2607,15 +2604,6 @@
       "message": "live API returns 'payPeriodsPerWeek', which the OpenAPI document does not list on Compensation (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties)"
     },
     {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "compensation.payPeriod",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:F00001",
-      "raw_value": "B",
-      "message": "compensation.payPeriod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod/description (no code meanings))"
-    },
-    {
       "code": "masked_value",
       "severity": "info",
       "source_path": "compensation.ssn",
@@ -2623,24 +2611,6 @@
       "record_key": "prismhr:132:M00002",
       "raw_value": "[redacted]",
       "message": "provider returned a masked value"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "compensation.payPeriod",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:M00002",
-      "raw_value": "S",
-      "message": "compensation.payPeriod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod/description (no code meanings))"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "compensation.payPeriod",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:D00003",
-      "raw_value": "M",
-      "message": "compensation.payPeriod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod/description (no code meanings))"
     },
     {
       "code": "unmapped_label",
@@ -2654,29 +2624,11 @@
     {
       "code": "undocumented_code",
       "severity": "warning",
-      "source_path": "compensation.payPeriod",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:S00004",
-      "raw_value": "B",
-      "message": "compensation.payPeriod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod/description (no code meanings))"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
       "source_path": "client.statusClass",
       "action": "kept raw value; canonical value set to unknown",
       "record_key": "prismhr:132:Q00005",
       "raw_value": "Q",
       "message": "client.statusClass: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/statusClass/description)"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "compensation.payPeriod",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:Q00005",
-      "raw_value": "M",
-      "message": "compensation.payPeriod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod/description (no code meanings))"
     },
     {
       "code": "invalid_date",
@@ -2688,22 +2640,22 @@
       "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
     },
     {
-      "code": "undocumented_code",
+      "code": "missing_lookup",
       "severity": "warning",
-      "source_path": "compensation.payPeriod",
-      "action": "kept raw value; canonical value set to unknown",
+      "source_path": "client.jobCode",
+      "action": "kept the job code; title null",
       "record_key": "prismhr:132:M00006",
-      "raw_value": "W",
-      "message": "compensation.payPeriod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod/description (no code meanings))"
+      "raw_value": "TECH",
+      "message": "job code not present in the bundled getClientCodes job table (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle)"
     },
     {
-      "code": "undocumented_code",
+      "code": "missing_lookup",
       "severity": "warning",
-      "source_path": "compensation.payPeriod",
-      "action": "kept raw value; canonical value set to unknown",
+      "source_path": "client.jobCode",
+      "action": "kept the job code; title null",
       "record_key": "prismhr:132:R00007",
-      "raw_value": "W",
-      "message": "compensation.payPeriod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod/description (no code meanings))"
+      "raw_value": "TECH",
+      "message": "job code not present in the bundled getClientCodes job table (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle)"
     },
     {
       "code": "missing_section",
@@ -2712,7 +2664,7 @@
       "action": "company name set null",
       "record_key": null,
       "raw_value": null,
-      "message": "getEmployee does not return the client name; a client endpoint is a later task"
+      "message": "this bundle does not hold the client record; --entity company reads it from getClientMaster"
     }
   ],
   "schema_version": "1"

@@ -198,7 +198,7 @@
             "perPaySalary": 6846.91,
             "personal": {
               "id": 1245002,
-              "faxNumber": null,
+              "faxNumber": "(801) 555-0142",
               "homePhone": null,
               "mobilePhone": "6167438722",
               "officePhone": null,
@@ -918,7 +918,7 @@
     "personal": {
       "859202": {
         "id": 1245002,
-        "faxNumber": null,
+        "faxNumber": "(801) 555-0142",
         "homePhone": null,
         "mobilePhone": "6167438722",
         "officePhone": "9784077519",

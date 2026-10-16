@@ -70,7 +70,7 @@ PRISMHR = {
     "payee.name": not_mapped_yet(
         "getPayee: payeeName", PRISM + "#/components/schemas/PayeeDetails/properties/payeeName",
         "The deduction line names only the payee ID. The name is on the payee setup call, which the "
-        "bundle does not fetch."),
+        "bundle does not fetch; live, every payee ID was empty."),
     "priority": not_offered("Deduction lines have no order number.", P),
     "effective.start": mapped("startDate", P + "/startDate"),
     "effective.end": mapped("stopDate", P + "/stopDate"),

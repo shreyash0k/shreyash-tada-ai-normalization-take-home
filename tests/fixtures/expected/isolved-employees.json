@@ -137,8 +137,8 @@
           "value": null
         },
         "location": {
-          "raw": "10",
-          "label": "Main Yard",
+          "raw": "UT1",
+          "label": "UT1 - SALT LAKE CITY, UT",
           "value": null
         },
         "division": null,
@@ -204,7 +204,6 @@
         "nameAddress.links[1].method": "PUT",
         "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
         "personal.id": 1245001,
-        "personal.faxNumber": null,
         "personal.preferredPronouns": null,
         "personal.links[0].href": null,
         "personal.links[0].rel": "self",
@@ -218,8 +217,6 @@
         "timecardPunchStatusIsIn": null,
         "tobaccoUse": false,
         "veteranStatusNotSpecified": false,
-        "workLocation": "UT1",
-        "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
         "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
         "links[0].rel": "self",
         "links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/checks",
@@ -231,6 +228,9 @@
         "organizations[0].id": -1,
         "organizations[0].displayOrder": 1,
         "organizations[0].organizationId": 9943,
+        "organizations[0].title": "Location",
+        "organizations[0].value": "10",
+        "organizations[0].valueDescription": "Main Yard",
         "organizations[1].id": -2,
         "organizations[1].displayOrder": 2,
         "organizations[1].organizationId": 9944,
@@ -319,6 +319,12 @@
           {
             "kind": "work",
             "number": "9784077519",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "other",
+            "number": "(801) 555-0142",
             "extension": null,
             "preferred": null
           }
@@ -432,7 +438,6 @@
         "nameAddress.links[1].method": "PUT",
         "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
         "personal.id": 1245002,
-        "personal.faxNumber": null,
         "personal.preferredPronouns": null,
         "personal.links[0].href": null,
         "personal.links[0].rel": "self",
@@ -631,7 +636,6 @@
         "nameAddress.links[1].method": "PUT",
         "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
         "personal.id": 1245003,
-        "personal.faxNumber": null,
         "personal.preferredPronouns": null,
         "personal.links[0].href": null,
         "personal.links[0].rel": "self",
@@ -821,7 +825,6 @@
         "nameAddress.links[1].method": "PUT",
         "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
         "personal.id": 1245004,
-        "personal.faxNumber": null,
         "personal.preferredPronouns": null,
         "personal.links[0].href": null,
         "personal.links[0].rel": "self",
@@ -1016,7 +1019,6 @@
         "nameAddress.links[1].method": "PUT",
         "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
         "personal.id": 1245005,
-        "personal.faxNumber": null,
         "personal.preferredPronouns": null,
         "personal.links[0].href": null,
         "personal.links[0].rel": "self",
@@ -1196,7 +1198,6 @@
         "nameAddress.links[1].method": "PUT",
         "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
         "personal.id": 1245006,
-        "personal.faxNumber": null,
         "personal.preferredPronouns": null,
         "personal.links[0].href": null,
         "personal.links[0].rel": "self",
@@ -1425,7 +1426,7 @@
       "action": "company name set null",
       "record_key": null,
       "raw_value": null,
-      "message": "the employees endpoint does not return the legal company name; a legal endpoint is a later task"
+      "message": "this bundle does not hold the legal record; --entity company reads it"
     }
   ],
   "schema_version": "1"

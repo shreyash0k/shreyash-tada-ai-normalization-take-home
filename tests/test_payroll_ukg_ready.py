@@ -1,4 +1,5 @@
 """UKG Ready payroll adapter: golden output plus the injected edge cases."""
+import copy
 import unittest
 
 from _fixtures import expected_output, fixture_bundle, issues_with, resolve_code_table
@@ -84,6 +85,16 @@ class UkgReadyPayrollChecks(unittest.TestCase):
         self.assertEqual(check["deductions"][1]["unmapped"]["pay_statements[0].deductions[1].er_amount"], 0.0)
         self.assertEqual(check["deductions"][2]["unmapped"]["pay_statements[0].deductions[3].type_name"],
                          "Deduction (Discarded)")
+
+    def test_line_with_both_sides_zero_is_a_deduction_without_amount(self):
+        bundle = copy.deepcopy(self.bundle)
+        line = bundle.responses["pay_statement_detail"]["85940001"]["deductions"][0]
+        line["ee_amount"] = line["er_amount"] = 0.0
+        check = next(c for c in ukg_ready.normalize_payroll(bundle).to_dict()["paychecks"]
+                     if c["source"]["paycheck_id"] == "85940001")
+        self.assertEqual((check["deductions"][0]["code"]["raw"], check["deductions"][0]["amount"]), ("401k", None))
+        self.assertEqual(check["deductions"][0]["unmapped"]["pay_statements[0].deductions[0].er_amount"], 0.0)
+        self.assertEqual([c["code"]["raw"] for c in check["employer_contributions"]], ["ER_HSA"])
 
     def test_no_totals_and_live_only_fields(self):
         self.assertEqual({(c["gross_pay"], c["net_pay"], c["check_number"]) for c in self.output["paychecks"]},

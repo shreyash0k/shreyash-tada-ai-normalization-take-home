@@ -113,7 +113,7 @@
               "clientEmployeeId": "1",
               "clockNum": "",
               "primaryEmailSource": "",
-              "benefitEmail": "",
+              "benefitEmail": "finley.benefits@example.test",
               "rehireOk": "Y",
               "returnDate": "",
               "workPhone": "",
@@ -2105,6 +2105,51 @@
         "errorMessage": "",
         "extension": null
       }
+    },
+    "get_client_codes_job": {
+      "clientCodes": {
+        "clientId": "132",
+        "jobCode": [
+          {
+            "id": "OFFICE",
+            "jobTitle": "Office Staff",
+            "glSegmentCode": "",
+            "jobClass": "8810N1",
+            "payGrade": "",
+            "jobDescription": "",
+            "jobObsolete": false,
+            "supervisory": false,
+            "flsaExempt": true
+          },
+          {
+            "id": "WHSE",
+            "jobTitle": "Warehouse Associate",
+            "glSegmentCode": "",
+            "jobClass": "8292N0",
+            "payGrade": "",
+            "jobDescription": "",
+            "jobObsolete": false,
+            "supervisory": false,
+            "flsaExempt": false
+          },
+          {
+            "id": "SALES",
+            "jobTitle": "Sales Representative",
+            "glSegmentCode": "",
+            "jobClass": "8742N4",
+            "payGrade": "",
+            "jobDescription": "",
+            "jobObsolete": false,
+            "supervisory": false,
+            "flsaExempt": false
+          }
+        ],
+        "locationCode": null,
+        "payGroups": null
+      },
+      "errorCode": "0",
+      "errorMessage": "",
+      "extension": null
     }
   }
 }

@@ -4,7 +4,10 @@ Input: a capture bundle with the company employee list
 (``GET /v2/companies/{cid}/employees``) and, keyed by account id as a string,
 the per-employee detail, ``/demographics``, ``/pay-info`` and
 ``/compensation/history`` responses, plus the company lookups for employee
-types, pay types and EINs.
+types, pay types and EINs. The optional ``responses.lookup_jobs``
+(``GET .../lookup/jobs``) names each default job, and the optional
+``responses.tax_info`` (account id -> ``.../employees/{aid}/tax-info``) carries
+the 1099 flag.
 
 Direct deposits come from ``responses.direct_deposits``, keyed by account id:
 the ``{"deposits": [...]}`` body of
@@ -221,11 +224,13 @@ PAYMENT_TYPE = CodeTable(
 LIVE_ONLY_STATEMENT_FIELDS = ("calcUpto", "emptyEarning")
 
 PROFILE = f"{SCHEMAS}/273/schema/properties/items/items/properties"
-# every_n_weeks is resolved from params.num_weeks; the other types name no fixed frequency.
+# every_n_weeks is resolved from params.num_weeks. monthly_weekday pays once a month on a set
+# weekday. quarterly has no shared value; every_n_days and user_defined name no fixed frequency.
 PERIOD_TYPE = CodeTable(
     "period_type.type", PayPeriod,
     {"weekly": PayPeriod.WEEKLY, "semi_monthly": PayPeriod.SEMIMONTHLY, "monthly": PayPeriod.MONTHLY,
-     "every_n_weeks": PayPeriod.UNKNOWN, "quarterly": PayPeriod.UNKNOWN, "monthly_weekday": PayPeriod.UNKNOWN,
+     "monthly_weekday": PayPeriod.MONTHLY,
+     "every_n_weeks": PayPeriod.UNKNOWN, "quarterly": PayPeriod.UNKNOWN,
      "every_n_days": PayPeriod.UNKNOWN, "user_defined": PayPeriod.UNKNOWN},
     f"{PROFILE}/period_type/properties/type",
 )
@@ -255,14 +260,32 @@ class _UkgEmployeeMapper:
         self.employee_types = _lookup_names(bundle.response("lookup_employee_types"))
         self.pay_types = _lookup_names(bundle.response("lookup_pay_types"))
         self.reported_mismatch: set[str] = set()
+        for name, action, call in (("lookup_jobs", "job titles left empty", "GET .../lookup/jobs"),
+                                   ("tax_info", "1099 flags left empty", "GET .../employees/{aid}/tax-info")):
+            if bundle.response(name) is None:
+                self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, f"responses.{name}", action,
+                                message=f"{call} was not captured")
+        jobs = bundle.response("lookup_jobs")
+        self.job_names = _lookup_names(jobs) if jobs is not None else None
 
-    def _section(self, name: str, aid: str, key: str) -> Any:
+    def _section(self, name: str, aid: str, key: str, severity: Severity = Severity.WARNING) -> Any:
         data = (self.bundle.response(name) or {}).get(aid)
         if data is None:
-            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, name,
+            self.issues.add(IssueCode.MISSING_SECTION, severity, name,
                             f"fields from {name} set null", key,
                             message=f"bundle has no responses.{name}[{aid!r}] entry")
         return data
+
+    def _job_title(self, pay_info: Reader, key: str) -> Optional[str]:
+        job_id = pay_info.peek("default_job", "id")
+        if is_blank(job_id) or self.job_names is None:
+            return None
+        name = self.job_names.get(str(job_id))
+        if name is None:
+            self.issues.add(IssueCode.MISSING_LOOKUP, Severity.WARNING, pay_info.path("default_job", "id"),
+                            "kept the job id; title null", key, job_id,
+                            f"default job id not present in the bundled jobs lookup ({SCHEMAS}/262)")
+        return name or None
 
     def _lookup(self, table: CodeTable, names: Dict[str, str], raw_id: Any, path: str,
                 key: str) -> Optional[CodedValue]:
@@ -329,8 +352,11 @@ class _UkgEmployeeMapper:
         merged["demographics"] = self._section("demographics", aid, key)
         merged["pay_info"] = self._section("pay_info", aid, key)
         merged["compensation_history"] = self._section("compensation_history", aid, key)
+        if self.bundle.response("tax_info") is not None:
+            merged["tax_info"] = self._section("tax_info", aid, key, Severity.INFO)
         r = Reader(merged)
         demo, pay_info, dates, phones_r = r.sub("demographics"), r.sub("pay_info"), r.sub("dates"), r.sub("phones")
+        tax_info = r.sub("tax_info")
 
         secondary = {}
         for field in ("employee_id", "username", "external_id"):
@@ -387,6 +413,7 @@ class _UkgEmployeeMapper:
             rehire_date=self.issues.date(dates.get("re_hired"), dates.path("re_hired"), key),
             termination_date=self.issues.date(dates.get("terminated"), dates.path("terminated"), key),
             seniority_date=self.issues.date(dates.get("seniority"), dates.path("seniority"), key),
+            contractor_1099=boolean(tax_info.get("employee-tax-type", "_1099")),
         )
 
         manager_id = None
@@ -400,6 +427,7 @@ class _UkgEmployeeMapper:
                 manager_id = text(r.get("managers", position, "empl_ref", "account_id"))
                 r.consume("managers", position, "index")
         job = Job(
+            title=self._job_title(pay_info, key),
             job_code=Collector.raw_code(pay_info.get("default_job", "id")),
             manager_employee_id=manager_id,
         )
@@ -898,8 +926,7 @@ class _UkgCompanyMapper:
 
 def _company(company_id: str, bundle: Bundle, issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses", "company name set null",
-               message="the employee endpoints do not return the company name; "
-                       "a company endpoint is a later task")
+               message="UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404")
     eins = [item for item in (bundle.response("lookup_eins") or {}).get("items") or [] if isinstance(item, dict)]
     ein, secondary = None, {}
     if len(eins) == 1:
@@ -910,7 +937,7 @@ def _company(company_id: str, bundle: Bundle, issues: Collector) -> Company:
     elif len(eins) > 1:
         issues.add(IssueCode.MISSING_LOOKUP, Severity.WARNING, "responses.lookup_eins.items",
                    "company ein set null", raw_value=len(eins),
-                   message="multi-EIN company; employee-to-EIN assignment is a later task")
+                   message="several EINs; --entity company lists each one under tax_ids")
     return Company(
         key=f"{PROVIDER}:{company_id}",
         source=CompanySource(provider=PROVIDER, company_id=company_id, secondary_ids=secondary),

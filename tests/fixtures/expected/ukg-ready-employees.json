@@ -118,11 +118,15 @@
         "termination_reason": null,
         "rehire_eligible": null,
         "flsa_exempt": null,
-        "contractor_1099": null
+        "contractor_1099": false
       },
       "job": {
-        "title": null,
-        "job_code": null,
+        "title": "President",
+        "job_code": {
+          "raw": 8634524226,
+          "label": null,
+          "value": null
+        },
         "department": null,
         "location": null,
         "division": null,
@@ -217,7 +221,11 @@
         "compensation_history.compensations[2].time_period": "YEAR",
         "compensation_history.compensations[2].num_pp_in_year": 26,
         "compensation_history.compensations[2]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2027010112935181566",
-        "compensation_history.compensations[2].currency": "USD"
+        "compensation_history.compensations[2].currency": "USD",
+        "tax_info.employee-tax-type.W2": true,
+        "tax_info.employee-tax-type.DRAW": false,
+        "tax_info.pension-box-type": "SYSTEM_RULES",
+        "tax_info.third-party-sick": "COMPANY_DEFAULT"
       }
     },
     {
@@ -312,11 +320,15 @@
         "termination_reason": null,
         "rehire_eligible": null,
         "flsa_exempt": null,
-        "contractor_1099": null
+        "contractor_1099": false
       },
       "job": {
-        "title": null,
-        "job_code": null,
+        "title": "HR Specialist",
+        "job_code": {
+          "raw": 8634524176,
+          "label": null,
+          "value": null
+        },
         "department": null,
         "location": null,
         "division": null,
@@ -389,7 +401,11 @@
         "compensation_history.compensations[0].id": 2025070112935181567,
         "compensation_history.compensations[0].employee.account_id": 12935181567,
         "compensation_history.compensations[0].num_pp_in_year": 26,
-        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025070112935181567"
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025070112935181567",
+        "tax_info.employee-tax-type.W2": true,
+        "tax_info.employee-tax-type.DRAW": false,
+        "tax_info.pension-box-type": "SYSTEM_RULES",
+        "tax_info.third-party-sick": "COMPANY_DEFAULT"
       }
     },
     {
@@ -481,11 +497,15 @@
         "termination_reason": null,
         "rehire_eligible": null,
         "flsa_exempt": null,
-        "contractor_1099": null
+        "contractor_1099": true
       },
       "job": {
-        "title": null,
-        "job_code": null,
+        "title": "Payroll Analyst",
+        "job_code": {
+          "raw": 8634524184,
+          "label": null,
+          "value": null
+        },
         "department": null,
         "location": null,
         "division": null,
@@ -558,7 +578,11 @@
         "compensation_history.compensations[0].id": 2023010112935181568,
         "compensation_history.compensations[0].employee.account_id": 12935181568,
         "compensation_history.compensations[0].num_pp_in_year": 26,
-        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2023010112935181568"
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2023010112935181568",
+        "tax_info.employee-tax-type.W2": false,
+        "tax_info.employee-tax-type.DRAW": false,
+        "tax_info.pension-box-type": "SYSTEM_RULES",
+        "tax_info.third-party-sick": "COMPANY_DEFAULT"
       }
     },
     {
@@ -632,7 +656,7 @@
         "termination_reason": null,
         "rehire_eligible": null,
         "flsa_exempt": null,
-        "contractor_1099": null
+        "contractor_1099": false
       },
       "job": {
         "title": null,
@@ -723,7 +747,11 @@
         "compensation_history.compensations[1].time_period": "PAY_PERIOD",
         "compensation_history.compensations[1].num_pp_in_year": 26,
         "compensation_history.compensations[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025010112935181569",
-        "compensation_history.compensations[1].currency": "USD"
+        "compensation_history.compensations[1].currency": "USD",
+        "tax_info.employee-tax-type.W2": true,
+        "tax_info.employee-tax-type.DRAW": false,
+        "tax_info.pension-box-type": "SYSTEM_RULES",
+        "tax_info.third-party-sick": "COMPANY_DEFAULT"
       }
     },
     {
@@ -815,11 +843,15 @@
         "termination_reason": null,
         "rehire_eligible": null,
         "flsa_exempt": null,
-        "contractor_1099": null
+        "contractor_1099": false
       },
       "job": {
         "title": null,
-        "job_code": null,
+        "job_code": {
+          "raw": 8634529999,
+          "label": null,
+          "value": null
+        },
         "department": null,
         "location": null,
         "division": null,
@@ -889,7 +921,11 @@
         "compensation_history.compensations[0].id": 2024050612935181570,
         "compensation_history.compensations[0].employee.account_id": 12935181570,
         "compensation_history.compensations[0].num_pp_in_year": 26,
-        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024050612935181570"
+        "compensation_history.compensations[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024050612935181570",
+        "tax_info.employee-tax-type.W2": true,
+        "tax_info.employee-tax-type.DRAW": false,
+        "tax_info.pension-box-type": "SYSTEM_RULES",
+        "tax_info.third-party-sick": "COMPANY_DEFAULT"
       }
     },
     {
@@ -978,8 +1014,12 @@
         "contractor_1099": null
       },
       "job": {
-        "title": null,
-        "job_code": null,
+        "title": "HR Specialist",
+        "job_code": {
+          "raw": 8634524176,
+          "label": null,
+          "value": null
+        },
         "department": null,
         "location": null,
         "division": null,
@@ -1034,7 +1074,8 @@
         "pay_info.eeo4_function": "PROFESSIONALS",
         "pay_info.ttoc": [],
         "pay_info.payroll_classification": "REGULAR",
-        "compensation_history.compensations": []
+        "compensation_history.compensations": [],
+        "tax_info": null
       }
     }
   ],
@@ -1197,6 +1238,15 @@
       "message": "status: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/status (string, no enum); labels from live GET /v2/companies/{cid}/employees capture (docs/DECISIONS.md allowlist entries))"
     },
     {
+      "code": "missing_lookup",
+      "severity": "warning",
+      "source_path": "pay_info.default_job.id",
+      "action": "kept the job id; title null",
+      "record_key": "ukg-ready:33704016:12935181570",
+      "raw_value": 8634529999,
+      "message": "default job id not present in the bundled jobs lookup (contracts/ukg-ready/reference-schemas.json#/schemas/262)"
+    },
+    {
       "code": "unmapped_label",
       "severity": "warning",
       "source_path": "pay_info.pay_type.id",
@@ -1204,6 +1254,15 @@
       "record_key": "ukg-ready:33704016:12935181570",
       "raw_value": 35043008,
       "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
+    },
+    {
+      "code": "missing_section",
+      "severity": "info",
+      "source_path": "tax_info",
+      "action": "fields from tax_info set null",
+      "record_key": "ukg-ready:33704016:12935181571",
+      "raw_value": null,
+      "message": "bundle has no responses.tax_info['12935181571'] entry"
     },
     {
       "code": "unmapped_label",
@@ -1239,7 +1298,7 @@
       "action": "company name set null",
       "record_key": null,
       "raw_value": null,
-      "message": "the employee endpoints do not return the company name; a company endpoint is a later task"
+      "message": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404"
     }
   ],
   "schema_version": "1"

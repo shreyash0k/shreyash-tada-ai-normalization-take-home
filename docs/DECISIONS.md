@@ -46,25 +46,7 @@ Each entry uses this format:
 - **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#reference-materials).
 - **Status:** Decided.
 
-### 3. Build the core first, then the extras
-
-- **Context:** The assignment asks for four data types across three providers,
-  plus an optional write path.
-- **Decision:** Work in this order:
-  1. A shared issue-reporting structure.
-  2. Normalization of all data types with tests.
-  3. The README and this file.
-  4. The optional write path.
-  5. Grouped issue reporting.
-- **Reason:** Most of the evaluation is about normalization quality. Each step
-  leaves the submission complete if time runs out.
-- **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize) (the
-  four required data types) and
-  [the optional extension](ASSIGNMENT.md#optional-extension-write-canonical-data-to-a-provider)
-  (the write path is marked optional).
-- **Status:** Decided.
-
-### 4. Normalization runs repeatedly, at least once per pay period
+### 3. Normalization runs repeatedly, at least once per pay period
 
 - **Context:** The assignment does not say how often normalization runs.
 - **Decision:** Assume it runs again for each company at least once every pay
@@ -79,7 +61,7 @@ Each entry uses this format:
 
 ## Findings in the reference material
 
-### 5. PrismHR `getEmployee` does not return the owning client ID
+### 4. PrismHR `getEmployee` does not return the owning client ID
 
 - **Context:** In PrismHR a "client" is the company an employee works for. To
   fetch employees you have to say which client you want, but the employee
@@ -88,7 +70,7 @@ Each entry uses this format:
   inside the client, and `client.transferInfo.transferClientId`, used for
   transfers), but none of them is the owning company.
 - **Decision:** The client ID is taken from the request that was sent, which
-  is saved alongside the responses in the capture bundle (entry 14). It is
+  is saved alongside the responses in the capture bundle (entry 12). It is
   used to build the company key (`prismhr:<client_id>`) and every employee
   key, so each employee can be linked back to its company.
 - **Reason:** The request is the only place the ID exists.
@@ -99,7 +81,7 @@ Each entry uses this format:
   `tests/test_employee_prismhr.py::test_keys_and_company_link`.
 - **Status:** Decided.
 
-### 6. Some UKG Ready duration fields are in milliseconds
+### 5. Some UKG Ready duration fields are in milliseconds
 
 - **Context:** UKG Ready stores some lengths of time as whole numbers of
   milliseconds rather than hours. Its documentation says so for certain
@@ -111,35 +93,13 @@ Each entry uses this format:
 
   One exception was approved for payroll: UKG Ready pay statement
   earnings `hours` has no documented unit but is converted from
-  milliseconds (entry 85).
+  milliseconds (entry 82).
 - **Reason:** The reference audit warns that the evidence covers only those
   specific fields, not every UKG time field.
-- **Evidence:** [docs/REFERENCE_AUDIT.md](REFERENCE_AUDIT.md#field-specific-ukg-duration-evidence); entry 85.
+- **Evidence:** [docs/REFERENCE_AUDIT.md](REFERENCE_AUDIT.md#field-specific-ukg-duration-evidence); entry 82.
 - **Status:** Decided.
 
-### 7. UKG Ready has no documented endpoint for company details
-
-- **Context:** UKG Ready's documentation has many routes for things inside a
-  company (`/v2/companies/{cid}/...`) but none that returns the company
-  itself, so there is no documented way to get the company's name. The
-  closest is the EIN lookup (`/v2/companies/{cid}/lookup/eins`), which lists
-  the company's tax registrations (`id`, `ein_name`, `ein_tax_id`,
-  `ein_currency_code`, `ein_country_id`). Employee records also carry
-  `ein_name`. The live demo confirms the gap: asking for
-  `/rest/v2/companies/{cid}` returns 404 "Unresolvable URL", and the EIN
-  lookup returns one EIN named "Primary EIN", which is not a company name.
-- **Decision:** The company record is built from the company ID used at
-  sign-in plus the EIN lookup. The name, address and status are empty, with
-  a reported issue. The full rule is in entry 97.
-- **Reason:** A company name that UKG does not provide cannot be filled in
-  without guessing (entry 1).
-- **Evidence:** `contracts/ukg-ready/reference-docs/res/` has no company-detail
-  page; `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__lookup__eins.html`;
-  live demo calls for company `33704016`;
-  `tests/test_company_ukg_ready.py::test_profile_is_empty_with_an_issue`.
-- **Status:** Decided.
-
-### 8. Live PrismHR `getEmployee` differs from its documentation
+### 6. Live PrismHR `getEmployee` differs from its documentation
 
 - **Context:** PrismHR's employee call returns the record in sections
   (personal details, contact information, client details, pay), and the
@@ -162,7 +122,7 @@ Each entry uses this format:
   the spec's fields; they are kept in `unmapped` under the names PrismHR
   actually sent. Each of the four differences is reported once per company as
   a `spec_live_mismatch` issue. A masked Social Security number gives an empty
-  last-four value and a `masked_value` issue (entry 18).
+  last-four value and a `masked_value` issue (entry 16).
 - **Reason:** Quietly renaming live fields to match the spec would hide the
   fact that the two disagree. Reporting each difference once per company,
   rather than once per employee, keeps the issue list readable.
@@ -173,7 +133,7 @@ Each entry uses this format:
   `tests/test_employee_prismhr.py::test_live_spellings_reported_once_per_bundle`.
 - **Status:** Decided.
 
-### 9. Live isolved employee records carry fewer fields than the spec
+### 7. Live isolved employee records carry fewer fields than the spec
 
 - **Context:** isolved's spec describes an employee record with 95 fields.
   A real employee from the live demo (client `4046`, legal entity `5806`) came
@@ -196,7 +156,7 @@ Each entry uses this format:
   calls; `tests/test_employee_isolved.py::test_sparse_record_has_nulls_and_no_extra_issues`.
 - **Status:** Decided.
 
-### 10. Live UKG Ready employee data needs several calls and lookups
+### 8. Live UKG Ready employee data needs several calls and lookups
 
 - **Context:** In UKG Ready no single call returns a whole employee. For the
   live demo company (`33704016`) the pieces were spread out like this:
@@ -215,13 +175,15 @@ Each entry uses this format:
   every path needs `/rest` in front (`/rest/v2/companies/{cid}/employees`),
   and the record carries `ein_name`, which the spec does not list. Phones,
   emails, managers and cost centres were absent for the sampled employee.
-- **Decision:** A UKG capture bundle (entry 14) holds the employee list, four
+- **Decision:** A UKG capture bundle (entry 12) holds the employee list, four
   responses per employee (detail, demographics, pay info, compensation
   history), and the three company lookups (employee types, pay types, EINs).
   If one of an employee's four responses is missing, a `missing_section`
   issue is reported and the fields it would have supplied are left empty.
-  The current pay row is chosen as described in entry 31. `time` and
-  `standard_work_day` are converted from milliseconds to hours under entry 6,
+  Job titles and the contractor flag come from two optional additions, the
+  jobs lookup and per-employee tax-info (entries 37 and 38).
+  The current pay row is chosen as described in entry 29. `time` and
+  `standard_work_day` are converted from milliseconds to hours under entry 5,
   because their own documentation states the unit. The undocumented
   `ein_name` field is reported once per company as `spec_live_mismatch`.
 - **Reason:** Since UKG splits an employee across several calls, keeping all
@@ -240,7 +202,7 @@ Each entry uses this format:
 These are problems in the supplied starter code that need fixing before or
 during implementation.
 
-### 11. The readiness check blocks isolved and UKG Ready
+### 9. The readiness check blocks isolved and UKG Ready
 
 - **Context:** Before normalizing anything, the starter code checks that each
   provider's reference pack (spec plus lookup file) is allowed to be used and
@@ -277,7 +239,7 @@ during implementation.
   `PYTHONPATH=src python3 -m normalization check-inputs` now exits 0.
 - **Status:** Decided.
 
-### 12. Direct deposits and deductions are missing from the starter
+### 10. Direct deposits and deductions are missing from the starter
 
 - **Context:** The assignment asks for direct deposits and deductions, but the
   starter code only knows about three data types: company, employee, and
@@ -288,9 +250,9 @@ during implementation.
   carries the key of the employee it belongs to and the company key, so it
   links to the employee output. Deductions follow the same pattern:
   `--entity deduction` writes one record per deduction rule in a
-  top-level `deductions` list (entry 59). Payroll follows the same
+  top-level `deductions` list (entry 58). Payroll follows the same
   pattern: `--entity payroll` writes a `pay_runs` list and a `paychecks`
-  list (entry 71).
+  list (entry 69).
 - **Reason:** The employee output stays the same whichever data types are
   added later, and `--entity` keeps meaning "which records this run
   produces". The employee key is enough to join the two outputs.
@@ -304,25 +266,26 @@ during implementation.
   `tests/test_payroll_*.py::test_records_link_to_runs_employees_and_company`.
 - **Status:** Decided.
 
-### 13. A starter test requires every transformation to stay unimplemented
+### 11. A starter test requires every transformation to stay unimplemented
 
 - **Context:** One starter test checks that every provider-and-data-type
   combination is still unimplemented, so it fails the moment any adapter
   starts working.
 - **Decision:** The test has been removed, and each adapter gets tests of
-  what it actually does instead. The employee adapters have theirs in
-  `tests/test_employee_*.py`.
+  what it actually does instead, in one test file per data type and
+  provider (`tests/test_employee_*.py`, `tests/test_payroll_*.py` and so
+  on).
 - **Reason:** A test that asserts the absence of a feature blocks building it.
 - **Evidence:** `tests/test_starter.py` no longer contains
   `test_all_nine_transformations_are_explicitly_unimplemented`.
 - **Status:** Decided.
 
-### 14. An adapter receives only one response, with no request context
+### 12. An adapter receives only one response, with no request context
 
 - **Context:** The starter code passes each adapter a single API response.
   That is not enough: one employee's data is spread across several calls
-  (entry 10), and some identifiers exist only in the request that was sent,
-  not in any response (entry 5).
+  (entry 8), and some identifiers exist only in the request that was sent,
+  not in any response (entry 4).
 - **Decision:** Every adapter reads a **capture bundle**: one JSON file for
   one provider and one company, holding the details of the request and every
   response needed. It has five parts: a format version (`bundle_version`),
@@ -331,10 +294,9 @@ during implementation.
   (`responses`). Each provider has its own list of calls that must be present
   and calls that may be present. A bundle that is missing a required part, or
   has one in the wrong shape, is rejected with a message naming exactly which
-  part is wrong. `normalize --entity employee` and `--entity
-  direct-deposit` read a bundle. Which calls are required depends on the
-  data type being normalized; a bundle may hold the calls for both, so one
-  capture can feed both runs.
+  part is wrong. Every `normalize --entity` value reads a bundle. Which
+  calls are required depends on the data type being normalized; a bundle
+  may hold the calls for several, so one capture can feed several runs.
 - **Reason:** Keeping the request and every response together means made-up
   test data and real downloads saved by hand go through exactly the same
   code.
@@ -342,14 +304,13 @@ during implementation.
   required and optional responses per provider and data type;
   `parse_bundle` raises `ValueError` naming the offending path);
   `tests/test_bundle.py` (`test_required_keys_depend_on_the_entity`,
-  `test_one_bundle_can_feed_both_entities`);
-  `tests/fixtures/*/employee-bundle.json`,
-  `tests/fixtures/*/direct-deposit-bundle.json`.
+  `test_one_bundle_can_feed_every_entity`);
+  `tests/fixtures/*/*-bundle.json`.
 - **Status:** Decided.
 
 ## Employee normalization
 
-### 15. The canonical model uses plain Python classes, not a validation library
+### 13. The canonical model uses plain Python classes, not a validation library
 
 - **Context:** The canonical record needs a guarantee that each field holds
   the right kind of value (a date is a date, an amount is a decimal) and a
@@ -386,7 +347,7 @@ during implementation.
   `test_golden_outputs_validate_against_schema`).
 - **Status:** Decided.
 
-### 16. Every coded field is a `CodedValue`
+### 14. Every coded field is a `CodedValue`
 
 - **Context:** Providers describe things like employment status in different
   ways: some send a short code (`A`, `35330176`), some a readable label
@@ -407,7 +368,7 @@ during implementation.
   `tests/test_canonical_model.py::test_every_canonical_enum_ends_with_unknown`.
 - **Status:** Decided.
 
-### 17. When a raw value may map to a canonical enum
+### 15. When a raw value may map to a canonical enum
 
 - **Context:** Entry 1 forbids guessing what a code means, but some values
   are plainly clear, such as a label that just says `Active`. A rule was
@@ -420,7 +381,7 @@ during implementation.
     `time_period`);
   - (c) the label is on a short list of labels actually seen in the live
     data, matched exactly, including capital letters. Each such list has its
-    own entry below (entries 23-26).
+    own entry below (entries 21-24).
   Partial matches and case-insensitive matches never count. Anything else
   stays `unknown`, keeps its raw value and label, and is reported: as
   `undocumented_code` for a code, or `unmapped_label` for a label.
@@ -431,7 +392,7 @@ during implementation.
   spec path.
 - **Status:** Decided.
 
-### 18. Only the last four SSN digits are emitted
+### 16. Only the last four SSN digits are emitted
 
 - **Context:** The three providers handle Social Security numbers
   differently. PrismHR sends it masked (`***-**-****`), isolved sends it
@@ -441,7 +402,7 @@ during implementation.
   (`person.ssn_last4`). If the provider sent a masked number, there are no
   digits to keep, so the value is empty and a `masked_value` issue says why.
   Anywhere else the output repeats provider data (the `unmapped` leftovers in
-  entry 19, and the raw value quoted in an issue), any field whose name looks
+  entry 17, and the raw value quoted in an issue), any field whose name looks
   like an identifier or a secret is replaced with `[redacted]`. That covers
   names containing `ssn`, `social_security`, `social_insurance`,
   `national_insurance`, `national_id`, `bsn`, `password`, `secret`, `token`,
@@ -463,7 +424,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_secrets_are_not_emitted`.
 - **Status:** Decided.
 
-### 19. Unconsumed provider fields pass through in `unmapped`
+### 17. Unconsumed provider fields pass through in `unmapped`
 
 - **Context:** The assignment asks to cover all available employee fields.
   PrismHR alone sends over 200 fields per employee, and most of them are
@@ -473,14 +434,14 @@ during implementation.
   used; whatever is left over appears in the employee's `unmapped` section,
   under the field's path in the provider's data. Items in a list are numbered,
   as in `organizations[1].organizationId`. Identifiers and secrets are
-  redacted as described in entry 18.
+  redacted as described in entry 16.
 - **Reason:** It covers every field without inventing places in the shared
   model for fields only one provider has.
 - **Evidence:** `src/normalization/adapters/_common.py` (`Reader.unmapped`);
   `tests/test_employee_prismhr.py::test_unmapped_keeps_unconsumed_fields_and_redacts_identifiers`.
 - **Status:** Decided.
 
-### 20. Issue codes and severities
+### 18. Issue codes and severities
 
 - **Context:** Entry 1 says every problem is reported as a structured issue
   rather than hidden. Those issues needed a fixed vocabulary so they can be
@@ -489,7 +450,7 @@ during implementation.
   serious it is (`severity`), where in the provider's data it was found
   (`source_path`), what the pipeline did about it (`action`), which record
   it concerns (`record_key`), the value involved (`raw_value`, redacted as in
-  entry 18), and a sentence explaining it (`message`). There are three levels
+  entry 16), and a sentence explaining it (`message`). There are three levels
   of seriousness:
   - `error`: a value was unusable and was dropped. Codes: `invalid_date`,
     `invalid_number`.
@@ -497,17 +458,25 @@ during implementation.
     expected is missing. Codes: `undocumented_code`, `unmapped_label`,
     `missing_section`, `missing_lookup`, `out_of_schema_value`,
     `multiple_current_rates`, `inconsistent_allocation` (a deposit line's
-    amount and percentage do not fit its method; entry 48).
+    amount and percentage do not fit its method; entry 47).
   - `info`: a note about the provider's behaviour, with nothing lost. Codes:
-    `spec_live_mismatch`, `masked_value`.
+    `spec_live_mismatch`, `masked_value`, and `missing_section` when the
+    absent part is optional.
+
+  Two codes are a `warning` in one place each. A masked federal ID
+  (`masked_value`, entry 87) leaves the company with no EIN. A bank
+  account number under four digits (`invalid_number`, entry 46) is
+  readable but too short to show only its last four digits.
 - **Reason:** A small fixed set of codes lets someone see at a glance how many
   records lost data and how many only need a person to confirm a meaning,
   and makes issues from different providers directly comparable.
-- **Evidence:** `src/normalization/canonical/issues.py`; the fixture outputs
-  under `tests/fixtures/expected/`.
+- **Evidence:** `src/normalization/canonical/issues.py`;
+  `src/normalization/adapters/_common.py` (`Collector.last4`);
+  `src/normalization/adapters/prismhr.py` (`federalIdNumber`); the fixture
+  outputs under `tests/fixtures/expected/`.
 - **Status:** Decided.
 
-### 21. Test data is made up, generated from a fixed seed
+### 19. Test data is made up, generated from a fixed seed
 
 - **Context:** Tests have to run offline and give the same result every time,
   and no real employee record may ever be committed to Git.
@@ -516,11 +485,12 @@ during implementation.
   and pay amounts come from fixed lists and a random generator seeded with
   the number `20261015`, so running the script again produces exactly the same
   files. The field names and layout copy what the live APIs actually return.
-  For each provider and data type the script writes two files: the input
-  bundle (`tests/fixtures/<provider>/employee-bundle.json` or
-  `direct-deposit-bundle.json`) and the output the adapter is expected to
-  produce from it (`tests/fixtures/expected/<provider>-employees.json` or
-  `-direct-deposits.json`). Deposit bundles reuse the same employees.
+  For each provider and each of the five data types the script writes two
+  files: the input bundle (for example
+  `tests/fixtures/<provider>/employee-bundle.json`) and the output the
+  adapter is expected to produce from it (for example
+  `tests/fixtures/expected/<provider>-employees.json`). Every bundle
+  reuses the same employees.
   Routing numbers start with `99`, which no real US routing number does.
   Each company deliberately includes awkward records so the tests can check
   that every kind of problem is caught and reported. Examples: an employee
@@ -537,7 +507,7 @@ during implementation.
   `tests/test_fixtures_deterministic.py`.
 - **Status:** Decided.
 
-### 22. PrismHR employment type and status come from the "class" fields
+### 20. PrismHR employment type and status come from the "class" fields
 
 - **Context:** PrismHR gives two fields each for an employee's type and
   status. The first (`employeeType`, `employeeStatus`) is a code that each
@@ -557,7 +527,7 @@ during implementation.
   `employeeStatus` ("defined by the service provider"), `employeeType`.
 - **Status:** Decided.
 
-### 23. isolved employment status: `Active` and `Terminated` are recognised
+### 21. isolved employment status: `Active` and `Terminated` are recognised
 
 - **Context:** isolved sends employment status as a text label
   (`employmentStatus`). The spec calls it "the current employment status
@@ -568,7 +538,7 @@ during implementation.
   `unmapped_label` issue. Live customers may well set up more statuses than
   these.
 - **Reason:** These were the only two labels in the live demo company, and
-  their meaning is plain English. Anything else would be a guess (entry 17).
+  their meaning is plain English. Anything else would be a guess (entry 15).
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
   `#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentStatus`;
   live `GET /api/clients/4046/legals/5806/employees` returned exactly these
@@ -576,7 +546,7 @@ during implementation.
   `tests/test_employee_isolved.py::test_allowlisted_labels_map`.
 - **Status:** Decided.
 
-### 24. isolved gender: `Male` and `Female` are recognised
+### 22. isolved gender: `Male` and `Female` are recognised
 
 - **Context:** isolved sends gender as a text label (`gender`). The spec calls
   it "Gender description" and gives no list of possible values.
@@ -587,12 +557,12 @@ during implementation.
   list, because we have not seen how isolved spells them.
 - **Reason:** Only these two labels appeared in the live demo company.
   Guessing the spelling of other options could wrongly match, or miss, real
-  values (entry 17).
+  values (entry 15).
 - **Evidence:** same definition, `properties/gender`; the live sample;
   `tests/test_employee_isolved.py::test_off_allowlist_labels_stay_raw_with_issue`.
 - **Status:** Decided.
 
-### 25. isolved pay type: `Salary`, `Hourly` and `1099` are recognised
+### 23. isolved pay type: `Salary`, `Hourly` and `1099` are recognised
 
 - **Context:** isolved's `payType` field is a free-text label. The spec only
   says it is "the specified pay type for the employee" and gives no list of
@@ -615,7 +585,7 @@ during implementation.
   `tests/test_employee_isolved.py::test_allowlisted_labels_map`.
 - **Status:** Decided.
 
-### 26. UKG Ready employee status: `Active` and `Terminated` are recognised
+### 24. UKG Ready employee status: `Active` and `Terminated` are recognised
 
 - **Context:** UKG sends employee status (`status`) as plain text. The schema
   notes it is "only used for GET" and gives no list of possible values.
@@ -625,18 +595,19 @@ during implementation.
   `unmapped_label` issue.
 - **Reason:** These were the only two values across all 103 employees in the
   live demo company, and their meaning is plain English. Anything else would
-  be a guess (entry 17).
+  be a guess (entry 15).
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/status`;
   live `GET /rest/v2/companies/33704016/employees` returned only these two
   values across 103 employees;
   `tests/test_employee_ukg_ready.py::test_status_allowlist`.
 - **Status:** Decided.
 
-### 27. isolved pay frequency and employment category are left as "unknown"
+### 25. isolved pay frequency and employment category are left as "unknown"
 
 - **Context:** Two isolved fields look obvious but are not documented.
   `payFrequency` is a number; the live company shows `12`, which looks like
-  "12 times a year", so monthly. `employmentCategoryCode` is a short code; the
+  "12 times a year", so monthly, though five employees in the same
+  "Monthly" pay group show `26`. `employmentCategoryCode` is a short code; the
   live company shows `FT` and `PT`, which look like full time and part time.
   The spec describes both fields in one line each and never says what the
   values mean.
@@ -654,7 +625,7 @@ during implementation.
   `tests/test_employee_isolved.py::test_client_codes_and_integer_frequency_are_undocumented`.
 - **Status:** Decided.
 
-### 28. UKG employee type and pay type: the name is shown, but not interpreted
+### 26. UKG employee type and pay type: the name is shown, but not interpreted
 
 - **Context:** UKG stores an employee's type and pay type as numeric IDs only
   (for example `35330176`). Two lookup endpoints translate those IDs into
@@ -676,27 +647,35 @@ during implementation.
   `::test_lookup_miss_is_reported`.
 - **Status:** Decided.
 
-### 29. PrismHR `payPeriod` on `Compensation` is undocumented
+### 27. PrismHR employee pay frequency uses the pay group's schedule codes
 
 - **Context:** An employee's pay frequency in PrismHR comes from the
   `payPeriod` field in the pay section (`Compensation`). Its description says
-  only "pay period associated with the payGroup", with no list of codes. A
-  field with the same name elsewhere in the spec (`PayRate.payPeriod`) does
-  list its letters (W, B, S, M, A, H), but that is a different field on a
-  different record.
-- **Decision:** Pay frequency keeps PrismHR's raw letter, with the shared
-  value `unknown` and an `undocumented_code` issue. The neighbouring field
-  `hourlyPayPeriod`, which does list its own letters (H, W, B, S, M, Y), is
-  used for the period of the pay rate.
-- **Reason:** Entry 17(a) requires the meaning to be documented on the field
-  actually read. Borrowing it from a same-named field elsewhere would be
-  assuming the two use the same codes.
+  only "pay period associated with the payGroup", with no list of codes. The
+  pay group's payroll schedule has a `payPeriod` too, and its codes are
+  listed on the field next to it, `payPeriodDesc` (entry 88). On the live
+  demo, every employee's `payPeriod` equalled the code on their pay group's
+  schedule.
+- **Decision:** Pay frequency is read with the schedule's code list: `W` is
+  weekly, `B` biweekly, `S` semi-monthly, and `M` and every `MD*` code
+  monthly. Daily (`D`) stays `unknown`, as there is no shared daily value. A
+  code not on the list stays `unknown` with an `undocumented_code` issue (a
+  code with no documented meaning). The neighbouring `hourlyPayPeriod`,
+  which lists its own letters (H, W, B, S, M, Y), gives the period of the
+  pay rate.
+- **Reason:** The description points to the pay group, and the live data
+  shows the field carries the pay group's code. A meaning is taken from
+  another record only when the field points to it, as here, or uses exactly
+  the same codes (entry 34). `PayRate.payPeriod` qualifies for neither: it
+  is on an unrelated record and its letters differ.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod`
-  and `.../hourlyPayPeriod`;
-  `tests/test_employee_prismhr.py::test_pay_period_codes_are_undocumented_on_compensation`.
-- **Status:** Open.
+  and `#/components/schemas/ClientPayrollSchedule/properties/payPeriodDesc`;
+  `src/normalization/adapters/prismhr.py` (`PAY_PERIOD`);
+  `tests/test_employee_prismhr.py::test_pay_period_uses_the_pay_group_schedule_codes`,
+  `::test_pay_period_off_the_schedule_list_is_undocumented`.
+- **Status:** Decided.
 
-### 30. PrismHR `payMethod` `D` is "driver", not "daily"
+### 28. PrismHR `payMethod` `D` is "driver", not "daily"
 
 - **Context:** The shared list of pay types (salary, hourly, commission, and so
   on) was planned with a fifth type, `daily`, to match PrismHR's pay method
@@ -708,15 +687,15 @@ during implementation.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payMethod`
   ("'S' (salary), 'H' (hourly), 'C' (commission), or 'D' (driver)");
   `tests/test_employee_prismhr.py::test_documented_codes_map_to_canonical_values`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 31. UKG pay: which row in the pay history counts as "current"
+### 29. UKG pay: which row in the pay history counts as "current"
 
 - **Context:** UKG does not have a single "current salary" field. Instead it
   returns the employee's whole pay history as a list of rows, each with a
   start date, an amount, and the period that amount covers (per year, per
   hour, per pay period, and so on). Nothing in the data says which row is in
-  force today (entry 10). The live company also has a placeholder row dated
+  force today (entry 8). The live company also has a placeholder row dated
   31 December 1900 with zero amounts, which is simply the oldest date UKG
   allows.
 - **Decision:** The current pay is the row with the most recent start date
@@ -729,7 +708,7 @@ during implementation.
   `per_period_amount` only when the period is a pay period; the hourly rate is
   copied from UKG's own `hourly_pay`. Nothing is calculated from one figure to
   another. Standard hours come from the row's `time` value, converted from
-  milliseconds to hours (entry 6), with the period UKG gives for it.
+  milliseconds to hours (entry 5), with the period UKG gives for it.
   The field `num_pp_in_year` ("number of pay periods in a year") is a count,
   not a pay-frequency code, so it is not used to fill `pay_frequency`. It
   stays in `unmapped`, and a value of `0` (which the schema says is not
@@ -745,11 +724,11 @@ during implementation.
   `::test_zero_pay_periods_is_out_of_schema`.
 - **Status:** Decided.
 
-### 32. Each output has a minimal company record with no name
+### 30. Each output has a minimal company record with no name
 
 - **Context:** Employees must be linkable to their company, but none of the
-  employee calls returns the company's name, and fetching full company
-  details is a separate task.
+  employee, deposit, deduction or payroll calls returns the company's
+  name. The company's own record comes from separate calls.
 - **Decision:** Each output has a minimal company record (a "stub"): just a
   key that identifies the company, the provider it came from, and the EIN
   where it is known. The keys look like this:
@@ -759,34 +738,49 @@ during implementation.
     added as a second identifier when every employee record agrees on it.
   - UKG Ready: `ukg-ready:<company_id>`. The EIN is filled in from the EIN
     lookup when it returns exactly one row; if it returns several, a
-    `missing_lookup` issue says the EIN could not be chosen.
-  The company name is empty, and a `missing_section` issue says that company
-  details are a later task. The full company record is its own data type
-  (`--entity company`, entries 87 to 98).
+    `missing_lookup` issue (a needed lookup entry is absent) says the EIN
+    could not be chosen and that the company output lists each one.
+  The company name is empty, and a `missing_section` issue (an expected
+  part of the data is absent) says where it comes from: for PrismHR and
+  isolved, the company record that `--entity company` reads; for UKG
+  Ready, nowhere, since it has no company endpoint (entry 92). The full
+  company record is its own data type (`--entity company`, entries 84 to
+  93). Only that data type reads the company calls; every other output
+  keeps this minimal record, with the full record's other fields empty.
 - **Reason:** Every employee needs a company key to link to, and the key can
   be built from identifiers the bundle already has. Filling in more than that
-  would mean guessing (entry 1).
+  would mean guessing (entry 1). An employee or payroll capture should not
+  have to fetch company details to be normalized.
 - **Evidence:** `src/normalization/canonical/company.py`;
-  `tests/test_employee_ukg_ready.py::test_company_stub_takes_ein_from_single_lookup_row`.
+  `tests/test_employee_ukg_ready.py::test_company_stub_takes_ein_from_single_lookup_row`;
+  `tests/test_company_links.py::test_every_output_shares_the_company_key`.
 - **Status:** Decided.
 
-### 33. Standard hours are "per pay period" for PrismHR and isolved
+### 31. Standard hours are "per pay period" for PrismHR and isolved
 
 - **Context:** Both PrismHR and isolved send an employee's standard working
   hours as a bare number with no unit next to it. The period is only in the
   field's description: PrismHR `standardHours` is "standard hours per pay
   period", and isolved `normalHours` is "Normal work hours for the employee
-  per pay period".
-- **Decision:** Whenever standard hours are present, their period is set to
-  "per pay period". Since the provider sent no code for it, the raw value is
-  empty and the label reads `per pay period`.
-- **Reason:** Each field's own description states the period, so this
-  follows the documentation rather than guessing.
+  per pay period". The live values do not fit that reading. Monthly-paid
+  PrismHR employees had `40.00` or `86.67`. Every isolved employee had
+  `173.33`, which is a month of full-time hours, including those paid every
+  two weeks.
+- **Decision:** Whenever standard hours are present, the number is copied
+  and its period is set to "per pay period". Since the provider sent no code
+  for it, the raw value is empty and the label reads `per pay period`. The
+  period is never worked out from the size of the number, and the live
+  mismatch raises no issue.
+- **Reason:** The descriptions are the only stated unit. Picking a period
+  because a number looks monthly would be a guess (entry 1). A reader
+  should not turn these hours into annual hours without checking the
+  tenant's setup.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/standardHours`;
-  `contracts/isolved/openapi/isolved-v6.swagger.json`, `EmployeeModel/properties/normalHours`.
-- **Status:** Open.
+  `contracts/isolved/openapi/isolved-v6.swagger.json`, `EmployeeModel/properties/normalHours`;
+  `tests/test_employee_prismhr.py::test_compensation_fields_are_not_derived`.
+- **Status:** Decided.
 
-### 34. Email and address kinds follow the field's description
+### 32. Email and address kinds follow the field's description
 
 - **Context:** Each email address and postal address in the output is tagged
   with a kind (work, personal, home, mailing, and so on). The providers often
@@ -794,54 +788,76 @@ during implementation.
   only hint about which is which. Some descriptions give no hint: PrismHR's
   `contactInformation.emailAddress` is just "the employee's email address",
   isolved's `emailAddress` is "Employee E-Mail Address", and UKG's
-  `primary_email` says nothing either.
-- **Decision:** A kind is assigned only when the field's name or description
-  says it.
+  `primary_email` says nothing either. The main postal addresses have no
+  description at all, but each provider sends a separate mailing or override
+  address beside them.
+- **Decision:** A kind is assigned when the field's name or description says
+  it. The one exception is the main postal address. It is `home` when the
+  provider sends a separate mailing or override address beside it.
   - Emails: the three above get kind `unknown`. Fields named as work,
     personal or secondary emails (`workEmail`, `personalEmailAddress`,
-    `secondary_email`) get `work`, `personal` and `other`.
-  - PrismHR addresses: the contact-information address is `home`; the
-    address on the client section is `mailing`, as its description says
-    "alternate mailing address"; the W-2 address fields are `w2`; and the
-    separate address call (`getAddressInfo.altAddress`) adds a `mailing`
+    `secondary_email`) get `work`, `personal` and `other`. PrismHR's
+    `benefitEmail`, the address "to use when communicating with employee
+    during online benefits enrollment", is also `other`.
+  - Phones: home, mobile and work numbers keep those kinds. isolved's
+    `faxNumber` ("Employee FAX number") is an `other` phone. Neither the
+    benefit email nor a fax number appeared live.
+  - PrismHR addresses: the contact-information address is `home`, beside
+    the client section's address, which is `mailing` because its description
+    says "alternate mailing address". The W-2 address fields are `w2`, and
+    the separate address call (`getAddressInfo.altAddress`) adds a `mailing`
     address when the record has none.
-  - isolved addresses: `nameAddress` is `home` and `overrideAddress` is
-    `w2`.
+  - isolved addresses: `nameAddress` is `home`, since `overrideAddress`
+    describes itself as differing from the employee's "personal address".
+    `overrideAddress` is `w2`.
   - UKG addresses: `address` is `home`, and `mailing_address` is `mailing`
     unless UKG says no separate mailing address is used
     (`use_separate_mailing_address` is `false`).
 - **Reason:** Calling an email "personal" or "work" without the provider
   saying so would be a guess that downstream systems might act on, for
-  example by sending payslips to the wrong inbox.
+  example by sending payslips to the wrong inbox. A main address that sits
+  next to an explicit alternate is the residence in all three providers, and
+  tagging it `home` carries little risk.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/addressLine1`
-  ("address line 1 from alternate mailing address"), `Person/properties/w2AddressLine1`;
-  `contracts/isolved/openapi/isolved-v6.swagger.json`, `EmployeeModel/properties/overrideAddress`;
-  `contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/mailing_address`.
-- **Status:** Open.
+  ("address line 1 from alternate mailing address"), `ContactInformation/properties/addressLine1`,
+  `Person/properties/w2AddressLine1`, `Client/properties/benefitEmail`;
+  `contracts/isolved/openapi/isolved-v6.swagger.json`, `EmployeeModel/properties/overrideAddress`
+  and `EmployeePersonalModel/properties/faxNumber`;
+  `contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/mailing_address`;
+  `tests/test_employee_prismhr.py::test_addresses_phones_and_manager`;
+  `tests/test_employee_isolved.py::test_personal_and_name_address_overrides`.
+- **Status:** Decided.
 
-### 35. isolved location prefers `organizations[]`, then `workLocation`
+### 33. isolved location comes from `workLocation`
 
 - **Context:** isolved can describe where an employee works in two places.
   When asked to include organizations, the employee detail has a list of
   labelled rows (`organizations[]`), such as one titled `Location` and one
   titled `Department`, each with a code (`value`) and a description
   (`valueDescription`). Separately, every record has a `workLocation` code
-  with a description (`workLocationDashDescription`).
+  with a description (`workLocationDashDescription`). Live, the `Location`
+  row held "BJ Scrap Metal", a business name, while `workLocation` held
+  "UT1 - SALT LAKE CITY, UT".
 - **Decision:** The department comes from the `Department` row. The
-  location comes from the `Location` row when there is one, and otherwise
-  from `workLocation`, with its description as the label. Any other
-  organization rows are kept in `unmapped` (entry 19).
-- **Reason:** When requested, the organization rows are where isolved lists
-  department and location side by side, so both come from the same place.
-  `workLocation` is on every record, so it covers employees whose detail has
-  no `Location` row.
+  location always comes from `workLocation`, with its description as the
+  label. The `Location` row and any other organization rows are kept in
+  `unmapped` (entry 17). isolved has no division field, and no row is read
+  as one, so the coverage page shows division as "not offered". Live rows
+  were only `Location` and `Department`.
+- **Reason:** Each client titles and fills its own organization rows, so a
+  row called "Location" need not hold a place, nor a row called "Division"
+  a division. `workLocation` is on every record and is the code the
+  company's work locations use, so every employee's location matches a
+  work location on the company record (entry 85).
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
   `#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeOrganizationModel`
   and `EmployeeModel/properties/workLocation`;
-  `tests/test_employee_isolved.py::test_detail_overlay_supplies_organizations_and_taxes`.
-- **Status:** Open.
+  `src/normalization/field_map.py` (`ISOLVED`, `job.division`);
+  `tests/test_employee_isolved.py::test_detail_overlay_supplies_organizations_and_taxes`;
+  `tests/test_company_links.py::test_isolved_employee_locations_and_pay_groups_resolve`.
+- **Status:** Decided.
 
-### 36. PrismHR gender codes are explained on a different record
+### 34. PrismHR gender codes are explained on a different record
 
 - **Context:** The meanings of PrismHR's gender letters live on a different
   record from the one we read. The employee record's `gender` field says only
@@ -854,14 +870,16 @@ during implementation.
   with an `undocumented_code` issue.
 - **Reason:** Both schemas describe the same employee attribute with the same
   four letters; the hire request is where PrismHR spells out the meanings.
+  A meaning is taken from another record only when the field uses exactly
+  the same codes, as here, or points to that record (entry 27).
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/gender`
   and `#/components/schemas/NewHireEmployee/properties/gender`;
   `src/normalization/adapters/prismhr.py` (`GENDER`).
-- **Status:** Open.
+- **Status:** Decided.
 
 ## Field coverage
 
-### 37. What the coverage statuses mean
+### 35. What the coverage statuses mean
 
 - **Context:** The field coverage pages show, for every canonical employee,
   direct deposit, deduction, payroll and company field, whether each provider
@@ -886,66 +904,114 @@ during implementation.
   `web/src/lib/status.ts`.
 - **Status:** Decided.
 
-### 38. UKG Ready termination and rehire details are write-only
+### 36. UKG Ready termination and rehire details are write-only
 
 - **Context:** UKG Ready describes an employee's termination reason and
   rehire eligibility only in the schema for updating an employee (schema
-  107, the PUT body). The schema for reading an employee (schema 106)
-  has termination and rehire dates but no reason and no eligibility.
+  107, the PUT body), both inside `termination_details` (`termination_reason`
+  and `rehireable`). The schema for reading an employee (schema 106) has
+  termination and rehire dates but no reason and no eligibility, and the
+  live employee records matched it. The termination-reason lookup does say
+  whether each reason allows rehire, but the read call never says which
+  reason applies.
 - **Decision:** The output has no termination reason or rehire
   eligibility for UKG Ready, and the coverage page shows both as "not
   offered".
 - **Reason:** A field documented only for writing is not one the read
   call can be relied on to return.
-- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/107/schema/properties/termination_details`
-  and `#/schemas/107/schema/properties/rehire_details`;
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/107/schema/properties/termination_details/properties/termination_reason`
+  and `.../rehireable`;
   `#/schemas/106/schema/properties/dates`;
+  `#/schemas/317` (termination-reason lookup);
   `src/normalization/field_map.py` (`UKG_READY`).
-- **Status:** Open.
+- **Status:** Decided.
 
-### 39. Job titles behind a lookup, and UKG Ready organization, are not mapped yet
+### 37. Job titles come from each provider's job list; UKG Ready organization is not mapped yet
 
 - **Context:** PrismHR and UKG Ready put only a job code on the employee
   record; the title lives in a separate list of jobs. For PrismHR that list
   is the job code table (`getClientCodes` with the `Job` option), where
   each entry's `jobTitle` is the "position/job title". For UKG Ready it is
-  the jobs configuration (`config/cost-center-jobs`), and the employee's
-  default job is an ID (`pay_info.default_job`). The bundle fetches
-  neither list. UKG Ready also gives organization as up to nine
-  cost-centre levels (`cost_centers_info`, levels 0 to 8), and each
-  company defines what each level means.
-- **Decision:** The adapters map the job code but no job title for PrismHR
-  or UKG Ready, and no department, location or division for UKG Ready.
-  The coverage page shows these as "not mapped yet".
-- **Reason:** A title needs the provider's job list, which the bundle
-  would have to fetch first. Picking a cost-centre level for department
-  or location would guess at a per-company setting.
+  the jobs lookup (`lookup/jobs`), and the employee's default job is an ID
+  (`pay_info.default_job`). Live, every PrismHR job code and every UKG
+  default job ID was in its list. UKG Ready also gives organization as up
+  to nine cost-centre levels (`cost_centers_info`, levels 0 to 8), and
+  each company names what each level means.
+- **Decision:** The title is the name the job list gives the employee's
+  code. Both lists are optional parts of the employee bundle. When a list
+  was not captured, titles are empty and one `missing_section` issue (an
+  expected part of the data is absent) at `info` severity says so. A code
+  missing from a captured list leaves the title empty with a
+  `missing_lookup` warning (a needed lookup entry is absent). UKG Ready
+  department, location and division stay "not mapped yet".
+- **Reason:** The list is the provider's own name for its code, so the
+  title is copied, not inferred. UKG's jobs configuration
+  (`config/cost-center-jobs`) holds the same names, but live it sends them
+  under `costCenterJobs`, not the documented `cost_center_jobs`. Choosing
+  a cost-centre level for department or location would trust a title
+  each company picks, which entry 33 rejected for isolved.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle`
   and `#/paths/~1clientMaster~1v1~1getClientCodes`;
-  `contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job`
+  `contracts/ukg-ready/reference-schemas.json#/schemas/262` (jobs lookup),
+  `#/schemas/41` (jobs configuration), `#/schemas/159/schema/properties/default_job`
   and `#/schemas/106/schema/properties/cost_centers_info`;
-  `src/normalization/bundle.py` (`PROVIDER_SPECS`);
-  `src/normalization/field_map.py` (`PRISMHR`, `UKG_READY`).
-- **Status:** Open.
+  `tests/test_employee_prismhr.py::test_job_titles_come_from_the_job_table`,
+  `::test_job_table_is_optional`;
+  `tests/test_employee_ukg_ready.py::test_job_titles_come_from_the_jobs_lookup`,
+  `::test_jobs_lookup_and_tax_info_are_optional`.
+- **Status:** Decided.
 
-### 40. UKG Ready contractor flag is in tax-info, which the bundle does not fetch
+### 38. UKG Ready contractor flag comes from tax-info
 
 - **Context:** UKG Ready records whether an employee is paid as a W-2
   employee, a 1099 contractor or on a draw in the employee's tax
   information. The read schema for that call (schema 166, tax-info) has
   `employee-tax-type` with three yes/no flags: `W2`, `_1099` and `DRAW`.
-  The capture bundle does not fetch tax-info.
-- **Decision:** The output has no contractor flag for UKG Ready, and the
-  coverage page shows it as "not mapped yet", not "not offered".
-- **Reason:** UKG documents the flag, so the gap is in what the bundle
-  collects, not in the provider. Adding tax-info to the bundle would let
-  the adapter read `_1099`.
+  Live, all 103 demo employees were W-2 only, and the response left out
+  `fein` and `dba-company-name`, which the schema lists.
+- **Decision:** The contractor flag copies `_1099`. Tax-info is an
+  optional part of the employee bundle, one response per employee. The
+  other flags and fields stay in `unmapped`. An employee with no tax-info
+  response has an empty flag and a `missing_section` issue (an expected
+  part of the data is absent) at `info` severity. A bundle with no
+  tax-info at all gets one such issue.
+- **Reason:** `_1099` is the flag UKG names for contractors, so it is
+  copied rather than worked out from `W2` or the pay type. The two missing
+  fields are optional and change nothing else (entry 57).
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099`;
   `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys);
-  `src/normalization/field_map.py` (`UKG_READY`).
-- **Status:** Open.
+  `tests/test_employee_ukg_ready.py::test_contractor_flag_comes_from_tax_info`,
+  `::test_jobs_lookup_and_tax_info_are_optional`.
+- **Status:** Decided.
 
-### 41. Direct deposit coverage: five fields are not offered
+### 39. Employee coverage: which fields are not offered or not mapped yet
+
+- **Context:** The employee coverage page lists every canonical employee
+  field against each provider. Some cells pointed at a provider field
+  whose meaning is unclear, or at data that is not what the canonical
+  field means. isolved's `payRates[]` holds "alternate pay rates", each
+  a name and a value with no period, and was null for every live
+  employee. UKG Ready's `pay_info.job_last_changed` was set for 89 of
+  103 live employees: it matched the hire, rehire or start date for 61
+  and was later for 24, but fell before the hire date for 4.
+- **Decision:**
+  - isolved: the rate and its period are "not offered", since hourly
+    and annual pay are separate fields that are mapped; `payRates[]`
+    stays in `unmapped`. Division is "not offered" (entry 33).
+  - UKG Ready: job start date stays "not mapped yet", as do department,
+    location and division (entry 37) and pay frequency (entry 29).
+  - PrismHR's benefit email and isolved's fax number are mapped
+    (entry 32).
+- **Reason:** Alternate rates are not the employee's rate. A date that
+  sometimes comes before the hire date, with no documented meaning, is
+  not safe to call the start of the current job.
+- **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payRates`;
+  `contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/job_last_changed`;
+  `src/normalization/field_map.py`;
+  `tests/test_field_map.py::test_mapped_rows_are_filled_or_explain_the_gap`.
+- **Status:** Decided.
+
+### 40. Direct deposit coverage: six fields are not offered
 
 - **Context:** The direct deposit coverage page lists the 11 value fields
   of a deposit line against each provider. Most exist in all three specs.
@@ -954,14 +1020,14 @@ during implementation.
   number. Neither PrismHR nor isolved lines have start or end dates. UKG
   lines do have a `name` field, which is a string with no description in
   the JSON schema and an integer in the XML schema.
-- **Decision:** The page shows five cells as "not offered", each with its
+- **Decision:** The page shows six cells as "not offered", each with its
   reason: UKG Ready bank name, PrismHR priority, and PrismHR and isolved
   effective start and end. UKG's `name` is not read as the bank name.
   Every other cell is "mapped"; none is "not mapped yet".
 - **Reason:** `name` could as well be a label for the account, and its
   type is not even consistent, so calling it the bank name would be a
   guess (entry 1). PrismHR does not document its list order as the
-  payment order (entry 53).
+  payment order (entry 52).
 - **Evidence:** `src/normalization/deposit_field_map.py`;
   `contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/name`;
   `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__employees__(aid)__direct-deposits.html`
@@ -969,7 +1035,7 @@ during implementation.
   `tests/test_deposit_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
 - **Status:** Decided.
 
-### 42. Deduction coverage: which fields are not offered or not mapped yet
+### 41. Deduction coverage: which fields are not offered or not mapped yet
 
 - **Context:** The deduction coverage page lists the 20 value fields of a
   deduction rule against each provider. isolved pay items carry only a
@@ -979,8 +1045,9 @@ during implementation.
   deduction per pay and per year only, and gives the employer side an
   annual maximum but no calculation.
 - **Decision:** Two PrismHR cells are "not mapped yet": frequency, because
-  `period` needs the pay schedule (entry 64), and payee name, because the
-  bundle does not fetch payees. Every gap in the fixtures is "not
+  `period` needs the pay schedule (entry 62), and payee name, because the
+  bundle does not fetch payees. Live, every deduction's payee ID was
+  empty, so a payee lookup could not be checked. Every gap in the fixtures is "not
   offered" with its reason:
   - PrismHR: employer match annual maximum and priority;
   - isolved: everything except code, amount, percent and dates (15
@@ -989,8 +1056,8 @@ during implementation.
   - UKG Ready: category, monthly, quarterly and lifetime limits, and
     employer match method, amount and percent.
 - **Reason:** "Not mapped yet" is kept for data the provider documents
-  but the bundle or adapter does not use, as in entry 40. Reading
-  `scheduleOverride` as a frequency would be a guess (entry 1).
+  but the bundle or adapter does not use. Reading `scheduleOverride` as a
+  frequency would be a guess (entry 1).
 - **Evidence:** `src/normalization/deduction_field_map.py`;
   `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayeeDetails/properties/payeeName`;
   `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.Corestream.EmployeeDeductionModel`;
@@ -999,7 +1066,7 @@ during implementation.
   `tests/test_deduction_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
 - **Status:** Decided.
 
-### 43. Payroll coverage: which fields are not offered or not mapped yet
+### 42. Payroll coverage: which fields are not offered or not mapped yet
 
 - **Context:** The payroll coverage page lists the 34 value fields of a
   pay run, a paycheck and its lines against each provider. PrismHR sends
@@ -1014,7 +1081,7 @@ during implementation.
   - UKG Ready: check number, gross pay, net pay, void date, earning
     category, deduction category and payment account last 4. `type_name`
     on an earning or deduction line names the line, not a category, so
-    it is not read as one. Gross and net stay empty (entry 73).
+    it is not read as one. Gross and net stay empty (entry 71).
 
   Every other cell is "mapped". None is "not mapped yet".
 - **Reason:** "Not offered" is for a field the provider's payroll records
@@ -1024,9 +1091,9 @@ during implementation.
   `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/reissueCheckDate`;
   `contracts/ukg-ready/reference-schemas.json#/schemas/364`;
   `tests/test_payroll_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 44. Company coverage: which fields are not offered
+### 43. Company coverage: which fields are not offered
 
 - **Context:** The company coverage page lists the 27 value fields of a
   company, its contact details, and its tax ids, work locations and pay
@@ -1037,7 +1104,7 @@ during implementation.
   than one service type. Its tax id has no name or country, its work
   locations have no end date, and its pay groups have no effective
   dates. The live legal also never sends a doing-business-as name or a
-  NAICS code (entries 94 and 98). UKG Ready has no company profile and
+  NAICS code (entries 89 and 93). UKG Ready has no company profile and
   no work locations.
 - **Decision:** Thirty-five cells are "not offered", each with its
   reason:
@@ -1063,11 +1130,11 @@ during implementation.
   `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.LegalModel/properties/services`;
   `contracts/ukg-ready/reference-schemas.json#/schemas/249`;
   `tests/test_company_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
-- **Status:** Open.
+- **Status:** Decided.
 
 ## Direct deposit normalization
 
-### 45. A direct deposit record holds the core of one bank line
+### 44. A direct deposit record holds the core of one bank line
 
 - **Context:** All three providers describe each split of an employee's
   pay into a bank account, but each wraps it in its own extras: prenote
@@ -1088,7 +1155,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_prenote_and_frequency_stay_unmapped`.
 - **Status:** Decided.
 
-### 46. What a capture bundle holds for direct deposits
+### 45. What a capture bundle holds for direct deposits
 
 - **Context:** Each provider serves deposits from a different call.
   PrismHR returns them on the same employee call when asked for the
@@ -1113,7 +1180,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_missing_response`.
 - **Status:** Decided.
 
-### 47. Only the last four digits of a bank account number are emitted
+### 46. Only the last four digits of a bank account number are emitted
 
 - **Context:** isolved and UKG Ready send bank account numbers in full.
   PrismHR masks them completely (`*****`) but sends the routing number in
@@ -1124,7 +1191,7 @@ during implementation.
   issue (the provider hid the value). A number shorter than four digits
   also gives an empty value, with an `invalid_number` issue, since its
   last four digits would be the whole number. Account and routing numbers
-  are redacted wherever provider data is repeated (entry 18).
+  are redacted wherever provider data is repeated (entry 16).
 - **Reason:** Four digits are enough to tell accounts apart without
   putting a usable account number in an output file. A routing number
   identifies a bank, not a person.
@@ -1134,7 +1201,7 @@ during implementation.
   `tests/test_direct_deposit_isolved.py::test_account_numbers_are_reduced_to_last_four`.
 - **Status:** Decided.
 
-### 48. How each provider's allocation maps to one list of methods
+### 47. How each provider's allocation maps to one list of methods
 
 - **Context:** A deposit line takes a fixed amount, a percentage, or
   whatever is left. PrismHR (`method`) and UKG Ready (`calc_method`) say
@@ -1163,7 +1230,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_inconsistent_amounts_are_reported`.
 - **Status:** Decided.
 
-### 49. isolved allocation comes from which field is set
+### 48. isolved allocation comes from which field is set
 
 - **Context:** isolved has no method code. A line has either an `amount`
   or a `percent`, and the spec says `sequenceNumber` 0 is "Net Pay", the
@@ -1183,25 +1250,25 @@ during implementation.
   `test_method_follows_the_field_that_is_set`.
 - **Status:** Decided.
 
-### 50. isolved account type and status labels allowed so far
+### 49. isolved account type and status labels allowed so far
 
 - **Context:** isolved's spec describes `accountType` and `status` only
   as free-text descriptions, with no list of values. The live demo
   company returned `Checking` as the only account type and `Active` and
   `Inactive` as statuses. Frequency was always `Every Pay`.
-- **Decision:** Under entry 17's rule (c), `Checking` maps to `checking`,
+- **Decision:** Under entry 15's rule (c), `Checking` maps to `checking`,
   and `Active` and `Inactive` map to `active` and `inactive`, matched
   exactly. Any other label stays `unknown` with an `unmapped_label` issue
   (a label with no shared meaning yet). Frequency is not mapped and stays
   in `unmapped`.
 - **Reason:** These are the only labels seen, and each says plainly what
-  it means. A savings label will be added once one is seen live.
+  it means. No savings label was seen live, so none is recognised.
 - **Evidence:** `src/normalization/adapters/isolved.py`
   (`DEPOSIT_ACCOUNT_TYPE`, `DEPOSIT_STATUS`);
   `tests/test_direct_deposit_isolved.py::test_labels_outside_the_allowlist_stay_raw`.
 - **Status:** Decided.
 
-### 51. PrismHR account type `IP` is instant pay, not a pay card
+### 50. PrismHR account type `IP` is instant pay, not a pay card
 
 - **Context:** PrismHR's spec lists the account types it returns as `C`
   "(checking account or pay card)", `S` "(savings account)" and `IP`
@@ -1215,9 +1282,9 @@ during implementation.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/accountType`;
   `src/normalization/adapters/prismhr.py` (`ACCOUNT_TYPE`);
   `tests/test_direct_deposit_prismhr.py::test_undocumented_method_and_instant_pay`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 52. PrismHR `FS` and `PN` lose a detail when mapped
+### 51. PrismHR `FS` and `PN` lose a detail when mapped
 
 - **Context:** PrismHR's `FS` is "fixed, skip if can't take full amount",
   and `PN` is "percentage of net after fixed", meaning the percentage is
@@ -1230,30 +1297,38 @@ during implementation.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/method`;
   `src/normalization/adapters/prismhr.py` (`DEPOSIT_METHOD`);
   `tests/test_direct_deposit_prismhr.py::test_fixed_skip_and_prenote`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 53. PrismHR deposit lines are identified by their position
+### 52. PrismHR deposit lines are identified by their position
 
 - **Context:** PrismHR deposit lines (`achVoucher`) have no ID or
-  sequence number.
+  sequence number. Each line can also be limited to certain kinds of pay
+  run (`voucherTypeOverride`, any mix of R regular, V vacation and S
+  supplemental). One live employee had two remainder lines, one for
+  regular pay and one for supplemental pay.
 - **Decision:** A line's ID is its position in the list, starting at 0,
   so the record key ends in `:dd:0`, `:dd:1` and so on. `priority` is
-  empty.
+  empty. The pay-run limit stays in the line's `unmapped` section, as
+  entry 44 says for frequency, so two remainder lines for one employee
+  can appear; the limit there tells them apart.
 - **Reason:** The position is the only stable handle in the response. It
   changes if PrismHR reorders or removes a line, so it should not be
   used to match records across captures. PrismHR does not say the list
   order is the payment order.
-- **Evidence:** `src/normalization/adapters/prismhr.py`
-  (`_PrismDepositMapper.map`);
-  `tests/test_direct_deposit_prismhr.py::test_line_position_is_the_deposit_id`.
-- **Status:** Open.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/voucherTypeOverride`
+  (a subset of `DirectDeposit/properties/voucherType`, which defines R,
+  S and V); `src/normalization/adapters/prismhr.py` (`_PrismDepositMapper.map`);
+  `tests/test_direct_deposit_prismhr.py::test_line_position_is_the_deposit_id`,
+  `test_line_pay_type_override_stays_unmapped`.
+- **Status:** Decided.
 
-### 54. PrismHR header status is not applied to each line
+### 53. PrismHR header status is not applied to each line
 
 - **Context:** PrismHR sends a header for the whole direct deposit setup,
   with its own status (`achStatus`), next to a status on each line. In
-  the live demo company every line was `D` (active), and employees with
-  no setup had an empty `achStatus`.
+  the live demo company every line was `D` (active) under an `A` header,
+  employees with no setup had an empty `achStatus`, and the one `I`
+  (inactive) header had no lines.
 - **Decision:** A record's status comes from its line only. The header
   fields are copied into every line's `unmapped` section.
 - **Reason:** The spec does not say how the header status combines with
@@ -1261,9 +1336,9 @@ during implementation.
 - **Evidence:** `src/normalization/adapters/prismhr.py`
   (`_PrismDepositMapper.map`);
   `tests/test_direct_deposit_prismhr.py::test_header_fields_ride_along_in_unmapped`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 55. UKG Ready "reserve live check" lines are emitted without a bank
+### 54. UKG Ready "reserve live check" lines are emitted without a bank
 
 - **Context:** UKG Ready deposit lines have a `type` of either
   `DIRECT_DEPOSIT` or `RESERVE_LIVE_CHECK`. The second keeps part of the
@@ -1275,15 +1350,15 @@ during implementation.
   whole of the pay.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/type`;
   `tests/test_direct_deposit_ukg_ready.py::test_reserve_live_check_has_no_bank_fields`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 56. UKG Ready's employee deposit call is past its end of support
+### 55. UKG Ready's employee deposit call is past its end of support
 
 - **Context:** UKG's table of deprecated operations lists
   `GET v2/companies/{cid}/employees/{account_id}/direct-deposits` with
   no replacement and an end of support of January 29, 2026. The live
-  demo company still answered every call, without needing the
-  `X-End-of-Support-Timeline` header.
+  demo company still answers the call after that date, without needing
+  the `X-End-of-Support-Timeline` header.
 - **Decision:** The bundle uses this call, since it is the only one that
   lists an employee's deposits.
 - **Reason:** No replacement is documented. If UKG turns the call off,
@@ -1291,9 +1366,9 @@ during implementation.
 - **Evidence:** `contracts/ukg-ready/reference-docs/Version 2 resources and operations.html`
   (the `employees/{account_id}/direct-deposits` row);
   `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys).
-- **Status:** Open.
+- **Status:** Decided.
 
-### 57. UKG Ready open-ended dates are kept as sent
+### 56. UKG Ready open-ended dates are kept as sent
 
 - **Context:** Live UKG lines carry `active_from` 1900-12-31 and
   `active_to` 2099-12-31, which look like stand-ins for "no start" and
@@ -1304,9 +1379,9 @@ during implementation.
 - **Evidence:** `src/normalization/adapters/ukg_ready.py`
   (`_UkgDepositMapper._line`);
   `tests/test_direct_deposit_ukg_ready.py::test_sequence_status_and_effective_dates`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 58. Where live deposit data differs from the specs
+### 57. Where live deposit data differs from the specs
 
 - **Context:** The live demo companies did not return everything the
   specs describe:
@@ -1320,7 +1395,7 @@ during implementation.
   - PrismHR sent `transitNum` in full and every `accountNum` masked.
 - **Decision:** A missing field is read as empty and raises no issue of
   its own. The isolved line with neither amount nor percent gets the
-  `inconsistent_allocation` warning from entry 49. The UKG label is kept
+  `inconsistent_allocation` warning from entry 48. The UKG label is kept
   as sent, and the amount currency defaults to USD.
 - **Reason:** These gaps do not change what the remaining fields mean,
   and reporting every absent optional field would bury the issues that
@@ -1328,11 +1403,11 @@ during implementation.
 - **Evidence:** `tests/test_direct_deposit_isolved.py::test_inactive_line_without_sequence`;
   `tests/test_direct_deposit_ukg_ready.py::test_every_calc_method_maps`;
   `src/normalization/adapters/ukg_ready.py` (`_UkgDepositMapper._allocation`).
-- **Status:** Open.
+- **Status:** Decided.
 
 ## Deduction normalization
 
-### 59. A deduction record holds one recurring rule
+### 58. A deduction record holds one recurring rule
 
 - **Context:** Each provider stores the deductions set up for an
   employee: what is taken, how it is worked out, how often, up to what
@@ -1344,16 +1419,19 @@ during implementation.
   calculated (method plus an amount or a percent), frequency, limits per
   pay and per month, quarter, year or lifetime, employer match, payee,
   `priority` and the dates it applies (`effective`). There is no status
-  field. Anything else stays in `unmapped`.
+  field and no amount actually taken; those amounts are deduction lines
+  on each paycheck (entry 69). Anything else stays in `unmapped`.
 - **Reason:** These fields say what will come out of the next paycheck
   and who receives it. A status would have to be worked out from dates,
-  which a reader can do as easily.
-- **Evidence:** `src/normalization/canonical/deduction.py`;
+  which a reader can do as easily. An amount taken needs its pay run as
+  context, which a rule does not have.
+- **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize);
+  `src/normalization/canonical/deduction.py`;
   `docs/canonical/employee.schema.json#/$defs/Deduction`;
   `tests/test_canonical_model.py::test_deduction_fields_are_checked`.
 - **Status:** Decided.
 
-### 60. What a capture bundle holds for deductions
+### 59. What a capture bundle holds for deductions
 
 - **Context:** PrismHR returns deductions from `getDeductions`, one call
   per employee. isolved and UKG Ready also need one call per employee,
@@ -1362,45 +1440,33 @@ during implementation.
   - PrismHR: a map from employee ID to its `getDeductions` response
     (`get_deductions`), plus the employee list if it was captured;
   - isolved: the employee list pages plus a map from employee ID to its
-    pay item array (`pay_items`, entry 66);
+    pay item array (`pay_items`, entry 64);
   - UKG Ready: the employee list, a map from account ID to the list
     response (`deductions`) and a map from deduction ID to the detail
     response (`deduction_detail`).
 
   An employee missing from the map is reported as `missing_section` (an
   expected part of the data is absent) at `info` severity and gets no
-  records. The plan also had UKG Ready's deduction code lookup in the
-  bundle; it was left out because every list line already carries the
-  code's name.
-- **Reason:** This matches the deposit bundles (entry 46), so one capture
+  records. UKG Ready's deduction code lookup is not part of the bundle,
+  because the schema requires every list line to carry the code's name.
+  The lookup answers for the live demo company (43 codes), but the list
+  calls do not (entry 66), so whether the two agree cannot be checked.
+- **Reason:** This matches the deposit bundles (entry 45), so one capture
   run can serve both. The lookup would only repeat names the list sends.
 - **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
+  `contracts/ukg-ready/reference-schemas.json#/schemas/132` (`deduction`
+  requires `code` and `name`) and `#/schemas/244` (the lookup);
   `tests/test_bundle.py::test_deduction_keys_per_provider`;
   `tests/test_deduction_ukg_ready.py::test_empty_and_missing_lists`.
-- **Status:** Decided, except leaving out the UKG Ready code lookup,
-  which is Open.
-
-### 61. Amounts taken in each payroll are not part of deductions
-
-- **Context:** Besides the recurring rule, each provider records the
-  amount actually taken in every pay run. Those amounts belong to a
-  paycheck, not to the rule.
-- **Decision:** Deduction records hold only the rule. Amounts taken per
-  payroll are left for the payroll data type. The payroll data type
-  holds them as deduction lines on each paycheck (entries 71 to 86).
-- **Reason:** A paycheck amount needs the pay run as its context, which a
-  deduction record does not have.
-- **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize);
-  `src/normalization/canonical/deduction.py` (no amount-taken field).
 - **Status:** Decided.
 
-### 62. PrismHR deduction codes are explained on a different record
+### 60. PrismHR deduction codes are explained on a different record
 
 - **Context:** On PrismHR's per-employee deduction, `deductionType` (the
   kind of deduction) is described only as "defined by the service
   provider" and `deductionMethod` (how it is calculated) as "calculation
   method". The codes are listed on the deduction code setup record,
-  `DeductionCodeDetail`, as entry 36 found for gender.
+  `DeductionCodeDetail`, as entry 34 found for gender.
 - **Decision:** Category and method are mapped using the code lists on
   `DeductionCodeDetail`, and the label shown is the one given there. A
   code not on the list stays `unknown` with an `undocumented_code` issue
@@ -1414,7 +1480,7 @@ during implementation.
   `tests/test_deduction_prismhr.py::test_code_tables_quote_the_spec_descriptions`.
 - **Status:** Decided.
 
-### 63. PrismHR's 29 calculation methods are grouped into nine
+### 61. PrismHR's 29 calculation methods are grouped into eight
 
 - **Context:** PrismHR lists 29 calculation methods, many of them
   variants (percentage of gross, of straight pay, of retirement
@@ -1431,16 +1497,16 @@ during implementation.
 - **Evidence:** `src/normalization/adapters/prismhr.py`
   (`_METHOD_GROUPS`, `DEDUCTION_METHOD`);
   `tests/test_deduction_prismhr.py::test_percent_lines_fill_percent`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 64. PrismHR frequency and order are not mapped
+### 62. PrismHR frequency and order are not mapped
 
 - **Context:** PrismHR's `period` lists the pay periods of the month
   when a deduction is taken (for example `12345`). It is not one of the
   shared frequencies. PrismHR sends no order for its deductions.
 - **Decision:** `frequency` and `priority` are empty for PrismHR, and
   `period` stays in `unmapped`. A line's ID is its position, as for
-  deposits (entry 53).
+  deposits (entry 52).
 - **Reason:** Turning a list of period numbers into "every pay" or
   "monthly" depends on the pay schedule, which the deduction call does
   not return.
@@ -1448,7 +1514,7 @@ during implementation.
   `tests/test_deduction_prismhr.py::test_frequency_and_priority_are_not_mapped`.
 - **Status:** Decided.
 
-### 65. PrismHR amount, maximum and match follow their switch fields
+### 63. PrismHR amount, maximum and match follow their switch fields
 
 - **Context:** PrismHR uses one `amount` for both amounts and
   percentages, chosen by `usePercent`. `maximum` caps the deduction over
@@ -1459,16 +1525,22 @@ during implementation.
   monthly, quarterly, annual or lifetime slot. A `usePercent` that is
   neither a boolean nor `T` or `F` gives an `out_of_schema_value` issue
   (a value outside the documented set). A `maximum` with an empty
-  `basis` gives an `inconsistent_allocation` warning (the figures do not
-  fit together). In both cases the figure stays in `unmapped`.
+  `basis` gives an `inconsistent_allocation` warning   (the figures do not
+  fit together). In both cases the figure stays in `unmapped`. An amount
+  is read together with the method: for the rate-times-hours and
+  per-ten-thousand methods it is a rate, not the sum taken from each
+  paycheck.
 - **Reason:** A figure is only placed where its switch says it belongs;
-  without the switch, its meaning would be a guess.
-- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/basis`;
+  without the switch, its meaning would be a guess. PrismHR has one
+  `amount` for every method, and the method code beside it says how it
+  is applied.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/basis`
+  and `.../amount` ("deduction amount");
   `tests/test_deduction_prismhr.py::test_maximum_without_a_known_basis_stays_unmapped`,
   `test_employer_match_of_each_method`, `test_bad_use_percent_and_date`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 66. isolved deductions come from pay items
+### 64. isolved deductions come from pay items
 
 - **Context:** isolved's spec has a deductions call for each employee,
   but it answered 401 (not authorized) for every employee of the demo
@@ -1486,25 +1558,27 @@ during implementation.
   `tests/test_deduction_isolved.py::test_only_deduction_items_are_kept`.
 - **Status:** Decided.
 
-### 67. isolved calculation parameters: `Amount` and `Percent` are recognised
+### 65. isolved calculation parameters: `Amount` and `Percent` are recognised
 
 - **Context:** An isolved pay item carries its figures as a list of
   parameters, each with a label (`paramType`) and a value. The spec does
   not list the labels. Live deductions used `Amount`, `Percent` and
-  `Amount2`.
+  `Amount2`, all set to 0, and some items carried both `Amount` and
+  `Percent`.
 - **Decision:** The first `Amount` fills the amount and the first
-  `Percent` fills the percent. Any other label, such as `Amount2`,
-  stays in `unmapped` and is reported once per bundle as
-  `unmapped_label`.
-- **Reason:** These two labels say plainly what they hold. `Amount2`
-  has no stated meaning.
+  `Percent` fills the percent; an item with both shows both, with no
+  issue. Any other label, such as `Amount2`, stays in `unmapped` and is
+  reported once per bundle as `unmapped_label`.
+- **Reason:** These two labels say plainly what they hold. isolved sends
+  no method that would say which of the two applies, so both are copied
+  rather than one being dropped. `Amount2` has no stated meaning.
 - **Evidence:** `src/normalization/adapters/isolved.py`
   (`CALC_PARAM_SLOTS`);
   `tests/test_deduction_isolved.py::test_amount_and_percent_params`,
   `test_other_params_are_reported_once_per_label`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 68. UKG Ready deductions join a list call and a detail call, built from the docs
+### 66. UKG Ready deductions join a list call and a detail call, built from the docs
 
 - **Context:** UKG Ready's employee deduction list gives only the code,
   name, dates and order. The amount, frequency and limits are on a
@@ -1516,7 +1590,7 @@ during implementation.
   `missing_section` warning. The calculation method type has no
   documented values, so it stays `unknown` with its label, reported once
   per distinct type. Open-ended dates such as 9999-12-31 are kept as
-  sent (entry 57). The mapping and the test data follow the reference
+  sent (entry 56). The mapping and the test data follow the reference
   pages only.
 - **Reason:** The detail is where the rule is. Building from the docs
   means a bundle captured once the calls are enabled will normalize,
@@ -1528,7 +1602,7 @@ during implementation.
   `test_line_without_detail_keeps_list_fields`.
 - **Status:** Decided.
 
-### 69. UKG Ready frequencies with no shared counterpart are `other`
+### 67. UKG Ready frequencies with no shared counterpart are `other`
 
 - **Context:** UKG Ready's `ee_frequency` (how often the employee
   deduction is taken) has eleven documented values. Most have a shared
@@ -1538,16 +1612,19 @@ during implementation.
   other scheduled pay is `every_other_pay`, and monthly, quarterly,
   annual, manual and benefit plan map to their namesakes. The three
   without a counterpart are `other`. A value outside the documented
-  list stays `unknown` with an `out_of_schema_value` issue.
+  list stays `unknown` with an `out_of_schema_value` issue. The raw code
+  keeps the difference between every pay and every scheduled pay.
 - **Reason:** `other` says the value is documented but not comparable,
-  which `unknown` would not.
+  which `unknown` would not. UKG does not say how every pay and every
+  scheduled pay differ, so they share the closest value, as PrismHR's
+  `FS` does with fixed amounts (entry 51).
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_frequency/properties/type/enum`;
   `src/normalization/adapters/ukg_ready.py` (`DEDUCTION_FREQUENCY`);
   `tests/test_deduction_ukg_ready.py::test_frequency_table_covers_the_schema_enum_exactly`,
   `test_frequencies_without_a_counterpart_map_to_other`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 70. Where live deduction data differs from the specs
+### 68. Where live deduction data differs from the specs
 
 - **Context:** The live demo companies did not match the specs:
   - PrismHR sends `usePercent` as a JSON boolean, not `T` or `F`.
@@ -1556,7 +1633,9 @@ during implementation.
   - isolved pay items were the same 41 items for every employee, with
     negative IDs, zero values and no dates, which looks like a template.
     Some had no `payItemCode`, and `balance` is not in the spec.
-  - UKG Ready's deduction calls could not be reached (entry 68).
+  - UKG Ready's deduction calls could not be reached (entry 66), and
+    isolved's deductions call was not authorized (entry 64). Trying both
+    again gave the same answers.
 - **Decision:** Both forms of `usePercent` are accepted. Benefit plan
   lines are emitted like any other. An isolved item with no code keeps
   its name, and `balance` stays in `unmapped` with one
@@ -1568,11 +1647,11 @@ during implementation.
   `test_benefit_plan_lines_have_amount_but_no_dates`;
   `tests/test_deduction_isolved.py::test_balance_is_a_live_only_field`,
   `test_item_without_code_keeps_its_name`.
-- **Status:** Open.
+- **Status:** Decided.
 
 ## Payroll normalization
 
-### 71. A pay run and a paycheck are separate records
+### 69. A pay run and a paycheck are separate records
 
 - **Context:** Every provider sends a list of pay runs (PrismHR
   batches, isolved run history, UKG Ready payrolls) and, for each run,
@@ -1595,7 +1674,7 @@ during implementation.
   `tests/test_payroll_*.py::test_records_link_to_runs_employees_and_company`.
 - **Status:** Decided.
 
-### 72. What a capture bundle holds for payroll
+### 70. What a capture bundle holds for payroll
 
 - **Context:** Each provider needs a run list plus one or more calls per
   run or per employee to get the paychecks, and some need a detail call
@@ -1621,7 +1700,7 @@ during implementation.
   `test_one_bundle_can_feed_every_entity`.
 - **Status:** Decided.
 
-### 73. Gross and net pay are copied, never summed
+### 71. Gross and net pay are copied, never summed
 
 - **Context:** PrismHR and isolved send a gross and a net total on
   each paycheck. UKG Ready pay statements have neither: only lines.
@@ -1634,10 +1713,9 @@ during implementation.
   lacks the totals.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/364`;
   `tests/test_payroll_ukg_ready.py::test_no_totals_and_live_only_fields`.
-- **Status:** Decided, except reporting the UKG Ready gap once per
-  bundle rather than once per statement, which is Open.
+- **Status:** Decided.
 
-### 74. Year-to-date figures are not modelled
+### 72. Year-to-date figures are not modelled
 
 - **Context:** isolved repeats month-, quarter- and year-to-date figures
   on every check line and benefit. PrismHR and UKG Ready lines carry
@@ -1650,7 +1728,7 @@ during implementation.
   (the `ytd*` fields stay in `unmapped`).
 - **Status:** Decided.
 
-### 75. PrismHR batch statuses are grouped into four
+### 73. PrismHR batch statuses are grouped into four
 
 - **Context:** PrismHR documents 20 batch status codes, only in the
   description of its `getBatchStatus` call, as a table of code and
@@ -1658,23 +1736,29 @@ during implementation.
 - **Decision:** Time sheet and calculation steps are `open`,
   finalization, wire transfer and printing are `submitted`, `COMP` is
   `completed`, and the four codes that end "with errors" or "rejected"
-  are `failed`. The label shown is the table's description. A code not
-  in the table stays `unknown` with an `undocumented_code` issue (a
-  code with no documented meaning).
+  are `failed`. Two of those, `POST.FAIL` and `PRINTFAIL`, say the
+  finalization or printing step finished but with errors. The label
+  shown is the table's description. A code not in the table stays
+  `unknown` with an `undocumented_code` issue (a code with no
+  documented meaning).
 - **Reason:** Four groups let a reader compare runs across providers;
-  the exact step stays in the raw code and label.
+  the exact step stays in the raw code and label. A run that finished
+  with errors needs attention, which `failed` says and `submitted`
+  would hide.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/paths/~1payroll~1v1~1getBatchStatus/get/description`;
   `src/normalization/adapters/prismhr.py` (`BATCH_STATUS`);
   `tests/test_payroll_prismhr.py::test_batch_types_and_status_groups`,
   `test_code_tables_quote_the_spec_descriptions`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 76. PrismHR voucher status, benefits and payments
+### 74. PrismHR voucher status, benefits and payments
 
 - **Context:** A PrismHR voucher's `status` is described only as
   "voucher status, such as printed", and every live voucher sent
   `PRNT`. Its `benefit[]` list repeats amounts already in `deduction[]`
-  and `employerContributions[]`. The check amount is a field, while
+  and `employerContributions[]`: in every live voucher with benefits,
+  each benefit row has one employer contribution row equal to its
+  premium less the employee share. The check amount is a field, while
   direct deposits are a list.
 - **Decision:** Voucher status stays `unknown` with one
   `undocumented_code` issue per distinct code. `benefit[]` stays in
@@ -1688,9 +1772,9 @@ during implementation.
   `tests/test_payroll_prismhr.py::test_regular_voucher_lines`,
   `test_pay_classes_other_deductions_and_direct_deposit`,
   `test_undocumented_codes_are_reported_once_each`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 77. isolved payroll comes from legal 5797
+### 75. isolved payroll comes from legal 5797
 
 - **Context:** The isolved demo client has two legal companies. Legal
   5806, used for the other data types, has one pay group whose run
@@ -1703,7 +1787,7 @@ during implementation.
   (`request.legal_id`); README "Live demo data".
 - **Status:** Decided.
 
-### 78. isolved checks join runs on pay date and run number
+### 76. isolved checks join runs on pay date and run number
 
 - **Context:** An isolved check does not carry the ID of its run. It
   has a check date and `payrollRunNumber`; a run has a pay date and
@@ -1715,35 +1799,42 @@ during implementation.
   matching runs could attach a check to the wrong one.
 - **Evidence:** `src/normalization/adapters/isolved.py` (`_run_for`);
   `tests/test_payroll_isolved.py::test_checks_that_join_no_run`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 79. isolved run type, run status and check type labels allowed so far
+### 77. isolved run type, run status and check type labels allowed so far
 
 - **Context:** isolved sends English labels, not codes, for a run's
   type and status and a check's type, and the spec lists no values.
   Live runs were "Regular Payroll" or "Data Conversion", "Completed
   Payroll Run" or "Payroll Not Processed"; live checks were all
-  "Adjustment".
+  "Adjustment". Every live check came from a "Data Conversion" run;
+  the "Regular Payroll" runs were all "Payroll Not Processed" and had
+  no checks.
 - **Decision:** "Regular Payroll" is `regular`; "Completed Payroll
   Run" is `completed` and "Payroll Not Processed" is `open`;
   "Adjustment" is `adjustment`. Any other label stays `unknown` with
   one `unmapped_label` issue (a label with no shared meaning yet) per
   distinct label. "Data Conversion" is left off because it describes
   how the data was loaded, not the kind of run, and "Regular" for checks
-  because it never appeared live.
+  because it never appeared live. So every live run with checks has an
+  `unknown` type.
 - **Reason:** Only labels seen live are allowed, as for employee status
-  and deposit labels (entries 23 and 50).
+  and deposit labels (entries 21 and 49). The issue on "Data
+  Conversion" keeps it visible that these runs are not ordinary pay
+  runs.
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/payrollRunType`;
   `src/normalization/adapters/isolved.py` (`RUN_TYPE`, `RUN_STATUS`,
   `CHECK_TYPE`);
   `tests/test_payroll_isolved.py::test_labels_off_the_allowlists`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 80. isolved payments come from per-account deposits when listed
+### 78. isolved payments come from per-account deposits when listed
 
 - **Context:** An isolved check has a check amount, a direct deposit
   total and, on some checks, a list of deposit accounts with their
-  amounts. The total and the list describe the same money.
+  amounts. The total and the list describe the same money. Live checks
+  had a zero deposit total and no deposit list, so only the check
+  amount was seen; the deposit rules follow the spec.
 - **Decision:** A nonzero check amount becomes a check payment line.
   When the check lists deposit accounts, each becomes a payment line
   with the last four account digits; otherwise a nonzero deposit total
@@ -1753,34 +1844,25 @@ during implementation.
 - **Evidence:** `src/normalization/adapters/isolved.py` (`_payments`);
   `tests/test_payroll_isolved.py::test_check_with_detail`,
   `test_checks_without_detail`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 81. isolved memo earnings stay earnings
+### 79. isolved memo earnings stay earnings
 
 - **Context:** Live isolved checks list the employer's 401(k) match and
   medical, dental and HSA payments among the earnings, flagged
   `isMemoEarning`. They are not paid to the employee.
 - **Decision:** They stay earning lines with the category `memo`. The
   employer contribution on the check detail's benefits becomes a
-  separate employer contribution line, so the match can appear in both.
+  separate employer contribution line, so the employer's medical and
+  dental share can appear in both (live, "ER Dental" 10.00 beside
+  "Dental Pre-Tax 125" 10.00). The 401(k) match is not among the live
+  benefits, so it appears only as a memo earning.
 - **Reason:** Moving memo earnings would hide that isolved lists them
   as earnings; the `memo` category lets a reader leave them out of pay.
 - **Evidence:** `tests/test_payroll_isolved.py::test_check_with_detail`.
-- **Status:** Open.
-
-### 82. isolved checks repeat the employee's SSN, name and address
-
-- **Context:** Every isolved check carries `employeeSSN`, the
-  employee's name and home address, and their withholding setup.
-- **Decision:** The SSN is redacted in `unmapped`, as every SSN path is
-  (entry 18). Name, address and withholding pass through in `unmapped`
-  (entry 19).
-- **Reason:** These belong to the employee record, which already maps
-  them; nothing is dropped.
-- **Evidence:** `tests/test_payroll_isolved.py::test_check_with_detail`.
 - **Status:** Decided.
 
-### 83. UKG Ready payroll and statement statuses
+### 80. UKG Ready payroll and statement statuses
 
 - **Context:** UKG Ready's schemas list nine payroll statuses and five
   pay statement statuses. Live, every payroll and statement was `OPEN`.
@@ -1790,34 +1872,37 @@ during implementation.
   namesakes, with `NEW` as `open`. A value outside the lists stays
   `unknown` with an `out_of_schema_value` issue (a value outside the
   documented set).
-- **Reason:** The payroll groups match PrismHR's (entry 75); the
+- **Reason:** The payroll groups match PrismHR's (entry 73); the
   statement statuses are already the shared ones.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/status/enum`
   and `#/schemas/364/schema/properties/status/enum`;
   `tests/test_payroll_ukg_ready.py::test_status_tables_cover_the_schema_enums_exactly`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 84. UKG Ready deduction lines are split by side
+### 81. UKG Ready deduction lines are split by side
 
 - **Context:** A UKG Ready statement deduction line carries both an
   employee amount and an employer amount, either of which may be zero.
 - **Decision:** A nonzero employee amount becomes a deduction line and
   a nonzero employer amount an employer contribution line, with the
-  same code; a zero side stays in `unmapped`. A discarded line ("Deduction
-  (Discarded)") is still emitted, with its type left in `unmapped`.
+  same code; a zero side stays in `unmapped`. A line with both sides
+  zero is still a deduction line, with an empty amount; nine live lines
+  were like this. A discarded line ("Deduction (Discarded)") is still
+  emitted, with its type left in `unmapped`.
 - **Reason:** The other providers keep the two sides apart, so the
-  split makes the lists comparable. Dropping discarded lines would
-  hide what the provider sent.
-- **Evidence:** `tests/test_payroll_ukg_ready.py::test_deductions_split_by_side`.
-- **Status:** Open.
+  split makes the lists comparable. Dropping discarded or all-zero
+  lines would hide what the provider sent.
+- **Evidence:** `tests/test_payroll_ukg_ready.py::test_deductions_split_by_side`,
+  `test_line_with_both_sides_zero_is_a_deduction_without_amount`.
+- **Status:** Decided.
 
-### 85. UKG Ready earnings hours are milliseconds
+### 82. UKG Ready earnings hours are milliseconds
 
 - **Context:** UKG Ready's statement earnings `hours` is an integer
   with no documented unit. Live, overtime hours times 1.5 times the base
   rate gave the line amount only when hours were read as milliseconds.
 - **Decision:** `hours` is converted from milliseconds to hours, as an
-  approved exception to entry 6. A value that is not a number stays
+  approved exception to entry 5. A value that is not a number stays
   empty with an `invalid_number` issue.
 - **Reason:** The live check is exact, and every other UKG duration is
   in milliseconds.
@@ -1825,7 +1910,7 @@ during implementation.
   `tests/test_payroll_ukg_ready.py::test_hours_that_are_not_milliseconds`.
 - **Status:** Decided.
 
-### 86. Where live payroll data differs from the specs
+### 83. Where live payroll data differs from the specs
 
 - **Context:** The live demo companies did not match the specs:
   - PrismHR lists vouchers under `payrollVoucher`, not
@@ -1842,11 +1927,11 @@ during implementation.
   mean.
 - **Evidence:** `tests/test_payroll_prismhr.py::test_both_page_keys_and_live_only_fields`;
   `tests/test_payroll_ukg_ready.py::test_no_totals_and_live_only_fields`.
-- **Status:** Open.
+- **Status:** Decided.
 
 ## Company normalization
 
-### 87. A company record holds the profile, tax ids, work locations and pay groups
+### 84. A company record holds the profile, tax ids, work locations and pay groups
 
 - **Context:** Each provider describes a company with a profile (name,
   status, address, contact details) and several lists that other data
@@ -1864,20 +1949,7 @@ during implementation.
   `tests/test_canonical_model.py::test_company_fields_are_checked`.
 - **Status:** Decided.
 
-### 88. The full company comes from its own bundle
-
-- **Context:** Every output already carries a minimal company record
-  (entry 32). The full record needs extra calls that the other data
-  types do not make.
-- **Decision:** Only `--entity company` reads those calls and fills in
-  the full record. The other outputs keep the minimal record, which now
-  shows the new keys as empty.
-- **Reason:** An employee or payroll capture should not have to fetch
-  company details to be normalized. The shared key still joins them.
-- **Evidence:** `tests/test_company_links.py::test_every_output_shares_the_company_key`.
-- **Status:** Decided.
-
-### 89. Tax ids, work locations and pay groups are nested lists with their own keys
+### 85. Tax ids, work locations and pay groups are nested lists with their own keys
 
 - **Context:** Employees and pay runs refer to locations, pay groups
   and EINs by a raw code. These lists are small and belong to one
@@ -1893,7 +1965,7 @@ during implementation.
 - **Evidence:** `tests/test_company_links.py` (one test per provider).
 - **Status:** Decided.
 
-### 90. What a capture bundle holds for companies
+### 86. What a capture bundle holds for companies
 
 - **Context:** Each provider spreads the company across different calls,
   and some calls only return details when asked.
@@ -1911,23 +1983,9 @@ during implementation.
 - **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
   `tests/test_bundle.py::test_company_keys_per_provider`;
   `tests/test_company_prismhr.py::test_missing_client_codes_leaves_lists_empty`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 91. isolved employee locations do not always name a work location
-
-- **Context:** An isolved employee's location comes from the client's
-  "Location" organization field when it is set, and otherwise from
-  `workLocation`. Only the second uses work location codes. In the
-  fixture, employee 859201's organization value is `10` ("Main Yard"),
-  which names no work location.
-- **Decision:** The employee mapping is unchanged. A location taken from
-  the organization field may not resolve to a work location.
-- **Reason:** The organization list belongs to each client, and nothing
-  links its values to work location codes.
-- **Evidence:** `tests/test_company_links.py::test_isolved_location_codes_resolve_but_organization_values_may_not`.
-- **Status:** Open.
-
-### 92. PrismHR's federal ID is masked live
+### 87. PrismHR's federal ID is masked live
 
 - **Context:** PrismHR's client record has `federalIdNumber`, the EIN.
   The live demo sends it fully masked (`**********`).
@@ -1937,29 +1995,36 @@ during implementation.
 - **Reason:** A masked string is not an EIN (entry 1).
 - **Evidence:** `tests/test_company_prismhr.py::test_masked_federal_id_leaves_ein_null`,
   `test_unmasked_federal_id_becomes_the_ein_and_one_tax_id`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 93. Pay-group frequency: PrismHR from its schedule codes, isolved stays unknown
+### 88. Pay-group frequency: PrismHR from its schedule codes, isolved stays unknown
 
 - **Context:** A PrismHR pay group's frequency is the `payPeriod` code
   on its payroll schedule. The field itself is described only as "pay
   period number", but the neighbouring `payPeriodDesc` lists the codes:
   `D` (Daily), `W` (Weekly), `B` (Biweekly), `S` (Semi-monthly), `M`
   (Monthly), and five `MD*` monthly variants. An isolved pay group's
-  `payFrequency` is a bare integer such as `12`.
+  `payFrequency` is a bare integer described only as "Pay Frequency".
+  Live, the three pay groups fit "pay periods per year": 12 is named
+  "Monthly" with 173.33 normal hours, 26 "Biweekly" with 80 and runs
+  14 days apart, and 24 "Salary" with 86.67. Employees break the
+  pattern: all 20 are in the "Monthly" group, but five have 26.
 - **Decision:** PrismHR codes map from that list. Every `MD*` code is
   monthly; Daily stays `unknown`, as there is no shared daily value. A
   pay group with no schedule row has no frequency. isolved stays
   `unknown` with an `undocumented_code` issue (a code with no documented
-  meaning), as for employees (entry 27).
+  meaning), as for employees (entry 25).
 - **Reason:** The PrismHR spec documents the codes, just on the other
-  field. isolved documents nothing.
+  field. isolved documents nothing, and a pattern that the employee
+  values contradict is not enough to read the number as a frequency
+  (entry 1).
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientPayrollSchedule/properties/payPeriodDesc/description`;
+  `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties/payFrequency`;
   `tests/test_company_prismhr.py::test_pay_groups_take_frequency_from_the_schedule`;
   `tests/test_company_isolved.py::test_pay_groups`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 94. isolved company name stays empty without `dbaName`
+### 89. isolved company name stays empty without `dbaName`
 
 - **Context:** isolved's legal record has `dbaName` (the trading name)
   and `legalName`. The live demo never sends `dbaName`.
@@ -1968,60 +2033,75 @@ during implementation.
 - **Reason:** A legal name is not necessarily the name a company trades
   under, so copying it would blur the two fields.
 - **Evidence:** `tests/test_company_isolved.py::test_name_is_null_without_a_dba_name`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 95. isolved company status labels allowed so far
+### 90. isolved company status labels allowed so far
 
 - **Context:** isolved sends the legal company's status as English text,
   and the spec lists no values. Both live legals were "Active".
 - **Decision:** "Active" is `active`. Any other label stays `unknown`
   with an `unmapped_label` issue (a label with no shared meaning yet).
 - **Reason:** Only labels seen live are allowed, as for employee status
-  (entry 23).
+  (entry 21).
 - **Evidence:** `src/normalization/adapters/isolved.py` (`COMPANY_STATUS`);
   `tests/test_company_isolved.py::test_unlisted_status_label`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 96. UKG Ready pay-period profiles stand in for pay groups
+### 91. UKG Ready pay-period profiles stand in for pay groups
 
 - **Context:** UKG Ready has no pay group records. Its pay-period
   profiles define how often a group of employees is paid, with a
   `period_type` from a closed list and, for `every_n_weeks`, a week count.
 - **Decision:** Each profile becomes a pay group. `weekly`,
-  `semi_monthly` and `monthly` map to their namesakes, and
-  `every_n_weeks` is weekly for one week and biweekly for two. Other
-  types stay `unknown`. A value outside the list raises an
-  `out_of_schema_value` issue (a value outside the documented set).
+  `semi_monthly` and `monthly` map to their namesakes, `monthly_weekday`
+  (a set weekday each month) is monthly, and `every_n_weeks` is weekly
+  for one week and biweekly for two. `quarterly`, `every_n_days`,
+  `user_defined` and other week counts stay `unknown`. A value outside
+  the list raises an `out_of_schema_value` issue (a value outside the
+  documented set).
 - **Reason:** Profiles are what UKG Ready uses to group pay schedules.
-  The other types have no fixed frequency.
-- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/273`;
+  A monthly weekday profile still pays once a month. Quarterly has no
+  shared value, and the remaining types have no fixed frequency.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/273`
+  (`period_type.type` enum and `params.num_weeks`);
+  `src/normalization/adapters/ukg_ready.py` (`PERIOD_TYPE`);
   `tests/test_company_ukg_ready.py::test_frequency_mapping`,
   `test_out_of_enum_period_type`.
-- **Status:** Open.
+- **Status:** Decided.
 
-### 97. UKG Ready EINs come from the lookup only
+### 92. UKG Ready EINs come from the lookup only
 
-- **Context:** UKG Ready has no company endpoint (entry 7). The EIN
-  lookup lists one EIN, but live payrolls also use a second EIN ("2nd
-  EIN") that the lookup leaves out.
+- **Context:** UKG Ready documents many routes inside a company
+  (`/v2/companies/{cid}/...`) but none that returns the company itself,
+  so there is no documented name, address or status. Live,
+  `/rest/v2/companies/{cid}` answers 404 "Unresolvable URL". The closest
+  call is the EIN lookup, which lists the company's tax registrations.
+  Live it lists one EIN, named "Primary EIN", which is not a company
+  name. Payrolls also use a second EIN ("2nd EIN") that the lookup leaves
+  out.
 - **Decision:** Tax ids come from the EIN lookup, one per row. With one
   row it is also the company EIN; with several the EIN is empty and a
   `missing_lookup` warning (a needed lookup entry is absent) says so.
   Name, address and status are empty, with one `missing_section`
   warning. An EIN that only payrolls mention is not added.
-- **Reason:** The lookup is the documented list. The gap is a finding
-  about the demo, not something to patch from payroll data.
-- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/249`;
+- **Reason:** A company name UKG does not provide cannot be filled in
+  without guessing (entry 1). The lookup is the documented list of EINs.
+  The second EIN is a finding about the demo, not something to patch from
+  payroll data.
+- **Evidence:** `contracts/ukg-ready/reference-docs/res/` has no
+  company-detail page;
+  `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__lookup__eins.html`;
+  `contracts/ukg-ready/reference-schemas.json#/schemas/249`;
   `tests/test_company_ukg_ready.py::test_single_ein`,
   `test_two_eins_list_both_and_leave_ein_null`,
   `test_profile_is_empty_with_an_issue`.
 - **Status:** Decided.
 
-### 98. Where live company data differs from the specs
+### 93. Where live company data differs from the specs
 
 - **Context:** The live demo companies did not match the specs:
-  - PrismHR's client record sends seven fields the spec does not list,
-    and spells `everify` as `eVerify`.
+  - PrismHR's client record sends six fields the spec does not list,
+    plus `eVerify`, which the spec spells `everify`.
   - PrismHR's `getPayrollSchedule` lists schedules under
     `clientPayrollSchedule`, not `clientPayrollSchedules`.
   - isolved's legal record never sends `dbaName`, `naicsCode` or
@@ -2029,10 +2109,10 @@ during implementation.
 - **Decision:** Both schedule keys are read. Each PrismHR difference
   gets one `spec_live_mismatch` issue (live data differs from the spec)
   per bundle, and live-only fields stay in `unmapped`. The isolved gaps
-  are covered by entries 90 and 94.
+  are covered by entries 86 and 89.
 - **Reason:** These differences do not change what the other fields
   mean.
 - **Evidence:** `tests/test_company_prismhr.py::test_live_only_fields_are_reported_once`,
   `test_singular_schedule_key_is_reported`,
   `test_plural_schedule_key_reads_without_an_issue`.
-- **Status:** Open.
+- **Status:** Decided.

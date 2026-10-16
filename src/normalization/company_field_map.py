@@ -174,7 +174,8 @@ UKG_READY = {
     "work_locations.end_date": not_offered(UKG_NO_LOCATION, COST_CENTERS),
     "work_locations.remote": not_offered(UKG_NO_LOCATION, COST_CENTERS),
     "pay_groups.code": mapped("id, labelled by name", PROFILE + "/name"),
-    "pay_groups.frequency": mapped("period_type.type; every_n_weeks reads params.num_weeks",
+    "pay_groups.frequency": mapped("period_type.type; every_n_weeks reads params.num_weeks; "
+                                   "monthly_weekday is monthly",
                                    PROFILE + "/period_type/properties/type"),
     "pay_groups.active": mapped("active", PROFILE + "/active"),
     "pay_groups.effective.start": mapped("effective_from", PROFILE + "/effective_from"),

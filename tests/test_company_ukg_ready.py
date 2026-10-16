@@ -61,7 +61,7 @@ class UkgCompanyChecks(unittest.TestCase):
 
     def test_frequency_mapping(self):
         expected = {"36562688": "biweekly", "36562692": "weekly", "36562698": "semimonthly",
-                    "36562689": "monthly", "36562700": "unknown", "36562701": "unknown", "36562702": "unknown",
+                    "36562689": "monthly", "36562700": "unknown", "36562701": "unknown", "36562702": "monthly",
                     "36562703": "unknown", "36562699": "unknown", "36562704": "unknown"}
         for profile_id, value in expected.items():
             with self.subTest(profile=profile_id):

@@ -8,7 +8,7 @@
         "summary": {
           "fields_total": 52,
           "fields_offered": 46,
-          "fields_mapped": 44
+          "fields_mapped": 46
         },
         "coverage": [
           {
@@ -174,10 +174,10 @@
           {
             "field": "contact.emails[other]",
             "section": "contact",
-            "status": "not_mapped_yet",
-            "source": "client.benefitEmail",
+            "status": "mapped",
+            "source": "client.benefitEmail (benefits enrollment)",
             "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/benefitEmail",
-            "reason": "An address used for benefits enrollment. It has no canonical kind yet and stays in unmapped."
+            "reason": null
           },
           {
             "field": "contact.emails[unknown]",
@@ -286,10 +286,10 @@
           {
             "field": "job.title",
             "section": "job",
-            "status": "not_mapped_yet",
-            "source": "client.jobCode, named by GET /clientMaster/v1/getClientCodes (options Job): jobTitle",
+            "status": "mapped",
+            "source": "client.jobCode, named by getClientCodes (options Job): jobTitle",
             "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle",
-            "reason": "The bundle does not fetch the job code table, so the title is not available."
+            "reason": null
           },
           {
             "field": "job.job_code",
@@ -434,8 +434,8 @@
         "name": "isolved",
         "summary": {
           "fields_total": 52,
-          "fields_offered": 45,
-          "fields_mapped": 41
+          "fields_offered": 42,
+          "fields_mapped": 42
         },
         "coverage": [
           {
@@ -577,10 +577,10 @@
           {
             "field": "contact.phones[other]",
             "section": "contact",
-            "status": "not_mapped_yet",
+            "status": "mapped",
             "source": "personal.faxNumber",
             "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/faxNumber",
-            "reason": "A fax number has no canonical phone kind yet. It stays in unmapped."
+            "reason": null
           },
           {
             "field": "contact.emails[personal]",
@@ -738,17 +738,17 @@
             "field": "job.location",
             "section": "job",
             "status": "mapped",
-            "source": "organizations[] row titled Location, else workLocation",
+            "source": "workLocation",
             "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/workLocation",
             "reason": null
           },
           {
             "field": "job.division",
             "section": "job",
-            "status": "not_mapped_yet",
-            "source": "organizations[] rows, titled by each client",
+            "status": "not_offered",
+            "source": null,
             "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeOrganizationModel/properties",
-            "reason": "Only the Department and Location rows are read. A client-titled division row stays in unmapped."
+            "reason": "No division field. Organization rows are titled by each client, and a row's title is not read as a division; such rows stay in unmapped."
           },
           {
             "field": "job.manager_employee_id",
@@ -785,18 +785,18 @@
           {
             "field": "compensation.rate",
             "section": "compensation",
-            "status": "not_mapped_yet",
-            "source": "payRates[]",
+            "status": "not_offered",
+            "source": null,
             "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payRates",
-            "reason": "Pay-rate rows are not mapped yet. They stay in unmapped."
+            "reason": "No single rate with a period: hourlyRate and annualSalary are separate fields. payRates[] are alternate rates (a name and a value) and stay in unmapped."
           },
           {
             "field": "compensation.rate_period",
             "section": "compensation",
-            "status": "not_mapped_yet",
-            "source": "payRates[]",
+            "status": "not_offered",
+            "source": null,
             "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payRates",
-            "reason": "Pay-rate rows are not mapped yet. They stay in unmapped."
+            "reason": "No single rate with a period: hourlyRate and annualSalary are separate fields. payRates[] are alternate rates (a name and a value) and stay in unmapped."
           },
           {
             "field": "compensation.hourly_rate",
@@ -862,7 +862,7 @@
         "summary": {
           "fields_total": 52,
           "fields_offered": 41,
-          "fields_mapped": 34
+          "fields_mapped": 36
         },
         "coverage": [
           {
@@ -1119,7 +1119,7 @@
             "status": "not_offered",
             "source": null,
             "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
-            "reason": "The read schema has no rehire eligibility. rehire_details appears only in the write (PUT) schema 107."
+            "reason": "The read schema has no rehire eligibility. termination_details.rehireable appears only in the write (PUT) schema 107."
           },
           {
             "field": "employment.flsa_exempt",
@@ -1132,18 +1132,18 @@
           {
             "field": "employment.contractor_1099",
             "section": "employment",
-            "status": "not_mapped_yet",
-            "source": "tax-info employee-tax-type._1099",
+            "status": "mapped",
+            "source": "tax_info.employee-tax-type._1099",
             "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099",
-            "reason": "The bundle does not fetch tax-info, so the flag is not available."
+            "reason": null
           },
           {
             "field": "job.title",
             "section": "job",
-            "status": "not_mapped_yet",
-            "source": "pay_info.default_job.id, named by GET /v2/companies/{cid}/config/cost-center-jobs",
-            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job",
-            "reason": "The bundle does not fetch the jobs configuration, so the name is not available."
+            "status": "mapped",
+            "source": "pay_info.default_job.id, named by lookup/jobs: name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/262/schema/properties/items/items/properties/name",
+            "reason": null
           },
           {
             "field": "job.job_code",
@@ -1191,7 +1191,7 @@
             "status": "not_mapped_yet",
             "source": "pay_info.job_last_changed",
             "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/job_last_changed",
-            "reason": "The date the job last changed. Whether that is the current job's start date is not documented."
+            "reason": "The date the job last changed. Whether that is the current job's start date is not documented, and live some dates fall before the hire date."
           },
           {
             "field": "compensation.pay_type",
@@ -1727,7 +1727,7 @@
             "status": "not_mapped_yet",
             "source": "getPayee: payeeName",
             "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayeeDetails/properties/payeeName",
-            "reason": "The deduction line names only the payee ID. The name is on the payee setup call, which the bundle does not fetch."
+            "reason": "The deduction line names only the payee ID. The name is on the payee setup call, which the bundle does not fetch; live, every payee ID was empty."
           },
           {
             "field": "priority",
@@ -3601,7 +3601,7 @@
             "field": "pay_groups.frequency",
             "section": "pay_groups",
             "status": "mapped",
-            "source": "period_type.type; every_n_weeks reads params.num_weeks",
+            "source": "period_type.type; every_n_weeks reads params.num_weeks; monthly_weekday is monthly",
             "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/273/schema/properties/items/items/properties/period_type/properties/type",
             "reason": null
           },

@@ -543,7 +543,7 @@
       "action": "company name set null",
       "record_key": null,
       "raw_value": null,
-      "message": "getEmployee does not return the client name; a client endpoint is a later task"
+      "message": "this bundle does not hold the client record; --entity company reads it from getClientMaster"
     }
   ],
   "schema_version": "1"

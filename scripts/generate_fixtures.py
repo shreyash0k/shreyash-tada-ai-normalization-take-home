@@ -96,7 +96,7 @@ def bundle(provider, request, responses):
 # Injected cases: statusClass "Q" (undocumented_code), masked SSN (masked_value),
 # invalid birthDate (invalid_date), prose citizenshipStatus (unmapped_label),
 # live spellings employerId/autoPolicy/hawaiiMedWaiver/payPeriodsPerWeek
-# (spec_live_mismatch), undocumented payPeriod codes.
+# (spec_live_mismatch), a job code absent from the job table (missing_lookup).
 
 PRISM_CLIENT_ID = "132"
 
@@ -156,7 +156,9 @@ def prism_employee(pool: Pool, index: int, status: str, type_class: str, pay_met
             "termReasonCode": term_reason, "termExplanation": "Resigned" if term_reason else "",
             "lastStatusChangeDate": "", "lastJobChangeDate": "", "newHireReportDate": "",
             "employee1099": employee_1099, "clientEmployeeId": str(index), "clockNum": "",
-            "primaryEmailSource": "", "benefitEmail": "", "rehireOk": rehire_ok, "returnDate": "",
+            "primaryEmailSource": "",
+            "benefitEmail": f"{first.lower()}.benefits@example.test" if index == 1 else "",  # empty live
+            "rehireOk": rehire_ok, "returnDate": "",
             "workPhone": pool.phone() if index % 3 == 0 else "", "workPhoneExt": "12" if index % 3 == 0 else "",
             "probationDate": hire, "courtOrderMedical": False, "childSpouseSupport": False,
             "childSpouseArrears": False,
@@ -218,6 +220,18 @@ def prism_response(records):
             "errorCode": "0", "errorMessage": "", "extension": None}
 
 
+# getClientCodes with options=Job, shaped like the live response. TECH is left
+# out so its employees report missing_lookup.
+def prism_job_codes():
+    jobs = [{"id": code, "jobTitle": title, "glSegmentCode": "", "jobClass": job_class, "payGrade": "",
+             "jobDescription": "", "jobObsolete": False, "supervisory": False, "flsaExempt": exempt}
+            for code, title, job_class, exempt in (("OFFICE", "Office Staff", "8810N1", True),
+                                                   ("WHSE", "Warehouse Associate", "8292N0", False),
+                                                   ("SALES", "Sales Representative", "8742N4", False))]
+    return {"clientCodes": {"clientId": PRISM_CLIENT_ID, "jobCode": jobs, "locationCode": None, "payGroups": None},
+            "errorCode": "0", "errorMessage": "", "extension": None}
+
+
 def build_prismhr(seed: int):
     pool = Pool(seed, "prismhr")
     manager = prism_employee(pool, 1, "A", "F", "S", rehire_ok="Y")
@@ -254,6 +268,7 @@ def build_prismhr(seed: int):
         "get_employee_list": {"employeeList": {"employeeId": [r["id"] for r in records]},
                               "errorCode": "0", "errorMessage": "", "extension": None},
         "get_address_info": address_info,
+        "get_client_codes_job": prism_job_codes(),
     })
 
 
@@ -632,7 +647,7 @@ def isolved_employee(pool: Pool, employee_id: int, number: int, status: str, pay
         "payType": pay_type,
         "perPaySalary": round(annual / 12, 2) if pay_type != "1099" else 0.0,
         "personal": {
-            "id": 1245000 + number, "faxNumber": None,
+            "id": 1245000 + number, "faxNumber": "(801) 555-0142" if number == 2 else None,  # None live
             "homePhone": pool.phone() if number % 2 else None, "mobilePhone": pool.phone(),
             "officePhone": None, "personalEmailAddress": None, "preferredPronouns": None,
             "links": [{"href": None, "rel": "self"}, {"href": None, "method": "PUT", "rel": "EmployeePersonalUpdate"}],
@@ -1019,13 +1034,15 @@ def build_isolved_company(seed: int):
 # (out_of_schema_value), employee_type id absent from the lookup
 # (missing_lookup), status "Suspended" (unmapped_label), invalid seniority
 # date (invalid_date), ein_name and _links.country-fields on the detail
-# (spec_live_mismatch).
+# (spec_live_mismatch), a default job absent from the jobs lookup
+# (missing_lookup), a 1099 contractor, and no tax-info entry (missing_section).
 
 UKG_COMPANY_ID = "33704016"
 UKG_BASE = f"https://secure.example-ukg.test/ta/rest/v2/companies/{UKG_COMPANY_ID}"
 UKG_EMPLOYEE_TYPES = [(35330176, "FT Non-Exempt"), (35330178, "FT Exempt"), (35330177, "PT Hourly"),
                       (35330181, "Temp"), (35330179, "Consultant")]
 UKG_PAY_TYPES = [(35043008, "Hourly"), (35043009, "Salaried")]
+UKG_JOBS = [(8634524176, "HR Specialist"), (8634524184, "Payroll Analyst"), (8634524226, "President")]
 
 
 def ukg_links(aid, detail=False):
@@ -1093,8 +1110,11 @@ def ukg_demographics(pool: Pool, gender: str):
             "gender": gender}
 
 
-def ukg_pay_info(employee_type: int, pay_type: int, eeo4: str = None, work_day_ms: int = 28_800_000):
+def ukg_pay_info(employee_type: int, pay_type: int, eeo4: str = None, work_day_ms: int = 28_800_000,
+                 default_job: int = None):
     info = {"standard_work_day": work_day_ms, "employee_type": {"id": employee_type}, "pay_type": {"id": pay_type}}
+    if default_job is not None:
+        info["default_job"] = {"id": default_job}
     if eeo4:
         info["eeo4_classification"] = eeo4
         info["eeo4_function"] = eeo4
@@ -1137,12 +1157,20 @@ def build_ukg(seed: int):
             str(ids[5]): ukg_demographics(pool, "MALE"),
         },
         "pay_info": {
-            str(ids[0]): ukg_pay_info(35330178, 35043009, work_day_ms=0),
-            str(ids[1]): ukg_pay_info(35330176, 35043008, eeo4="UNKNOWN"),  # out_of_schema_value
-            str(ids[2]): ukg_pay_info(35330178, 35043009),
-            str(ids[3]): ukg_pay_info(35330177, 35043008),
-            str(ids[4]): ukg_pay_info(99999999, 35043008),  # id absent from lookup -> missing_lookup
-            str(ids[5]): ukg_pay_info(35330179, 35043009, eeo4="PROFESSIONALS"),
+            str(ids[0]): ukg_pay_info(35330178, 35043009, work_day_ms=0, default_job=8634524226),
+            str(ids[1]): ukg_pay_info(35330176, 35043008, eeo4="UNKNOWN",  # out_of_schema_value
+                                      default_job=8634524176),
+            str(ids[2]): ukg_pay_info(35330178, 35043009, default_job=8634524184),
+            str(ids[3]): ukg_pay_info(35330177, 35043008),  # no default job, as for many live employees
+            str(ids[4]): ukg_pay_info(99999999, 35043008,  # ids absent from lookups -> missing_lookup
+                                      default_job=8634529999),
+            str(ids[5]): ukg_pay_info(35330179, 35043009, eeo4="PROFESSIONALS", default_job=8634524176),
+        },
+        # Live, every employee was W-2; ids[2] is a 1099 contractor and ids[5] has no response.
+        "tax_info": {
+            str(aid): {"employee-tax-type": {"W2": aid != ids[2], "_1099": aid == ids[2], "DRAW": False},
+                       "pension-box-type": "SYSTEM_RULES", "third-party-sick": "COMPANY_DEFAULT"}
+            for aid in ids[:5]
         },
         "compensation_history": {
             str(ids[0]): {"compensations": [
@@ -1169,6 +1197,7 @@ def build_ukg(seed: int):
         "lookup_pay_types": {"items": [{"id": i, "name": n} for i, n in UKG_PAY_TYPES]},
         "lookup_eins": {"items": [{"id": 35419520, "ein_name": "Primary EIN", "ein_tax_id": "12-3456789",
                                    "ein_country_id": "USA"}]},
+        "lookup_jobs": {"items": [{"id": i, "name": n, "visible": True} for i, n in UKG_JOBS]},
     }
     return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, responses)
 

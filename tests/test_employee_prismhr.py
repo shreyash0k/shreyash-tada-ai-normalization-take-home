@@ -1,4 +1,5 @@
 """PrismHR employee adapter: golden output plus the injected edge cases."""
+import copy
 import unittest
 
 from _fixtures import expected_output, fixture_bundle, issues_with
@@ -55,11 +56,37 @@ class PrismHREmployeeChecks(unittest.TestCase):
         self.assertEqual(found[0]["record_key"], odd["key"])
         self.assertEqual(found[0]["raw_value"], "Q")
 
-    def test_pay_period_codes_are_undocumented_on_compensation(self):
-        found = issues_with(self.output, "undocumented_code", "compensation.payPeriod")
-        self.assertEqual(len(found), len(self.output["employees"]))
-        for employee in self.output["employees"]:
-            self.assertEqual(employee["compensation"]["pay_frequency"]["value"], "unknown")
+    def test_pay_period_uses_the_pay_group_schedule_codes(self):
+        frequencies = {(e["compensation"]["pay_frequency"]["raw"], e["compensation"]["pay_frequency"]["value"])
+                       for e in self.output["employees"]}
+        self.assertEqual(frequencies, {("W", "weekly"), ("B", "biweekly"), ("S", "semimonthly"),
+                                       ("M", "monthly")})
+        self.assertEqual(issues_with(self.output, "undocumented_code", "compensation.payPeriod"), [])
+
+    def test_pay_period_off_the_schedule_list_is_undocumented(self):
+        bundle = copy.deepcopy(self.bundle)
+        bundle.responses["get_employee"][0]["employee"][0]["compensation"]["payPeriod"] = "Q"
+        output = prismhr.normalize_employees(bundle).to_dict()
+        found = issues_with(output, "undocumented_code", "compensation.payPeriod")
+        self.assertEqual([i["raw_value"] for i in found], ["Q"])
+        self.assertEqual(by_client_employee_id(output, 1)["compensation"]["pay_frequency"]["value"], "unknown")
+
+    def test_job_titles_come_from_the_job_table(self):
+        titles = {(e["job"]["job_code"]["raw"], e["job"]["title"]) for e in self.output["employees"]}
+        self.assertEqual(titles, {("WHSE", "Warehouse Associate"), ("OFFICE", "Office Staff"), ("TECH", None)})
+        found = issues_with(self.output, "missing_lookup", "client.jobCode")
+        tech = [e["key"] for e in self.output["employees"] if e["job"]["job_code"]["raw"] == "TECH"]
+        self.assertEqual([i["record_key"] for i in found], tech)
+        self.assertEqual({i["raw_value"] for i in found}, {"TECH"})
+
+    def test_job_table_is_optional(self):
+        bundle = copy.deepcopy(self.bundle)
+        bundle.responses.pop("get_client_codes_job")
+        output = prismhr.normalize_employees(bundle).to_dict()
+        found = issues_with(output, "missing_section", "get_client_codes_job")
+        self.assertEqual([(i["severity"], i["record_key"]) for i in found], [("info", None)])
+        self.assertEqual({e["job"]["title"] for e in output["employees"]}, {None})
+        self.assertFalse(issues_with(output, "missing_lookup", "client.jobCode"))
 
     def test_masked_ssn_becomes_null_with_issue(self):
         masked = by_client_employee_id(self.output, 2)
@@ -103,6 +130,10 @@ class PrismHREmployeeChecks(unittest.TestCase):
         self.assertEqual((mailing["line1"], mailing["postal_code"], mailing["country"]),
                          ("PO Box 410", "63105-1234", "USA"))
         self.assertEqual([p["kind"] for p in first["contact"]["phones"]], ["home", "mobile"])
+        benefit = [e["address"] for e in first["contact"]["emails"] if e["kind"] == "other"]
+        self.assertEqual(len(benefit), 1)
+        self.assertTrue(benefit[0].endswith(".benefits@example.test"))
+        self.assertNotIn("client.benefitEmail", first["unmapped"])
         second = by_client_employee_id(self.output, 2)
         self.assertEqual(second["job"]["manager_employee_id"], first["source"]["employee_id"])
 

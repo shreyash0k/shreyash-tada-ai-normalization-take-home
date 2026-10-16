@@ -138,9 +138,8 @@ PRISMHR = {
         "No email on getEmployee is labelled personal; personalEmail exists only on the Rehire and "
         "Census schemas.", P + "ContactInformation/properties"),
     "contact.emails[work]": mapped("client.workEmail", P + "Client/properties/workEmail"),
-    "contact.emails[other]": not_mapped_yet(
-        "client.benefitEmail", P + "Client/properties/benefitEmail",
-        "An address used for benefits enrollment. It has no canonical kind yet and stays in unmapped."),
+    "contact.emails[other]": mapped("client.benefitEmail (benefits enrollment)",
+                                    P + "Client/properties/benefitEmail"),
     "contact.emails[unknown]": mapped("contactInformation.emailAddress",
                                       P + "ContactInformation/properties/emailAddress"),
     "employment.status": mapped("client.statusClass", P + "Client/properties/statusClass"),
@@ -160,10 +159,8 @@ PRISMHR = {
     "employment.rehire_eligible": mapped("client.rehireOk", P + "Client/properties/rehireOk"),
     "employment.flsa_exempt": mapped("client.flsaExempt", P + "Client/properties/flsaExempt"),
     "employment.contractor_1099": mapped("client.employee1099", P + "Client/properties/employee1099"),
-    "job.title": not_mapped_yet(
-        "client.jobCode, named by GET /clientMaster/v1/getClientCodes (options Job): jobTitle",
-        P + "JobCode/properties/jobTitle",
-        "The bundle does not fetch the job code table, so the title is not available."),
+    "job.title": mapped("client.jobCode, named by getClientCodes (options Job): jobTitle",
+                        P + "JobCode/properties/jobTitle"),
     "job.job_code": mapped("client.jobCode", P + "Client/properties/jobCode"),
     "job.department": mapped("client.homeDepartment", P + "Client/properties/homeDepartment"),
     "job.location": mapped("client.homeLocation", P + "Client/properties/homeLocation"),
@@ -207,9 +204,7 @@ ISOLVED = {
     "contact.phones[home]": mapped("personal.homePhone", I_PERSONAL + "/homePhone"),
     "contact.phones[mobile]": mapped("personal.mobilePhone", I_PERSONAL + "/mobilePhone"),
     "contact.phones[work]": mapped("personal.officePhone", I_PERSONAL + "/officePhone"),
-    "contact.phones[other]": not_mapped_yet(
-        "personal.faxNumber", I_PERSONAL + "/faxNumber",
-        "A fax number has no canonical phone kind yet. It stays in unmapped."),
+    "contact.phones[other]": mapped("personal.faxNumber", I_PERSONAL + "/faxNumber"),
     "contact.emails[personal]": mapped("personal.personalEmailAddress", I_PERSONAL + "/personalEmailAddress"),
     "contact.emails[work]": not_offered(
         "No email is labelled as the work address; emailAddress does not state its kind.", I_EMP),
@@ -233,19 +228,20 @@ ISOLVED = {
     "job.job_code": mapped("jobCode", I_EMP + "/jobCode"),
     "job.department": mapped("organizations[] row titled Department",
                              I + "EmployeeOrganizationModel/properties"),
-    "job.location": mapped("organizations[] row titled Location, else workLocation",
-                           I_EMP + "/workLocation"),
-    "job.division": not_mapped_yet(
-        "organizations[] rows, titled by each client", I + "EmployeeOrganizationModel/properties",
-        "Only the Department and Location rows are read. A client-titled division row stays in unmapped."),
+    "job.location": mapped("workLocation", I_EMP + "/workLocation"),
+    "job.division": not_offered(
+        "No division field. Organization rows are titled by each client, and a row's title is not "
+        "read as a division; such rows stay in unmapped.", I + "EmployeeOrganizationModel/properties"),
     "job.manager_employee_id": mapped("assignedManager.id", I_EMP + "/assignedManager"),
     "job.job_start_date": mapped("jobEffectiveDate", I_EMP + "/jobEffectiveDate"),
     "compensation.pay_type": mapped("payType", I_EMP + "/payType"),
     "compensation.pay_frequency": mapped("payFrequency (label from payGroup)", I_EMP + "/payFrequency"),
-    "compensation.rate": not_mapped_yet(
-        "payRates[]", I_EMP + "/payRates", "Pay-rate rows are not mapped yet. They stay in unmapped."),
-    "compensation.rate_period": not_mapped_yet(
-        "payRates[]", I_EMP + "/payRates", "Pay-rate rows are not mapped yet. They stay in unmapped."),
+    "compensation.rate": not_offered(
+        "No single rate with a period: hourlyRate and annualSalary are separate fields. payRates[] are "
+        "alternate rates (a name and a value) and stay in unmapped.", I_EMP + "/payRates"),
+    "compensation.rate_period": not_offered(
+        "No single rate with a period: hourlyRate and annualSalary are separate fields. payRates[] are "
+        "alternate rates (a name and a value) and stay in unmapped.", I_EMP + "/payRates"),
     "compensation.hourly_rate": mapped("hourlyRate", I_EMP + "/hourlyRate"),
     "compensation.annual_amount": mapped("annualSalary", I_EMP + "/annualSalary"),
     "compensation.per_period_amount": mapped("perPaySalary", I_EMP + "/perPaySalary"),
@@ -302,17 +298,15 @@ UKG_READY = {
         "The read schema has no termination reason. termination_details appears only in the write "
         "(PUT) schema 107.", U_EMP),
     "employment.rehire_eligible": not_offered(
-        "The read schema has no rehire eligibility. rehire_details appears only in the write (PUT) "
-        "schema 107.", U_EMP),
+        "The read schema has no rehire eligibility. termination_details.rehireable appears only in the "
+        "write (PUT) schema 107.", U_EMP),
     "employment.flsa_exempt": not_offered(
         "No FLSA field in the employee, demographics or pay-info responses.", U_PAY),
-    "employment.contractor_1099": not_mapped_yet(
-        "tax-info employee-tax-type._1099", U + "166/schema/properties/employee-tax-type/properties/_1099",
-        "The bundle does not fetch tax-info, so the flag is not available."),
-    "job.title": not_mapped_yet(
-        "pay_info.default_job.id, named by GET /v2/companies/{cid}/config/cost-center-jobs",
-        U_PAY + "/default_job", "The bundle does not fetch the jobs configuration, so the name is not available."),
-    "job.job_code": mapped("pay_info.default_job.id", U_PAY + "/default_job", sample_gap=GENERATOR_GAP),
+    "employment.contractor_1099": mapped("tax_info.employee-tax-type._1099",
+                                         U + "166/schema/properties/employee-tax-type/properties/_1099"),
+    "job.title": mapped("pay_info.default_job.id, named by lookup/jobs: name",
+                        U + "262/schema/properties/items/items/properties/name"),
+    "job.job_code": mapped("pay_info.default_job.id", U_PAY + "/default_job"),
     "job.department": not_mapped_yet(
         "cost_centers_info.defaults[].value.id", U_EMP + "/cost_centers_info",
         "Cost-centre levels (0 to 8) are defined by each company, so which level is the department is "
@@ -329,7 +323,8 @@ UKG_READY = {
                                       U_EMP + "/managers"),
     "job.job_start_date": not_mapped_yet(
         "pay_info.job_last_changed", U_PAY + "/job_last_changed",
-        "The date the job last changed. Whether that is the current job's start date is not documented."),
+        "The date the job last changed. Whether that is the current job's start date is not documented, "
+        "and live some dates fall before the hire date."),
     "compensation.pay_type": mapped("pay_info.pay_type.id, named by the pay-types lookup",
                                     U_PAY + "/pay_type"),
     "compensation.pay_frequency": not_mapped_yet(

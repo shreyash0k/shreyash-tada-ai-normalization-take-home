@@ -636,6 +636,9 @@
         "pay_type": {
           "id": 35043009
         },
+        "default_job": {
+          "id": 8634524226
+        },
         "ttoc": [],
         "payroll_classification": "REGULAR"
       },
@@ -646,6 +649,9 @@
         },
         "pay_type": {
           "id": 35043008
+        },
+        "default_job": {
+          "id": 8634524176
         },
         "eeo4_classification": "UNKNOWN",
         "eeo4_function": "UNKNOWN",
@@ -659,6 +665,9 @@
         },
         "pay_type": {
           "id": 35043009
+        },
+        "default_job": {
+          "id": 8634524184
         },
         "ttoc": [],
         "payroll_classification": "REGULAR"
@@ -682,6 +691,9 @@
         "pay_type": {
           "id": 35043008
         },
+        "default_job": {
+          "id": 8634529999
+        },
         "ttoc": [],
         "payroll_classification": "REGULAR"
       },
@@ -693,10 +705,60 @@
         "pay_type": {
           "id": 35043009
         },
+        "default_job": {
+          "id": 8634524176
+        },
         "eeo4_classification": "PROFESSIONALS",
         "eeo4_function": "PROFESSIONALS",
         "ttoc": [],
         "payroll_classification": "REGULAR"
+      }
+    },
+    "tax_info": {
+      "12935181566": {
+        "employee-tax-type": {
+          "W2": true,
+          "_1099": false,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
+      },
+      "12935181567": {
+        "employee-tax-type": {
+          "W2": true,
+          "_1099": false,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
+      },
+      "12935181568": {
+        "employee-tax-type": {
+          "W2": false,
+          "_1099": true,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
+      },
+      "12935181569": {
+        "employee-tax-type": {
+          "W2": true,
+          "_1099": false,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
+      },
+      "12935181570": {
+        "employee-tax-type": {
+          "W2": true,
+          "_1099": false,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
       }
     },
     "compensation_history": {
@@ -903,6 +965,25 @@
           "ein_name": "Primary EIN",
           "ein_tax_id": "12-3456789",
           "ein_country_id": "USA"
+        }
+      ]
+    },
+    "lookup_jobs": {
+      "items": [
+        {
+          "id": 8634524176,
+          "name": "HR Specialist",
+          "visible": true
+        },
+        {
+          "id": 8634524184,
+          "name": "Payroll Analyst",
+          "visible": true
+        },
+        {
+          "id": 8634524226,
+          "name": "President",
+          "visible": true
         }
       ]
     }

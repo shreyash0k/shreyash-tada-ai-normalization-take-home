@@ -28,21 +28,12 @@ class CompanyLinkChecks(unittest.TestCase):
         self.assertTrue(runs)
         self.assertLessEqual(set(runs), groups)
 
-    def test_isolved_location_codes_resolve_but_organization_values_may_not(self):
-        """isolved employees carry the location from the client's "Location" organization field when it
-        is set, else workLocation ("UT1 - SALT LAKE CITY, UT"). Only the second is a work location code;
-        employee 859201's organization value "10" names no work location (docs/DECISIONS.md)."""
+    def test_isolved_employee_locations_and_pay_groups_resolve(self):
         record = company("isolved")
         codes = {w["code"]["raw"] for w in record["work_locations"]}
-        resolved = {}
         for employee in expected_output("isolved")["employees"]:
-            location = employee["job"]["location"]
-            resolved[employee["source"]["employee_id"]] = location["raw"] in codes
-            if (location["label"] or "").startswith(f"{location['raw']} - "):
-                with self.subTest(employee=employee["source"]["employee_id"]):
-                    self.assertIn(location["raw"], codes)
-        self.assertIs(resolved["859201"], False)
-        self.assertIn(True, resolved.values())
+            with self.subTest(employee=employee["source"]["employee_id"]):
+                self.assertIn(employee["job"]["location"]["raw"], codes)
         groups = {g["source_id"] for g in record["pay_groups"]}
         runs = {r["pay_group"]["raw"] for r in expected_output("isolved", "payroll")["pay_runs"]}
         self.assertEqual(runs, {"7627"})

@@ -83,6 +83,11 @@ class PrismHRDirectDepositChecks(unittest.TestCase):
             self.assertEqual(deposit["unmapped"]["directDeposit.voucherType"], "RVS")
             self.assertNotIn("directDeposit.achVoucher", deposit["unmapped"])
 
+    def test_line_pay_type_override_stays_unmapped(self):
+        skip, of_net = self.lines(2)
+        self.assertEqual(skip["unmapped"]["directDeposit.achVoucher[0].voucherTypeOverride"], "R")
+        self.assertEqual(of_net["unmapped"]["directDeposit.achVoucher[1].voucherTypeOverride"], "")
+
     def test_empty_header_and_missing_section(self):
         self.assertEqual(self.lines(5), [])
         self.assertEqual(self.lines(6), [])

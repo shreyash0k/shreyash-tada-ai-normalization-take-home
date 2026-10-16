@@ -69,8 +69,8 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
         optional={
             # getClientCodes with options=Location,PGroups, and getPayrollSchedule.
             "company": {"get_client_codes": dict, "get_payroll_schedule": dict},
-            # Maps of employeeId -> response.
-            "employee": {"get_employee_list": dict, "get_address_info": dict},
+            # Maps of employeeId -> response, and getClientCodes with options=Job.
+            "employee": {"get_employee_list": dict, "get_address_info": dict, "get_client_codes_job": dict},
             "direct-deposit": {},
             # getEmployeeList names the population, so an employee with no
             # getDeductions entry can be reported.
@@ -131,7 +131,8 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
         },
         optional={
             "company": {"lookup_pay_period_profiles": dict},
-            "employee": {},
+            # The /lookup/jobs response, and account id -> the /tax-info response.
+            "employee": {"lookup_jobs": dict, "tax_info": dict},
             "direct-deposit": {"lookup_eins": dict},
             "deduction": {"lookup_eins": dict},
             "payroll": {"lookup_eins": dict},

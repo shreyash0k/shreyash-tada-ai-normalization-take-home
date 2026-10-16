@@ -171,7 +171,7 @@ PYTHONPATH=src python3 -m normalization normalize \
 
 For every `--entity` the input must be a capture bundle whose `provider`
 matches `--provider` and that holds the responses that data type needs. On
-success a summary such as `7 employees, 16 issues`, `10 direct deposits, 6
+success a summary such as `7 employees, 11 issues`, `10 direct deposits, 6
 issues`, `11 deductions, 9 issues`, `4 pay runs, 5 paychecks, 12 issues` or
 `1 company, 5 work locations, 3 pay groups, 1 tax ids, 2 issues` is printed
 to stderr. The output is a `NormalizedOutput` document (`provider`,
@@ -238,4 +238,4 @@ on it. To explore it, put the organizer-supplied key in `.env` as
 `out/` are ignored by Git, so tokens and downloaded records stay local.
 isolved payroll lives on legal company 5797; legal 5806, used for the other
 data types, has no pay runs or checks
-([entry 77](docs/DECISIONS.md#77-isolved-payroll-comes-from-legal-5797)).
+([entry 75](docs/DECISIONS.md#75-isolved-payroll-comes-from-legal-5797)).

@@ -1,4 +1,5 @@
 """UKG Ready employee adapter: golden output plus the injected edge cases."""
+import copy
 import unittest
 
 from _fixtures import employee_by_source_id, expected_output, fixture_bundle, issues_with
@@ -69,6 +70,35 @@ class UkgReadyEmployeeChecks(unittest.TestCase):
         self.assertEqual(orphan["employment"]["employment_type"], {"raw": 99999999, "label": None, "value": "unknown"})
         found = issues_with(self.output, "missing_lookup", "pay_info.employee_type.id")
         self.assertEqual([(i["record_key"], i["raw_value"]) for i in found], [(orphan["key"], 99999999)])
+
+    def test_job_titles_come_from_the_jobs_lookup(self):
+        self.assertEqual(self.employee(0)["job"]["title"], "President")
+        self.assertEqual(self.employee(0)["job"]["job_code"], {"raw": 8634524226, "label": None, "value": None})
+        self.assertIsNone(self.employee(3)["job"]["title"])
+        orphan = self.employee(4)
+        self.assertIsNone(orphan["job"]["title"])
+        found = issues_with(self.output, "missing_lookup", "pay_info.default_job.id")
+        self.assertEqual([(i["record_key"], i["raw_value"]) for i in found], [(orphan["key"], 8634529999)])
+
+    def test_contractor_flag_comes_from_tax_info(self):
+        self.assertEqual([self.employee(i)["employment"]["contractor_1099"] for i in range(6)],
+                         [False, False, True, False, False, None])
+        self.assertIs(self.employee(0)["unmapped"]["tax_info.employee-tax-type.W2"], True)
+        self.assertEqual(self.employee(0)["unmapped"]["tax_info.third-party-sick"], "COMPANY_DEFAULT")
+        found = issues_with(self.output, "missing_section", "tax_info")
+        self.assertEqual([(i["record_key"], i["severity"]) for i in found], [(self.employee(5)["key"], "info")])
+
+    def test_jobs_lookup_and_tax_info_are_optional(self):
+        bundle = copy.deepcopy(self.bundle)
+        bundle.responses.pop("lookup_jobs")
+        bundle.responses.pop("tax_info")
+        output = ukg_ready.normalize_employees(bundle).to_dict()
+        found = issues_with(output, "missing_section", "responses.")
+        self.assertEqual(sorted((i["source_path"], i["severity"], i["record_key"]) for i in found),
+                         [("responses.lookup_jobs", "info", None), ("responses.tax_info", "info", None)])
+        self.assertEqual({e["job"]["title"] for e in output["employees"]}, {None})
+        self.assertEqual({e["employment"]["contractor_1099"] for e in output["employees"]}, {None})
+        self.assertFalse(issues_with(output, "missing_lookup", "default_job"))
 
     def test_current_compensation_skips_placeholder_and_future_rows(self):
         comp = self.employee(0)["compensation"]
