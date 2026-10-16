@@ -205,8 +205,7 @@ ISOLVED = {
         "A fax number has no canonical phone kind yet. It stays in unmapped."),
     "contact.emails[personal]": mapped("personal.personalEmailAddress", I_PERSONAL + "/personalEmailAddress"),
     "contact.emails[work]": not_offered(
-        "No email is labelled as the work address; emailAddress does not state its kind.",
-        I_EMP + "/emailAddress"),
+        "No email is labelled as the work address; emailAddress does not state its kind.", I_EMP),
     "contact.emails[other]": not_offered("Only emailAddress and personalEmailAddress.", I_PERSONAL),
     "contact.emails[unknown]": mapped("emailAddress", I_EMP + "/emailAddress"),
     "employment.status": mapped("employmentStatus", I_EMP + "/employmentStatus"),
@@ -222,7 +221,7 @@ ISOLVED = {
     "employment.flsa_exempt": mapped("jobFLSAExempt", I_EMP + "/jobFLSAExempt"),
     "employment.contractor_1099": not_offered(
         "No contractor flag. payType can read 1099, but that is a pay type, not the flag "
-        "(docs/DECISIONS.md, isolved pay type entry).", I_EMP + "/payType"),
+        "(docs/DECISIONS.md, isolved pay type entry).", I_EMP),
     "job.title": mapped("jobTitle", I_EMP + "/jobTitle"),
     "job.job_code": mapped("jobCode", I_EMP + "/jobCode"),
     "job.department": mapped("organizations[] row titled Department",
@@ -293,16 +292,16 @@ UKG_READY = {
     "employment.seniority_date": mapped("dates.seniority", U_EMP + "/dates/properties/seniority",
                                         sample_gap=GENERATOR_GAP),
     "employment.termination_reason": not_offered(
-        "Termination details appear only in the write (PUT) schema, not in the read response.",
-        U + "107/schema/properties/termination_details"),
+        "The read schema has no termination reason. termination_details appears only in the write "
+        "(PUT) schema 107.", U_EMP),
     "employment.rehire_eligible": not_offered(
-        "Rehire details appear only in the write (PUT) schema, not in the read response.",
-        U + "107/schema/properties/rehire_details"),
+        "The read schema has no rehire eligibility. rehire_details appears only in the write (PUT) "
+        "schema 107.", U_EMP),
     "employment.flsa_exempt": not_offered(
         "No FLSA field in the employee, demographics or pay-info responses.", U_PAY),
-    "employment.contractor_1099": not_offered(
-        "No contractor flag in the captured responses. tax-info's employee-tax-type has no documented "
-        "values.", U + "166/schema/properties/employee-tax-type"),
+    "employment.contractor_1099": not_mapped_yet(
+        "tax-info employee-tax-type._1099", U + "166/schema/properties/employee-tax-type/properties/_1099",
+        "The bundle does not fetch tax-info, so the flag is not available."),
     "job.title": not_mapped_yet(
         "pay_info.default_job.id, named by GET /v2/companies/{cid}/config/cost-center-jobs",
         U_PAY + "/default_job", "The bundle does not fetch the jobs configuration, so the name is not available."),
