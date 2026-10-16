@@ -1,0 +1,1412 @@
+{
+  "provider": "isolved",
+  "company": {
+    "key": "isolved:4046-5806",
+    "source": {
+      "provider": "isolved",
+      "company_id": "4046-5806",
+      "secondary_ids": {
+        "legalCode": "BK422-1"
+      }
+    },
+    "name": null,
+    "ein": null
+  },
+  "employees": [
+    {
+      "key": "isolved:4046-5806:859201",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859201",
+        "secondary_ids": {
+          "employeeNumber": "1",
+          "legalCode": "BK422-1"
+        }
+      },
+      "person": {
+        "first_name": "Casey",
+        "middle_name": "D",
+        "last_name": "Whitfield",
+        "preferred_name": null,
+        "birth_date": "1976-12-11",
+        "gender": {
+          "raw": "Male",
+          "label": null,
+          "value": "male"
+        },
+        "marital_status": {
+          "raw": "Married",
+          "label": null,
+          "value": "unknown"
+        },
+        "citizenship": {
+          "raw": "Citizen of the United States",
+          "label": null,
+          "value": "unknown"
+        },
+        "ethnicity": {
+          "raw": "Hispanic or Latino",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": null
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "2229 Birch Ct",
+            "line2": null,
+            "city": "Springfield",
+            "region": "IL",
+            "postal_code": "62704",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "4926397291",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "mobile",
+            "number": "7495769595",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "casey1@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": "2021-12-05",
+        "employment_type": {
+          "raw": "FT",
+          "label": null,
+          "value": "unknown"
+        },
+        "hire_date": "2021-12-05",
+        "original_hire_date": "2021-12-05",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": true,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": "Coordinator",
+        "job_code": {
+          "raw": "450",
+          "label": null,
+          "value": null
+        },
+        "department": {
+          "raw": "100",
+          "label": "Executives",
+          "value": null
+        },
+        "location": {
+          "raw": "10",
+          "label": "Main Yard",
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": null,
+        "job_start_date": "2021-12-05"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "Salary",
+          "label": null,
+          "value": "salary"
+        },
+        "pay_frequency": {
+          "raw": 12,
+          "label": "Monthly",
+          "value": "unknown"
+        },
+        "rate": null,
+        "rate_period": null,
+        "hourly_rate": {
+          "amount": "52.8593",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "109947.34",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "9162.28",
+          "currency": "USD"
+        },
+        "standard_hours": "173.33",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2021-12-05"
+      },
+      "unmapped": {
+        "acaEmploymentStatus": "ACA Full Time",
+        "employmentCategoryEffectiveDate": "2021-12-05T00:00:00",
+        "employmentCategoryFullTimeEquivalent": null,
+        "enableSelfService": false,
+        "i9Documents.i9Completed": false,
+        "i9Documents.i9CompletedDate": null,
+        "isRecentlySeparatedVeteran": false,
+        "isRemoteWorker": false,
+        "jobEeoCategory": "Professionals",
+        "jobId": 92001,
+        "jobIsSeasonal": false,
+        "jobIsUnion": false,
+        "militaryStatus": null,
+        "nameAddress.id": 1245001,
+        "nameAddress.preferredPronouns": null,
+        "nameAddress.prefix": null,
+        "nameAddress.residentGeoCode": "IL0350270",
+        "nameAddress.suffix": null,
+        "nameAddress.links[0].href": null,
+        "nameAddress.links[0].rel": "self",
+        "nameAddress.links[1].href": null,
+        "nameAddress.links[1].method": "PUT",
+        "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
+        "personal.id": 1245001,
+        "personal.faxNumber": null,
+        "personal.preferredPronouns": null,
+        "personal.links[0].href": null,
+        "personal.links[0].rel": "self",
+        "personal.links[1].href": null,
+        "personal.links[1].method": "PUT",
+        "personal.links[1].rel": "EmployeePersonalUpdate",
+        "previousPunchLabors": null,
+        "protectedVeteran": false,
+        "reciprocityRule": "",
+        "timecardPunchStatusDate": null,
+        "timecardPunchStatusIsIn": null,
+        "tobaccoUse": false,
+        "veteranStatusNotSpecified": false,
+        "workLocation": "UT1",
+        "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+        "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+        "links[0].rel": "self",
+        "links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/checks",
+        "links[1].rel": "Checks",
+        "links[2].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/taxWithholding",
+        "links[2].rel": "EmployeeTaxWithholding",
+        "isManager": true,
+        "isSupervisor": true,
+        "organizations[0].id": -1,
+        "organizations[0].displayOrder": 1,
+        "organizations[0].organizationId": 9943,
+        "organizations[1].id": -2,
+        "organizations[1].displayOrder": 2,
+        "organizations[1].organizationId": 9944,
+        "payRates": [],
+        "taxes.federal.id": 1556268,
+        "taxes.federal.additionalAmount": null,
+        "taxes.federal.filingStatus": "FDM",
+        "taxes.federal.isBlocked": false,
+        "taxes.federal.multipleJobsOrSpouseWorks": false,
+        "taxes.federal.primaryExemptions": 0,
+        "taxes.federal.taxCategoryId": "FEDWT",
+        "taxes.federal.taxState": "",
+        "taxes.federal.links": [],
+        "taxes.nonResidentCity": null,
+        "taxes.nonResidentState": null,
+        "taxes.residentCity": null,
+        "taxes.residentState.id": 1556269,
+        "taxes.residentState.filingStatus": "UTM",
+        "taxes.residentState.isBlocked": false,
+        "taxes.residentState.primaryExemptions": 0,
+        "taxes.residentState.taxCategoryId": "STATEWT",
+        "taxes.residentState.taxDescription": "UTAH WH",
+        "taxes.residentState.taxState": "UT",
+        "taxes.residentState.links": []
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859202",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859202",
+        "secondary_ids": {
+          "employeeNumber": "2",
+          "legalCode": "BK422-1"
+        }
+      },
+      "person": {
+        "first_name": "Casey",
+        "middle_name": "D",
+        "last_name": "Haddad",
+        "preferred_name": "Jo",
+        "birth_date": "1974-05-13",
+        "gender": {
+          "raw": "Female",
+          "label": null,
+          "value": "female"
+        },
+        "marital_status": {
+          "raw": "Single",
+          "label": null,
+          "value": "unknown"
+        },
+        "citizenship": {
+          "raw": "Citizen of the United States",
+          "label": null,
+          "value": "unknown"
+        },
+        "ethnicity": {
+          "raw": "White (Not Hispanic or Latino)",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": null
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "6839 Cedar Ln",
+            "line2": null,
+            "city": "Georgetown",
+            "region": "TX",
+            "postal_code": "78626",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "mobile",
+            "number": "6167438722",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "work",
+            "number": "9784077519",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "casey2@example.test"
+          },
+          {
+            "kind": "personal",
+            "address": "personal.two@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": "2019-07-27",
+        "employment_type": {
+          "raw": "FT",
+          "label": null,
+          "value": "unknown"
+        },
+        "hire_date": "2019-07-27",
+        "original_hire_date": "2019-07-27",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": false,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": "Technician",
+        "job_code": {
+          "raw": "100",
+          "label": null,
+          "value": null
+        },
+        "department": null,
+        "location": {
+          "raw": "UT1",
+          "label": "UT1 - SALT LAKE CITY, UT",
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": "859201",
+        "job_start_date": "2019-07-27"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "Hourly",
+          "label": null,
+          "value": "hourly"
+        },
+        "pay_frequency": {
+          "raw": 12,
+          "label": "Monthly",
+          "value": "unknown"
+        },
+        "rate": null,
+        "rate_period": null,
+        "hourly_rate": {
+          "amount": "39.5014",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "82162.91",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "6846.91",
+          "currency": "USD"
+        },
+        "standard_hours": "173.33",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2019-07-27"
+      },
+      "unmapped": {
+        "acaEmploymentStatus": "ACA Full Time",
+        "employmentCategoryEffectiveDate": "2019-07-27T00:00:00",
+        "employmentCategoryFullTimeEquivalent": null,
+        "enableSelfService": false,
+        "i9Documents.i9Completed": false,
+        "i9Documents.i9CompletedDate": null,
+        "isRecentlySeparatedVeteran": false,
+        "isRemoteWorker": false,
+        "jobEeoCategory": "Professionals",
+        "jobId": 92002,
+        "jobIsSeasonal": false,
+        "jobIsUnion": false,
+        "militaryStatus": null,
+        "nameAddress.id": 0,
+        "nameAddress.preferredPronouns": null,
+        "nameAddress.prefix": null,
+        "nameAddress.residentGeoCode": "TX0350270",
+        "nameAddress.suffix": null,
+        "nameAddress.links[0].href": null,
+        "nameAddress.links[0].rel": "self",
+        "nameAddress.links[1].href": null,
+        "nameAddress.links[1].method": "PUT",
+        "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
+        "personal.id": 1245002,
+        "personal.faxNumber": null,
+        "personal.preferredPronouns": null,
+        "personal.links[0].href": null,
+        "personal.links[0].rel": "self",
+        "personal.links[1].href": null,
+        "personal.links[1].method": "PUT",
+        "personal.links[1].rel": "EmployeePersonalUpdate",
+        "previousPunchLabors": null,
+        "protectedVeteran": false,
+        "reciprocityRule": "",
+        "timecardPunchStatusDate": null,
+        "timecardPunchStatusIsIn": null,
+        "tobaccoUse": false,
+        "veteranStatusNotSpecified": false,
+        "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+        "links[0].rel": "self",
+        "links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/checks",
+        "links[1].rel": "Checks",
+        "links[2].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/taxWithholding",
+        "links[2].rel": "EmployeeTaxWithholding",
+        "assignedManager.employeeName": "Casey Whitfield",
+        "assignedManager.employeeNumber": "1",
+        "assignedManager.jobTitle": "Coordinator",
+        "assignedManager.legalId": 5806,
+        "isManager": false,
+        "isSupervisor": false
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859203",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859203",
+        "secondary_ids": {
+          "employeeNumber": "3",
+          "legalCode": "BK422-1"
+        }
+      },
+      "person": {
+        "first_name": "Reese",
+        "middle_name": "J",
+        "last_name": "Petrov",
+        "preferred_name": null,
+        "birth_date": "1972-07-22",
+        "gender": {
+          "raw": "Female",
+          "label": null,
+          "value": "female"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "Citizen of the United States",
+          "label": null,
+          "value": "unknown"
+        },
+        "ethnicity": {
+          "raw": "Asian",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "4948"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "1854 Birch Ct",
+            "line2": null,
+            "city": "Springfield",
+            "region": "IL",
+            "postal_code": "62704",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "5238857460",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "mobile",
+            "number": "9003802051",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "reese3@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Terminated",
+          "label": null,
+          "value": "terminated"
+        },
+        "status_date": "2024-03-29",
+        "employment_type": {
+          "raw": "FT",
+          "label": null,
+          "value": "unknown"
+        },
+        "hire_date": "2019-12-06",
+        "original_hire_date": "2019-12-06",
+        "rehire_date": null,
+        "termination_date": "2024-03-29",
+        "seniority_date": null,
+        "termination_reason": {
+          "raw": "Retirement",
+          "label": null,
+          "value": null
+        },
+        "rehire_eligible": false,
+        "flsa_exempt": true,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": "Analyst",
+        "job_code": {
+          "raw": "200",
+          "label": null,
+          "value": null
+        },
+        "department": null,
+        "location": {
+          "raw": "UT1",
+          "label": "UT1 - SALT LAKE CITY, UT",
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": "859201",
+        "job_start_date": "2019-12-06"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "Salary",
+          "label": null,
+          "value": "salary"
+        },
+        "pay_frequency": {
+          "raw": 12,
+          "label": "Monthly",
+          "value": "unknown"
+        },
+        "rate": null,
+        "rate_period": null,
+        "hourly_rate": {
+          "amount": "23.579",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "49044.32",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "4087.03",
+          "currency": "USD"
+        },
+        "standard_hours": "173.33",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2019-12-06"
+      },
+      "unmapped": {
+        "acaEmploymentStatus": "ACA Full Time",
+        "employmentCategoryEffectiveDate": "2019-12-06T00:00:00",
+        "employmentCategoryFullTimeEquivalent": null,
+        "enableSelfService": false,
+        "i9Documents.i9Completed": false,
+        "i9Documents.i9CompletedDate": null,
+        "isRecentlySeparatedVeteran": false,
+        "isRemoteWorker": false,
+        "jobEeoCategory": "Professionals",
+        "jobId": 92003,
+        "jobIsSeasonal": false,
+        "jobIsUnion": false,
+        "militaryStatus": null,
+        "nameAddress.id": 1245003,
+        "nameAddress.preferredPronouns": null,
+        "nameAddress.prefix": null,
+        "nameAddress.residentGeoCode": "IL0350270",
+        "nameAddress.suffix": null,
+        "nameAddress.links[0].href": null,
+        "nameAddress.links[0].rel": "self",
+        "nameAddress.links[1].href": null,
+        "nameAddress.links[1].method": "PUT",
+        "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
+        "personal.id": 1245003,
+        "personal.faxNumber": null,
+        "personal.preferredPronouns": null,
+        "personal.links[0].href": null,
+        "personal.links[0].rel": "self",
+        "personal.links[1].href": null,
+        "personal.links[1].method": "PUT",
+        "personal.links[1].rel": "EmployeePersonalUpdate",
+        "previousPunchLabors": null,
+        "protectedVeteran": false,
+        "reciprocityRule": "",
+        "timecardPunchStatusDate": null,
+        "timecardPunchStatusIsIn": null,
+        "tobaccoUse": false,
+        "veteranStatusNotSpecified": false,
+        "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+        "links[0].rel": "self",
+        "links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/checks",
+        "links[1].rel": "Checks",
+        "links[2].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/taxWithholding",
+        "links[2].rel": "EmployeeTaxWithholding",
+        "assignedManager.employeeName": "Casey Whitfield",
+        "assignedManager.employeeNumber": "1",
+        "assignedManager.jobTitle": "Coordinator",
+        "assignedManager.legalId": 5806,
+        "terminationType": "Voluntary Termination",
+        "isManager": false,
+        "isSupervisor": false
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859204",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859204",
+        "secondary_ids": {
+          "employeeNumber": "4",
+          "legalCode": "BK422-1"
+        }
+      },
+      "person": {
+        "first_name": "Rowan",
+        "middle_name": "A",
+        "last_name": "Haddad",
+        "preferred_name": null,
+        "birth_date": "1974-02-02",
+        "gender": {
+          "raw": "Non-binary",
+          "label": null,
+          "value": "unknown"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "Citizen of the United States",
+          "label": null,
+          "value": "unknown"
+        },
+        "ethnicity": {
+          "raw": "White (Not Hispanic or Latino)",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": null
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "5776 Maple Ave",
+            "line2": null,
+            "city": "Georgetown",
+            "region": "TX",
+            "postal_code": "78626",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "mobile",
+            "number": "6023047193",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "rowan4@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Leave of Absence",
+          "label": null,
+          "value": "unknown"
+        },
+        "status_date": "2022-03-27",
+        "employment_type": {
+          "raw": "PT",
+          "label": null,
+          "value": "unknown"
+        },
+        "hire_date": "2022-03-27",
+        "original_hire_date": "2022-03-27",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": false,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": "Driver",
+        "job_code": {
+          "raw": "400",
+          "label": null,
+          "value": null
+        },
+        "department": null,
+        "location": {
+          "raw": "UT1",
+          "label": "UT1 - SALT LAKE CITY, UT",
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": "859201",
+        "job_start_date": "2022-03-27"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "Hourly",
+          "label": null,
+          "value": "hourly"
+        },
+        "pay_frequency": {
+          "raw": 12,
+          "label": "Monthly",
+          "value": "unknown"
+        },
+        "rate": null,
+        "rate_period": null,
+        "hourly_rate": {
+          "amount": "17.2128",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "35802.62",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "2983.55",
+          "currency": "USD"
+        },
+        "standard_hours": "86.67",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2022-03-27"
+      },
+      "unmapped": {
+        "acaEmploymentStatus": "ACA Variable",
+        "employmentCategoryEffectiveDate": "2022-03-27T00:00:00",
+        "employmentCategoryFullTimeEquivalent": null,
+        "enableSelfService": false,
+        "i9Documents.i9Completed": false,
+        "i9Documents.i9CompletedDate": null,
+        "isRecentlySeparatedVeteran": false,
+        "isRemoteWorker": false,
+        "jobEeoCategory": "Professionals",
+        "jobId": 92004,
+        "jobIsSeasonal": false,
+        "jobIsUnion": false,
+        "militaryStatus": null,
+        "nameAddress.id": 1245004,
+        "nameAddress.preferredPronouns": null,
+        "nameAddress.prefix": null,
+        "nameAddress.residentGeoCode": "TX0350270",
+        "nameAddress.suffix": null,
+        "nameAddress.links[0].href": null,
+        "nameAddress.links[0].rel": "self",
+        "nameAddress.links[1].href": null,
+        "nameAddress.links[1].method": "PUT",
+        "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
+        "personal.id": 1245004,
+        "personal.faxNumber": null,
+        "personal.preferredPronouns": null,
+        "personal.links[0].href": null,
+        "personal.links[0].rel": "self",
+        "personal.links[1].href": null,
+        "personal.links[1].method": "PUT",
+        "personal.links[1].rel": "EmployeePersonalUpdate",
+        "previousPunchLabors": null,
+        "protectedVeteran": false,
+        "reciprocityRule": "",
+        "timecardPunchStatusDate": null,
+        "timecardPunchStatusIsIn": null,
+        "tobaccoUse": false,
+        "veteranStatusNotSpecified": false,
+        "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204",
+        "links[0].rel": "self",
+        "links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204/checks",
+        "links[1].rel": "Checks",
+        "links[2].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204/taxWithholding",
+        "links[2].rel": "EmployeeTaxWithholding",
+        "assignedManager.employeeName": "Casey Whitfield",
+        "assignedManager.employeeNumber": "1",
+        "assignedManager.jobTitle": "Coordinator",
+        "assignedManager.legalId": 5806,
+        "isManager": false,
+        "isSupervisor": false
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859205",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859205",
+        "secondary_ids": {
+          "employeeNumber": "5",
+          "legalCode": "BK422-1"
+        }
+      },
+      "person": {
+        "first_name": "Harper",
+        "middle_name": "K",
+        "last_name": "Marchetti",
+        "preferred_name": null,
+        "birth_date": "2001-12-01",
+        "gender": {
+          "raw": "Male",
+          "label": null,
+          "value": "male"
+        },
+        "marital_status": null,
+        "citizenship": {
+          "raw": "Citizen of the United States",
+          "label": null,
+          "value": "unknown"
+        },
+        "ethnicity": {
+          "raw": "Hispanic or Latino",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": null
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "5702 Cedar Ln",
+            "line2": null,
+            "city": "Fairview",
+            "region": "OR",
+            "postal_code": "97024",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "9329254866",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "mobile",
+            "number": "3595914428",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "harper5@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": "2019-03-23",
+        "employment_type": {
+          "raw": "PT",
+          "label": null,
+          "value": "unknown"
+        },
+        "hire_date": "2019-03-23",
+        "original_hire_date": "2019-03-23",
+        "rehire_date": "2023-01-09",
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": false,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": "Coordinator",
+        "job_code": {
+          "raw": "200",
+          "label": null,
+          "value": null
+        },
+        "department": null,
+        "location": {
+          "raw": "UT1",
+          "label": "UT1 - SALT LAKE CITY, UT",
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": "859201",
+        "job_start_date": "2019-03-23"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "1099",
+          "label": null,
+          "value": "contractor_1099"
+        },
+        "pay_frequency": {
+          "raw": 12,
+          "label": "Monthly",
+          "value": "unknown"
+        },
+        "rate": null,
+        "rate_period": null,
+        "hourly_rate": {
+          "amount": "41.7057",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "0.0",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "0.0",
+          "currency": "USD"
+        },
+        "standard_hours": "86.67",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": null
+      },
+      "unmapped": {
+        "acaEmploymentStatus": "ACA Variable",
+        "employmentCategoryEffectiveDate": "2019-03-23T00:00:00",
+        "employmentCategoryFullTimeEquivalent": null,
+        "enableSelfService": false,
+        "i9Documents.i9Completed": false,
+        "i9Documents.i9CompletedDate": null,
+        "isRecentlySeparatedVeteran": false,
+        "isRemoteWorker": false,
+        "jobEeoCategory": "Professionals",
+        "jobId": 92005,
+        "jobIsSeasonal": false,
+        "jobIsUnion": false,
+        "militaryStatus": null,
+        "nameAddress.id": 1245005,
+        "nameAddress.preferredPronouns": null,
+        "nameAddress.prefix": null,
+        "nameAddress.residentGeoCode": "OR0350270",
+        "nameAddress.suffix": null,
+        "nameAddress.links[0].href": null,
+        "nameAddress.links[0].rel": "self",
+        "nameAddress.links[1].href": null,
+        "nameAddress.links[1].method": "PUT",
+        "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
+        "personal.id": 1245005,
+        "personal.faxNumber": null,
+        "personal.preferredPronouns": null,
+        "personal.links[0].href": null,
+        "personal.links[0].rel": "self",
+        "personal.links[1].href": null,
+        "personal.links[1].method": "PUT",
+        "personal.links[1].rel": "EmployeePersonalUpdate",
+        "previousPunchLabors": null,
+        "protectedVeteran": false,
+        "reciprocityRule": "",
+        "timecardPunchStatusDate": null,
+        "timecardPunchStatusIsIn": null,
+        "tobaccoUse": false,
+        "veteranStatusNotSpecified": false,
+        "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205",
+        "links[0].rel": "self",
+        "links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205/checks",
+        "links[1].rel": "Checks",
+        "links[2].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205/taxWithholding",
+        "links[2].rel": "EmployeeTaxWithholding",
+        "assignedManager.employeeName": "Casey Whitfield",
+        "assignedManager.employeeNumber": "1",
+        "assignedManager.jobTitle": "Coordinator",
+        "assignedManager.legalId": 5806,
+        "isManager": false,
+        "isSupervisor": false
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859206",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859206",
+        "secondary_ids": {
+          "employeeNumber": "6",
+          "legalCode": "BK422-1"
+        }
+      },
+      "person": {
+        "first_name": "Skyler",
+        "middle_name": "C",
+        "last_name": "Marchetti",
+        "preferred_name": null,
+        "birth_date": "1965-07-07",
+        "gender": {
+          "raw": "Female",
+          "label": null,
+          "value": "female"
+        },
+        "marital_status": null,
+        "citizenship": null,
+        "ethnicity": {
+          "raw": "White (Not Hispanic or Latino)",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": null
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "3913 Harbor Rd",
+            "line2": null,
+            "city": "Springfield",
+            "region": "IL",
+            "postal_code": "62704",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "mobile",
+            "number": "6486218696",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "skyler6@example.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "Active",
+          "label": null,
+          "value": "active"
+        },
+        "status_date": "2023-01-04",
+        "employment_type": {
+          "raw": "FT",
+          "label": null,
+          "value": "unknown"
+        },
+        "hire_date": "2023-01-04",
+        "original_hire_date": "2023-01-04",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": null,
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": false,
+        "contractor_1099": null
+      },
+      "job": {
+        "title": "Coordinator",
+        "job_code": {
+          "raw": "400",
+          "label": null,
+          "value": null
+        },
+        "department": null,
+        "location": {
+          "raw": "UT1",
+          "label": "UT1 - SALT LAKE CITY, UT",
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": null,
+        "job_start_date": "2023-01-04"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "Hourly",
+          "label": null,
+          "value": "hourly"
+        },
+        "pay_frequency": {
+          "raw": 12,
+          "label": "Monthly",
+          "value": "unknown"
+        },
+        "rate": null,
+        "rate_period": null,
+        "hourly_rate": {
+          "amount": "51.0679",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "106221.23",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "8851.77",
+          "currency": "USD"
+        },
+        "standard_hours": "173.33",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2023-01-04"
+      },
+      "unmapped": {
+        "employmentCategoryEffectiveDate": "2023-01-04T00:00:00",
+        "enableSelfService": false,
+        "isRecentlySeparatedVeteran": false,
+        "isRemoteWorker": false,
+        "jobEeoCategory": "Professionals",
+        "jobId": 92006,
+        "jobIsSeasonal": false,
+        "jobIsUnion": false,
+        "nameAddress.id": 1245006,
+        "nameAddress.preferredPronouns": null,
+        "nameAddress.prefix": null,
+        "nameAddress.residentGeoCode": "IL0350270",
+        "nameAddress.suffix": null,
+        "nameAddress.links[0].href": null,
+        "nameAddress.links[0].rel": "self",
+        "nameAddress.links[1].href": null,
+        "nameAddress.links[1].method": "PUT",
+        "nameAddress.links[1].rel": "EmployeeNameAddressUpdate",
+        "personal.id": 1245006,
+        "personal.faxNumber": null,
+        "personal.preferredPronouns": null,
+        "personal.links[0].href": null,
+        "personal.links[0].rel": "self",
+        "personal.links[1].href": null,
+        "personal.links[1].method": "PUT",
+        "personal.links[1].rel": "EmployeePersonalUpdate",
+        "protectedVeteran": false,
+        "tobaccoUse": false,
+        "veteranStatusNotSpecified": false,
+        "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
+        "links[0].rel": "self",
+        "links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/checks",
+        "links[1].rel": "Checks",
+        "links[2].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/taxWithholding",
+        "links[2].rel": "EmployeeTaxWithholding"
+      }
+    }
+  ],
+  "issues": [
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "maritalStatus",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859201",
+      "raw_value": "Married",
+      "message": "maritalStatus: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/maritalStatus ('Marital status code'; live returns descriptions))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "citizenship",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859201",
+      "raw_value": "Citizen of the United States",
+      "message": "citizenship: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/citizenship ('Citizenship status description'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "employmentCategoryCode",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859201",
+      "raw_value": "FT",
+      "message": "employmentCategoryCode: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode ('current employment category code'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859201",
+      "raw_value": 12,
+      "message": "payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency (integer, 'payment frequency for the employee'))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "maritalStatus",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859202",
+      "raw_value": "Single",
+      "message": "maritalStatus: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/maritalStatus ('Marital status code'; live returns descriptions))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "citizenship",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859202",
+      "raw_value": "Citizen of the United States",
+      "message": "citizenship: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/citizenship ('Citizenship status description'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "employmentCategoryCode",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859202",
+      "raw_value": "FT",
+      "message": "employmentCategoryCode: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode ('current employment category code'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859202",
+      "raw_value": 12,
+      "message": "payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency (integer, 'payment frequency for the employee'))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "citizenship",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859203",
+      "raw_value": "Citizen of the United States",
+      "message": "citizenship: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/citizenship ('Citizenship status description'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "employmentCategoryCode",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859203",
+      "raw_value": "FT",
+      "message": "employmentCategoryCode: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode ('current employment category code'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859203",
+      "raw_value": 12,
+      "message": "payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency (integer, 'payment frequency for the employee'))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "gender",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859204",
+      "raw_value": "Non-binary",
+      "message": "gender: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/gender ('Gender description'); labels from live GET /api/clients/{clientId}/legals/{legalId}/employees capture (docs/DECISIONS.md allowlist entries))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "citizenship",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859204",
+      "raw_value": "Citizen of the United States",
+      "message": "citizenship: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/citizenship ('Citizenship status description'))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "employmentStatus",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859204",
+      "raw_value": "Leave of Absence",
+      "message": "employmentStatus: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentStatus ('status description'); labels from live GET /api/clients/{clientId}/legals/{legalId}/employees capture (docs/DECISIONS.md allowlist entries))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "employmentCategoryCode",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859204",
+      "raw_value": "PT",
+      "message": "employmentCategoryCode: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode ('current employment category code'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859204",
+      "raw_value": 12,
+      "message": "payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency (integer, 'payment frequency for the employee'))"
+    },
+    {
+      "code": "unmapped_label",
+      "severity": "warning",
+      "source_path": "citizenship",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859205",
+      "raw_value": "Citizen of the United States",
+      "message": "citizenship: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/citizenship ('Citizenship status description'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "employmentCategoryCode",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859205",
+      "raw_value": "PT",
+      "message": "employmentCategoryCode: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode ('current employment category code'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859205",
+      "raw_value": 12,
+      "message": "payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency (integer, 'payment frequency for the employee'))"
+    },
+    {
+      "code": "invalid_date",
+      "severity": "error",
+      "source_path": "salaryEffectiveDate",
+      "action": "set null",
+      "record_key": "isolved:4046-5806:859205",
+      "raw_value": "not-a-date",
+      "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "employmentCategoryCode",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859206",
+      "raw_value": "FT",
+      "message": "employmentCategoryCode: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode ('current employment category code'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:859206",
+      "raw_value": 12,
+      "message": "payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency (integer, 'payment frequency for the employee'))"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "responses",
+      "action": "company name set null",
+      "record_key": null,
+      "raw_value": null,
+      "message": "the employees endpoint does not return the legal company name; a legal endpoint is a later task"
+    }
+  ],
+  "schema_version": "1"
+}

@@ -1,10 +1,17 @@
-"""Local entry point. Transformation output schema is chosen by the candidate."""
+"""Local entry point.
+
+``normalize --entity employee`` reads a capture bundle (see ``bundle.py``) and
+writes a ``NormalizedOutput`` document described by
+``docs/canonical/employee.schema.json``.
+"""
 import argparse
 import json
 import sys
 from pathlib import Path
 
 from .adapters import ADAPTERS, ENTITIES
+from .bundle import parse_bundle
+from .canonical import NormalizedOutput
 from .references import all_readiness_issues, load_reference, readiness_issues
 
 
@@ -33,14 +40,25 @@ def main(argv=None):
     try:
         with args.input.open(encoding="utf-8") as stream:
             response = json.load(stream)
+        if args.entity == "employee":
+            response = parse_bundle(response, source_path=str(args.input))
+            if response.provider != args.provider:
+                raise ValueError(f"bundle provider is {response.provider!r}, but --provider is {args.provider!r}")
         result = ADAPTERS[args.provider].normalize(args.entity, response, load_reference(args.provider))
-        # Serialize first and refuse overwriting an existing file in this scaffold.
+        if isinstance(result, NormalizedOutput):
+            summary = f"{len(result.employees)} employees, {len(result.issues)} issues"
+            result = result.to_dict()
+        else:
+            summary = None
+        # Serialize first and refuse overwriting an existing file.
         serialized = json.dumps(result, indent=2, allow_nan=False) + "\n"
         with args.output.open("x", encoding="utf-8") as stream:
             stream.write(serialized)
     except (OSError, ValueError, TypeError, NotImplementedError) as exc:
         print(str(exc), file=sys.stderr)
         return 1
+    if summary:
+        print(summary, file=sys.stderr)
     return 0
 
 

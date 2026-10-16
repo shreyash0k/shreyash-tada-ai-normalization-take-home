@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home/docs/canonical/employee.schema.json",
+  "title": "NormalizedOutput",
+  "description": "Output of `normalize --entity employee`: one company stub, its canonical employees, and the issues found while normalizing. Dates are ISO 8601 strings; money amounts are decimal strings; enums are their string values.",
+  "$ref": "#/$defs/NormalizedOutput",
+  "$defs": {
+    "NormalizedOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "company", "employees", "issues", "schema_version"],
+      "properties": {
+        "provider": {"type": "string", "enum": ["prismhr", "isolved", "ukg-ready"]},
+        "company": {"$ref": "#/$defs/Company"},
+        "employees": {"type": "array", "items": {"$ref": "#/$defs/Employee"}},
+        "issues": {"type": "array", "items": {"$ref": "#/$defs/Issue"}},
+        "schema_version": {"type": "string", "const": "1"}
+      }
+    },
+    "Company": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "source", "name", "ein"],
+      "properties": {
+        "key": {"type": "string", "description": "provider:company_id"},
+        "source": {"$ref": "#/$defs/CompanySource"},
+        "name": {"type": ["string", "null"]},
+        "ein": {"type": ["string", "null"]}
+      }
+    },
+    "CompanySource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "company_id", "secondary_ids"],
+      "properties": {
+        "provider": {"type": "string"},
+        "company_id": {"type": "string"},
+        "secondary_ids": {"type": "object", "additionalProperties": {"type": "string"}}
+      }
+    },
+    "Employee": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "company_key", "source", "person", "contact", "employment", "job", "compensation", "unmapped"],
+      "properties": {
+        "key": {"type": "string", "description": "provider:company_id:employee_id"},
+        "company_key": {"type": "string"},
+        "source": {"$ref": "#/$defs/SourceRef"},
+        "person": {"$ref": "#/$defs/Person"},
+        "contact": {"$ref": "#/$defs/Contact"},
+        "employment": {"$ref": "#/$defs/Employment"},
+        "job": {"$ref": "#/$defs/Job"},
+        "compensation": {"$ref": "#/$defs/Compensation"},
+        "unmapped": {
+          "type": "object",
+          "description": "Every provider field not consumed by a mapping, keyed by its source JSON path. Identifier numbers are redacted.",
+          "additionalProperties": true
+        }
+      }
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "company_id", "employee_id", "secondary_ids"],
+      "properties": {
+        "provider": {"type": "string"},
+        "company_id": {"type": "string"},
+        "employee_id": {"type": "string"},
+        "secondary_ids": {"type": "object", "additionalProperties": {"type": "string"}}
+      }
+    },
+    "Person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["first_name", "middle_name", "last_name", "preferred_name", "birth_date", "gender", "marital_status", "citizenship", "ethnicity", "ssn_last4"],
+      "properties": {
+        "first_name": {"type": ["string", "null"]},
+        "middle_name": {"type": ["string", "null"]},
+        "last_name": {"type": ["string", "null"]},
+        "preferred_name": {"type": ["string", "null"]},
+        "birth_date": {"$ref": "#/$defs/NullableDate"},
+        "gender": {"$ref": "#/$defs/NullableCodedValue"},
+        "marital_status": {"$ref": "#/$defs/NullableCodedValue"},
+        "citizenship": {"$ref": "#/$defs/NullableCodedValue"},
+        "ethnicity": {"$ref": "#/$defs/NullableCodedValue"},
+        "ssn_last4": {"type": ["string", "null"], "description": "Last four digits only. The full number is never emitted."}
+      }
+    },
+    "Contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["addresses", "phones", "emails"],
+      "properties": {
+        "addresses": {"type": "array", "items": {"$ref": "#/$defs/Address"}},
+        "phones": {"type": "array", "items": {"$ref": "#/$defs/Phone"}},
+        "emails": {"type": "array", "items": {"$ref": "#/$defs/Email"}}
+      }
+    },
+    "Employment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "status_date", "employment_type", "hire_date", "original_hire_date", "rehire_date", "termination_date", "seniority_date", "termination_reason", "rehire_eligible", "flsa_exempt", "contractor_1099"],
+      "properties": {
+        "status": {"$ref": "#/$defs/NullableCodedValue"},
+        "status_date": {"$ref": "#/$defs/NullableDate"},
+        "employment_type": {"$ref": "#/$defs/NullableCodedValue"},
+        "hire_date": {"$ref": "#/$defs/NullableDate"},
+        "original_hire_date": {"$ref": "#/$defs/NullableDate"},
+        "rehire_date": {"$ref": "#/$defs/NullableDate"},
+        "termination_date": {"$ref": "#/$defs/NullableDate"},
+        "seniority_date": {"$ref": "#/$defs/NullableDate"},
+        "termination_reason": {"$ref": "#/$defs/NullableCodedValue"},
+        "rehire_eligible": {"type": ["boolean", "null"]},
+        "flsa_exempt": {"type": ["boolean", "null"]},
+        "contractor_1099": {"type": ["boolean", "null"]}
+      }
+    },
+    "Job": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "job_code", "department", "location", "division", "manager_employee_id", "job_start_date"],
+      "properties": {
+        "title": {"type": ["string", "null"]},
+        "job_code": {"$ref": "#/$defs/NullableCodedValue"},
+        "department": {"$ref": "#/$defs/NullableCodedValue"},
+        "location": {"$ref": "#/$defs/NullableCodedValue"},
+        "division": {"$ref": "#/$defs/NullableCodedValue"},
+        "manager_employee_id": {"type": ["string", "null"]},
+        "job_start_date": {"$ref": "#/$defs/NullableDate"}
+      }
+    },
+    "Compensation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pay_type", "pay_frequency", "rate", "rate_period", "hourly_rate", "annual_amount", "per_period_amount", "standard_hours", "standard_hours_period", "standard_work_day_hours", "effective_date"],
+      "properties": {
+        "pay_type": {"$ref": "#/$defs/NullableCodedValue"},
+        "pay_frequency": {"$ref": "#/$defs/NullableCodedValue"},
+        "rate": {"$ref": "#/$defs/NullableMoney"},
+        "rate_period": {"$ref": "#/$defs/NullableCodedValue"},
+        "hourly_rate": {"$ref": "#/$defs/NullableMoney"},
+        "annual_amount": {"$ref": "#/$defs/NullableMoney"},
+        "per_period_amount": {"$ref": "#/$defs/NullableMoney"},
+        "standard_hours": {"$ref": "#/$defs/NullableDecimal"},
+        "standard_hours_period": {"$ref": "#/$defs/NullableCodedValue"},
+        "standard_work_day_hours": {"$ref": "#/$defs/NullableDecimal"},
+        "effective_date": {"$ref": "#/$defs/NullableDate"}
+      }
+    },
+    "CodedValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw", "label", "value"],
+      "properties": {
+        "raw": {"type": ["string", "integer", "null"], "description": "The provider value exactly as received."},
+        "label": {"type": ["string", "null"], "description": "Provider-side description of the code, when one exists."},
+        "value": {"type": ["string", "null"], "description": "Canonical enum value, `unknown` when undocumented, or null when the field has no canonical domain."}
+      }
+    },
+    "Address": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "line1", "line2", "city", "region", "postal_code", "country"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["home", "mailing", "w2", "work", "unknown"]},
+        "line1": {"type": ["string", "null"]},
+        "line2": {"type": ["string", "null"]},
+        "city": {"type": ["string", "null"]},
+        "region": {"type": ["string", "null"]},
+        "postal_code": {"type": ["string", "null"]},
+        "country": {"type": ["string", "null"]}
+      }
+    },
+    "Phone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "number", "extension", "preferred"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["home", "mobile", "work", "other", "unknown"]},
+        "number": {"type": "string"},
+        "extension": {"type": ["string", "null"]},
+        "preferred": {"type": ["boolean", "null"]}
+      }
+    },
+    "Email": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "address"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["personal", "work", "other", "unknown"]},
+        "address": {"type": "string"}
+      }
+    },
+    "Money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount", "currency"],
+      "properties": {
+        "amount": {"type": "string", "description": "Decimal string, as the provider stated it."},
+        "currency": {"type": "string"}
+      }
+    },
+    "Issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "severity", "source_path", "action", "record_key", "raw_value", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": ["undocumented_code", "unmapped_label", "invalid_date", "invalid_number", "missing_section", "missing_lookup", "spec_live_mismatch", "masked_value", "out_of_schema_value", "multiple_current_rates", "unknown"]
+        },
+        "severity": {"type": "string", "enum": ["error", "warning", "info", "unknown"]},
+        "source_path": {"type": "string"},
+        "action": {"type": "string"},
+        "record_key": {"type": ["string", "null"]},
+        "raw_value": {"description": "Redacted raw value."},
+        "message": {"type": ["string", "null"]}
+      }
+    },
+    "NullableCodedValue": {"oneOf": [{"$ref": "#/$defs/CodedValue"}, {"type": "null"}]},
+    "NullableMoney": {"oneOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]},
+    "NullableDate": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "NullableDecimal": {"type": ["string", "null"]}
+  }
+}
