@@ -1,1286 +1,1587 @@
 {
-  "export_version": 1,
-  "providers": [
-    {
-      "id": "prismhr",
-      "name": "PrismHR",
-      "summary": {
-        "fields_total": 52,
-        "fields_offered": 46,
-        "fields_mapped": 44
+  "export_version": 2,
+  "entities": {
+    "employee": [
+      {
+        "id": "prismhr",
+        "name": "PrismHR",
+        "summary": {
+          "fields_total": 52,
+          "fields_offered": 46,
+          "fields_mapped": 44
+        },
+        "coverage": [
+          {
+            "field": "person.first_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "firstName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/firstName",
+            "reason": null
+          },
+          {
+            "field": "person.middle_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "middleInitial",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/middleInitial",
+            "reason": null
+          },
+          {
+            "field": "person.last_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "lastName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/lastName",
+            "reason": null
+          },
+          {
+            "field": "person.preferred_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "preferredName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/preferredName",
+            "reason": null
+          },
+          {
+            "field": "person.birth_date",
+            "section": "person",
+            "status": "mapped",
+            "source": "person.birthDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/birthDate",
+            "reason": null
+          },
+          {
+            "field": "person.gender",
+            "section": "person",
+            "status": "mapped",
+            "source": "person.gender",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/gender",
+            "reason": null
+          },
+          {
+            "field": "person.marital_status",
+            "section": "person",
+            "status": "mapped",
+            "source": "person.maritalStatus",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/maritalStatus",
+            "reason": null
+          },
+          {
+            "field": "person.citizenship",
+            "section": "person",
+            "status": "mapped",
+            "source": "compensation.citizenshipStatus",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/citizenshipStatus",
+            "reason": null
+          },
+          {
+            "field": "person.ethnicity",
+            "section": "person",
+            "status": "mapped",
+            "source": "person.ethnicCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/ethnicCode",
+            "reason": null
+          },
+          {
+            "field": "person.ssn_last4",
+            "section": "person",
+            "status": "mapped",
+            "source": "compensation.ssn",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/ssn",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[home]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "contactInformation.addressLine1 to zipSuffix",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/addressLine1",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[mailing]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "client.addressLine1 to zipSuffix, else getAddressInfo altAddress",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/addressLine1",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[w2]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "person.w2AddressLine1 to w2PostalCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/w2AddressLine1",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[work]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties",
+            "reason": "The employee record has no work address."
+          },
+          {
+            "field": "contact.phones[home]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "contactInformation.homePhone",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/homePhone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[mobile]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "contactInformation.mobilePhone",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/mobilePhone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[work]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "client.workPhone and client.workPhoneExt",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/workPhone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[other]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties",
+            "reason": "Only home, mobile and work phone numbers."
+          },
+          {
+            "field": "contact.emails[personal]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties",
+            "reason": "No email on getEmployee is labelled personal; personalEmail exists only on the Rehire and Census schemas."
+          },
+          {
+            "field": "contact.emails[work]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "client.workEmail",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/workEmail",
+            "reason": null
+          },
+          {
+            "field": "contact.emails[other]",
+            "section": "contact",
+            "status": "not_mapped_yet",
+            "source": "client.benefitEmail",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/benefitEmail",
+            "reason": "An address used for benefits enrollment. It has no canonical kind yet and stays in unmapped."
+          },
+          {
+            "field": "contact.emails[unknown]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "contactInformation.emailAddress",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/emailAddress",
+            "reason": null
+          },
+          {
+            "field": "employment.status",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.statusClass",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/statusClass",
+            "reason": null
+          },
+          {
+            "field": "employment.status_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.statusDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/statusDate",
+            "reason": null
+          },
+          {
+            "field": "employment.employment_type",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.typeClass",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/typeClass",
+            "reason": null
+          },
+          {
+            "field": "employment.hire_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.lastHireDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/lastHireDate",
+            "reason": null
+          },
+          {
+            "field": "employment.original_hire_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.firstHireDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/firstHireDate",
+            "reason": null
+          },
+          {
+            "field": "employment.rehire_date",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties",
+            "reason": "PrismHR keeps the first and the most recent hire dates (firstHireDate, lastHireDate) but no separate rehire date."
+          },
+          {
+            "field": "employment.termination_date",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties",
+            "reason": "No termination date field. For a terminated employee, statusDate is the date of the status change."
+          },
+          {
+            "field": "employment.seniority_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.seniorityDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/seniorityDate",
+            "reason": null
+          },
+          {
+            "field": "employment.termination_reason",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.termReasonCode and termExplanation",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/termReasonCode",
+            "reason": null
+          },
+          {
+            "field": "employment.rehire_eligible",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.rehireOk",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/rehireOk",
+            "reason": null
+          },
+          {
+            "field": "employment.flsa_exempt",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.flsaExempt",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/flsaExempt",
+            "reason": null
+          },
+          {
+            "field": "employment.contractor_1099",
+            "section": "employment",
+            "status": "mapped",
+            "source": "client.employee1099",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/employee1099",
+            "reason": null
+          },
+          {
+            "field": "job.title",
+            "section": "job",
+            "status": "not_mapped_yet",
+            "source": "client.jobCode, named by GET /clientMaster/v1/getClientCodes (options Job): jobTitle",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle",
+            "reason": "The bundle does not fetch the job code table, so the title is not available."
+          },
+          {
+            "field": "job.job_code",
+            "section": "job",
+            "status": "mapped",
+            "source": "client.jobCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/jobCode",
+            "reason": null
+          },
+          {
+            "field": "job.department",
+            "section": "job",
+            "status": "mapped",
+            "source": "client.homeDepartment",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/homeDepartment",
+            "reason": null
+          },
+          {
+            "field": "job.location",
+            "section": "job",
+            "status": "mapped",
+            "source": "client.homeLocation",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/homeLocation",
+            "reason": null
+          },
+          {
+            "field": "job.division",
+            "section": "job",
+            "status": "mapped",
+            "source": "client.homeDivision",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/homeDivision",
+            "reason": null
+          },
+          {
+            "field": "job.manager_employee_id",
+            "section": "job",
+            "status": "mapped",
+            "source": "client.manager",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/manager",
+            "reason": null
+          },
+          {
+            "field": "job.job_start_date",
+            "section": "job",
+            "status": "mapped",
+            "source": "client.jobStartDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/jobStartDate",
+            "reason": null
+          },
+          {
+            "field": "compensation.pay_type",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.payMethod",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payMethod",
+            "reason": null
+          },
+          {
+            "field": "compensation.pay_frequency",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.payPeriod",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod",
+            "reason": null
+          },
+          {
+            "field": "compensation.rate",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.hourlyPayRate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/hourlyPayRate",
+            "reason": null
+          },
+          {
+            "field": "compensation.rate_period",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.hourlyPayPeriod",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/hourlyPayPeriod",
+            "reason": null
+          },
+          {
+            "field": "compensation.hourly_rate",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.hourlyPay",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/hourlyPay",
+            "reason": null
+          },
+          {
+            "field": "compensation.annual_amount",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.annualPay",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/annualPay",
+            "reason": null
+          },
+          {
+            "field": "compensation.per_period_amount",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.salary",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/salary",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_hours",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.standardHours",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/standardHours",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_hours_period",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.standardHours (period from its description)",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/standardHours/description",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_work_day_hours",
+            "section": "compensation",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties",
+            "reason": "No work-day length; only standard hours per pay period."
+          },
+          {
+            "field": "compensation.effective_date",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "compensation.effectiveDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/effectiveDate",
+            "reason": null
+          }
+        ]
       },
-      "coverage": [
-        {
-          "field": "person.first_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "firstName",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/firstName",
-          "reason": null
+      {
+        "id": "isolved",
+        "name": "isolved",
+        "summary": {
+          "fields_total": 52,
+          "fields_offered": 45,
+          "fields_mapped": 41
         },
-        {
-          "field": "person.middle_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "middleInitial",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/middleInitial",
-          "reason": null
-        },
-        {
-          "field": "person.last_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "lastName",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/lastName",
-          "reason": null
-        },
-        {
-          "field": "person.preferred_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "preferredName",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties/preferredName",
-          "reason": null
-        },
-        {
-          "field": "person.birth_date",
-          "section": "person",
-          "status": "mapped",
-          "source": "person.birthDate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/birthDate",
-          "reason": null
-        },
-        {
-          "field": "person.gender",
-          "section": "person",
-          "status": "mapped",
-          "source": "person.gender",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/gender",
-          "reason": null
-        },
-        {
-          "field": "person.marital_status",
-          "section": "person",
-          "status": "mapped",
-          "source": "person.maritalStatus",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/maritalStatus",
-          "reason": null
-        },
-        {
-          "field": "person.citizenship",
-          "section": "person",
-          "status": "mapped",
-          "source": "compensation.citizenshipStatus",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/citizenshipStatus",
-          "reason": null
-        },
-        {
-          "field": "person.ethnicity",
-          "section": "person",
-          "status": "mapped",
-          "source": "person.ethnicCode",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/ethnicCode",
-          "reason": null
-        },
-        {
-          "field": "person.ssn_last4",
-          "section": "person",
-          "status": "mapped",
-          "source": "compensation.ssn",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/ssn",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[home]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "contactInformation.addressLine1 to zipSuffix",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/addressLine1",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[mailing]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "client.addressLine1 to zipSuffix, else getAddressInfo altAddress",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/addressLine1",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[w2]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "person.w2AddressLine1 to w2PostalCode",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Person/properties/w2AddressLine1",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[work]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Employee/properties",
-          "reason": "The employee record has no work address."
-        },
-        {
-          "field": "contact.phones[home]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "contactInformation.homePhone",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/homePhone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[mobile]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "contactInformation.mobilePhone",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/mobilePhone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[work]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "client.workPhone and client.workPhoneExt",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/workPhone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[other]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties",
-          "reason": "Only home, mobile and work phone numbers."
-        },
-        {
-          "field": "contact.emails[personal]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties",
-          "reason": "No email on getEmployee is labelled personal; personalEmail exists only on the Rehire and Census schemas."
-        },
-        {
-          "field": "contact.emails[work]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "client.workEmail",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/workEmail",
-          "reason": null
-        },
-        {
-          "field": "contact.emails[other]",
-          "section": "contact",
-          "status": "not_mapped_yet",
-          "source": "client.benefitEmail",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/benefitEmail",
-          "reason": "An address used for benefits enrollment. It has no canonical kind yet and stays in unmapped."
-        },
-        {
-          "field": "contact.emails[unknown]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "contactInformation.emailAddress",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ContactInformation/properties/emailAddress",
-          "reason": null
-        },
-        {
-          "field": "employment.status",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.statusClass",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/statusClass",
-          "reason": null
-        },
-        {
-          "field": "employment.status_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.statusDate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/statusDate",
-          "reason": null
-        },
-        {
-          "field": "employment.employment_type",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.typeClass",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/typeClass",
-          "reason": null
-        },
-        {
-          "field": "employment.hire_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.lastHireDate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/lastHireDate",
-          "reason": null
-        },
-        {
-          "field": "employment.original_hire_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.firstHireDate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/firstHireDate",
-          "reason": null
-        },
-        {
-          "field": "employment.rehire_date",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties",
-          "reason": "PrismHR keeps the first and the most recent hire dates (firstHireDate, lastHireDate) but no separate rehire date."
-        },
-        {
-          "field": "employment.termination_date",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties",
-          "reason": "No termination date field. For a terminated employee, statusDate is the date of the status change."
-        },
-        {
-          "field": "employment.seniority_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.seniorityDate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/seniorityDate",
-          "reason": null
-        },
-        {
-          "field": "employment.termination_reason",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.termReasonCode and termExplanation",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/termReasonCode",
-          "reason": null
-        },
-        {
-          "field": "employment.rehire_eligible",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.rehireOk",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/rehireOk",
-          "reason": null
-        },
-        {
-          "field": "employment.flsa_exempt",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.flsaExempt",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/flsaExempt",
-          "reason": null
-        },
-        {
-          "field": "employment.contractor_1099",
-          "section": "employment",
-          "status": "mapped",
-          "source": "client.employee1099",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/employee1099",
-          "reason": null
-        },
-        {
-          "field": "job.title",
-          "section": "job",
-          "status": "not_mapped_yet",
-          "source": "client.jobCode, named by GET /clientMaster/v1/getClientCodes (options Job): jobTitle",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle",
-          "reason": "The bundle does not fetch the job code table, so the title is not available."
-        },
-        {
-          "field": "job.job_code",
-          "section": "job",
-          "status": "mapped",
-          "source": "client.jobCode",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/jobCode",
-          "reason": null
-        },
-        {
-          "field": "job.department",
-          "section": "job",
-          "status": "mapped",
-          "source": "client.homeDepartment",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/homeDepartment",
-          "reason": null
-        },
-        {
-          "field": "job.location",
-          "section": "job",
-          "status": "mapped",
-          "source": "client.homeLocation",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/homeLocation",
-          "reason": null
-        },
-        {
-          "field": "job.division",
-          "section": "job",
-          "status": "mapped",
-          "source": "client.homeDivision",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/homeDivision",
-          "reason": null
-        },
-        {
-          "field": "job.manager_employee_id",
-          "section": "job",
-          "status": "mapped",
-          "source": "client.manager",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/manager",
-          "reason": null
-        },
-        {
-          "field": "job.job_start_date",
-          "section": "job",
-          "status": "mapped",
-          "source": "client.jobStartDate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/jobStartDate",
-          "reason": null
-        },
-        {
-          "field": "compensation.pay_type",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.payMethod",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payMethod",
-          "reason": null
-        },
-        {
-          "field": "compensation.pay_frequency",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.payPeriod",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod",
-          "reason": null
-        },
-        {
-          "field": "compensation.rate",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.hourlyPayRate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/hourlyPayRate",
-          "reason": null
-        },
-        {
-          "field": "compensation.rate_period",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.hourlyPayPeriod",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/hourlyPayPeriod",
-          "reason": null
-        },
-        {
-          "field": "compensation.hourly_rate",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.hourlyPay",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/hourlyPay",
-          "reason": null
-        },
-        {
-          "field": "compensation.annual_amount",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.annualPay",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/annualPay",
-          "reason": null
-        },
-        {
-          "field": "compensation.per_period_amount",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.salary",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/salary",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_hours",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.standardHours",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/standardHours",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_hours_period",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.standardHours (period from its description)",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/standardHours/description",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_work_day_hours",
-          "section": "compensation",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties",
-          "reason": "No work-day length; only standard hours per pay period."
-        },
-        {
-          "field": "compensation.effective_date",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "compensation.effectiveDate",
-          "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/effectiveDate",
-          "reason": null
-        }
-      ]
-    },
-    {
-      "id": "isolved",
-      "name": "isolved",
-      "summary": {
-        "fields_total": 52,
-        "fields_offered": 45,
-        "fields_mapped": 41
+        "coverage": [
+          {
+            "field": "person.first_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "nameAddress.firstName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/firstName",
+            "reason": null
+          },
+          {
+            "field": "person.middle_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "nameAddress.middleName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/middleName",
+            "reason": null
+          },
+          {
+            "field": "person.last_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "nameAddress.lastName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/lastName",
+            "reason": null
+          },
+          {
+            "field": "person.preferred_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "nameAddress.preferredName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/preferredName",
+            "reason": null
+          },
+          {
+            "field": "person.birth_date",
+            "section": "person",
+            "status": "mapped",
+            "source": "birthDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/birthDate",
+            "reason": null
+          },
+          {
+            "field": "person.gender",
+            "section": "person",
+            "status": "mapped",
+            "source": "gender",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/gender",
+            "reason": null
+          },
+          {
+            "field": "person.marital_status",
+            "section": "person",
+            "status": "mapped",
+            "source": "maritalStatus",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/maritalStatus",
+            "reason": null
+          },
+          {
+            "field": "person.citizenship",
+            "section": "person",
+            "status": "mapped",
+            "source": "citizenship",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/citizenship",
+            "reason": null
+          },
+          {
+            "field": "person.ethnicity",
+            "section": "person",
+            "status": "mapped",
+            "source": "ethnicOrigin",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/ethnicOrigin",
+            "reason": null
+          },
+          {
+            "field": "person.ssn_last4",
+            "section": "person",
+            "status": "mapped",
+            "source": "ssn",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/ssn",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[home]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "nameAddress.address1 to zipCode",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/address1",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[mailing]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
+            "reason": "Only the home address and the W-2 override address."
+          },
+          {
+            "field": "contact.addresses[w2]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "overrideAddress",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/overrideAddress",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[work]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
+            "reason": "The employee record has no work address."
+          },
+          {
+            "field": "contact.phones[home]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "personal.homePhone",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/homePhone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[mobile]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "personal.mobilePhone",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/mobilePhone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[work]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "personal.officePhone",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/officePhone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[other]",
+            "section": "contact",
+            "status": "not_mapped_yet",
+            "source": "personal.faxNumber",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/faxNumber",
+            "reason": "A fax number has no canonical phone kind yet. It stays in unmapped."
+          },
+          {
+            "field": "contact.emails[personal]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "personal.personalEmailAddress",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/personalEmailAddress",
+            "reason": null
+          },
+          {
+            "field": "contact.emails[work]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
+            "reason": "No email is labelled as the work address; emailAddress does not state its kind."
+          },
+          {
+            "field": "contact.emails[other]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties",
+            "reason": "Only emailAddress and personalEmailAddress."
+          },
+          {
+            "field": "contact.emails[unknown]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "emailAddress",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/emailAddress",
+            "reason": null
+          },
+          {
+            "field": "employment.status",
+            "section": "employment",
+            "status": "mapped",
+            "source": "employmentStatus",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentStatus",
+            "reason": null
+          },
+          {
+            "field": "employment.status_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "statusDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/statusDate",
+            "reason": null
+          },
+          {
+            "field": "employment.employment_type",
+            "section": "employment",
+            "status": "mapped",
+            "source": "employmentCategoryCode",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode",
+            "reason": null
+          },
+          {
+            "field": "employment.hire_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "hireDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/hireDate",
+            "reason": null
+          },
+          {
+            "field": "employment.original_hire_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "originalHireDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/originalHireDate",
+            "reason": null
+          },
+          {
+            "field": "employment.rehire_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "rehireDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/rehireDate",
+            "reason": null
+          },
+          {
+            "field": "employment.termination_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "terminationDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/terminationDate",
+            "reason": null
+          },
+          {
+            "field": "employment.seniority_date",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
+            "reason": "The employee record has no seniority date."
+          },
+          {
+            "field": "employment.termination_reason",
+            "section": "employment",
+            "status": "mapped",
+            "source": "terminationReason",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/terminationReason",
+            "reason": null
+          },
+          {
+            "field": "employment.rehire_eligible",
+            "section": "employment",
+            "status": "mapped",
+            "source": "eligibleForRehire",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/eligibleForRehire",
+            "reason": null
+          },
+          {
+            "field": "employment.flsa_exempt",
+            "section": "employment",
+            "status": "mapped",
+            "source": "jobFLSAExempt",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobFLSAExempt",
+            "reason": null
+          },
+          {
+            "field": "employment.contractor_1099",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
+            "reason": "No contractor flag. payType can read 1099, but that is a pay type, not the flag (docs/DECISIONS.md, isolved pay type entry)."
+          },
+          {
+            "field": "job.title",
+            "section": "job",
+            "status": "mapped",
+            "source": "jobTitle",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobTitle",
+            "reason": null
+          },
+          {
+            "field": "job.job_code",
+            "section": "job",
+            "status": "mapped",
+            "source": "jobCode",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobCode",
+            "reason": null
+          },
+          {
+            "field": "job.department",
+            "section": "job",
+            "status": "mapped",
+            "source": "organizations[] row titled Department",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeOrganizationModel/properties",
+            "reason": null
+          },
+          {
+            "field": "job.location",
+            "section": "job",
+            "status": "mapped",
+            "source": "organizations[] row titled Location, else workLocation",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/workLocation",
+            "reason": null
+          },
+          {
+            "field": "job.division",
+            "section": "job",
+            "status": "not_mapped_yet",
+            "source": "organizations[] rows, titled by each client",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeOrganizationModel/properties",
+            "reason": "Only the Department and Location rows are read. A client-titled division row stays in unmapped."
+          },
+          {
+            "field": "job.manager_employee_id",
+            "section": "job",
+            "status": "mapped",
+            "source": "assignedManager.id",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/assignedManager",
+            "reason": null
+          },
+          {
+            "field": "job.job_start_date",
+            "section": "job",
+            "status": "mapped",
+            "source": "jobEffectiveDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobEffectiveDate",
+            "reason": null
+          },
+          {
+            "field": "compensation.pay_type",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "payType",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payType",
+            "reason": null
+          },
+          {
+            "field": "compensation.pay_frequency",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "payFrequency (label from payGroup)",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency",
+            "reason": null
+          },
+          {
+            "field": "compensation.rate",
+            "section": "compensation",
+            "status": "not_mapped_yet",
+            "source": "payRates[]",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payRates",
+            "reason": "Pay-rate rows are not mapped yet. They stay in unmapped."
+          },
+          {
+            "field": "compensation.rate_period",
+            "section": "compensation",
+            "status": "not_mapped_yet",
+            "source": "payRates[]",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payRates",
+            "reason": "Pay-rate rows are not mapped yet. They stay in unmapped."
+          },
+          {
+            "field": "compensation.hourly_rate",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "hourlyRate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/hourlyRate",
+            "reason": null
+          },
+          {
+            "field": "compensation.annual_amount",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "annualSalary",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/annualSalary",
+            "reason": null
+          },
+          {
+            "field": "compensation.per_period_amount",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "perPaySalary",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/perPaySalary",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_hours",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "normalHours",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/normalHours",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_hours_period",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "normalHours (period from its description)",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/normalHours/description",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_work_day_hours",
+            "section": "compensation",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
+            "reason": "No work-day length; only normal hours per pay period."
+          },
+          {
+            "field": "compensation.effective_date",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "salaryEffectiveDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/salaryEffectiveDate",
+            "reason": null
+          }
+        ]
       },
-      "coverage": [
-        {
-          "field": "person.first_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "nameAddress.firstName",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/firstName",
-          "reason": null
+      {
+        "id": "ukg-ready",
+        "name": "UKG Ready",
+        "summary": {
+          "fields_total": 52,
+          "fields_offered": 41,
+          "fields_mapped": 34
         },
-        {
-          "field": "person.middle_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "nameAddress.middleName",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/middleName",
-          "reason": null
+        "coverage": [
+          {
+            "field": "person.first_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "first_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/first_name",
+            "reason": null
+          },
+          {
+            "field": "person.middle_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "middle_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/middle_name",
+            "reason": null
+          },
+          {
+            "field": "person.last_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "last_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/last_name",
+            "reason": null
+          },
+          {
+            "field": "person.preferred_name",
+            "section": "person",
+            "status": "mapped",
+            "source": "nickname",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/nickname",
+            "reason": null
+          },
+          {
+            "field": "person.birth_date",
+            "section": "person",
+            "status": "mapped",
+            "source": "dates.birthday",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/birthday",
+            "reason": null
+          },
+          {
+            "field": "person.gender",
+            "section": "person",
+            "status": "mapped",
+            "source": "demographics.gender",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties/gender",
+            "reason": null
+          },
+          {
+            "field": "person.marital_status",
+            "section": "person",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties",
+            "reason": "No marital status in the employee, demographics or pay-info responses."
+          },
+          {
+            "field": "person.citizenship",
+            "section": "person",
+            "status": "mapped",
+            "source": "demographics.citizenship",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties/citizenship",
+            "reason": null
+          },
+          {
+            "field": "person.ethnicity",
+            "section": "person",
+            "status": "mapped",
+            "source": "demographics.ethnicity",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties/ethnicity",
+            "reason": null
+          },
+          {
+            "field": "person.ssn_last4",
+            "section": "person",
+            "status": "mapped",
+            "source": "social_security",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/social_security",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[home]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "address",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/address",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[mailing]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "mailing_address, unless use_separate_mailing_address is false",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/mailing_address",
+            "reason": null
+          },
+          {
+            "field": "contact.addresses[w2]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
+            "reason": "Only the home address and the mailing address."
+          },
+          {
+            "field": "contact.addresses[work]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
+            "reason": "The employee record has no work address."
+          },
+          {
+            "field": "contact.phones[home]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "phones.home_phone",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties/home_phone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[mobile]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "phones.cell_phone",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties/cell_phone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[work]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "phones.work_phone",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties/work_phone",
+            "reason": null
+          },
+          {
+            "field": "contact.phones[other]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties",
+            "reason": "Only home, cell and work phone numbers."
+          },
+          {
+            "field": "contact.emails[personal]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
+            "reason": "Only primary_email and secondary_email; neither states its kind."
+          },
+          {
+            "field": "contact.emails[work]",
+            "section": "contact",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
+            "reason": "Only primary_email and secondary_email; neither states its kind."
+          },
+          {
+            "field": "contact.emails[other]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "secondary_email",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/secondary_email",
+            "reason": null
+          },
+          {
+            "field": "contact.emails[unknown]",
+            "section": "contact",
+            "status": "mapped",
+            "source": "primary_email",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/primary_email",
+            "reason": null
+          },
+          {
+            "field": "employment.status",
+            "section": "employment",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/status",
+            "reason": null
+          },
+          {
+            "field": "employment.status_date",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties",
+            "reason": "No date for the current status."
+          },
+          {
+            "field": "employment.employment_type",
+            "section": "employment",
+            "status": "mapped",
+            "source": "pay_info.employee_type.id, named by the employee-types lookup",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type",
+            "reason": null
+          },
+          {
+            "field": "employment.hire_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "dates.hired",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/hired",
+            "reason": null
+          },
+          {
+            "field": "employment.original_hire_date",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties",
+            "reason": "Only dates.hired and dates.re_hired; neither is labelled as the original hire date."
+          },
+          {
+            "field": "employment.rehire_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "dates.re_hired",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/re_hired",
+            "reason": null
+          },
+          {
+            "field": "employment.termination_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "dates.terminated",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/terminated",
+            "reason": null
+          },
+          {
+            "field": "employment.seniority_date",
+            "section": "employment",
+            "status": "mapped",
+            "source": "dates.seniority",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/seniority",
+            "reason": null
+          },
+          {
+            "field": "employment.termination_reason",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
+            "reason": "The read schema has no termination reason. termination_details appears only in the write (PUT) schema 107."
+          },
+          {
+            "field": "employment.rehire_eligible",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
+            "reason": "The read schema has no rehire eligibility. rehire_details appears only in the write (PUT) schema 107."
+          },
+          {
+            "field": "employment.flsa_exempt",
+            "section": "employment",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties",
+            "reason": "No FLSA field in the employee, demographics or pay-info responses."
+          },
+          {
+            "field": "employment.contractor_1099",
+            "section": "employment",
+            "status": "not_mapped_yet",
+            "source": "tax-info employee-tax-type._1099",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099",
+            "reason": "The bundle does not fetch tax-info, so the flag is not available."
+          },
+          {
+            "field": "job.title",
+            "section": "job",
+            "status": "not_mapped_yet",
+            "source": "pay_info.default_job.id, named by GET /v2/companies/{cid}/config/cost-center-jobs",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job",
+            "reason": "The bundle does not fetch the jobs configuration, so the name is not available."
+          },
+          {
+            "field": "job.job_code",
+            "section": "job",
+            "status": "mapped",
+            "source": "pay_info.default_job.id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job",
+            "reason": null
+          },
+          {
+            "field": "job.department",
+            "section": "job",
+            "status": "not_mapped_yet",
+            "source": "cost_centers_info.defaults[].value.id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "Cost-centre levels (0 to 8) are defined by each company, so which level is the department is not known."
+          },
+          {
+            "field": "job.location",
+            "section": "job",
+            "status": "not_mapped_yet",
+            "source": "cost_centers_info.defaults[].value.id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "Cost-centre levels (0 to 8) are defined by each company, so which level is the location is not known."
+          },
+          {
+            "field": "job.division",
+            "section": "job",
+            "status": "not_mapped_yet",
+            "source": "cost_centers_info.defaults[].value.id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
+            "reason": "Cost-centre levels (0 to 8) are defined by each company, so which level is the division is not known."
+          },
+          {
+            "field": "job.manager_employee_id",
+            "section": "job",
+            "status": "mapped",
+            "source": "managers[] with the lowest index: empl_ref.account_id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/managers",
+            "reason": null
+          },
+          {
+            "field": "job.job_start_date",
+            "section": "job",
+            "status": "not_mapped_yet",
+            "source": "pay_info.job_last_changed",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/job_last_changed",
+            "reason": "The date the job last changed. Whether that is the current job's start date is not documented."
+          },
+          {
+            "field": "compensation.pay_type",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "pay_info.pay_type.id, named by the pay-types lookup",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type",
+            "reason": null
+          },
+          {
+            "field": "compensation.pay_frequency",
+            "section": "compensation",
+            "status": "not_mapped_yet",
+            "source": "compensation_history row num_pp_in_year",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/num_pp_in_year",
+            "reason": "A count of pay periods per year, not a frequency code (docs/DECISIONS.md, UKG current pay entry)."
+          },
+          {
+            "field": "compensation.rate",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "current compensation_history row: amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "compensation.rate_period",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "current compensation_history row: amount_period",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount_period",
+            "reason": null
+          },
+          {
+            "field": "compensation.hourly_rate",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "current compensation_history row: hourly_pay",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/hourly_pay",
+            "reason": null
+          },
+          {
+            "field": "compensation.annual_amount",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "amount, when amount_period is YEAR",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount_period",
+            "reason": null
+          },
+          {
+            "field": "compensation.per_period_amount",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "amount, when amount_period is PAY_PERIOD",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount_period",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_hours",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "current compensation_history row: time (milliseconds)",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/time",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_hours_period",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "current compensation_history row: time_period",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/time_period",
+            "reason": null
+          },
+          {
+            "field": "compensation.standard_work_day_hours",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "pay_info.standard_work_day (milliseconds)",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/standard_work_day",
+            "reason": null
+          },
+          {
+            "field": "compensation.effective_date",
+            "section": "compensation",
+            "status": "mapped",
+            "source": "current compensation_history row: effective_from",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/effective_from",
+            "reason": null
+          }
+        ]
+      }
+    ],
+    "direct-deposit": [
+      {
+        "id": "prismhr",
+        "name": "PrismHR",
+        "summary": {
+          "fields_total": 11,
+          "fields_offered": 8,
+          "fields_mapped": 8
         },
-        {
-          "field": "person.last_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "nameAddress.lastName",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/lastName",
-          "reason": null
-        },
-        {
-          "field": "person.preferred_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "nameAddress.preferredName",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/preferredName",
-          "reason": null
-        },
-        {
-          "field": "person.birth_date",
-          "section": "person",
-          "status": "mapped",
-          "source": "birthDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/birthDate",
-          "reason": null
-        },
-        {
-          "field": "person.gender",
-          "section": "person",
-          "status": "mapped",
-          "source": "gender",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/gender",
-          "reason": null
-        },
-        {
-          "field": "person.marital_status",
-          "section": "person",
-          "status": "mapped",
-          "source": "maritalStatus",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/maritalStatus",
-          "reason": null
-        },
-        {
-          "field": "person.citizenship",
-          "section": "person",
-          "status": "mapped",
-          "source": "citizenship",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/citizenship",
-          "reason": null
-        },
-        {
-          "field": "person.ethnicity",
-          "section": "person",
-          "status": "mapped",
-          "source": "ethnicOrigin",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/ethnicOrigin",
-          "reason": null
-        },
-        {
-          "field": "person.ssn_last4",
-          "section": "person",
-          "status": "mapped",
-          "source": "ssn",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/ssn",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[home]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "nameAddress.address1 to zipCode",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeNameAddressModel/properties/address1",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[mailing]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
-          "reason": "Only the home address and the W-2 override address."
-        },
-        {
-          "field": "contact.addresses[w2]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "overrideAddress",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/overrideAddress",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[work]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
-          "reason": "The employee record has no work address."
-        },
-        {
-          "field": "contact.phones[home]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "personal.homePhone",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/homePhone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[mobile]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "personal.mobilePhone",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/mobilePhone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[work]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "personal.officePhone",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/officePhone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[other]",
-          "section": "contact",
-          "status": "not_mapped_yet",
-          "source": "personal.faxNumber",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/faxNumber",
-          "reason": "A fax number has no canonical phone kind yet. It stays in unmapped."
-        },
-        {
-          "field": "contact.emails[personal]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "personal.personalEmailAddress",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties/personalEmailAddress",
-          "reason": null
-        },
-        {
-          "field": "contact.emails[work]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
-          "reason": "No email is labelled as the work address; emailAddress does not state its kind."
-        },
-        {
-          "field": "contact.emails[other]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePersonalModel/properties",
-          "reason": "Only emailAddress and personalEmailAddress."
-        },
-        {
-          "field": "contact.emails[unknown]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "emailAddress",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/emailAddress",
-          "reason": null
-        },
-        {
-          "field": "employment.status",
-          "section": "employment",
-          "status": "mapped",
-          "source": "employmentStatus",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentStatus",
-          "reason": null
-        },
-        {
-          "field": "employment.status_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "statusDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/statusDate",
-          "reason": null
-        },
-        {
-          "field": "employment.employment_type",
-          "section": "employment",
-          "status": "mapped",
-          "source": "employmentCategoryCode",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/employmentCategoryCode",
-          "reason": null
-        },
-        {
-          "field": "employment.hire_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "hireDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/hireDate",
-          "reason": null
-        },
-        {
-          "field": "employment.original_hire_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "originalHireDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/originalHireDate",
-          "reason": null
-        },
-        {
-          "field": "employment.rehire_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "rehireDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/rehireDate",
-          "reason": null
-        },
-        {
-          "field": "employment.termination_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "terminationDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/terminationDate",
-          "reason": null
-        },
-        {
-          "field": "employment.seniority_date",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
-          "reason": "The employee record has no seniority date."
-        },
-        {
-          "field": "employment.termination_reason",
-          "section": "employment",
-          "status": "mapped",
-          "source": "terminationReason",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/terminationReason",
-          "reason": null
-        },
-        {
-          "field": "employment.rehire_eligible",
-          "section": "employment",
-          "status": "mapped",
-          "source": "eligibleForRehire",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/eligibleForRehire",
-          "reason": null
-        },
-        {
-          "field": "employment.flsa_exempt",
-          "section": "employment",
-          "status": "mapped",
-          "source": "jobFLSAExempt",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobFLSAExempt",
-          "reason": null
-        },
-        {
-          "field": "employment.contractor_1099",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
-          "reason": "No contractor flag. payType can read 1099, but that is a pay type, not the flag (docs/DECISIONS.md, isolved pay type entry)."
-        },
-        {
-          "field": "job.title",
-          "section": "job",
-          "status": "mapped",
-          "source": "jobTitle",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobTitle",
-          "reason": null
-        },
-        {
-          "field": "job.job_code",
-          "section": "job",
-          "status": "mapped",
-          "source": "jobCode",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobCode",
-          "reason": null
-        },
-        {
-          "field": "job.department",
-          "section": "job",
-          "status": "mapped",
-          "source": "organizations[] row titled Department",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeOrganizationModel/properties",
-          "reason": null
-        },
-        {
-          "field": "job.location",
-          "section": "job",
-          "status": "mapped",
-          "source": "organizations[] row titled Location, else workLocation",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/workLocation",
-          "reason": null
-        },
-        {
-          "field": "job.division",
-          "section": "job",
-          "status": "not_mapped_yet",
-          "source": "organizations[] rows, titled by each client",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeOrganizationModel/properties",
-          "reason": "Only the Department and Location rows are read. A client-titled division row stays in unmapped."
-        },
-        {
-          "field": "job.manager_employee_id",
-          "section": "job",
-          "status": "mapped",
-          "source": "assignedManager.id",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/assignedManager",
-          "reason": null
-        },
-        {
-          "field": "job.job_start_date",
-          "section": "job",
-          "status": "mapped",
-          "source": "jobEffectiveDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/jobEffectiveDate",
-          "reason": null
-        },
-        {
-          "field": "compensation.pay_type",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "payType",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payType",
-          "reason": null
-        },
-        {
-          "field": "compensation.pay_frequency",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "payFrequency (label from payGroup)",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payFrequency",
-          "reason": null
-        },
-        {
-          "field": "compensation.rate",
-          "section": "compensation",
-          "status": "not_mapped_yet",
-          "source": "payRates[]",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payRates",
-          "reason": "Pay-rate rows are not mapped yet. They stay in unmapped."
-        },
-        {
-          "field": "compensation.rate_period",
-          "section": "compensation",
-          "status": "not_mapped_yet",
-          "source": "payRates[]",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payRates",
-          "reason": "Pay-rate rows are not mapped yet. They stay in unmapped."
-        },
-        {
-          "field": "compensation.hourly_rate",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "hourlyRate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/hourlyRate",
-          "reason": null
-        },
-        {
-          "field": "compensation.annual_amount",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "annualSalary",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/annualSalary",
-          "reason": null
-        },
-        {
-          "field": "compensation.per_period_amount",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "perPaySalary",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/perPaySalary",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_hours",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "normalHours",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/normalHours",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_hours_period",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "normalHours (period from its description)",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/normalHours/description",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_work_day_hours",
-          "section": "compensation",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties",
-          "reason": "No work-day length; only normal hours per pay period."
-        },
-        {
-          "field": "compensation.effective_date",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "salaryEffectiveDate",
-          "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/salaryEffectiveDate",
-          "reason": null
-        }
-      ]
-    },
-    {
-      "id": "ukg-ready",
-      "name": "UKG Ready",
-      "summary": {
-        "fields_total": 52,
-        "fields_offered": 41,
-        "fields_mapped": 34
+        "coverage": [
+          {
+            "field": "bank_name",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "bankName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/bankName",
+            "reason": null
+          },
+          {
+            "field": "routing_number",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "transitNum",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/transitNum",
+            "reason": null
+          },
+          {
+            "field": "account_number_last4",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "accountNum, last four digits",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/accountNum",
+            "reason": null
+          },
+          {
+            "field": "account_type",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "accountType",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/accountType",
+            "reason": null
+          },
+          {
+            "field": "allocation.method",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "method",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/method",
+            "reason": null
+          },
+          {
+            "field": "allocation.amount",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "amount, when method is F or FS",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "allocation.percent",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "amount, when method is P or PN",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "priority",
+            "section": "allocation",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties",
+            "reason": "Deposit lines have no sequence number, and PrismHR does not say the list order is the payment order (docs/DECISIONS.md, PrismHR deposit position entry)."
+          },
+          {
+            "field": "status",
+            "section": "status_dates",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/status",
+            "reason": null
+          },
+          {
+            "field": "effective.start",
+            "section": "status_dates",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties",
+            "reason": "Deposit lines have no start or end date."
+          },
+          {
+            "field": "effective.end",
+            "section": "status_dates",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties",
+            "reason": "Deposit lines have no start or end date."
+          }
+        ]
       },
-      "coverage": [
-        {
-          "field": "person.first_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "first_name",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/first_name",
-          "reason": null
+      {
+        "id": "isolved",
+        "name": "isolved",
+        "summary": {
+          "fields_total": 11,
+          "fields_offered": 9,
+          "fields_mapped": 9
         },
-        {
-          "field": "person.middle_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "middle_name",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/middle_name",
-          "reason": null
+        "coverage": [
+          {
+            "field": "bank_name",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "bankName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/bankName",
+            "reason": null
+          },
+          {
+            "field": "routing_number",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "routingNumber",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/routingNumber",
+            "reason": null
+          },
+          {
+            "field": "account_number_last4",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "accountNumber, last four digits",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/accountNumber",
+            "reason": null
+          },
+          {
+            "field": "account_type",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "accountType",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/accountType",
+            "reason": null
+          },
+          {
+            "field": "allocation.method",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "amount or percent, whichever is set; sequenceNumber 0 is the remainder",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/sequenceNumber",
+            "reason": null
+          },
+          {
+            "field": "allocation.amount",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "amount",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "allocation.percent",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "percent",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/percent",
+            "reason": null
+          },
+          {
+            "field": "priority",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "sequenceNumber",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/sequenceNumber",
+            "reason": null
+          },
+          {
+            "field": "status",
+            "section": "status_dates",
+            "status": "mapped",
+            "source": "status",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties/status",
+            "reason": null
+          },
+          {
+            "field": "effective.start",
+            "section": "status_dates",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties",
+            "reason": "Deposit lines have no start or end date. frequency says how often a line applies, not when."
+          },
+          {
+            "field": "effective.end",
+            "section": "status_dates",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeDirectDepositModel/properties",
+            "reason": "Deposit lines have no start or end date. frequency says how often a line applies, not when."
+          }
+        ]
+      },
+      {
+        "id": "ukg-ready",
+        "name": "UKG Ready",
+        "summary": {
+          "fields_total": 11,
+          "fields_offered": 10,
+          "fields_mapped": 10
         },
-        {
-          "field": "person.last_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "last_name",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/last_name",
-          "reason": null
-        },
-        {
-          "field": "person.preferred_name",
-          "section": "person",
-          "status": "mapped",
-          "source": "nickname",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/nickname",
-          "reason": null
-        },
-        {
-          "field": "person.birth_date",
-          "section": "person",
-          "status": "mapped",
-          "source": "dates.birthday",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/birthday",
-          "reason": null
-        },
-        {
-          "field": "person.gender",
-          "section": "person",
-          "status": "mapped",
-          "source": "demographics.gender",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties/gender",
-          "reason": null
-        },
-        {
-          "field": "person.marital_status",
-          "section": "person",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties",
-          "reason": "No marital status in the employee, demographics or pay-info responses."
-        },
-        {
-          "field": "person.citizenship",
-          "section": "person",
-          "status": "mapped",
-          "source": "demographics.citizenship",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties/citizenship",
-          "reason": null
-        },
-        {
-          "field": "person.ethnicity",
-          "section": "person",
-          "status": "mapped",
-          "source": "demographics.ethnicity",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/134/schema/properties/ethnicity",
-          "reason": null
-        },
-        {
-          "field": "person.ssn_last4",
-          "section": "person",
-          "status": "mapped",
-          "source": "social_security",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/social_security",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[home]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "address",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/address",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[mailing]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "mailing_address, unless use_separate_mailing_address is false",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/mailing_address",
-          "reason": null
-        },
-        {
-          "field": "contact.addresses[w2]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
-          "reason": "Only the home address and the mailing address."
-        },
-        {
-          "field": "contact.addresses[work]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
-          "reason": "The employee record has no work address."
-        },
-        {
-          "field": "contact.phones[home]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "phones.home_phone",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties/home_phone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[mobile]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "phones.cell_phone",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties/cell_phone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[work]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "phones.work_phone",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties/work_phone",
-          "reason": null
-        },
-        {
-          "field": "contact.phones[other]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/phones/properties",
-          "reason": "Only home, cell and work phone numbers."
-        },
-        {
-          "field": "contact.emails[personal]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
-          "reason": "Only primary_email and secondary_email; neither states its kind."
-        },
-        {
-          "field": "contact.emails[work]",
-          "section": "contact",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
-          "reason": "Only primary_email and secondary_email; neither states its kind."
-        },
-        {
-          "field": "contact.emails[other]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "secondary_email",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/secondary_email",
-          "reason": null
-        },
-        {
-          "field": "contact.emails[unknown]",
-          "section": "contact",
-          "status": "mapped",
-          "source": "primary_email",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/primary_email",
-          "reason": null
-        },
-        {
-          "field": "employment.status",
-          "section": "employment",
-          "status": "mapped",
-          "source": "status",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/status",
-          "reason": null
-        },
-        {
-          "field": "employment.status_date",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties",
-          "reason": "No date for the current status."
-        },
-        {
-          "field": "employment.employment_type",
-          "section": "employment",
-          "status": "mapped",
-          "source": "pay_info.employee_type.id, named by the employee-types lookup",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/employee_type",
-          "reason": null
-        },
-        {
-          "field": "employment.hire_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "dates.hired",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/hired",
-          "reason": null
-        },
-        {
-          "field": "employment.original_hire_date",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties",
-          "reason": "Only dates.hired and dates.re_hired; neither is labelled as the original hire date."
-        },
-        {
-          "field": "employment.rehire_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "dates.re_hired",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/re_hired",
-          "reason": null
-        },
-        {
-          "field": "employment.termination_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "dates.terminated",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/terminated",
-          "reason": null
-        },
-        {
-          "field": "employment.seniority_date",
-          "section": "employment",
-          "status": "mapped",
-          "source": "dates.seniority",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/dates/properties/seniority",
-          "reason": null
-        },
-        {
-          "field": "employment.termination_reason",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
-          "reason": "The read schema has no termination reason. termination_details appears only in the write (PUT) schema 107."
-        },
-        {
-          "field": "employment.rehire_eligible",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties",
-          "reason": "The read schema has no rehire eligibility. rehire_details appears only in the write (PUT) schema 107."
-        },
-        {
-          "field": "employment.flsa_exempt",
-          "section": "employment",
-          "status": "not_offered",
-          "source": null,
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties",
-          "reason": "No FLSA field in the employee, demographics or pay-info responses."
-        },
-        {
-          "field": "employment.contractor_1099",
-          "section": "employment",
-          "status": "not_mapped_yet",
-          "source": "tax-info employee-tax-type._1099",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099",
-          "reason": "The bundle does not fetch tax-info, so the flag is not available."
-        },
-        {
-          "field": "job.title",
-          "section": "job",
-          "status": "not_mapped_yet",
-          "source": "pay_info.default_job.id, named by GET /v2/companies/{cid}/config/cost-center-jobs",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job",
-          "reason": "The bundle does not fetch the jobs configuration, so the name is not available."
-        },
-        {
-          "field": "job.job_code",
-          "section": "job",
-          "status": "mapped",
-          "source": "pay_info.default_job.id",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job",
-          "reason": null
-        },
-        {
-          "field": "job.department",
-          "section": "job",
-          "status": "not_mapped_yet",
-          "source": "cost_centers_info.defaults[].value.id",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
-          "reason": "Cost-centre levels (0 to 8) are defined by each company, so which level is the department is not known."
-        },
-        {
-          "field": "job.location",
-          "section": "job",
-          "status": "not_mapped_yet",
-          "source": "cost_centers_info.defaults[].value.id",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
-          "reason": "Cost-centre levels (0 to 8) are defined by each company, so which level is the location is not known."
-        },
-        {
-          "field": "job.division",
-          "section": "job",
-          "status": "not_mapped_yet",
-          "source": "cost_centers_info.defaults[].value.id",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/cost_centers_info",
-          "reason": "Cost-centre levels (0 to 8) are defined by each company, so which level is the division is not known."
-        },
-        {
-          "field": "job.manager_employee_id",
-          "section": "job",
-          "status": "mapped",
-          "source": "managers[] with the lowest index: empl_ref.account_id",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/managers",
-          "reason": null
-        },
-        {
-          "field": "job.job_start_date",
-          "section": "job",
-          "status": "not_mapped_yet",
-          "source": "pay_info.job_last_changed",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/job_last_changed",
-          "reason": "The date the job last changed. Whether that is the current job's start date is not documented."
-        },
-        {
-          "field": "compensation.pay_type",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "pay_info.pay_type.id, named by the pay-types lookup",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type",
-          "reason": null
-        },
-        {
-          "field": "compensation.pay_frequency",
-          "section": "compensation",
-          "status": "not_mapped_yet",
-          "source": "compensation_history row num_pp_in_year",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/num_pp_in_year",
-          "reason": "A count of pay periods per year, not a frequency code (docs/DECISIONS.md, UKG current pay entry)."
-        },
-        {
-          "field": "compensation.rate",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "current compensation_history row: amount",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount",
-          "reason": null
-        },
-        {
-          "field": "compensation.rate_period",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "current compensation_history row: amount_period",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount_period",
-          "reason": null
-        },
-        {
-          "field": "compensation.hourly_rate",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "current compensation_history row: hourly_pay",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/hourly_pay",
-          "reason": null
-        },
-        {
-          "field": "compensation.annual_amount",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "amount, when amount_period is YEAR",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount_period",
-          "reason": null
-        },
-        {
-          "field": "compensation.per_period_amount",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "amount, when amount_period is PAY_PERIOD",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/amount_period",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_hours",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "current compensation_history row: time (milliseconds)",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/time",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_hours_period",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "current compensation_history row: time_period",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/time_period",
-          "reason": null
-        },
-        {
-          "field": "compensation.standard_work_day_hours",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "pay_info.standard_work_day (milliseconds)",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/standard_work_day",
-          "reason": null
-        },
-        {
-          "field": "compensation.effective_date",
-          "section": "compensation",
-          "status": "mapped",
-          "source": "current compensation_history row: effective_from",
-          "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/effective_from",
-          "reason": null
-        }
-      ]
-    }
-  ]
+        "coverage": [
+          {
+            "field": "bank_name",
+            "section": "bank_account",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties",
+            "reason": "Lines carry a routing number but no bank name. name has no description, and the JSON and XML schemas disagree on its type, so it is not known to be the bank name."
+          },
+          {
+            "field": "routing_number",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "routing_number",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/routing_number",
+            "reason": null
+          },
+          {
+            "field": "account_number_last4",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "account_number, last four digits",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/account_number",
+            "reason": null
+          },
+          {
+            "field": "account_type",
+            "section": "bank_account",
+            "status": "mapped",
+            "source": "account_type",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/account_type",
+            "reason": null
+          },
+          {
+            "field": "allocation.method",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "calc_method.type, labelled by calc_method.display_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/calc_method/properties/type",
+            "reason": null
+          },
+          {
+            "field": "allocation.amount",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "amount, when calc_method is FLAT_AMOUNT",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "allocation.percent",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "percentage, when calc_method is GROSS_EARNING, NET_PAY or DIRECT_DEPOSIT_PER_OF_REMAINDER",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/percentage",
+            "reason": null
+          },
+          {
+            "field": "priority",
+            "section": "allocation",
+            "status": "mapped",
+            "source": "sequence",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/sequence",
+            "reason": null
+          },
+          {
+            "field": "status",
+            "section": "status_dates",
+            "status": "mapped",
+            "source": "active",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/active",
+            "reason": null
+          },
+          {
+            "field": "effective.start",
+            "section": "status_dates",
+            "status": "mapped",
+            "source": "active_from",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/active_from",
+            "reason": null
+          },
+          {
+            "field": "effective.end",
+            "section": "status_dates",
+            "status": "mapped",
+            "source": "active_to",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/active_to",
+            "reason": null
+          }
+        ]
+      }
+    ]
+  }
 }

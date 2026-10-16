@@ -76,6 +76,10 @@ def canonical_fields() -> tuple[str, ...]:
     return tuple(rows)
 
 
+def section(field: str) -> str:
+    return field.split(".", 1)[0]
+
+
 _LIST_ROW = re.compile(r"^contact\.(addresses|phones|emails)\[(\w+)\]$")
 
 
