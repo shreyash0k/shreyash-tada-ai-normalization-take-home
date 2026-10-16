@@ -336,6 +336,7 @@
       }
     }
   ],
+  "deductions": [],
   "issues": [
     {
       "code": "inconsistent_allocation",

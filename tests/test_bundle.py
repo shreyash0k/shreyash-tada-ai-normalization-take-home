@@ -69,9 +69,20 @@ class BundleEnvelopeChecks(unittest.TestCase):
         data["responses"]["direct_deposits"] = []
         self.assertRejected(data, "responses.direct_deposits must be a JSON dict", entity="direct-deposit")
 
-    def test_one_bundle_can_feed_both_entities(self):
+    def test_deduction_keys_per_provider(self):
+        self.assertRejected(raw_bundle("prismhr"), "responses.get_deductions is required", entity="deduction")
+        self.assertRejected(raw_bundle("isolved"), "responses.pay_items is required", entity="deduction")
+        data = raw_bundle("ukg-ready", "deduction")
+        del data["responses"]["deduction_detail"]
+        self.assertRejected(data, "responses.deduction_detail is required", entity="deduction")
+        data = raw_bundle("ukg-ready", "deduction")
+        data["responses"]["deductions"] = []
+        self.assertRejected(data, "responses.deductions must be a JSON dict", entity="deduction")
+
+    def test_one_bundle_can_feed_every_entity(self):
         data = raw_bundle("isolved")
         data["responses"]["direct_deposits"] = raw_bundle("isolved", "direct-deposit")["responses"]["direct_deposits"]
+        data["responses"]["pay_items"] = raw_bundle("isolved", "deduction")["responses"]["pay_items"]
         for entity in ENTITIES:
             with self.subTest(entity=entity):
                 self.assertEqual(parse_bundle(data, entity=entity).provider, "isolved")

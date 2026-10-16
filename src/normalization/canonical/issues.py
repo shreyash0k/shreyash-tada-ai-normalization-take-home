@@ -4,6 +4,7 @@ from typing import Any, Optional
 
 from .common import CanonicalEnum, Model
 from .company import Company
+from .deduction import Deduction
 from .direct_deposit import DirectDeposit
 from .employee import Employee
 
@@ -49,5 +50,6 @@ class NormalizedOutput(Model):
     company: Company
     employees: list[Employee] = field(default_factory=list)
     direct_deposits: list[DirectDeposit] = field(default_factory=list)
+    deductions: list[Deduction] = field(default_factory=list)
     issues: list[Issue] = field(default_factory=list)
     schema_version: str = "1"

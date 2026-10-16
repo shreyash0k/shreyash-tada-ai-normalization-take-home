@@ -1,4 +1,4 @@
-"""PrismHR employee and direct deposit adapter.
+"""PrismHR employee, direct deposit and deduction adapter.
 
 Input: a capture bundle whose ``responses.get_employee`` holds raw
 ``GET /employee/v1/getEmployee`` responses requested with
@@ -9,6 +9,10 @@ carries up to twenty ``employee[]`` records with ``person``,
 Direct deposits come from the same call requested with
 ``options=DirectDeposit`` (``responses.get_employee_direct_deposit``): each
 employee's ``directDeposit`` header holds the ``achVoucher[]`` bank lines.
+
+Deductions come from ``responses.get_deductions``, keyed by employee ID: the
+``GET /deductions/v1/getDeductions`` response, whose
+``employeeDeductions.deduction[]`` lists the employee's deduction rules.
 
 Every code table below cites the OpenAPI description it rests on. Codes the
 spec does not explain stay raw with an ``undocumented_code`` issue.
@@ -22,26 +26,36 @@ from ..canonical import (
     AddressKind,
     Allocation,
     AllocationMethod,
+    Calculation,
+    CalculationMethod,
     Citizenship,
     CodedValue,
     Company,
     CompanySource,
     Compensation,
     Contact,
+    DateRange,
+    Deduction,
+    DeductionCategory,
+    DeductionSource,
     DepositSource,
     DepositStatus,
     DirectDeposit,
     Email,
     EmailKind,
     Employee,
+    EmployerMatch,
     Employment,
     EmploymentStatus,
     EmploymentType,
     Gender,
     IssueCode,
     Job,
+    Limits,
     MaritalStatus,
+    MatchMethod,
     NormalizedOutput,
+    Payee,
     PayPeriod,
     PayType,
     Person,
@@ -50,7 +64,7 @@ from ..canonical import (
     Severity,
     SourceRef,
 )
-from ._common import CodeTable, Collector, Reader, boolean, text
+from ._common import CodeTable, Collector, Reader, boolean, is_blank, text
 
 PROVIDER = "prismhr"
 SPEC = "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas"
@@ -124,6 +138,74 @@ DEPOSIT_STATUS = CodeTable(
 )
 AMOUNT_METHODS = {AllocationMethod.FIXED_AMOUNT}
 PERCENT_METHODS = {AllocationMethod.PERCENT, AllocationMethod.PERCENT_OF_NET}
+
+# The per-employee deduction record describes deductionType and deductionMethod
+# only as "defined by the service provider"; the code lists are on the
+# deduction code record (DeductionCodeDetail), as with gender in entry 36.
+DEDUCTION = f"{SPEC}/EmployeeDeductions-Deduction/properties"
+DEDUCTION_TYPE_LABELS = {
+    "V": "Voluntary", "C": "Section 125", "P": "Post Tax Benefit", "F": "Flexible Spending Account",
+    "G": "Wage Garnishment", "L": "Employee Loan Payment", "K": "Pre-Tax Retirement Contribution",
+    "KC": "Catch-Up Retirement Contribution", "KE": "Post-Tax Retirement Contribution",
+    "KL": "Retirement Plan Loan Payment", "KR": "Roth 401(k) Contribution",
+    "KCR": "Roth 401(k) Catch-Up Contribution",
+}
+DEDUCTION_TYPE = CodeTable(
+    "deduction.deductionType", DeductionCategory,
+    {"V": DeductionCategory.VOLUNTARY, "C": DeductionCategory.SECTION_125,
+     "P": DeductionCategory.POST_TAX_BENEFIT, "F": DeductionCategory.FSA,
+     "G": DeductionCategory.GARNISHMENT, "L": DeductionCategory.LOAN,
+     "K": DeductionCategory.RETIREMENT_PRE_TAX, "KC": DeductionCategory.RETIREMENT_CATCH_UP,
+     "KE": DeductionCategory.RETIREMENT_POST_TAX, "KL": DeductionCategory.RETIREMENT_LOAN,
+     "KR": DeductionCategory.RETIREMENT_ROTH, "KCR": DeductionCategory.RETIREMENT_ROTH_CATCH_UP},
+    f"{SPEC}/DeductionCodeDetail/properties/deductionType/description",
+)
+DEDUCTION_METHOD_LABELS = {
+    "F": "Fixed Amount", "R": "Rate x Hours Worked", "G": "Garnishment", "K": "Retirement Plan",
+    "PG": "Percentage of Gross Pay", "PE": "Percentage of Gross Earnings", "PS": "Percentage of Straight Pay",
+    "PPR": "Percentage of Pay Rate", "PPRD": "Percentage of Pay Rate Rounded to Nearest Dollar",
+    "PPRM": "Percentage of Prior Month Pay Rate Rounded to Nearest Dollar",
+    "PR": "Percentage of Retirement Earnings", "PGD": "Percentage of Gross Earnings less Deductions",
+    "PET": "Percentage of Earnings", "RC": "Rate x Certified Job Hours Worked", "RP": "Rate x Hours Paid",
+    "PCE": "Percentage of Certified Job Earnings", "U": "Union Dues Table", "OH": "Ohio JEDD Tax",
+    "OHSERS": "Ohio SERS", "RUJ": "Rate by Union Job Hours", "RUP": "Rate by Union Project Hours",
+    "UF": "Sum of Union Fringe", "IO": "In/Out Deduction", "RPS": "Rate x Hours Paid, Selected Pay Codes",
+    "RT": "Rate Table Lookup", "PXG": "Per Ten-Thousand Gross Pay", "PXE": "Per Ten-Thousand Gross Earnings",
+    "PXS": "Per Ten-Thousand Straight Pay", "PXR": "Per Ten-Thousand Retirement Pay",
+}
+_METHOD_GROUPS = {
+    CalculationMethod.FIXED_AMOUNT: ("F",),
+    CalculationMethod.PERCENT_OF_GROSS: ("PG",),
+    CalculationMethod.PERCENT_OF_EARNINGS: ("PE", "PET", "PS", "PR", "PGD", "PCE"),
+    CalculationMethod.RATE_PER_HOUR: ("R", "RP", "RC", "RPS", "RUJ", "RUP"),
+    CalculationMethod.GARNISHMENT_RULE: ("G",),
+    CalculationMethod.RETIREMENT_PLAN_RULE: ("K",),
+    CalculationMethod.TABLE_LOOKUP: ("U", "RT"),
+    CalculationMethod.OTHER: ("PPR", "PPRD", "PPRM", "OH", "OHSERS", "UF", "IO", "PXG", "PXE", "PXS", "PXR"),
+}
+DEDUCTION_METHOD = CodeTable(
+    "deduction.deductionMethod", CalculationMethod,
+    {code: member for member, codes in _METHOD_GROUPS.items() for code in codes},
+    f"{SPEC}/DeductionCodeDetail/properties/calculationMethod/description",
+)
+# basis says which period `maximum` caps: monthly, quarterly, annually or lifetime.
+MAXIMUM_BASIS = {"M": "monthly", "Q": "quarterly", "A": "annual", "L": "lifetime"}
+MATCH_METHOD = CodeTable(
+    "deduction.matchMethod", MatchMethod, {"F": MatchMethod.FLAT, "P": MatchMethod.PERCENT},
+    f"{DEDUCTION}/matchMethod/description",
+)
+MATCH_METHOD_LABELS = {"F": "flat", "P": "percent"}
+
+
+def _use_percent(raw: Any) -> Optional[bool]:
+    """usePercent is a boolean in the schema; its description also names T and F."""
+    if isinstance(raw, bool):
+        return raw
+    return {"T": True, "F": False}.get(raw) if isinstance(raw, str) else None
+
+
+def _label(labels: Dict[str, str], raw: Any) -> Optional[str]:
+    return labels.get(raw) if isinstance(raw, str) else None
 
 # Property names where the live API differs from the OpenAPI document:
 # (section, live name, spec name). Spec name None means the field is absent from the spec.
@@ -383,6 +465,122 @@ class _PrismDepositMapper:
         )
 
 
+class _PrismDeductionMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.issues = issues
+        self.company_id = bundle.request["client_id"]
+        self.company_key = f"{PROVIDER}:{self.company_id}"
+        self.responses = bundle.response("get_deductions") or {}
+
+    def map(self, employee_id: str) -> list[Deduction]:
+        employee_key = f"{self.company_key}:{employee_id}"
+        if employee_id not in self.responses:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "get_deductions",
+                            "no deduction lines emitted", employee_key,
+                            message=f"bundle has no responses.get_deductions[{employee_id!r}] entry")
+            return []
+        response = self.responses[employee_id]
+        if not isinstance(response, dict):
+            raise ValueError(f"responses.get_deductions[{employee_id!r}] must be an object")
+        error_code = response.get("errorCode")
+        if error_code not in (None, "0", 0):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING,
+                            f"get_deductions[{employee_id!r}].errorCode", "no deduction lines emitted",
+                            employee_key, error_code, text(response.get("errorMessage")))
+            return []
+        section = response.get("employeeDeductions")
+        if not isinstance(section, dict):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "employeeDeductions",
+                            "no deduction lines emitted", employee_key,
+                            message="getDeductions response lacks the 'employeeDeductions' section")
+            return []
+        lines = section.get("deduction") or []
+        if not isinstance(lines, list):
+            raise ValueError(f"employeeDeductions.deduction of employee {employee_id!r} must be a list")
+        return [self._line(Reader(line, f"employeeDeductions.deduction[{index}]"), employee_id, employee_key,
+                           str(index))
+                for index, line in enumerate(lines) if isinstance(line, dict)]
+
+    def _calculation(self, r: Reader, key: str) -> Calculation:
+        raw_method = r.peek("deductionMethod")
+        method = self.issues.code(DEDUCTION_METHOD, r.get("deductionMethod"), r.path("deductionMethod"), key,
+                                  label=_label(DEDUCTION_METHOD_LABELS, raw_method))
+        raw_amount, raw_flag = r.peek("amount"), r.peek("usePercent")
+        if raw_amount is None:
+            r.consume("amount")
+            return Calculation(method=method)
+        use_percent = False if raw_flag is None else _use_percent(raw_flag)
+        if use_percent is None:
+            self.issues.add(IssueCode.OUT_OF_SCHEMA_VALUE, Severity.WARNING, r.path("usePercent"),
+                            "amount kept in unmapped", key, raw_flag,
+                            f"usePercent must be a boolean, T or F ({DEDUCTION}/usePercent)")
+            return Calculation(method=method)
+        r.consume("usePercent")
+        if use_percent:
+            return Calculation(method=method, percent=self.issues.decimal(r.get("amount"), r.path("amount"), key))
+        return Calculation(method=method, amount=self.issues.money(r.get("amount"), r.path("amount"), key))
+
+    def _limits(self, r: Reader, key: str) -> Limits:
+        per_pay = self.issues.money(r.get("limit"), r.path("limit"), key)
+        slots: Dict[str, Any] = {}
+        maximum, basis = r.peek("maximum"), r.peek("basis")
+        if maximum is None:
+            r.consume("maximum")
+        elif isinstance(basis, str) and basis in MAXIMUM_BASIS:
+            r.consume("basis")
+            slots[MAXIMUM_BASIS[basis]] = self.issues.money(r.get("maximum"), r.path("maximum"), key)
+        elif is_blank(basis):
+            self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path("maximum"),
+                            "kept in unmapped", key, maximum,
+                            f"maximum is set but basis is empty, so the period it caps is unknown "
+                            f"({DEDUCTION}/basis)")
+        else:
+            self.issues.add(IssueCode.UNDOCUMENTED_CODE, Severity.WARNING, r.path("basis"),
+                            "maximum kept in unmapped", key, basis,
+                            f"deduction.basis: code has no documented meaning ({DEDUCTION}/basis/description)")
+        return Limits(per_pay=per_pay, **slots)
+
+    def _match(self, r: Reader, key: str) -> Optional[EmployerMatch]:
+        raw_method, raw_amount = r.peek("matchMethod"), r.peek("matchAmount")
+        if is_blank(raw_method) and raw_amount is None:
+            return None
+        method = self.issues.code(MATCH_METHOD, r.get("matchMethod"), r.path("matchMethod"), key,
+                                  label=_label(MATCH_METHOD_LABELS, raw_method))
+        member = method.value if method is not None else None
+        if raw_amount is None:
+            r.consume("matchAmount")
+        elif member is MatchMethod.FLAT:
+            return EmployerMatch(method=method,
+                                 amount=self.issues.money(r.get("matchAmount"), r.path("matchAmount"), key))
+        elif member is MatchMethod.PERCENT:
+            return EmployerMatch(method=method,
+                                 percent=self.issues.decimal(r.get("matchAmount"), r.path("matchAmount"), key))
+        return EmployerMatch(method=method)
+
+    def _line(self, r: Reader, employee_id: str, employee_key: str, deduction_id: str) -> Deduction:
+        key = f"{employee_key}:ded:{deduction_id}"
+        raw_type = r.peek("deductionType")
+        start = self.issues.date(r.get("startDate"), r.path("startDate"), key)
+        end = self.issues.date(r.get("stopDate"), r.path("stopDate"), key)
+        payee_id = text(r.get("cutbackPayeeCode"))
+        return Deduction(
+            key=key,
+            employee_key=employee_key,
+            company_key=self.company_key,
+            source=DeductionSource(provider=PROVIDER, company_id=self.company_id, employee_id=employee_id,
+                                   deduction_id=deduction_id),
+            code=Collector.raw_code(r.get("deductionCode"), r.get("description")),
+            category=self.issues.code(DEDUCTION_TYPE, r.get("deductionType"), r.path("deductionType"), key,
+                                      label=_label(DEDUCTION_TYPE_LABELS, raw_type)),
+            calculation=self._calculation(r, key),
+            limits=self._limits(r, key),
+            employer_match=self._match(r, key),
+            payee=Payee(id=payee_id) if payee_id else None,
+            effective=DateRange(start=start, end=end) if start is not None or end is not None else None,
+            unmapped=r.unmapped(),
+        )
+
+
 def _employee_records(bundle: Bundle, response_key: str, issues: Collector):
     """Yield every employee record of the getEmployee responses under ``response_key``."""
     for index, response in enumerate(bundle.response(response_key) or []):
@@ -435,7 +633,24 @@ def normalize_direct_deposits(bundle: Bundle) -> NormalizedOutput:
     return NormalizedOutput(provider=PROVIDER, company=company, direct_deposits=deposits, issues=issues.issues)
 
 
-NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits}
+def normalize_deductions(bundle: Bundle) -> NormalizedOutput:
+    """One record per deduction line, for every listed employee and then any other captured ID."""
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _PrismDeductionMapper(bundle, issues)
+    listed = ((bundle.response("get_employee_list") or {}).get("employeeList") or {}).get("employeeId") or []
+    if not isinstance(listed, list):
+        raise ValueError("responses.get_employee_list.employeeList.employeeId must be a list")
+    employee_ids = [text(employee_id) or "" for employee_id in listed]
+    seen = set(employee_ids)
+    employee_ids += [employee_id for employee_id in mapper.responses if employee_id not in seen]
+    deductions = [record for employee_id in employee_ids for record in mapper.map(employee_id)]
+    company = _company(mapper.company_id, issues)
+    return NormalizedOutput(provider=PROVIDER, company=company, deductions=deductions, issues=issues.issues)
+
+
+NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
+               "deduction": normalize_deductions}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:

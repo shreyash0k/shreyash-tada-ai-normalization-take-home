@@ -14,7 +14,7 @@ from normalization.references import all_readiness_issues, load_reference, readi
 class StarterChecks(unittest.TestCase):
     def test_expected_providers_and_entities_are_exposed(self):
         self.assertEqual(set(ADAPTERS), {"prismhr", "isolved", "ukg-ready"})
-        self.assertEqual(set(ENTITIES), {"company", "employee", "direct-deposit", "payroll"})
+        self.assertEqual(set(ENTITIES), {"company", "employee", "direct-deposit", "deduction", "payroll"})
 
     def test_reference_readiness_matches_distributed_materials(self):
         self.assertEqual(all_readiness_issues(), {"prismhr": [], "isolved": [], "ukg-ready": []})
@@ -42,6 +42,18 @@ class StarterChecks(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertEqual(stderr.getvalue().strip(), "10 direct deposits, 6 issues")
             self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["direct_deposits"]), 10)
+
+    def test_normalize_command_writes_deductions(self):
+        bundle = Path(__file__).resolve().parent / "fixtures" / "prismhr" / "deduction-bundle.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "out.json"
+            stderr = io.StringIO()
+            with contextlib.redirect_stderr(stderr):
+                code = main(["normalize", "--provider", "prismhr", "--entity", "deduction",
+                             "--input", str(bundle), "--output", str(output)])
+            self.assertEqual(code, 0)
+            self.assertEqual(stderr.getvalue().strip(), "11 deductions, 9 issues")
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["deductions"]), 11)
 
     def test_normalize_command_rejects_a_bundle_missing_the_entity_responses(self):
         bundle = Path(__file__).resolve().parent / "fixtures" / "prismhr" / "employee-bundle.json"

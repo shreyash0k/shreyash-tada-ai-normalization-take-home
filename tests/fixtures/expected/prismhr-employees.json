@@ -2550,6 +2550,7 @@
     }
   ],
   "direct_deposits": [],
+  "deductions": [],
   "issues": [
     {
       "code": "spec_live_mismatch",

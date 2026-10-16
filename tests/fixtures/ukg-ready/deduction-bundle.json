@@ -1,0 +1,489 @@
+{
+  "bundle_version": 1,
+  "provider": "ukg-ready",
+  "captured_at": "2026-10-15",
+  "request": {
+    "company_id": "33704016"
+  },
+  "responses": {
+    "employees": {
+      "employees": [
+        {
+          "id": 12935181566,
+          "employee_id": "1",
+          "username": "abrennan",
+          "first_name": "Avery",
+          "last_name": "Brennan",
+          "primary_account_id": 12935181566,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2019-02-17",
+            "started": "2019-02-17"
+          }
+        },
+        {
+          "id": 12935181567,
+          "employee_id": "2",
+          "username": "tlindqvist",
+          "first_name": "Tatum",
+          "last_name": "Lindqvist",
+          "primary_account_id": 12935181567,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2024-09-24",
+            "started": "2024-09-24"
+          }
+        },
+        {
+          "id": 12935181568,
+          "employee_id": "3",
+          "username": "rdelgado",
+          "first_name": "Riley",
+          "last_name": "Delgado",
+          "primary_account_id": 12935181568,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/profiles"
+          },
+          "status": "Terminated",
+          "dates": {
+            "hired": "2019-11-21",
+            "started": "2019-11-21",
+            "terminated": "2024-06-28"
+          }
+        },
+        {
+          "id": 12935181569,
+          "employee_id": "4",
+          "username": "tnakamura",
+          "first_name": "Tatum",
+          "last_name": "Nakamura",
+          "primary_account_id": 12935181569,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2016-02-26",
+            "started": "2016-02-26",
+            "re_hired": "2022-02-14"
+          }
+        },
+        {
+          "id": 12935181570,
+          "employee_id": "5",
+          "username": "rdelgado",
+          "first_name": "Rowan",
+          "last_name": "Delgado",
+          "primary_account_id": 12935181570,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/profiles"
+          },
+          "status": "Suspended",
+          "dates": {
+            "hired": "2020-12-25",
+            "started": "2020-12-25"
+          }
+        },
+        {
+          "id": 12935181571,
+          "employee_id": "6",
+          "username": "ebrennan",
+          "first_name": "Emerson",
+          "last_name": "Brennan",
+          "primary_account_id": 12935181571,
+          "ein_name": "Primary EIN",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/profiles"
+          },
+          "status": "Active",
+          "dates": {
+            "hired": "2022-09-12",
+            "started": "2022-09-12",
+            "seniority": "2020-13-01"
+          }
+        }
+      ]
+    },
+    "deductions": {
+      "12935181566": {
+        "deductions": [
+          {
+            "id": 197121,
+            "deduction": {
+              "name": "401k",
+              "code": "401k"
+            },
+            "effective_from": "2017-04-12",
+            "effective_to": "9999-12-31",
+            "sequence": 1,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197121"
+            }
+          },
+          {
+            "id": 197122,
+            "deduction": {
+              "name": "Child Support",
+              "code": "Child Support"
+            },
+            "effective_from": "2024-01-01",
+            "effective_to": "9999-12-31",
+            "sequence": 2,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197122"
+            }
+          }
+        ]
+      },
+      "12935181567": {
+        "deductions": [
+          {
+            "id": 197131,
+            "deduction": {
+              "name": "Medical",
+              "code": "Medical"
+            },
+            "effective_from": "2024-01-01",
+            "effective_to": "9999-12-31",
+            "sequence": 1,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197131"
+            }
+          },
+          {
+            "id": 197132,
+            "deduction": {
+              "name": "Union Dues",
+              "code": "Union Dues"
+            },
+            "effective_from": "2024-01-01",
+            "effective_to": "2026-06-30",
+            "sequence": 2,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197132"
+            }
+          }
+        ]
+      },
+      "12935181568": {
+        "deductions": [
+          {
+            "id": 197141,
+            "deduction": {
+              "name": "Gym",
+              "code": "Gym"
+            },
+            "effective_from": "2024-01-01",
+            "effective_to": "9999-12-31",
+            "sequence": 1,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197141"
+            }
+          },
+          {
+            "id": 197142,
+            "deduction": {
+              "name": "Parking",
+              "code": "Parking"
+            },
+            "effective_from": "2024-01-01",
+            "effective_to": "9999-12-31",
+            "sequence": 2,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197142"
+            }
+          }
+        ]
+      },
+      "12935181569": {
+        "deductions": []
+      },
+      "12935181571": {
+        "deductions": [
+          {
+            "id": 197161,
+            "deduction": {
+              "name": "Holiday Club",
+              "code": "Holiday Club"
+            },
+            "effective_from": "2025-13-01",
+            "effective_to": "9999-12-31",
+            "sequence": 1,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197161"
+            }
+          }
+        ]
+      }
+    },
+    "deduction_detail": {
+      "197121": {
+        "id": 197121,
+        "deduction": {
+          "name": "401k",
+          "code": "401k"
+        },
+        "effective_from": "2017-04-12",
+        "effective_to": "9999-12-31",
+        "sequence": 1,
+        "annual_max_amount": 23000,
+        "er_annual_max_amount": 5000,
+        "er_frequency": {
+          "display_name": "Every Scheduled Pay",
+          "type": "EVERY_SCHEDULED_PAY"
+        },
+        "memo": "Synthetic memo 197121",
+        "vendor": {
+          "id": 65792,
+          "name": "Retirement Vendor"
+        },
+        "cost_centers": [
+          {
+            "index": 0,
+            "value": {
+              "id": 393472,
+              "display_name": "WorkFromHome"
+            }
+          }
+        ],
+        "ee_frequency": {
+          "display_name": "Every Scheduled Pay",
+          "type": "EVERY_SCHEDULED_PAY"
+        },
+        "ee_calc_method": {
+          "method": {
+            "display_name": "% Of Earnings List",
+            "type": "EARNING_LIST"
+          },
+          "percent": 6
+        },
+        "ee_min_calc_method": {
+          "amount": 0,
+          "percent": 0
+        },
+        "ee_max_calc_method": {
+          "amount": 500,
+          "percent": 0
+        }
+      },
+      "197122": {
+        "id": 197122,
+        "deduction": {
+          "name": "Child Support",
+          "code": "Child Support"
+        },
+        "effective_from": "2024-01-01",
+        "effective_to": "9999-12-31",
+        "sequence": 2,
+        "memo": "Synthetic memo 197122",
+        "vendor": {
+          "id": 65793,
+          "name": "State Disbursement Unit"
+        },
+        "cost_centers": [
+          {
+            "index": 0,
+            "value": {
+              "id": 393472,
+              "display_name": "WorkFromHome"
+            }
+          }
+        ],
+        "ee_frequency": {
+          "display_name": "Every Pay",
+          "type": "EVERY_PAY"
+        },
+        "ee_calc_method": {
+          "method": {
+            "display_name": "Flat $ Amount",
+            "type": "FLAT_AMOUNT"
+          },
+          "amount": 150
+        },
+        "ee_min_calc_method": {
+          "amount": 0,
+          "percent": 0
+        }
+      },
+      "197131": {
+        "id": 197131,
+        "deduction": {
+          "name": "Medical",
+          "code": "Medical"
+        },
+        "effective_from": "2024-01-01",
+        "effective_to": "9999-12-31",
+        "sequence": 1,
+        "memo": "Synthetic memo 197131",
+        "cost_centers": [
+          {
+            "index": 0,
+            "value": {
+              "id": 393472,
+              "display_name": "WorkFromHome"
+            }
+          }
+        ],
+        "ee_frequency": {
+          "display_name": "Benefit Plan",
+          "type": "BENEFIT_PLAN"
+        },
+        "ee_calc_method": {
+          "method": {
+            "display_name": "Flat $ Amount",
+            "type": "FLAT_AMOUNT"
+          },
+          "amount": 74
+        },
+        "ee_min_calc_method": {
+          "amount": 0,
+          "percent": 0
+        }
+      },
+      "197132": {
+        "id": 197132,
+        "deduction": {
+          "name": "Union Dues",
+          "code": "Union Dues"
+        },
+        "effective_from": "2024-01-01",
+        "effective_to": "2026-06-30",
+        "sequence": 2,
+        "memo": "Synthetic memo 197132",
+        "cost_centers": [
+          {
+            "index": 0,
+            "value": {
+              "id": 393472,
+              "display_name": "WorkFromHome"
+            }
+          }
+        ],
+        "ee_frequency": {
+          "display_name": "Every Scheduled Month Odd Pay",
+          "type": "EVERY_SCHEDULED_MONTH_ODD_PAY"
+        },
+        "ee_calc_method": {
+          "method": {
+            "display_name": "Flat $ Amount",
+            "type": "FLAT_AMOUNT"
+          },
+          "amount": 20
+        },
+        "ee_min_calc_method": {
+          "amount": 0,
+          "percent": 0
+        }
+      },
+      "197141": {
+        "id": 197141,
+        "deduction": {
+          "name": "Gym",
+          "code": "Gym"
+        },
+        "effective_from": "2024-01-01",
+        "effective_to": "9999-12-31",
+        "sequence": 1,
+        "memo": "Synthetic memo 197141",
+        "cost_centers": [
+          {
+            "index": 0,
+            "value": {
+              "id": 393472,
+              "display_name": "WorkFromHome"
+            }
+          }
+        ],
+        "ee_frequency": {
+          "display_name": "Weekly",
+          "type": "WEEKLY"
+        },
+        "ee_calc_method": {
+          "method": {
+            "display_name": "Flat $ Amount",
+            "type": "FLAT_AMOUNT"
+          },
+          "amount": 15,
+          "percent": 2
+        },
+        "ee_min_calc_method": {
+          "amount": 0,
+          "percent": 0
+        }
+      },
+      "197161": {
+        "id": 197161,
+        "deduction": {
+          "name": "Holiday Club",
+          "code": "Holiday Club"
+        },
+        "effective_from": "2025-13-01",
+        "effective_to": "9999-12-31",
+        "sequence": 1,
+        "memo": "Synthetic memo 197161",
+        "vendor": {
+          "id": 65794
+        },
+        "cost_centers": [
+          {
+            "index": 0,
+            "value": {
+              "id": 393472,
+              "display_name": "WorkFromHome"
+            }
+          }
+        ],
+        "ee_frequency": {
+          "display_name": "Holiday Table",
+          "type": "HOLIDAY_TABLE"
+        },
+        "ee_calc_method": {
+          "method": {
+            "display_name": "Flat $ Amount",
+            "type": "FLAT_AMOUNT"
+          },
+          "amount": 25
+        },
+        "ee_min_calc_method": {
+          "amount": 0,
+          "percent": 0
+        }
+      }
+    }
+  }
+}

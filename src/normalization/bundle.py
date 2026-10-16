@@ -16,8 +16,8 @@ Synthetic fixtures and hand-saved live downloads both use this shape, so
 tests and live checks run through the same adapter code.
 
 Which responses must be present depends on the entity being normalized
-(``employee`` or ``direct-deposit``). A bundle may carry responses for more
-than one entity, so one capture can feed both runs.
+(``employee``, ``direct-deposit`` or ``deduction``). A bundle may carry
+responses for more than one entity, so one capture can feed several runs.
 """
 import json
 from dataclasses import dataclass, field
@@ -28,7 +28,7 @@ from typing import Any
 BUNDLE_VERSION = 1
 
 
-BUNDLE_ENTITIES = ("employee", "direct-deposit")
+BUNDLE_ENTITIES = ("employee", "direct-deposit", "deduction")
 
 
 @dataclass(frozen=True, slots=True)
@@ -58,11 +58,16 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             "employee": {"get_employee": list},
             # The same call requested with options=DirectDeposit.
             "direct-deposit": {"get_employee_direct_deposit": list},
+            # employeeId -> the getDeductions response.
+            "deduction": {"get_deductions": dict},
         },
         optional={
             # Maps of employeeId -> response.
             "employee": {"get_employee_list": dict, "get_address_info": dict},
             "direct-deposit": {},
+            # getEmployeeList names the population, so an employee with no
+            # getDeductions entry can be reported.
+            "deduction": {"get_employee_list": dict},
         },
     ),
     "isolved": ResponseSpec(
@@ -73,11 +78,14 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             # Employee id (string) -> the /directdeposits array. The employee
             # pages supply the population and the legal code.
             "direct-deposit": {"employees": list, "direct_deposits": dict},
+            # Employee id (string) -> the /payItems array, 404 saved as [].
+            "deduction": {"employees": list, "pay_items": dict},
         },
         optional={
             # Maps of employee id (string) -> response.
             "employee": {"employee_detail": dict, "personal": dict, "name_address": dict},
             "direct-deposit": {},
+            "deduction": {},
         },
     ),
     "ukg-ready": ResponseSpec(
@@ -95,10 +103,14 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             },
             # Account id -> the /direct-deposits response ({"deposits": [...]}).
             "direct-deposit": {"employees": dict, "direct_deposits": dict},
+            # Account id -> the /deductions list response, and deduction id ->
+            # the /deductions/{id} detail response.
+            "deduction": {"employees": dict, "deductions": dict, "deduction_detail": dict},
         },
         optional={
             "employee": {},
             "direct-deposit": {"lookup_eins": dict},
+            "deduction": {"lookup_eins": dict},
         },
     ),
 }
