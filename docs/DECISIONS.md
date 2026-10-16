@@ -282,16 +282,19 @@ during implementation.
   --entity direct-deposit` writes one record per bank line in a top-level
   `direct_deposits` list, next to the (empty) `employees` list. Each record
   carries the key of the employee it belongs to and the company key, so it
-  links to the employee output. Deductions are still to be added and are
-  expected to follow the same pattern.
+  links to the employee output. Deductions follow the same pattern:
+  `--entity deduction` writes one record per deduction rule in a
+  top-level `deductions` list (entry 56).
 - **Reason:** The employee output stays the same whichever data types are
   added later, and `--entity` keeps meaning "which records this run
   produces". The employee key is enough to join the two outputs.
 - **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize);
   `ENTITIES` in `src/normalization/adapters/__init__.py`;
   `src/normalization/canonical/direct_deposit.py`;
-  `tests/test_direct_deposit_*.py::test_lines_link_to_employees_and_company`.
-- **Status:** Decided for direct deposits; deductions are still open.
+  `src/normalization/canonical/deduction.py`;
+  `tests/test_direct_deposit_*.py::test_lines_link_to_employees_and_company`;
+  `tests/test_deduction_*.py::test_lines_link_to_employees_and_company`.
+- **Status:** Decided.
 
 ### 13. A starter test requires every transformation to stay unimplemented
 
@@ -1217,4 +1220,243 @@ during implementation.
 - **Evidence:** `tests/test_direct_deposit_isolved.py::test_inactive_line_without_sequence`;
   `tests/test_direct_deposit_ukg_ready.py::test_every_calc_method_maps`;
   `src/normalization/adapters/ukg_ready.py` (`_UkgDepositMapper._allocation`).
+- **Status:** Open.
+
+## Deduction normalization
+
+### 56. A deduction record holds one recurring rule
+
+- **Context:** Each provider stores the deductions set up for an
+  employee: what is taken, how it is worked out, how often, up to what
+  limit, and sometimes an employer match and a third party who receives
+  the money. None of them sends a status for the rule, only start and
+  stop dates.
+- **Decision:** Each rule becomes one record with its code and name, a
+  category (such as `section_125` or `garnishment`), how it is
+  calculated (method plus an amount or a percent), frequency, limits per
+  pay and per month, quarter, year or lifetime, employer match, payee,
+  `priority` and the dates it applies (`effective`). There is no status
+  field. Anything else stays in `unmapped`.
+- **Reason:** These fields say what will come out of the next paycheck
+  and who receives it. A status would have to be worked out from dates,
+  which a reader can do as easily.
+- **Evidence:** `src/normalization/canonical/deduction.py`;
+  `docs/canonical/employee.schema.json#/$defs/Deduction`;
+  `tests/test_canonical_model.py::test_deduction_fields_are_checked`.
+- **Status:** Decided.
+
+### 57. What a capture bundle holds for deductions
+
+- **Context:** PrismHR returns deductions from `getDeductions`, one call
+  per employee. isolved and UKG Ready also need one call per employee,
+  and UKG Ready needs a second call per deduction for its amounts.
+- **Decision:** A deduction bundle holds, per provider:
+  - PrismHR: a map from employee ID to its `getDeductions` response
+    (`get_deductions`), plus the employee list if it was captured;
+  - isolved: the employee list pages plus a map from employee ID to its
+    pay item array (`pay_items`, entry 63);
+  - UKG Ready: the employee list, a map from account ID to the list
+    response (`deductions`) and a map from deduction ID to the detail
+    response (`deduction_detail`).
+
+  An employee missing from the map is reported as `missing_section` (an
+  expected part of the data is absent) at `info` severity and gets no
+  records. The plan also had UKG Ready's deduction code lookup in the
+  bundle; it was left out because every list line already carries the
+  code's name.
+- **Reason:** This matches the deposit bundles (entry 43), so one capture
+  run can serve both. The lookup would only repeat names the list sends.
+- **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
+  `tests/test_bundle.py::test_deduction_keys_per_provider`;
+  `tests/test_deduction_ukg_ready.py::test_empty_and_missing_lists`.
+- **Status:** Decided, except leaving out the UKG Ready code lookup,
+  which is Open.
+
+### 58. Amounts taken in each payroll are not part of deductions
+
+- **Context:** Besides the recurring rule, each provider records the
+  amount actually taken in every pay run. Those amounts belong to a
+  paycheck, not to the rule.
+- **Decision:** Deduction records hold only the rule. Amounts taken per
+  payroll are left for the payroll data type.
+- **Reason:** A paycheck amount needs the pay run as its context, which a
+  deduction record does not have.
+- **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize);
+  `src/normalization/canonical/deduction.py` (no amount-taken field).
+- **Status:** Decided.
+
+### 59. PrismHR deduction codes are explained on a different record
+
+- **Context:** On PrismHR's per-employee deduction, `deductionType` (the
+  kind of deduction) is described only as "defined by the service
+  provider" and `deductionMethod` (how it is calculated) as "calculation
+  method". The codes are listed on the deduction code setup record,
+  `DeductionCodeDetail`, as entry 36 found for gender.
+- **Decision:** Category and method are mapped using the code lists on
+  `DeductionCodeDetail`, and the label shown is the one given there. A
+  code not on the list stays `unknown` with an `undocumented_code` issue
+  (a code with no documented meaning).
+- **Reason:** It is the same code set on the same deduction, and the
+  lists are explicit.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/DeductionCodeDetail/properties/deductionType/description`
+  and `.../calculationMethod/description`;
+  `src/normalization/adapters/prismhr.py` (`DEDUCTION_TYPE`,
+  `DEDUCTION_METHOD`);
+  `tests/test_deduction_prismhr.py::test_code_tables_quote_the_spec_descriptions`.
+- **Status:** Decided.
+
+### 60. PrismHR's 29 calculation methods are grouped into nine
+
+- **Context:** PrismHR lists 29 calculation methods, many of them
+  variants (percentage of gross, of straight pay, of retirement
+  earnings; rate times hours worked, paid or certified).
+- **Decision:** `F` is `fixed_amount` and `PG` is `percent_of_gross`.
+  The other percentage-of-earnings codes are `percent_of_earnings`, the
+  rate-times-hours codes are `rate_per_hour`, `G` and `K` are the
+  garnishment and retirement plan rules, and `U` and `RT` are
+  `table_lookup`. The rest, such as percentage of pay rate or Ohio JEDD
+  tax, are `other`: documented, but none of the shared methods. The
+  exact code and its label stay on the method.
+- **Reason:** A reader can compare providers on the broad method and
+  still see PrismHR's exact variant in the raw code.
+- **Evidence:** `src/normalization/adapters/prismhr.py`
+  (`_METHOD_GROUPS`, `DEDUCTION_METHOD`);
+  `tests/test_deduction_prismhr.py::test_percent_lines_fill_percent`.
+- **Status:** Open.
+
+### 61. PrismHR frequency and order are not mapped
+
+- **Context:** PrismHR's `period` lists the pay periods of the month
+  when a deduction is taken (for example `12345`). It is not one of the
+  shared frequencies. PrismHR sends no order for its deductions.
+- **Decision:** `frequency` and `priority` are empty for PrismHR, and
+  `period` stays in `unmapped`. A line's ID is its position, as for
+  deposits (entry 50).
+- **Reason:** Turning a list of period numbers into "every pay" or
+  "monthly" depends on the pay schedule, which the deduction call does
+  not return.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/period`;
+  `tests/test_deduction_prismhr.py::test_frequency_and_priority_are_not_mapped`.
+- **Status:** Decided.
+
+### 62. PrismHR amount, maximum and match follow their switch fields
+
+- **Context:** PrismHR uses one `amount` for both amounts and
+  percentages, chosen by `usePercent`. `maximum` caps the deduction over
+  the period named in `basis`. `matchAmount` is a flat amount or a
+  percent, chosen by `matchMethod`.
+- **Decision:** The figure goes to the amount or the percent as the
+  switch says. `limit` is the per-pay limit and `maximum` fills the
+  monthly, quarterly, annual or lifetime slot. A `usePercent` that is
+  neither a boolean nor `T` or `F` gives an `out_of_schema_value` issue
+  (a value outside the documented set). A `maximum` with an empty
+  `basis` gives an `inconsistent_allocation` warning (the figures do not
+  fit together). In both cases the figure stays in `unmapped`.
+- **Reason:** A figure is only placed where its switch says it belongs;
+  without the switch, its meaning would be a guess.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/basis`;
+  `tests/test_deduction_prismhr.py::test_maximum_without_a_known_basis_stays_unmapped`,
+  `test_employer_match_of_each_method`, `test_bad_use_percent_and_date`.
+- **Status:** Open.
+
+### 63. isolved deductions come from pay items
+
+- **Context:** isolved's spec has a deductions call for each employee,
+  but it answered 401 (not authorized) for every employee of the demo
+  company. The pay items call worked and lists earnings, memo
+  calculations and deductions together, marked by `payItemType`.
+- **Decision:** isolved deductions are read from pay items. Only items
+  of type `Deduction` become records; `Earning` and `Memo Calc` items
+  are skipped without an issue. Any other type is skipped with an
+  `unmapped_label` issue (a label with no shared meaning yet). isolved
+  gives no category, method or frequency, so those are empty.
+- **Reason:** It is the only call that returned deduction setup. The
+  deductions call can replace it once access is granted.
+- **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel`;
+  `src/normalization/adapters/isolved.py` (`_IsolvedDeductionMapper`);
+  `tests/test_deduction_isolved.py::test_only_deduction_items_are_kept`.
+- **Status:** Decided.
+
+### 64. isolved calculation parameters: `Amount` and `Percent` are recognised
+
+- **Context:** An isolved pay item carries its figures as a list of
+  parameters, each with a label (`paramType`) and a value. The spec does
+  not list the labels. Live deductions used `Amount`, `Percent` and
+  `Amount2`.
+- **Decision:** The first `Amount` fills the amount and the first
+  `Percent` fills the percent. Any other label, such as `Amount2`,
+  stays in `unmapped` and is reported once per bundle as
+  `unmapped_label`.
+- **Reason:** These two labels say plainly what they hold. `Amount2`
+  has no stated meaning.
+- **Evidence:** `src/normalization/adapters/isolved.py`
+  (`CALC_PARAM_SLOTS`);
+  `tests/test_deduction_isolved.py::test_amount_and_percent_params`,
+  `test_other_params_are_reported_once_per_label`.
+- **Status:** Open.
+
+### 65. UKG Ready deductions join a list call and a detail call, built from the docs
+
+- **Context:** UKG Ready's employee deduction list gives only the code,
+  name, dates and order. The amount, frequency and limits are on a
+  second call for each deduction. Both calls answered "Unresolvable URL"
+  (404) for every employee of the demo company; the reference pages tag
+  them `dev`, not `v2`.
+- **Decision:** Each list line is joined with its detail by deduction
+  ID. A line with no detail is still emitted with the list fields and a
+  `missing_section` warning. The calculation method type has no
+  documented values, so it stays `unknown` with its label, reported once
+  per distinct type. Open-ended dates such as 9999-12-31 are kept as
+  sent (entry 54). The mapping and the test data follow the reference
+  pages only.
+- **Reason:** The detail is where the rule is. Building from the docs
+  means a bundle captured once the calls are enabled will normalize,
+  though its shape has not been checked against live data.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/132`
+  and `#/schemas/133`;
+  `src/normalization/adapters/ukg_ready.py` (`_UkgDeductionMapper`);
+  `tests/test_deduction_ukg_ready.py::test_list_and_detail_are_joined`,
+  `test_line_without_detail_keeps_list_fields`.
+- **Status:** Decided.
+
+### 66. UKG Ready frequencies with no shared counterpart are `other`
+
+- **Context:** UKG Ready's `ee_frequency` (how often the employee
+  deduction is taken) has eleven documented values. Most have a shared
+  counterpart, but "every scheduled month odd pay", "even pay" and
+  "holiday table" do not.
+- **Decision:** Every pay and every scheduled pay are `every_pay`, every
+  other scheduled pay is `every_other_pay`, and monthly, quarterly,
+  annual, manual and benefit plan map to their namesakes. The three
+  without a counterpart are `other`. A value outside the documented
+  list stays `unknown` with an `out_of_schema_value` issue.
+- **Reason:** `other` says the value is documented but not comparable,
+  which `unknown` would not.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_frequency/properties/type/enum`;
+  `src/normalization/adapters/ukg_ready.py` (`DEDUCTION_FREQUENCY`);
+  `tests/test_deduction_ukg_ready.py::test_frequency_table_covers_the_schema_enum_exactly`,
+  `test_frequencies_without_a_counterpart_map_to_other`.
+- **Status:** Open.
+
+### 67. Where live deduction data differs from the specs
+
+- **Context:** The live demo companies did not match the specs:
+  - PrismHR sends `usePercent` as a JSON boolean, not `T` or `F`.
+    Benefit plan lines carry only ten fields, no dates and mostly a zero
+    amount; `limit`, `maximum` and `stopDate` never appeared.
+  - isolved pay items were the same 41 items for every employee, with
+    negative IDs, zero values and no dates, which looks like a template.
+    Some had no `payItemCode`, and `balance` is not in the spec.
+  - UKG Ready's deduction calls could not be reached (entry 65).
+- **Decision:** Both forms of `usePercent` are accepted. Benefit plan
+  lines are emitted like any other. An isolved item with no code keeps
+  its name, and `balance` stays in `unmapped` with one
+  `spec_live_mismatch` issue (live data differs from the spec).
+- **Reason:** These differences do not change what the other fields
+  mean. Whether isolved's items are real assignments can only be
+  checked with access to the deductions call.
+- **Evidence:** `tests/test_deduction_prismhr.py::test_use_percent_accepts_booleans_and_spec_letters`,
+  `test_benefit_plan_lines_have_amount_but_no_dates`;
+  `tests/test_deduction_isolved.py::test_balance_is_a_live_only_field`,
+  `test_item_without_code_keeps_its_name`.
 - **Status:** Open.

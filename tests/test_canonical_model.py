@@ -12,12 +12,16 @@ from normalization.canonical import (
     AddressKind,
     Allocation,
     AllocationMethod,
+    Calculation,
+    CalculationMethod,
     CodedValue,
     Company,
     CompanySource,
     Compensation,
     Contact,
     DateRange,
+    Deduction,
+    DeductionSource,
     DepositSource,
     DirectDeposit,
     Employee,
@@ -27,14 +31,16 @@ from normalization.canonical import (
     Issue,
     IssueCode,
     Job,
+    Limits,
     Money,
     NormalizedOutput,
+    Payee,
     PayType,
     Person,
     Severity,
     SourceRef,
 )
-from normalization.canonical import common, company, direct_deposit, employee, issues
+from normalization.canonical import common, company, deduction, direct_deposit, employee, issues
 from normalization.canonical.schema_check import validate
 
 
@@ -79,7 +85,7 @@ class ConstructionChecks(unittest.TestCase):
             person.first_name = "Grace"
 
     def test_every_canonical_enum_ends_with_unknown(self):
-        for module in (common, direct_deposit, issues):
+        for module in (common, direct_deposit, deduction, issues):
             for name in dir(module):
                 member = getattr(module, name)
                 if isinstance(member, type) and issubclass(member, common.CanonicalEnum) \
@@ -99,6 +105,24 @@ class ConstructionChecks(unittest.TestCase):
             Allocation(percent=25.0)
         with self.assertRaises(TypeError):
             DirectDeposit(key="k", employee_key="e", company_key="c", source=source, priority=True)
+
+    def test_deduction_fields_are_checked(self):
+        source = DeductionSource(provider="prismhr", company_id="132", employee_id="J1", deduction_id="0")
+        record = Deduction(key="prismhr:132:J1:ded:0", employee_key="prismhr:132:J1", company_key="prismhr:132",
+                           source=source, code=CodedValue("401k", "401k"),
+                           calculation=Calculation(method=CodedValue("K", "Retirement Plan",
+                                                                     CalculationMethod.RETIREMENT_PLAN_RULE),
+                                                   percent=Decimal("5.0")),
+                           limits=Limits(annual=Money(Decimal("23000"))), payee=Payee(id="FIDELITY"),
+                           effective=DateRange(start=date(2016, 12, 1)))
+        data = record.to_dict()
+        self.assertEqual(data["calculation"]["percent"], "5.0")
+        self.assertEqual(data["limits"]["annual"], {"amount": "23000", "currency": "USD"})
+        self.assertIsNone(data["employer_match"])
+        with self.assertRaises(TypeError):
+            Calculation(amount=Decimal("5"))
+        with self.assertRaises(TypeError):
+            Limits(per_pay=100)
 
 
 class SerializationChecks(unittest.TestCase):
@@ -140,6 +164,9 @@ class SchemaAgreementChecks(unittest.TestCase):
         "Address": common.Address, "Phone": common.Phone, "Email": common.Email, "Money": common.Money,
         "DateRange": common.DateRange, "DirectDeposit": direct_deposit.DirectDeposit,
         "DepositSource": direct_deposit.DepositSource, "Allocation": direct_deposit.Allocation,
+        "Deduction": deduction.Deduction, "DeductionSource": deduction.DeductionSource,
+        "Calculation": deduction.Calculation, "Limits": deduction.Limits,
+        "EmployerMatch": deduction.EmployerMatch, "Payee": deduction.Payee,
     }
 
     def test_each_model_field_set_matches_schema_properties(self):

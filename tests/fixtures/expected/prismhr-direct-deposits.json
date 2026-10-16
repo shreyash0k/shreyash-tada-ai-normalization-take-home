@@ -408,6 +408,7 @@
       }
     }
   ],
+  "deductions": [],
   "issues": [
     {
       "code": "masked_value",

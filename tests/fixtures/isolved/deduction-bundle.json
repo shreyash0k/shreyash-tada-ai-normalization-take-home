@@ -1,0 +1,1237 @@
+{
+  "bundle_version": 1,
+  "provider": "isolved",
+  "captured_at": "2026-10-15",
+  "request": {
+    "client_id": "4046",
+    "legal_id": "5806"
+  },
+  "responses": {
+    "employees": [
+      {
+        "nextPageUrl": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees?pageSize=3&page=2",
+        "previousPageUrl": null,
+        "results": [
+          {
+            "id": 859201,
+            "acaEmploymentStatus": "ACA Full Time",
+            "annualSalary": 109947.34,
+            "birthDate": "1976-12-11T00:00:00",
+            "emailAddress": "casey1@example.test",
+            "employeeNumber": "1",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2021-12-05T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "Hispanic or Latino",
+            "gender": "Male",
+            "hireDate": "2021-12-05T00:00:00",
+            "hourlyRate": 52.8593,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "450",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2021-12-05T00:00:00",
+            "jobFLSAExempt": true,
+            "jobId": 92001,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Coordinator",
+            "legalCode": "BK422-1",
+            "maritalStatus": "Married",
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245001,
+              "address1": "2229 Birch Ct",
+              "address2": null,
+              "city": "Springfield",
+              "firstName": "Casey",
+              "lastName": "Whitfield",
+              "middleName": "D",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "IL0350270",
+              "state": "IL",
+              "suffix": null,
+              "zipCode": "62704",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2021-12-05T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Salary",
+            "perPaySalary": 9162.28,
+            "personal": {
+              "id": 1245001,
+              "faxNumber": null,
+              "homePhone": "4926397291",
+              "mobilePhone": "7495769595",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2021-12-05T00:00:00",
+            "ssn": "",
+            "statusDate": "2021-12-05T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "citizenship": "Citizen of the United States",
+            "isManager": true,
+            "isSupervisor": true
+          },
+          {
+            "id": 859202,
+            "acaEmploymentStatus": "ACA Full Time",
+            "annualSalary": 82162.91,
+            "birthDate": "1974-05-13T00:00:00",
+            "emailAddress": "casey2@example.test",
+            "employeeNumber": "2",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2019-07-27T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "White (Not Hispanic or Latino)",
+            "gender": "Female",
+            "hireDate": "2019-07-27T00:00:00",
+            "hourlyRate": 39.5014,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "100",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2019-07-27T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92002,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Technician",
+            "legalCode": "BK422-1",
+            "maritalStatus": "Single",
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245002,
+              "address1": "6839 Cedar Ln",
+              "address2": null,
+              "city": "Georgetown",
+              "firstName": "Casey",
+              "lastName": "Haddad",
+              "middleName": "D",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "TX0350270",
+              "state": "TX",
+              "suffix": null,
+              "zipCode": "78626",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2019-07-27T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Hourly",
+            "perPaySalary": 6846.91,
+            "personal": {
+              "id": 1245002,
+              "faxNumber": null,
+              "homePhone": null,
+              "mobilePhone": "6167438722",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2019-07-27T00:00:00",
+            "ssn": "",
+            "statusDate": "2019-07-27T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          },
+          {
+            "id": 859203,
+            "acaEmploymentStatus": "ACA Full Time",
+            "annualSalary": 49044.32,
+            "birthDate": "1972-07-22T00:00:00",
+            "emailAddress": "reese3@example.test",
+            "employeeNumber": "3",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2019-12-06T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Terminated",
+            "enableSelfService": false,
+            "ethnicOrigin": "Asian",
+            "gender": "Female",
+            "hireDate": "2019-12-06T00:00:00",
+            "hourlyRate": 23.579,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "200",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2019-12-06T00:00:00",
+            "jobFLSAExempt": true,
+            "jobId": 92003,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Analyst",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245003,
+              "address1": "1854 Birch Ct",
+              "address2": null,
+              "city": "Springfield",
+              "firstName": "Reese",
+              "lastName": "Petrov",
+              "middleName": "J",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "IL0350270",
+              "state": "IL",
+              "suffix": null,
+              "zipCode": "62704",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2019-12-06T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Salary",
+            "perPaySalary": 4087.03,
+            "personal": {
+              "id": 1245003,
+              "faxNumber": null,
+              "homePhone": "5238857460",
+              "mobilePhone": "9003802051",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2019-12-06T00:00:00",
+            "ssn": "884-21-4948",
+            "statusDate": "2024-03-29T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "terminationDate": "2024-03-29T00:00:00",
+            "terminationReason": "Retirement",
+            "terminationType": "Voluntary Termination",
+            "eligibleForRehire": false,
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          }
+        ],
+        "totalItems": 6,
+        "totalPages": 2.0
+      },
+      {
+        "nextPageUrl": null,
+        "previousPageUrl": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees?pageSize=3&page=1",
+        "results": [
+          {
+            "id": 859204,
+            "acaEmploymentStatus": "ACA Variable",
+            "annualSalary": 35802.62,
+            "birthDate": "1974-02-02T00:00:00",
+            "emailAddress": "rowan4@example.test",
+            "employeeNumber": "4",
+            "employmentCategoryCode": "PT",
+            "employmentCategoryEffectiveDate": "2022-03-27T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Leave of Absence",
+            "enableSelfService": false,
+            "ethnicOrigin": "White (Not Hispanic or Latino)",
+            "gender": "Non-binary",
+            "hireDate": "2022-03-27T00:00:00",
+            "hourlyRate": 17.2128,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "400",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2022-03-27T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92004,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Driver",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245004,
+              "address1": "5776 Maple Ave",
+              "address2": null,
+              "city": "Georgetown",
+              "firstName": "Rowan",
+              "lastName": "Haddad",
+              "middleName": "A",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "TX0350270",
+              "state": "TX",
+              "suffix": null,
+              "zipCode": "78626",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 86.67,
+            "originalHireDate": "2022-03-27T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Hourly",
+            "perPaySalary": 2983.55,
+            "personal": {
+              "id": 1245004,
+              "faxNumber": null,
+              "homePhone": null,
+              "mobilePhone": "6023047193",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "2022-03-27T00:00:00",
+            "ssn": "",
+            "statusDate": "2022-03-27T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          },
+          {
+            "id": 859205,
+            "acaEmploymentStatus": "ACA Variable",
+            "annualSalary": 0.0,
+            "birthDate": "2001-12-01T00:00:00",
+            "emailAddress": "harper5@example.test",
+            "employeeNumber": "5",
+            "employmentCategoryCode": "PT",
+            "employmentCategoryEffectiveDate": "2019-03-23T00:00:00",
+            "employmentCategoryFullTimeEquivalent": null,
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "Hispanic or Latino",
+            "gender": "Male",
+            "hireDate": "2019-03-23T00:00:00",
+            "hourlyRate": 41.7057,
+            "i9Documents": {
+              "i9Completed": false,
+              "i9CompletedDate": null
+            },
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "200",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2019-03-23T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92005,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Coordinator",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "militaryStatus": null,
+            "nameAddress": {
+              "id": 1245005,
+              "address1": "5702 Cedar Ln",
+              "address2": null,
+              "city": "Fairview",
+              "firstName": "Harper",
+              "lastName": "Marchetti",
+              "middleName": "K",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "OR0350270",
+              "state": "OR",
+              "suffix": null,
+              "zipCode": "97024",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 86.67,
+            "originalHireDate": "2019-03-23T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "1099",
+            "perPaySalary": 0.0,
+            "personal": {
+              "id": 1245005,
+              "faxNumber": null,
+              "homePhone": "9329254866",
+              "mobilePhone": "3595914428",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "previousPunchLabors": null,
+            "protectedVeteran": false,
+            "reciprocityRule": "",
+            "salaryEffectiveDate": "not-a-date",
+            "ssn": "",
+            "statusDate": "2019-03-23T00:00:00",
+            "timecardPunchStatusDate": null,
+            "timecardPunchStatusIsIn": null,
+            "timeclockId": null,
+            "tobaccoUse": false,
+            "uniqueId": null,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ],
+            "assignedManager": {
+              "id": 859201,
+              "employeeName": "Casey Whitfield",
+              "employeeNumber": "1",
+              "jobTitle": "Coordinator",
+              "legalId": 5806
+            },
+            "rehireDate": "2023-01-09T00:00:00",
+            "citizenship": "Citizen of the United States",
+            "isManager": false,
+            "isSupervisor": false
+          },
+          {
+            "id": 859206,
+            "annualSalary": 106221.23,
+            "birthDate": "1965-07-07T00:00:00",
+            "emailAddress": "skyler6@example.test",
+            "employeeNumber": "6",
+            "employmentCategoryCode": "FT",
+            "employmentCategoryEffectiveDate": "2023-01-04T00:00:00",
+            "employmentStatus": "Active",
+            "enableSelfService": false,
+            "ethnicOrigin": "White (Not Hispanic or Latino)",
+            "gender": "Female",
+            "hireDate": "2023-01-04T00:00:00",
+            "hourlyRate": 51.0679,
+            "isRecentlySeparatedVeteran": false,
+            "isRemoteWorker": false,
+            "jobCode": "400",
+            "jobEeoCategory": "Professionals",
+            "jobEffectiveDate": "2023-01-04T00:00:00",
+            "jobFLSAExempt": false,
+            "jobId": 92006,
+            "jobIsSeasonal": false,
+            "jobIsUnion": false,
+            "jobTitle": "Coordinator",
+            "legalCode": "BK422-1",
+            "maritalStatus": null,
+            "nameAddress": {
+              "id": 1245006,
+              "address1": "3913 Harbor Rd",
+              "address2": null,
+              "city": "Springfield",
+              "firstName": "Skyler",
+              "lastName": "Marchetti",
+              "middleName": "C",
+              "preferredName": null,
+              "preferredPronouns": null,
+              "prefix": null,
+              "residentGeoCode": "IL0350270",
+              "state": "IL",
+              "suffix": null,
+              "zipCode": "62704",
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeeNameAddressUpdate"
+                }
+              ]
+            },
+            "normalHours": 173.33,
+            "originalHireDate": "2023-01-04T00:00:00",
+            "payFrequency": 12,
+            "payGroup": "Monthly",
+            "payType": "Hourly",
+            "perPaySalary": 8851.77,
+            "personal": {
+              "id": 1245006,
+              "faxNumber": null,
+              "homePhone": null,
+              "mobilePhone": "6486218696",
+              "officePhone": null,
+              "personalEmailAddress": null,
+              "preferredPronouns": null,
+              "links": [
+                {
+                  "href": null,
+                  "rel": "self"
+                },
+                {
+                  "href": null,
+                  "method": "PUT",
+                  "rel": "EmployeePersonalUpdate"
+                }
+              ]
+            },
+            "protectedVeteran": false,
+            "salaryEffectiveDate": "2023-01-04T00:00:00",
+            "ssn": "",
+            "statusDate": "2023-01-04T00:00:00",
+            "tobaccoUse": false,
+            "veteranStatusNotSpecified": false,
+            "workLocation": "UT1",
+            "workLocationDashDescription": "UT1 - SALT LAKE CITY, UT",
+            "links": [
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
+                "rel": "self"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/checks",
+                "rel": "Checks"
+              },
+              {
+                "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/taxWithholding",
+                "rel": "EmployeeTaxWithholding"
+              }
+            ]
+          }
+        ],
+        "totalItems": 6,
+        "totalPages": 2.0
+      }
+    ],
+    "pay_items": {
+      "859201": [
+        {
+          "id": 770101,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 0.0
+            }
+          ],
+          "employeeId": 859201,
+          "employeeNumber": "1",
+          "firstName": "Casey",
+          "lastName": "Whitfield",
+          "payItemCode": "13",
+          "payItemId": 770101,
+          "payItemName": "Bonus",
+          "payItemType": "Earning",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770102,
+          "calcParams": [],
+          "employeeId": 859201,
+          "employeeNumber": "1",
+          "firstName": "Casey",
+          "lastName": "Whitfield",
+          "payItemCode": "001",
+          "payItemId": 770102,
+          "payItemName": "401k Match",
+          "payItemType": "Memo Calc",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770103,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 139.91
+            }
+          ],
+          "employeeId": 859201,
+          "employeeNumber": "1",
+          "firstName": "Casey",
+          "lastName": "Whitfield",
+          "payItemCode": "030",
+          "payItemId": 770103,
+          "payItemName": "Medical Pre-tax",
+          "payItemType": "Deduction",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": "2024-01-01T00:00:00",
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770104,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 0.0
+            },
+            {
+              "paramType": "Percent",
+              "paramValue": 6.0
+            }
+          ],
+          "employeeId": 859201,
+          "employeeNumber": "1",
+          "firstName": "Casey",
+          "lastName": "Whitfield",
+          "payItemCode": "32",
+          "payItemId": 770104,
+          "payItemName": "401K",
+          "payItemType": "Deduction",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": "2023-04-01T00:00:00",
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        }
+      ],
+      "859202": [
+        {
+          "id": 770201,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 0.0
+            }
+          ],
+          "employeeId": 859202,
+          "employeeNumber": "2",
+          "firstName": "Casey",
+          "lastName": "Haddad",
+          "payItemCode": "13",
+          "payItemId": 770201,
+          "payItemName": "Bonus",
+          "payItemType": "Earning",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770202,
+          "calcParams": [],
+          "employeeId": 859202,
+          "employeeNumber": "2",
+          "firstName": "Casey",
+          "lastName": "Haddad",
+          "payItemCode": "001",
+          "payItemId": 770202,
+          "payItemName": "401k Match",
+          "payItemType": "Memo Calc",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770203,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 10.0
+            },
+            {
+              "paramType": "Amount2",
+              "paramValue": 0.0
+            },
+            {
+              "paramType": "Percent",
+              "paramValue": 0.0
+            }
+          ],
+          "employeeId": 859202,
+          "employeeNumber": "2",
+          "firstName": "Casey",
+          "lastName": "Haddad",
+          "payItemCode": "011W",
+          "payItemId": 770203,
+          "payItemName": "United Way",
+          "payItemType": "Deduction",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": "2025-01-01T00:00:00",
+          "stopDate": "2025-12-31T00:00:00",
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ],
+          "balance": 0.0
+        },
+        {
+          "id": 770204,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 41.67
+            }
+          ],
+          "employeeId": 859202,
+          "employeeNumber": "2",
+          "firstName": "Casey",
+          "lastName": "Haddad",
+          "payItemCode": null,
+          "payItemId": 770204,
+          "payItemName": "FSA Medical pos",
+          "payItemType": "Deduction",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        }
+      ],
+      "859203": [
+        {
+          "id": 770301,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 0.0
+            }
+          ],
+          "employeeId": 859203,
+          "employeeNumber": "3",
+          "firstName": "Reese",
+          "lastName": "Petrov",
+          "payItemCode": "13",
+          "payItemId": 770301,
+          "payItemName": "Bonus",
+          "payItemType": "Earning",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770302,
+          "calcParams": [],
+          "employeeId": 859203,
+          "employeeNumber": "3",
+          "firstName": "Reese",
+          "lastName": "Petrov",
+          "payItemCode": "001",
+          "payItemId": 770302,
+          "payItemName": "401k Match",
+          "payItemType": "Memo Calc",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770303,
+          "calcParams": [],
+          "employeeId": 859203,
+          "employeeNumber": "3",
+          "firstName": "Reese",
+          "lastName": "Petrov",
+          "payItemCode": "006",
+          "payItemId": 770303,
+          "payItemName": "401K Loan",
+          "payItemType": "Deduction",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": "2022-06-01T00:00:00",
+          "stopDate": "2025-02-30T00:00:00",
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770304,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 50.0
+            }
+          ],
+          "employeeId": 859203,
+          "employeeNumber": "3",
+          "firstName": "Reese",
+          "lastName": "Petrov",
+          "payItemCode": "HSA",
+          "payItemId": 770304,
+          "payItemName": "HSA Pre-tax",
+          "payItemType": "Benefit",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        }
+      ],
+      "859204": [],
+      "859206": [
+        {
+          "id": 770601,
+          "calcParams": [
+            {
+              "paramType": "Amount",
+              "paramValue": 0.0
+            }
+          ],
+          "employeeId": 859206,
+          "employeeNumber": "6",
+          "firstName": "Skyler",
+          "lastName": "Marchetti",
+          "payItemCode": "13",
+          "payItemId": 770601,
+          "payItemName": "Bonus",
+          "payItemType": "Earning",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770602,
+          "calcParams": [],
+          "employeeId": 859206,
+          "employeeNumber": "6",
+          "firstName": "Skyler",
+          "lastName": "Marchetti",
+          "payItemCode": "001",
+          "payItemId": 770602,
+          "payItemName": "401k Match",
+          "payItemType": "Memo Calc",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        },
+        {
+          "id": 770603,
+          "calcParams": [
+            {
+              "paramType": "Rate",
+              "paramValue": 1.25
+            },
+            {
+              "paramType": "Amount",
+              "paramValue": 0.0
+            }
+          ],
+          "employeeId": 859206,
+          "employeeNumber": "6",
+          "firstName": "Skyler",
+          "lastName": "Marchetti",
+          "payItemCode": "008",
+          "payItemId": 770603,
+          "payItemName": "Vision Pre-tax",
+          "payItemType": "Deduction",
+          "referenceNumber": null,
+          "scheduleOverride": null,
+          "startDate": null,
+          "stopDate": null,
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
+              "rel": "parent"
+            },
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/payItems",
+              "method": "POST",
+              "rel": "Update EE Pay Item"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

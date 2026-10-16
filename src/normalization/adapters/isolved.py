@@ -1,4 +1,4 @@
-"""isolved employee and direct deposit adapter.
+"""isolved employee, direct deposit and deduction adapter.
 
 Input: a capture bundle whose ``responses.employees`` is a list of paged
 ``GET /api/clients/{clientId}/legals/{legalId}/employees`` responses
@@ -11,6 +11,11 @@ Direct deposits come from ``responses.direct_deposits``, keyed by employee
 ``id``: the array returned by ``.../employees/{employeeId}/directdeposits``.
 The live API answers 404 with an empty body for an employee with no
 deposits; a capture records that as an empty array.
+
+Deductions come from ``responses.pay_items``, keyed by employee ``id``: the
+array returned by ``.../employees/{employeeId}/payItems``. Only items whose
+``payItemType`` is ``Deduction`` become deduction records; earnings and memo
+calculations belong to other data types.
 
 isolved returns English descriptions rather than codes for most coded fields
 ("Active", "Male", "Salary"). Only the short allowlists below map to canonical
@@ -25,12 +30,16 @@ from ..canonical import (
     AddressKind,
     Allocation,
     AllocationMethod,
+    Calculation,
     Citizenship,
     CodedValue,
     Company,
     CompanySource,
     Compensation,
     Contact,
+    DateRange,
+    Deduction,
+    DeductionSource,
     DepositSource,
     DepositStatus,
     DirectDeposit,
@@ -119,6 +128,18 @@ METHOD_FROM_AMOUNT = CodedValue(raw=None, label="amount", value=AllocationMethod
 METHOD_FROM_PERCENT = CodedValue(raw=None, label="percent", value=AllocationMethod.PERCENT)
 METHOD_NET_PAY = CodedValue(raw=None, label="Net Pay (sequence 0)", value=AllocationMethod.REMAINDER)
 METHOD_UNKNOWN = CodedValue(raw=None, label=None, value=AllocationMethod.UNKNOWN)
+
+PAY_ITEM = f"{SPEC}.EmployeePayItemModel/properties"
+LIVE_PAY_ITEMS = ("live GET /api/clients/{clientId}/legals/{legalId}/employees/{employeeId}/payItems "
+                  "capture (docs/DECISIONS.md deduction entries)")
+# payItemType is "The Pay Item Type" with no listed values; these three were seen live.
+DEDUCTION_PAY_ITEM_TYPE = "Deduction"
+OTHER_PAY_ITEM_TYPES = {"Earning", "Memo Calc"}
+# calcParams[].paramType has no documented values. Only these self-describing
+# labels are read; others (live: "Amount2", "Rate") stay in unmapped.
+CALC_PARAM_SLOTS = {"Amount": "amount", "Percent": "percent"}
+# Fields the live payItems response returns that EmployeePayItemModel does not list.
+LIVE_ONLY_PAY_ITEM_FIELDS = ("balance",)
 
 
 def _merge(base: Dict[str, Any], overlay: Any) -> Dict[str, Any]:
@@ -349,6 +370,97 @@ class _IsolvedDepositMapper:
         )
 
 
+class _IsolvedDeductionMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.issues = issues
+        self.company_id = f"{bundle.request['client_id']}-{bundle.request['legal_id']}"
+        self.company_key = f"{PROVIDER}:{self.company_id}"
+        self.responses = bundle.response("pay_items") or {}
+        self.reported: set[str] = set()
+
+    def _report_once(self, marker: str, code: IssueCode, path: str, raw: Any, message: str) -> None:
+        if marker in self.reported:
+            return
+        self.reported.add(marker)
+        severity = Severity.INFO if code is IssueCode.SPEC_LIVE_MISMATCH else Severity.WARNING
+        action = "kept in unmapped" if code is IssueCode.SPEC_LIVE_MISMATCH else "kept raw value in unmapped"
+        self.issues.add(code, severity, path, action, raw_value=raw, message=message)
+
+    def map(self, employee_id: str) -> list[Deduction]:
+        employee_key = f"{self.company_key}:{employee_id}"
+        if employee_id not in self.responses:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "pay_items",
+                            "no deduction lines emitted", employee_key,
+                            message=f"bundle has no responses.pay_items[{employee_id!r}] entry")
+            return []
+        items = self.responses[employee_id]
+        if not isinstance(items, list):
+            raise ValueError(f"responses.pay_items[{employee_id!r}] must be a list")
+        records = []
+        for index, item in enumerate(items):
+            if not isinstance(item, dict):
+                continue
+            r = Reader(item, f"pay_items[{index}]")
+            kind = r.peek("payItemType")
+            if kind == DEDUCTION_PAY_ITEM_TYPE:
+                r.consume("payItemType")
+                records.append(self._line(r, employee_id, employee_key, index))
+            elif kind not in OTHER_PAY_ITEM_TYPES:
+                self.issues.add(IssueCode.UNMAPPED_LABEL, Severity.WARNING, r.path("payItemType"),
+                                "pay item skipped", employee_key, kind,
+                                f"payItemType is not one of the labels seen live ({PAY_ITEM}/payItemType; "
+                                f"labels from {LIVE_PAY_ITEMS})")
+        return records
+
+    def _calculation(self, r: Reader, key: str) -> Calculation:
+        params = r.peek("calcParams")
+        values: Dict[str, Any] = {}
+        for index, param in enumerate(params if isinstance(params, list) else []):
+            if not isinstance(param, dict):
+                continue
+            p = r.sub("calcParams", index)
+            label = p.peek("paramType")
+            slot = CALC_PARAM_SLOTS.get(label) if isinstance(label, str) else None
+            if slot is None:
+                self._report_once(f"paramType:{label!r}", IssueCode.UNMAPPED_LABEL, p.path("paramType"), label,
+                                  f"calcParams.paramType has no documented values and this label is not on "
+                                  f"the allowlist ({PAY_ITEM}/calcParams)")
+                continue
+            if slot in values:
+                continue
+            p.consume("paramType")
+            values[slot] = (p.get("paramValue"), p.path("paramValue"))
+        amount = percent = None
+        if "amount" in values:
+            amount = self.issues.money(*values["amount"], key)
+        if "percent" in values:
+            percent = self.issues.decimal(*values["percent"], key)
+        return Calculation(amount=amount, percent=percent)
+
+    def _line(self, r: Reader, employee_id: str, employee_key: str, index: int) -> Deduction:
+        deduction_id = text(r.get("id")) or str(index)
+        key = f"{employee_key}:ded:{deduction_id}"
+        for field in LIVE_ONLY_PAY_ITEM_FIELDS:
+            if r.has(field):
+                self._report_once(f"live:{field}", IssueCode.SPEC_LIVE_MISMATCH, r.path(field), None,
+                                  f"live API returns '{field}', which EmployeePayItemModel does not list "
+                                  f"({PAY_ITEM})")
+        code, name = text(r.get("payItemCode")), text(r.get("payItemName"))
+        start = self.issues.date(r.get("startDate"), r.path("startDate"), key)
+        end = self.issues.date(r.get("stopDate"), r.path("stopDate"), key)
+        return Deduction(
+            key=key,
+            employee_key=employee_key,
+            company_key=self.company_key,
+            source=DeductionSource(provider=PROVIDER, company_id=self.company_id, employee_id=employee_id,
+                                   deduction_id=deduction_id),
+            code=CodedValue(raw=code, label=name) if code is not None or name is not None else None,
+            calculation=self._calculation(r, key),
+            effective=DateRange(start=start, end=end) if start is not None or end is not None else None,
+            unmapped=r.unmapped(),
+        )
+
+
 def _employee_records(bundle: Bundle) -> Iterator[Dict[str, Any]]:
     for index, page in enumerate(bundle.response("employees") or []):
         if not isinstance(page, dict):
@@ -407,7 +519,26 @@ def normalize_direct_deposits(bundle: Bundle) -> NormalizedOutput:
     return NormalizedOutput(provider=PROVIDER, company=company, direct_deposits=deposits, issues=issues.issues)
 
 
-NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits}
+def normalize_deductions(bundle: Bundle) -> NormalizedOutput:
+    """One record per Deduction pay item, for every employee in the pages and then any other captured id."""
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _IsolvedDeductionMapper(bundle, issues)
+    employee_ids, legal_codes = [], set()
+    for record in _employee_records(bundle):
+        employee_ids.append(text(record.get("id")) or "")
+        legal_code = text(record.get("legalCode"))
+        if legal_code:
+            legal_codes.add(legal_code)
+    listed = set(employee_ids)
+    employee_ids += [employee_id for employee_id in mapper.responses if employee_id not in listed]
+    deductions = [record for employee_id in employee_ids for record in mapper.map(employee_id)]
+    company = _company(mapper.company_id, legal_codes, issues)
+    return NormalizedOutput(provider=PROVIDER, company=company, deductions=deductions, issues=issues.issues)
+
+
+NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
+               "deduction": normalize_deductions}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:

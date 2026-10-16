@@ -313,6 +313,81 @@ def build_prismhr_direct_deposits(seed: int):
     })
 
 
+# PrismHR deductions: one getDeductions response per employee ID. Benefit-plan
+# lines carry only ten fields and no dates, as live. Injected cases: every
+# maximum basis, a match of each method, usePercent "T" (spec prose) and an
+# invalid usePercent (out_of_schema_value), undocumented deductionType,
+# deductionMethod and basis (undocumented_code), a maximum without a basis
+# (inconsistent_allocation), an invalid startDate (invalid_date), an empty
+# deduction list (as live), an employee with no response (missing_section) and
+# an unlisted employee whose response carries an errorCode (missing_section).
+
+def prism_deduction(code, deduction_type, method, description, amount, use_percent=False,
+                    start="2024-01-01", **extra):
+    line = {"deductionCode": code, "deductionType": deduction_type, "deductionMethod": method,
+            "description": description, "usePercent": use_percent, "amount": amount, "period": "12345",
+            "loanOrGarnishId": "", "benefitPlanId": "", "lastDedPerAdj": amount, "basis": "",
+            "trackArrears": False, "startDate": start, "glOverrideAcct": "", "mandatory": False,
+            "matchMethod": "", "matchDescription": "", "cutbackPayeeCode": "", "rateTableId": "",
+            "rateTier": "", "achOption": ""}
+    line.update(extra)
+    return line
+
+
+def prism_benefit_deduction(code, description, plan, amount=0.0):
+    return {"deductionCode": code, "deductionType": "V", "deductionMethod": "F", "description": description,
+            "usePercent": False, "amount": amount, "period": "1234", "loanOrGarnishId": "",
+            "benefitPlanId": plan, "lastDedPerAdj": amount}
+
+
+def prism_deductions_response(lines, error_code="0", error_message=""):
+    return {"employeeDeductions": {"deduction": lines} if error_code == "0" else None,
+            "errorCode": error_code, "errorMessage": error_message, "extension": None}
+
+
+def build_prismhr_deductions(seed: int):
+    employee_list = build_prismhr(seed)["responses"]["get_employee_list"]
+    ids = employee_list["employeeList"]["employeeId"]
+    pool = Pool(seed, "prismhr-deduction")
+    responses = {
+        ids[0]: prism_deductions_response([
+            prism_benefit_deduction("MED", "Medical", "BCBSPPO1000", pool.money(40, 120)),
+            prism_benefit_deduction("LIFE", "Life Insurance", "LIFESAL"),
+            prism_deduction("401k", "K", "K", "401k", 5.0, use_percent=True, start="2016-12-01",
+                            maximum=23000.0, basis="A"),
+        ]),
+        ids[1]: prism_deductions_response([
+            prism_deduction("UNIF", "V", "F", "Uniforms", 12.5, limit=25.0, maximum=300.0, basis="L",
+                            stopDate="2026-12-31", cutbackPayeeCode="UNIFCO"),
+            prism_deduction("401KR", "KR", "PG", "Roth 401(k)", 4.0, use_percent=True, matchMethod="P",
+                            matchAmount=50.0, matchDescription="Roth match"),
+        ]),
+        ids[2]: prism_deductions_response([
+            prism_deduction("GARN", "G", "G", "Child Support", 180.0, loanOrGarnishId="G-1",
+                            maximum=900.0, basis="M", cutbackPayeeCode="SDU"),
+            prism_deduction("LOAN", "L", "F", "Employee Loan", 50.0, loanOrGarnishId="L-7",
+                            matchMethod="F", matchAmount=10.0),
+        ]),
+        ids[3]: prism_deductions_response([
+            prism_deduction("PARK", "Z", "ZZ", "Parking", 30.0, maximum=90.0, basis="Q"),  # undocumented
+            prism_deduction("DUES", "V", "PPR", "Union Dues", 1.5, use_percent="T",  # spec prose T/F
+                            maximum=100.0, basis="W"),  # undocumented basis
+        ]),
+        ids[4]: prism_deductions_response([]),  # no deductions, as live
+        ids[5]: prism_deductions_response([
+            prism_deduction("GYM", "V", "F", "Gym", 20.0, maximum=240.0),  # maximum with an empty basis
+            prism_deduction("CHAR", "V", "F", "Charity", 5.0, use_percent="yes",  # not a boolean
+                            start="2025-02-30"),  # invalid date
+        ]),
+        # ids[6] has no response -> missing_section
+        "X00099": prism_deductions_response([], error_code="1", error_message="Employee not found"),
+    }
+    return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
+        "get_deductions": responses,
+        "get_employee_list": employee_list,
+    })
+
+
 # --- isolved -----------------------------------------------------------------
 # Injected cases: employmentStatus "Leave of Absence" and gender "Non-binary"
 # (unmapped_label), employmentCategoryCode FT/PT and integer payFrequency
@@ -502,6 +577,67 @@ def build_isolved_direct_deposits(seed: int):
     return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
         "employees": employees,
         "direct_deposits": deposits,
+    })
+
+
+# isolved deductions: one /payItems array per employee id, mixing Deduction,
+# Earning and Memo Calc items as live. Injected cases: Amount and Percent
+# parameters, an "Amount2" and a "Rate" parameter (unmapped_label, once each),
+# a deduction with no code (as live), the live-only "balance" field
+# (spec_live_mismatch), an invalid stopDate (invalid_date), an unknown
+# payItemType (unmapped_label, skipped), an empty array (the 404) and an
+# employee with no entry (missing_section).
+
+def isolved_pay_item(employee, item_id, kind, code, name, params=(), start=None, stop=None, **extra):
+    base = f"{ISOLVED_BASE}/{employee['id']}"
+    item = {"id": item_id, "calcParams": [{"paramType": t, "paramValue": v} for t, v in params],
+            "employeeId": employee["id"], "employeeNumber": employee["employeeNumber"],
+            "firstName": employee["nameAddress"]["firstName"], "lastName": employee["nameAddress"]["lastName"],
+            "payItemCode": code, "payItemId": item_id, "payItemName": name, "payItemType": kind,
+            "referenceNumber": None, "scheduleOverride": None,
+            "startDate": f"{start}T00:00:00" if start else None, "stopDate": f"{stop}T00:00:00" if stop else None,
+            "links": [{"href": base, "rel": "parent"},
+                      {"href": f"{base}/payItems", "method": "POST", "rel": "Update EE Pay Item"}]}
+    item.update(extra)
+    return item
+
+
+def build_isolved_deductions(seed: int):
+    employees = build_isolved(seed)["responses"]["employees"]
+    people = [r for page in employees for r in page["results"]]
+    pool = Pool(seed, "isolved-deduction")
+
+    def common(person, first_id):
+        return [isolved_pay_item(person, first_id, "Earning", "13", "Bonus", [("Amount", 0.0)]),
+                isolved_pay_item(person, first_id + 1, "Memo Calc", "001", "401k Match", [])]
+
+    pay_items = {
+        str(people[0]["id"]): common(people[0], 770101) + [
+            isolved_pay_item(people[0], 770103, "Deduction", "030", "Medical Pre-tax",
+                             [("Amount", pool.money(60, 140))], start="2024-01-01"),
+            isolved_pay_item(people[0], 770104, "Deduction", "32", "401K", [("Amount", 0.0), ("Percent", 6.0)],
+                             start="2023-04-01"),
+        ],
+        str(people[1]["id"]): common(people[1], 770201) + [
+            isolved_pay_item(people[1], 770203, "Deduction", "011W", "United Way",
+                             [("Amount", 10.0), ("Amount2", 0.0), ("Percent", 0.0)],
+                             start="2025-01-01", stop="2025-12-31", balance=0.0),  # live-only field
+            isolved_pay_item(people[1], 770204, "Deduction", None, "FSA Medical pos", [("Amount", 41.67)]),
+        ],
+        str(people[2]["id"]): common(people[2], 770301) + [
+            isolved_pay_item(people[2], 770303, "Deduction", "006", "401K Loan", [], start="2022-06-01",
+                             stop="2025-02-30"),  # invalid date
+            isolved_pay_item(people[2], 770304, "Benefit", "HSA", "HSA Pre-tax", [("Amount", 50.0)]),  # unknown type
+        ],
+        str(people[3]["id"]): [],  # live answers 404 for an employee with no pay items
+        # people[4] has no entry -> missing_section
+        str(people[5]["id"]): common(people[5], 770601) + [
+            isolved_pay_item(people[5], 770603, "Deduction", "008", "Vision Pre-tax", [("Rate", 1.25), ("Amount", 0.0)]),
+        ],
+    }
+    return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
+        "employees": employees,
+        "pay_items": pay_items,
     })
 
 
@@ -742,14 +878,98 @@ def build_ukg_direct_deposits(seed: int):
     })
 
 
+# UKG Ready deductions: one /deductions list per account id plus one
+# /deductions/{id} detail per line. The live tenant answers "Unresolvable URL"
+# for these calls, so shapes follow the cached reference pages only. Injected
+# cases: an amount and a percent method, a method type seen twice
+# (undocumented_code once), both amount and percent set
+# (inconsistent_allocation), frequencies with no canonical counterpart
+# (other) and one outside the schema enum (out_of_schema_value), a line with
+# no detail (missing_section), an invalid effective_from (invalid_date), the
+# open-ended 9999-12-31, an empty list and an employee with no response.
+
+UKG_FREQUENCY_NAMES = {"EVERY_SCHEDULED_PAY": "Every Scheduled Pay", "EVERY_PAY": "Every Pay",
+                       "BENEFIT_PLAN": "Benefit Plan", "EVERY_SCHEDULED_MONTH_ODD_PAY": "Every Scheduled Month Odd Pay",
+                       "HOLIDAY_TABLE": "Holiday Table", "WEEKLY": "Weekly"}
+UKG_DEDUCTION_METHODS = {"EARNING_LIST": "% Of Earnings List", "FLAT_AMOUNT": "Flat $ Amount"}
+
+
+def ukg_deduction_line(deduction_id, code, name, sequence, effective_from="2024-01-01",
+                       effective_to="9999-12-31"):
+    return {"id": deduction_id, "deduction": {"name": name, "code": code}, "effective_from": effective_from,
+            "effective_to": effective_to, "sequence": sequence,
+            "_links": {"self": f"{UKG_BASE}/employees/deductions/{deduction_id}"}}
+
+
+def ukg_deduction_detail(line, frequency, method, amount=None, percent=None, annual_max=None, er_annual_max=None,
+                         vendor=None, max_amount=None):
+    detail = {key: line[key] for key in ("id", "deduction", "effective_from", "effective_to", "sequence")}
+    if annual_max is not None:
+        detail["annual_max_amount"] = annual_max
+    if er_annual_max is not None:
+        detail["er_annual_max_amount"] = er_annual_max
+        detail["er_frequency"] = {"display_name": UKG_FREQUENCY_NAMES[frequency], "type": frequency}
+    detail["memo"] = f"Synthetic memo {line['id']}"
+    if vendor is not None:
+        detail["vendor"] = vendor
+    detail["cost_centers"] = [{"index": 0, "value": {"id": 393472, "display_name": "WorkFromHome"}}]
+    detail["ee_frequency"] = {"display_name": UKG_FREQUENCY_NAMES[frequency], "type": frequency}
+    calc = {"method": {"display_name": UKG_DEDUCTION_METHODS[method], "type": method}}
+    if amount is not None:
+        calc["amount"] = amount
+    if percent is not None:
+        calc["percent"] = percent
+    detail["ee_calc_method"] = calc
+    detail["ee_min_calc_method"] = {"amount": 0, "percent": 0}
+    if max_amount is not None:
+        detail["ee_max_calc_method"] = {"amount": max_amount, "percent": 0}
+    return detail
+
+
+def build_ukg_deductions(seed: int):
+    employees = build_ukg(seed)["responses"]["employees"]
+    ids = [str(e["id"]) for e in employees["employees"]]
+    pool = Pool(seed, "ukg-ready-deduction")
+    lines = {
+        ids[0]: [ukg_deduction_line(197121, "401k", "401k", 1, effective_from="2017-04-12"),
+                 ukg_deduction_line(197122, "Child Support", "Child Support", 2)],
+        ids[1]: [ukg_deduction_line(197131, "Medical", "Medical", 1),
+                 ukg_deduction_line(197132, "Union Dues", "Union Dues", 2, effective_to="2026-06-30")],
+        ids[2]: [ukg_deduction_line(197141, "Gym", "Gym", 1),
+                 ukg_deduction_line(197142, "Parking", "Parking", 2)],  # no detail captured
+        ids[3]: [],
+        # ids[4] has no response -> missing_section
+        ids[5]: [ukg_deduction_line(197161, "Holiday Club", "Holiday Club", 1, effective_from="2025-13-01")],
+    }
+    details = [
+        ukg_deduction_detail(lines[ids[0]][0], "EVERY_SCHEDULED_PAY", "EARNING_LIST", percent=6, annual_max=23000,
+                             er_annual_max=5000, vendor={"id": 65792, "name": "Retirement Vendor"}, max_amount=500),
+        ukg_deduction_detail(lines[ids[0]][1], "EVERY_PAY", "FLAT_AMOUNT", amount=150,
+                             vendor={"id": 65793, "name": "State Disbursement Unit"}),
+        ukg_deduction_detail(lines[ids[1]][0], "BENEFIT_PLAN", "FLAT_AMOUNT", amount=pool.rng.randint(60, 140)),
+        ukg_deduction_detail(lines[ids[1]][1], "EVERY_SCHEDULED_MONTH_ODD_PAY", "FLAT_AMOUNT", amount=20),
+        ukg_deduction_detail(lines[ids[2]][0], "WEEKLY", "FLAT_AMOUNT", amount=15, percent=2),  # both set
+        ukg_deduction_detail(lines[ids[5]][0], "HOLIDAY_TABLE", "FLAT_AMOUNT", amount=25, vendor={"id": 65794}),
+    ]
+    return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
+        "employees": employees,
+        "deductions": {aid: {"deductions": items} for aid, items in lines.items()},
+        "deduction_detail": {str(detail["id"]): detail for detail in details},
+    })
+
+
 BUILDERS = {
-    "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits},
-    "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits},
-    "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits},
+    "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits,
+                "deduction": build_prismhr_deductions},
+    "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
+                "deduction": build_isolved_deductions},
+    "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
+                  "deduction": build_ukg_deductions},
 }
 # Bundle file name and golden-output suffix per entity.
 ENTITY_FILES = {"employee": ("employee-bundle.json", "employees"),
-                "direct-deposit": ("direct-deposit-bundle.json", "direct-deposits")}
+                "direct-deposit": ("direct-deposit-bundle.json", "direct-deposits"),
+                "deduction": ("deduction-bundle.json", "deductions")}
 
 
 def dumps(data) -> str:

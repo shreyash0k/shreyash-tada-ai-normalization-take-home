@@ -21,6 +21,18 @@ from .common import (
     to_jsonable,
 )
 from .company import Company, CompanySource
+from .deduction import (
+    Calculation,
+    CalculationMethod,
+    Deduction,
+    DeductionCategory,
+    DeductionFrequency,
+    DeductionSource,
+    EmployerMatch,
+    Limits,
+    MatchMethod,
+    Payee,
+)
 from .direct_deposit import (
     AccountType,
     Allocation,
@@ -38,6 +50,8 @@ __all__ = [
     "Model", "Money", "PayPeriod", "PayType", "Phone", "PhoneKind", "to_jsonable",
     "Company", "CompanySource",
     "AccountType", "Allocation", "AllocationMethod", "DepositSource", "DepositStatus", "DirectDeposit",
+    "Calculation", "CalculationMethod", "Deduction", "DeductionCategory", "DeductionFrequency",
+    "DeductionSource", "EmployerMatch", "Limits", "MatchMethod", "Payee",
     "Compensation", "Contact", "Employee", "Employment", "Job", "Person", "SourceRef",
     "Issue", "IssueCode", "NormalizedOutput", "Severity",
 ]

@@ -600,6 +600,7 @@
       }
     }
   ],
+  "deductions": [],
   "issues": [
     {
       "code": "invalid_number",

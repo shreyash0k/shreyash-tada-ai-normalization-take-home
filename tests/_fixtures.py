@@ -17,8 +17,8 @@ def load_json(path: Path):
 
 
 PROVIDERS = ("prismhr", "isolved", "ukg-ready")
-ENTITIES = ("employee", "direct-deposit")
-_GOLDEN_SUFFIX = {"employee": "employees", "direct-deposit": "direct-deposits"}
+ENTITIES = ("employee", "direct-deposit", "deduction")
+_GOLDEN_SUFFIX = {"employee": "employees", "direct-deposit": "direct-deposits", "deduction": "deductions"}
 
 
 def bundle_path(provider: str, entity: str = "employee") -> Path:
@@ -66,6 +66,17 @@ def deposit_by_id(output: dict, deposit_id: str) -> dict:
         if deposit["source"]["deposit_id"] == deposit_id:
             return deposit
     raise KeyError(deposit_id)
+
+
+def deductions_of(output: dict, employee_id: str) -> list:
+    return [d for d in output["deductions"] if d["source"]["employee_id"] == employee_id]
+
+
+def deduction_by_key(output: dict, key: str) -> dict:
+    for record in output["deductions"]:
+        if record["key"] == key:
+            return record
+    raise KeyError(key)
 
 
 @functools.lru_cache(maxsize=None)

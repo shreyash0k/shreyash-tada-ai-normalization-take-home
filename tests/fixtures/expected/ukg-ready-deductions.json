@@ -1,0 +1,498 @@
+{
+  "provider": "ukg-ready",
+  "company": {
+    "key": "ukg-ready:33704016",
+    "source": {
+      "provider": "ukg-ready",
+      "company_id": "33704016",
+      "secondary_ids": {}
+    },
+    "name": null,
+    "ein": null
+  },
+  "employees": [],
+  "direct_deposits": [],
+  "deductions": [
+    {
+      "key": "ukg-ready:33704016:12935181566:ded:197121",
+      "employee_key": "ukg-ready:33704016:12935181566",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181566",
+        "deduction_id": "197121"
+      },
+      "code": {
+        "raw": "401k",
+        "label": "401k",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": {
+          "raw": "EARNING_LIST",
+          "label": "% Of Earnings List",
+          "value": "unknown"
+        },
+        "amount": null,
+        "percent": "6"
+      },
+      "frequency": {
+        "raw": "EVERY_SCHEDULED_PAY",
+        "label": "Every Scheduled Pay",
+        "value": "every_pay"
+      },
+      "limits": {
+        "per_pay": {
+          "amount": "500",
+          "currency": "USD"
+        },
+        "monthly": null,
+        "quarterly": null,
+        "annual": {
+          "amount": "23000",
+          "currency": "USD"
+        },
+        "lifetime": null
+      },
+      "employer_match": {
+        "method": null,
+        "amount": null,
+        "percent": null,
+        "annual_max": {
+          "amount": "5000",
+          "currency": "USD"
+        }
+      },
+      "payee": {
+        "id": "65792",
+        "name": "Retirement Vendor"
+      },
+      "priority": 1,
+      "effective": {
+        "start": "2017-04-12",
+        "end": "9999-12-31"
+      },
+      "unmapped": {
+        "deductions[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197121",
+        "deductions[0].er_frequency.display_name": "Every Scheduled Pay",
+        "deductions[0].er_frequency.type": "EVERY_SCHEDULED_PAY",
+        "deductions[0].memo": "Synthetic memo 197121",
+        "deductions[0].cost_centers[0].index": 0,
+        "deductions[0].cost_centers[0].value.id": 393472,
+        "deductions[0].cost_centers[0].value.display_name": "WorkFromHome",
+        "deductions[0].ee_min_calc_method.amount": 0,
+        "deductions[0].ee_min_calc_method.percent": 0,
+        "deductions[0].ee_max_calc_method.percent": 0
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181566:ded:197122",
+      "employee_key": "ukg-ready:33704016:12935181566",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181566",
+        "deduction_id": "197122"
+      },
+      "code": {
+        "raw": "Child Support",
+        "label": "Child Support",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": {
+          "raw": "FLAT_AMOUNT",
+          "label": "Flat $ Amount",
+          "value": "unknown"
+        },
+        "amount": {
+          "amount": "150",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": {
+        "raw": "EVERY_PAY",
+        "label": "Every Pay",
+        "value": "every_pay"
+      },
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": {
+        "id": "65793",
+        "name": "State Disbursement Unit"
+      },
+      "priority": 2,
+      "effective": {
+        "start": "2024-01-01",
+        "end": "9999-12-31"
+      },
+      "unmapped": {
+        "deductions[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197122",
+        "deductions[1].memo": "Synthetic memo 197122",
+        "deductions[1].cost_centers[0].index": 0,
+        "deductions[1].cost_centers[0].value.id": 393472,
+        "deductions[1].cost_centers[0].value.display_name": "WorkFromHome",
+        "deductions[1].ee_min_calc_method.amount": 0,
+        "deductions[1].ee_min_calc_method.percent": 0
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181567:ded:197131",
+      "employee_key": "ukg-ready:33704016:12935181567",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181567",
+        "deduction_id": "197131"
+      },
+      "code": {
+        "raw": "Medical",
+        "label": "Medical",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": {
+          "raw": "FLAT_AMOUNT",
+          "label": "Flat $ Amount",
+          "value": "unknown"
+        },
+        "amount": {
+          "amount": "74",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": {
+        "raw": "BENEFIT_PLAN",
+        "label": "Benefit Plan",
+        "value": "benefit_plan"
+      },
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": 1,
+      "effective": {
+        "start": "2024-01-01",
+        "end": "9999-12-31"
+      },
+      "unmapped": {
+        "deductions[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197131",
+        "deductions[0].memo": "Synthetic memo 197131",
+        "deductions[0].cost_centers[0].index": 0,
+        "deductions[0].cost_centers[0].value.id": 393472,
+        "deductions[0].cost_centers[0].value.display_name": "WorkFromHome",
+        "deductions[0].ee_min_calc_method.amount": 0,
+        "deductions[0].ee_min_calc_method.percent": 0
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181567:ded:197132",
+      "employee_key": "ukg-ready:33704016:12935181567",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181567",
+        "deduction_id": "197132"
+      },
+      "code": {
+        "raw": "Union Dues",
+        "label": "Union Dues",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": {
+          "raw": "FLAT_AMOUNT",
+          "label": "Flat $ Amount",
+          "value": "unknown"
+        },
+        "amount": {
+          "amount": "20",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": {
+        "raw": "EVERY_SCHEDULED_MONTH_ODD_PAY",
+        "label": "Every Scheduled Month Odd Pay",
+        "value": "other"
+      },
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": 2,
+      "effective": {
+        "start": "2024-01-01",
+        "end": "2026-06-30"
+      },
+      "unmapped": {
+        "deductions[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197132",
+        "deductions[1].memo": "Synthetic memo 197132",
+        "deductions[1].cost_centers[0].index": 0,
+        "deductions[1].cost_centers[0].value.id": 393472,
+        "deductions[1].cost_centers[0].value.display_name": "WorkFromHome",
+        "deductions[1].ee_min_calc_method.amount": 0,
+        "deductions[1].ee_min_calc_method.percent": 0
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181568:ded:197141",
+      "employee_key": "ukg-ready:33704016:12935181568",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181568",
+        "deduction_id": "197141"
+      },
+      "code": {
+        "raw": "Gym",
+        "label": "Gym",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": {
+          "raw": "FLAT_AMOUNT",
+          "label": "Flat $ Amount",
+          "value": "unknown"
+        },
+        "amount": {
+          "amount": "15",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": {
+        "raw": "WEEKLY",
+        "label": "Weekly",
+        "value": "unknown"
+      },
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": 1,
+      "effective": {
+        "start": "2024-01-01",
+        "end": "9999-12-31"
+      },
+      "unmapped": {
+        "deductions[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197141",
+        "deductions[0].memo": "Synthetic memo 197141",
+        "deductions[0].cost_centers[0].index": 0,
+        "deductions[0].cost_centers[0].value.id": 393472,
+        "deductions[0].cost_centers[0].value.display_name": "WorkFromHome",
+        "deductions[0].ee_calc_method.percent": 2,
+        "deductions[0].ee_min_calc_method.amount": 0,
+        "deductions[0].ee_min_calc_method.percent": 0
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181568:ded:197142",
+      "employee_key": "ukg-ready:33704016:12935181568",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181568",
+        "deduction_id": "197142"
+      },
+      "code": {
+        "raw": "Parking",
+        "label": "Parking",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": null,
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": 2,
+      "effective": {
+        "start": "2024-01-01",
+        "end": "9999-12-31"
+      },
+      "unmapped": {
+        "deductions[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197142"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181571:ded:197161",
+      "employee_key": "ukg-ready:33704016:12935181571",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181571",
+        "deduction_id": "197161"
+      },
+      "code": {
+        "raw": "Holiday Club",
+        "label": "Holiday Club",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": {
+          "raw": "FLAT_AMOUNT",
+          "label": "Flat $ Amount",
+          "value": "unknown"
+        },
+        "amount": {
+          "amount": "25",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": {
+        "raw": "HOLIDAY_TABLE",
+        "label": "Holiday Table",
+        "value": "other"
+      },
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": {
+        "id": "65794",
+        "name": null
+      },
+      "priority": 1,
+      "effective": {
+        "start": null,
+        "end": "9999-12-31"
+      },
+      "unmapped": {
+        "deductions[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/deductions/197161",
+        "deductions[0].memo": "Synthetic memo 197161",
+        "deductions[0].cost_centers[0].index": 0,
+        "deductions[0].cost_centers[0].value.id": 393472,
+        "deductions[0].cost_centers[0].value.display_name": "WorkFromHome",
+        "deductions[0].ee_min_calc_method.amount": 0,
+        "deductions[0].ee_min_calc_method.percent": 0
+      }
+    }
+  ],
+  "issues": [
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "deductions[0].ee_calc_method.method.type",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181566:ded:197121",
+      "raw_value": "EARNING_LIST",
+      "message": "deduction.ee_calc_method.method.type: code has no documented meaning (contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_calc_method/properties/method/properties/type (string, no enum))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "deductions[1].ee_calc_method.method.type",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181566:ded:197122",
+      "raw_value": "FLAT_AMOUNT",
+      "message": "deduction.ee_calc_method.method.type: code has no documented meaning (contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_calc_method/properties/method/properties/type (string, no enum))"
+    },
+    {
+      "code": "inconsistent_allocation",
+      "severity": "warning",
+      "source_path": "deductions[0].ee_calc_method.percent",
+      "action": "percent kept in unmapped; amount used",
+      "record_key": "ukg-ready:33704016:12935181568:ded:197141",
+      "raw_value": 2,
+      "message": "ee_calc_method sets both amount and percent; the schema allows one (contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_calc_method/oneOf)"
+    },
+    {
+      "code": "out_of_schema_value",
+      "severity": "warning",
+      "source_path": "deductions[0].ee_frequency.type",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181568:ded:197141",
+      "raw_value": "WEEKLY",
+      "message": "deduction.ee_frequency.type: value is not one of the documented codes (contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_frequency/properties/type/enum)"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "deduction_detail",
+      "action": "amounts, frequency and limits set null",
+      "record_key": "ukg-ready:33704016:12935181568:ded:197142",
+      "raw_value": null,
+      "message": "bundle has no responses.deduction_detail['197142'] entry; only the list fields are mapped"
+    },
+    {
+      "code": "missing_section",
+      "severity": "info",
+      "source_path": "deductions",
+      "action": "no deduction lines emitted",
+      "record_key": "ukg-ready:33704016:12935181570",
+      "raw_value": null,
+      "message": "bundle has no responses.deductions['12935181570'] entry"
+    },
+    {
+      "code": "invalid_date",
+      "severity": "error",
+      "source_path": "deductions[0].effective_from",
+      "action": "set null",
+      "record_key": "ukg-ready:33704016:12935181571:ded:197161",
+      "raw_value": "2025-13-01",
+      "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "responses",
+      "action": "company name set null",
+      "record_key": null,
+      "raw_value": null,
+      "message": "the employee endpoints do not return the company name; a company endpoint is a later task"
+    }
+  ],
+  "schema_version": "1"
+}

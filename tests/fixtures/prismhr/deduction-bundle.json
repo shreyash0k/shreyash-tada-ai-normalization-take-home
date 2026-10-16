@@ -1,0 +1,328 @@
+{
+  "bundle_version": 1,
+  "provider": "prismhr",
+  "captured_at": "2026-10-15",
+  "request": {
+    "client_id": "132"
+  },
+  "responses": {
+    "get_deductions": {
+      "F00001": {
+        "employeeDeductions": {
+          "deduction": [
+            {
+              "deductionCode": "MED",
+              "deductionType": "V",
+              "deductionMethod": "F",
+              "description": "Medical",
+              "usePercent": false,
+              "amount": 115.22,
+              "period": "1234",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "BCBSPPO1000",
+              "lastDedPerAdj": 115.22
+            },
+            {
+              "deductionCode": "LIFE",
+              "deductionType": "V",
+              "deductionMethod": "F",
+              "description": "Life Insurance",
+              "usePercent": false,
+              "amount": 0.0,
+              "period": "1234",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "LIFESAL",
+              "lastDedPerAdj": 0.0
+            },
+            {
+              "deductionCode": "401k",
+              "deductionType": "K",
+              "deductionMethod": "K",
+              "description": "401k",
+              "usePercent": true,
+              "amount": 5.0,
+              "period": "12345",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 5.0,
+              "basis": "A",
+              "trackArrears": false,
+              "startDate": "2016-12-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "",
+              "matchDescription": "",
+              "cutbackPayeeCode": "",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "maximum": 23000.0
+            }
+          ]
+        },
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      "M00002": {
+        "employeeDeductions": {
+          "deduction": [
+            {
+              "deductionCode": "UNIF",
+              "deductionType": "V",
+              "deductionMethod": "F",
+              "description": "Uniforms",
+              "usePercent": false,
+              "amount": 12.5,
+              "period": "12345",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 12.5,
+              "basis": "L",
+              "trackArrears": false,
+              "startDate": "2024-01-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "",
+              "matchDescription": "",
+              "cutbackPayeeCode": "UNIFCO",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "limit": 25.0,
+              "maximum": 300.0,
+              "stopDate": "2026-12-31"
+            },
+            {
+              "deductionCode": "401KR",
+              "deductionType": "KR",
+              "deductionMethod": "PG",
+              "description": "Roth 401(k)",
+              "usePercent": true,
+              "amount": 4.0,
+              "period": "12345",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 4.0,
+              "basis": "",
+              "trackArrears": false,
+              "startDate": "2024-01-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "P",
+              "matchDescription": "Roth match",
+              "cutbackPayeeCode": "",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "matchAmount": 50.0
+            }
+          ]
+        },
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      "D00003": {
+        "employeeDeductions": {
+          "deduction": [
+            {
+              "deductionCode": "GARN",
+              "deductionType": "G",
+              "deductionMethod": "G",
+              "description": "Child Support",
+              "usePercent": false,
+              "amount": 180.0,
+              "period": "12345",
+              "loanOrGarnishId": "G-1",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 180.0,
+              "basis": "M",
+              "trackArrears": false,
+              "startDate": "2024-01-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "",
+              "matchDescription": "",
+              "cutbackPayeeCode": "SDU",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "maximum": 900.0
+            },
+            {
+              "deductionCode": "LOAN",
+              "deductionType": "L",
+              "deductionMethod": "F",
+              "description": "Employee Loan",
+              "usePercent": false,
+              "amount": 50.0,
+              "period": "12345",
+              "loanOrGarnishId": "L-7",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 50.0,
+              "basis": "",
+              "trackArrears": false,
+              "startDate": "2024-01-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "F",
+              "matchDescription": "",
+              "cutbackPayeeCode": "",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "matchAmount": 10.0
+            }
+          ]
+        },
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      "S00004": {
+        "employeeDeductions": {
+          "deduction": [
+            {
+              "deductionCode": "PARK",
+              "deductionType": "Z",
+              "deductionMethod": "ZZ",
+              "description": "Parking",
+              "usePercent": false,
+              "amount": 30.0,
+              "period": "12345",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 30.0,
+              "basis": "Q",
+              "trackArrears": false,
+              "startDate": "2024-01-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "",
+              "matchDescription": "",
+              "cutbackPayeeCode": "",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "maximum": 90.0
+            },
+            {
+              "deductionCode": "DUES",
+              "deductionType": "V",
+              "deductionMethod": "PPR",
+              "description": "Union Dues",
+              "usePercent": "T",
+              "amount": 1.5,
+              "period": "12345",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 1.5,
+              "basis": "W",
+              "trackArrears": false,
+              "startDate": "2024-01-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "",
+              "matchDescription": "",
+              "cutbackPayeeCode": "",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "maximum": 100.0
+            }
+          ]
+        },
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      "Q00005": {
+        "employeeDeductions": {
+          "deduction": []
+        },
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      "M00006": {
+        "employeeDeductions": {
+          "deduction": [
+            {
+              "deductionCode": "GYM",
+              "deductionType": "V",
+              "deductionMethod": "F",
+              "description": "Gym",
+              "usePercent": false,
+              "amount": 20.0,
+              "period": "12345",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 20.0,
+              "basis": "",
+              "trackArrears": false,
+              "startDate": "2024-01-01",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "",
+              "matchDescription": "",
+              "cutbackPayeeCode": "",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": "",
+              "maximum": 240.0
+            },
+            {
+              "deductionCode": "CHAR",
+              "deductionType": "V",
+              "deductionMethod": "F",
+              "description": "Charity",
+              "usePercent": "yes",
+              "amount": 5.0,
+              "period": "12345",
+              "loanOrGarnishId": "",
+              "benefitPlanId": "",
+              "lastDedPerAdj": 5.0,
+              "basis": "",
+              "trackArrears": false,
+              "startDate": "2025-02-30",
+              "glOverrideAcct": "",
+              "mandatory": false,
+              "matchMethod": "",
+              "matchDescription": "",
+              "cutbackPayeeCode": "",
+              "rateTableId": "",
+              "rateTier": "",
+              "achOption": ""
+            }
+          ]
+        },
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      "X00099": {
+        "employeeDeductions": null,
+        "errorCode": "1",
+        "errorMessage": "Employee not found",
+        "extension": null
+      }
+    },
+    "get_employee_list": {
+      "employeeList": {
+        "employeeId": [
+          "F00001",
+          "M00002",
+          "D00003",
+          "S00004",
+          "Q00005",
+          "M00006",
+          "R00007"
+        ]
+      },
+      "errorCode": "0",
+      "errorMessage": "",
+      "extension": null
+    }
+  }
+}

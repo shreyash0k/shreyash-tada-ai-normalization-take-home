@@ -1,4 +1,4 @@
-"""UKG Ready employee and direct deposit adapter.
+"""UKG Ready employee, direct deposit and deduction adapter.
 
 Input: a capture bundle with the company employee list
 (``GET /v2/companies/{cid}/employees``) and, keyed by account id as a string,
@@ -9,6 +9,12 @@ types, pay types and EINs.
 Direct deposits come from ``responses.direct_deposits``, keyed by account id:
 the ``{"deposits": [...]}`` body of
 ``GET /v2/companies/{cid}/employees/{aid}/direct-deposits``.
+
+Deductions come from ``responses.deductions``, keyed by account id (the
+``{"deductions": [...]}`` body of ``GET .../employees/{aid}/deductions``), and
+``responses.deduction_detail``, keyed by deduction id (the body of
+``GET .../employees/{aid}/deductions/{id}``). Only the detail carries the
+amounts, frequency and limits.
 
 UKG's closed schema enums (gender, citizenship, amount_period, time_period)
 map directly. Tenant-configured lookups (employee types, pay types) resolve to
@@ -26,6 +32,8 @@ from ..canonical import (
     AddressKind,
     Allocation,
     AllocationMethod,
+    Calculation,
+    CalculationMethod,
     Citizenship,
     CodedValue,
     Company,
@@ -33,20 +41,26 @@ from ..canonical import (
     Compensation,
     Contact,
     DateRange,
+    Deduction,
+    DeductionFrequency,
+    DeductionSource,
     DepositSource,
     DepositStatus,
     DirectDeposit,
     Email,
     EmailKind,
     Employee,
+    EmployerMatch,
     Employment,
     EmploymentStatus,
     EmploymentType,
     Gender,
     IssueCode,
     Job,
+    Limits,
     Money,
     NormalizedOutput,
+    Payee,
     PayPeriod,
     PayType,
     Person,
@@ -121,6 +135,23 @@ DEPOSIT_ACCOUNT_TYPE = CodeTable(
 )
 PERCENT_CALC_METHODS = {AllocationMethod.PERCENT_OF_GROSS, AllocationMethod.PERCENT_OF_NET,
                         AllocationMethod.PERCENT_OF_REMAINDER}
+DEDUCTION = f"{SCHEMAS}/133/schema/properties"
+DEDUCTION_FREQUENCY = CodeTable(
+    "deduction.ee_frequency.type", DeductionFrequency,
+    {"EVERY_PAY": DeductionFrequency.EVERY_PAY, "EVERY_SCHEDULED_PAY": DeductionFrequency.EVERY_PAY,
+     "EVERY_OTHER_SCHEDULED_PAY": DeductionFrequency.EVERY_OTHER_PAY, "MONTHLY": DeductionFrequency.MONTHLY,
+     "QUARTERLY": DeductionFrequency.QUARTERLY, "ANNUAL": DeductionFrequency.ANNUAL,
+     "MANUAL": DeductionFrequency.MANUAL, "BENEFIT_PLAN": DeductionFrequency.BENEFIT_PLAN,
+     "EVERY_SCHEDULED_MONTH_ODD_PAY": DeductionFrequency.OTHER,
+     "EVERY_SCHEDULED_MONTH_EVEN_PAY": DeductionFrequency.OTHER,
+     "HOLIDAY_TABLE": DeductionFrequency.OTHER},
+    f"{DEDUCTION}/ee_frequency/properties/type/enum",
+)
+# ee_calc_method.method.type is a free string in the schema; no value maps.
+DEDUCTION_CALC_METHOD = CodeTable(
+    "deduction.ee_calc_method.method.type", CalculationMethod, {},
+    f"{DEDUCTION}/ee_calc_method/properties/method/properties/type (string, no enum)",
+)
 PREFERRED_PHONE = {"HOME": "home_phone", "CELL": "cell_phone", "WORK": "work_phone"}
 EEO4_FIELDS = ("eeo4_classification", "eeo4_function")
 
@@ -452,6 +483,108 @@ class _UkgDepositMapper:
         )
 
 
+class _UkgDeductionMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.issues = issues
+        self.company_id = bundle.request["company_id"]
+        self.company_key = f"{PROVIDER}:{self.company_id}"
+        self.lists = bundle.response("deductions") or {}
+        self.details = bundle.response("deduction_detail") or {}
+        self.reported_methods: set[str] = set()
+
+    def map(self, aid: str) -> list[Deduction]:
+        employee_key = f"{self.company_key}:{aid}"
+        envelope = self.lists.get(aid)
+        if not isinstance(envelope, dict):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "deductions",
+                            "no deduction lines emitted", employee_key,
+                            message=f"bundle has no responses.deductions[{aid!r}] entry")
+            return []
+        envelope_reader = Reader(envelope)
+        envelope_reader.consume("deductions")
+        shared = envelope_reader.unmapped()
+        lines = envelope.get("deductions") or []
+        if not isinstance(lines, list):
+            raise ValueError(f"responses.deductions[{aid!r}].deductions must be a list")
+        return [self._line(line, index, aid, employee_key, shared)
+                for index, line in enumerate(lines) if isinstance(line, dict)]
+
+    def _method(self, r: Reader, key: str) -> Optional[CodedValue]:
+        """The method type has no enum: report each distinct value once, not on every line."""
+        raw = r.get("ee_calc_method", "method", "type")
+        label = text(r.get("ee_calc_method", "method", "display_name"))
+        if is_blank(raw) or str(raw) not in self.reported_methods:
+            self.reported_methods.add(str(raw))
+            return self.issues.code(DEDUCTION_CALC_METHOD, raw, r.path("ee_calc_method", "method", "type"),
+                                    key, label=label)
+        return CodedValue(raw=raw if isinstance(raw, str) else str(raw), label=label,
+                          value=CalculationMethod.UNKNOWN)
+
+    def _calculation(self, r: Reader, key: str) -> Calculation:
+        method = self._method(r, key)
+        amount, percent = r.peek("ee_calc_method", "amount"), r.peek("ee_calc_method", "percent")
+        if amount is not None and percent is not None:
+            self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path("ee_calc_method", "percent"),
+                            "percent kept in unmapped; amount used", key, percent,
+                            f"ee_calc_method sets both amount and percent; the schema allows one "
+                            f"({DEDUCTION}/ee_calc_method/oneOf)")
+            percent = None
+        if amount is not None:
+            return Calculation(method=method, amount=self.issues.money(
+                r.get("ee_calc_method", "amount"), r.path("ee_calc_method", "amount"), key))
+        if percent is not None:
+            return Calculation(method=method, percent=self.issues.decimal(
+                r.get("ee_calc_method", "percent"), r.path("ee_calc_method", "percent"), key))
+        return Calculation(method=method)
+
+    def _line(self, line: Dict[str, Any], index: int, aid: str, employee_key: str,
+              shared: Dict[str, Any]) -> Deduction:
+        deduction_id = text(line.get("id")) or str(index)
+        key = f"{employee_key}:ded:{deduction_id}"
+        detail = self.details.get(deduction_id)
+        merged = dict(line)
+        if isinstance(detail, dict):
+            merged.update(detail)
+        else:
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "deduction_detail",
+                            "amounts, frequency and limits set null", key,
+                            message=f"bundle has no responses.deduction_detail[{deduction_id!r}] entry; "
+                                    "only the list fields are mapped")
+        r = Reader(merged, f"deductions[{index}]")
+        r.consume("id")
+        start = self.issues.date(r.get("effective_from"), r.path("effective_from"), key)
+        end = self.issues.date(r.get("effective_to"), r.path("effective_to"), key)
+        sequence = r.get("sequence")
+        er_annual_max = self.issues.money(r.get("er_annual_max_amount"), r.path("er_annual_max_amount"), key)
+        vendor = r.sub("vendor")
+        payee = None
+        if isinstance(vendor.data, dict):
+            payee = Payee(id=text(vendor.get("id")), name=text(vendor.get("name")))
+        return Deduction(
+            key=key,
+            employee_key=employee_key,
+            company_key=self.company_key,
+            source=DeductionSource(provider=PROVIDER, company_id=self.company_id, employee_id=aid,
+                                   deduction_id=deduction_id),
+            code=Collector.raw_code(r.get("deduction", "code"), r.get("deduction", "name")),
+            calculation=self._calculation(r, key),
+            frequency=self.issues.code(DEDUCTION_FREQUENCY, r.get("ee_frequency", "type"),
+                                       r.path("ee_frequency", "type"), key,
+                                       label=text(r.get("ee_frequency", "display_name")),
+                                       issue_code=IssueCode.OUT_OF_SCHEMA_VALUE),
+            limits=Limits(
+                per_pay=self.issues.money(r.get("ee_max_calc_method", "amount"),
+                                          r.path("ee_max_calc_method", "amount"), key),
+                annual=self.issues.money(r.get("annual_max_amount"), r.path("annual_max_amount"), key),
+            ),
+            employer_match=EmployerMatch(annual_max=er_annual_max) if er_annual_max is not None else None,
+            payee=payee,
+            priority=sequence if isinstance(sequence, int) and not isinstance(sequence, bool) else None,
+            effective=DateRange(start=start, end=end) if start is not None or end is not None else None,
+            unmapped={**r.unmapped(), **shared},
+        )
+
+
 def _listed_employees(bundle: Bundle) -> list[Dict[str, Any]]:
     listed = bundle.response("employees").get("employees")
     if not isinstance(listed, list):
@@ -508,7 +641,21 @@ def normalize_direct_deposits(bundle: Bundle) -> NormalizedOutput:
     return NormalizedOutput(provider=PROVIDER, company=company, direct_deposits=deposits, issues=issues.issues)
 
 
-NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits}
+def normalize_deductions(bundle: Bundle) -> NormalizedOutput:
+    """One record per deduction line, for every listed employee and then any other captured account id."""
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _UkgDeductionMapper(bundle, issues)
+    aids = [text(record.get("id")) or "" for record in _listed_employees(bundle)]
+    listed = set(aids)
+    aids += [aid for aid in mapper.lists if aid not in listed]
+    deductions = [record for aid in aids for record in mapper.map(aid)]
+    company = _company(mapper.company_id, bundle, issues)
+    return NormalizedOutput(provider=PROVIDER, company=company, deductions=deductions, issues=issues.issues)
+
+
+NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits,
+               "deduction": normalize_deductions}
 
 
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:
