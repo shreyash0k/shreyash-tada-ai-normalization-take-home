@@ -823,3 +823,76 @@ during implementation.
   and `#/components/schemas/NewHireEmployee/properties/gender`;
   `src/normalization/adapters/prismhr.py` (`GENDER`).
 - **Status:** Open.
+
+## Field coverage
+
+### 37. What the coverage statuses mean
+
+- **Context:** The field coverage page shows, for every canonical employee
+  field, whether each provider supplies it. A provider can have the data
+  and the adapter use it, have the data and the adapter not use it, or
+  have no such field at all. A field the adapter uses can still be empty
+  for every synthetic employee.
+- **Decision:** Each field and provider pair is "mapped", "not mapped
+  yet" or "not offered", and every one cites a spec path. "Not offered"
+  cites the schema that lacks the field and says what the provider has
+  instead. A mapped field that no fixture employee fills shows as "empty
+  in sample", with a note when the cause is the fixture generator.
+- **Reason:** "Not offered" is a claim about the provider, so it needs the
+  same evidence as a mapping. Separating "empty in sample" stops gaps in
+  the synthetic data from reading as gaps in the adapter.
+- **Evidence:** `src/normalization/field_map.py`;
+  `tests/test_field_map.py`; `tests/test_web_export.py::test_counts_agree_with_golden_output`.
+- **Status:** Open.
+
+### 38. UKG Ready termination and rehire details are write-only
+
+- **Context:** UKG Ready describes an employee's termination reason and
+  rehire eligibility only in the schema for updating an employee (schema
+  107, the PUT body). The schema for reading an employee (schema 106)
+  has termination and rehire dates but no reason and no eligibility.
+- **Decision:** The output has no termination reason or rehire
+  eligibility for UKG Ready, and the coverage page shows both as "not
+  offered".
+- **Reason:** A field documented only for writing is not one the read
+  call can be relied on to return.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/107/schema/properties/termination_details`
+  and `#/schemas/107/schema/properties/rehire_details`;
+  `#/schemas/106/schema/properties/dates`.
+- **Status:** Open.
+
+### 39. UKG Ready job title and organization are not mapped yet
+
+- **Context:** UKG Ready gives an employee's default job only as an ID
+  (`pay_info.default_job`), and its organization as up to nine
+  cost-centre levels (`cost_centers_info`, levels 0 to 8). Each company
+  defines what each level means. The job names come from a separate
+  configuration call (`config/cost-center-jobs`) that the bundle does not
+  fetch.
+- **Decision:** The output has the job code but no job title,
+  department, location or division for UKG Ready. The coverage page shows
+  those four as "not mapped yet".
+- **Reason:** Picking a cost-centre level for department or location
+  would guess at a per-company setting. A title needs the jobs
+  configuration, which the bundle would have to add first.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job`
+  and `#/schemas/106/schema/properties/cost_centers_info`;
+  `src/normalization/field_map.py` (`UKG_READY`).
+- **Status:** Open.
+
+### 40. UKG Ready contractor flag is in tax-info, which the bundle does not fetch
+
+- **Context:** UKG Ready records whether an employee is paid as a W-2
+  employee, a 1099 contractor or on a draw in the employee's tax
+  information. The read schema for that call (schema 166, tax-info) has
+  `employee-tax-type` with three yes/no flags: `W2`, `_1099` and `DRAW`.
+  The capture bundle does not fetch tax-info.
+- **Decision:** The output has no contractor flag for UKG Ready, and the
+  coverage page shows it as "not mapped yet", not "not offered".
+- **Reason:** UKG documents the flag, so the gap is in what the bundle
+  collects, not in the provider. Adding tax-info to the bundle would let
+  the adapter read `_1099`.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099`;
+  `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys);
+  `src/normalization/field_map.py` (`UKG_READY`).
+- **Status:** Open.
