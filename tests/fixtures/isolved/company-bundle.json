@@ -1,0 +1,144 @@
+{
+  "bundle_version": 1,
+  "provider": "isolved",
+  "captured_at": "2026-10-15",
+  "request": {
+    "client_id": "4046",
+    "legal_id": "5806"
+  },
+  "responses": {
+    "legal": {
+      "id": 5806,
+      "allowRemoteWorkers": false,
+      "client": {
+        "id": 4046,
+        "clientCode": "SYN42",
+        "clientName": "Synthetic Demo Holdings",
+        "securityServiceGroup": {
+          "id": 2,
+          "name": "Demo"
+        },
+        "links": []
+      },
+      "compensationPlans": null,
+      "federalEIN": "990004046",
+      "forceDirectDepositPrenote": false,
+      "iSolvedTimeEnabled": false,
+      "legalAddress": {
+        "addressDescription": "Legal",
+        "city": "Riverton",
+        "phoneNumber": "3747925827",
+        "state": "UT",
+        "streetAddress1": "8123 Harbor Rd",
+        "streetAddress2": null,
+        "zipCode": "84065"
+      },
+      "legalCode": "SYN42-1",
+      "legalName": "Synthetic Scrap Metal Inc",
+      "payGroups": [
+        {
+          "id": 7627,
+          "enableiSolvedPayroll": true,
+          "enableiSolvedTime": false,
+          "inputMethod": "Web Submit and Process",
+          "isInactive": false,
+          "normalHours": 173.33,
+          "payFrequency": 12,
+          "payGroupName": "Monthly",
+          "payrollType": "Regular Payroll"
+        },
+        {
+          "id": 7628,
+          "enableiSolvedPayroll": true,
+          "enableiSolvedTime": false,
+          "inputMethod": "Web Submit and Process",
+          "isInactive": true,
+          "normalHours": 173.33,
+          "payFrequency": 52,
+          "payGroupName": "Old Weekly",
+          "payrollType": "Regular Payroll"
+        }
+      ],
+      "services": [
+        {
+          "code": "BASE",
+          "startDate": "2018-08-13T00:00:00"
+        },
+        {
+          "code": "ACA",
+          "startDate": "2024-06-12T00:00:00"
+        }
+      ],
+      "status": "Active",
+      "workersComps": [
+        {
+          "code": "8810",
+          "description": "Clerical",
+          "state": "UT"
+        }
+      ],
+      "workLocations": [
+        {
+          "id": 25721,
+          "address1": "100 Main St",
+          "address2": null,
+          "addressDescription": null,
+          "city": "Salt Lake City",
+          "geoCode": "000000000",
+          "includeWorkSiteTaxFiling": false,
+          "isInactive": false,
+          "isRemoteWorkersOnly": false,
+          "minimumWageRule": null,
+          "overrideTaxCode": null,
+          "reportingUnitNumber": null,
+          "schoolDistrictCode": null,
+          "state": "UT",
+          "taxDistrict": null,
+          "timeZone": "Mountain Standard Time",
+          "workLocationCode": "UT1",
+          "workLocationDescription": "SALT LAKE CITY, UT",
+          "zipCode": "84101",
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/workLocations/25721",
+              "rel": "self"
+            }
+          ]
+        },
+        {
+          "id": 25722,
+          "address1": "5 Depot Rd",
+          "address2": null,
+          "addressDescription": null,
+          "city": "Ogden",
+          "geoCode": "000000000",
+          "includeWorkSiteTaxFiling": false,
+          "isInactive": true,
+          "isRemoteWorkersOnly": false,
+          "minimumWageRule": null,
+          "overrideTaxCode": null,
+          "reportingUnitNumber": null,
+          "schoolDistrictCode": null,
+          "state": "UT",
+          "taxDistrict": null,
+          "timeZone": "Mountain Standard Time",
+          "workLocationCode": "UT2",
+          "workLocationDescription": "OGDEN, UT",
+          "zipCode": "84401",
+          "links": [
+            {
+              "href": "https://myisolved.example/rest/api/clients/4046/legals/5806/workLocations/25722",
+              "rel": "self"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://myisolved.example/rest/api/clients/4046/legals/5806",
+          "rel": "self"
+        }
+      ]
+    }
+  }
+}

@@ -963,6 +963,55 @@ def build_isolved_payroll(seed: int):
     })
 
 
+# Company cases: the includeDetails shape with dbaName and naicsCode absent, as
+# live (dbaName: missing_section); active and inactive work locations and pay
+# groups; an integer payFrequency (undocumented_code); services and workers'
+# comp codes passed through to unmapped.
+
+def isolved_work_location(location_id, code, description, line1, city, state, zipcode, inactive=False):
+    return {"id": location_id, "address1": line1, "address2": None, "addressDescription": None, "city": city,
+            "geoCode": "000000000", "includeWorkSiteTaxFiling": False, "isInactive": inactive,
+            "isRemoteWorkersOnly": False, "minimumWageRule": None, "overrideTaxCode": None,
+            "reportingUnitNumber": None, "schoolDistrictCode": None, "state": state, "taxDistrict": None,
+            "timeZone": "Mountain Standard Time", "workLocationCode": code, "workLocationDescription": description,
+            "zipCode": zipcode, "links": [{"href": f"{ISOLVED_BASE[:-len('/employees')]}/workLocations/{location_id}",
+                                           "rel": "self"}]}
+
+
+def isolved_legal_pay_group(group_id, name, frequency, inactive=False):
+    return {"id": group_id, "enableiSolvedPayroll": True, "enableiSolvedTime": False,
+            "inputMethod": "Web Submit and Process", "isInactive": inactive, "normalHours": 173.33,
+            "payFrequency": frequency, "payGroupName": name, "payrollType": "Regular Payroll"}
+
+
+def build_isolved_company(seed: int):
+    pool = Pool(seed, "isolved-company")
+    office = pool.address()
+    legal = {
+        "id": int(ISOLVED_LEGAL_ID), "allowRemoteWorkers": False,
+        "client": {"id": int(ISOLVED_CLIENT_ID), "clientCode": "SYN42", "clientName": "Synthetic Demo Holdings",
+                   "securityServiceGroup": {"id": 2, "name": "Demo"}, "links": []},
+        "compensationPlans": None, "federalEIN": "990004046", "forceDirectDepositPrenote": False,
+        "iSolvedTimeEnabled": False,
+        "legalAddress": {"addressDescription": "Legal", "city": office["city"], "phoneNumber": pool.phone(),
+                         "state": office["state"], "streetAddress1": office["line1"], "streetAddress2": None,
+                         "zipCode": office["zip"]},
+        "legalCode": "SYN42-1", "legalName": "Synthetic Scrap Metal Inc",
+        "payGroups": [isolved_legal_pay_group(int(ISOLVED_PAY_GROUP), "Monthly", 12),
+                      isolved_legal_pay_group(int(ISOLVED_PAY_GROUP) + 1, "Old Weekly", 52, inactive=True)],
+        "services": [{"code": "BASE", "startDate": "2018-08-13T00:00:00"},
+                     {"code": "ACA", "startDate": "2024-06-12T00:00:00"}],
+        "status": "Active",
+        "workersComps": [{"code": "8810", "description": "Clerical", "state": "UT"}],
+        "workLocations": [isolved_work_location(25721, "UT1", "SALT LAKE CITY, UT", "100 Main St", "Salt Lake City",
+                                                "UT", "84101"),
+                          isolved_work_location(25722, "UT2", "OGDEN, UT", "5 Depot Rd", "Ogden", "UT", "84401",
+                                                inactive=True)],
+        "links": [{"href": ISOLVED_BASE[:-len("/employees")], "rel": "self"}],
+    }
+    return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {"legal": legal})
+
+
 # --- UKG Ready ---------------------------------------------------------------
 # Injected cases: missing demographics (missing_section), 1900-12-31 zero row
 # with num_pp_in_year 0 (out_of_schema_value) plus a future-dated row, two rows
@@ -1408,8 +1457,9 @@ BUILDERS = {
     "prismhr": {"company": build_prismhr_company, "employee": build_prismhr,
                 "direct-deposit": build_prismhr_direct_deposits, "deduction": build_prismhr_deductions,
                 "payroll": build_prismhr_payroll},
-    "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
-                "deduction": build_isolved_deductions, "payroll": build_isolved_payroll},
+    "isolved": {"company": build_isolved_company, "employee": build_isolved,
+                "direct-deposit": build_isolved_direct_deposits, "deduction": build_isolved_deductions,
+                "payroll": build_isolved_payroll},
     "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
                   "deduction": build_ukg_deductions, "payroll": build_ukg_payroll},
 }

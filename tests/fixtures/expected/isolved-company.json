@@ -1,0 +1,232 @@
+{
+  "provider": "isolved",
+  "company": {
+    "key": "isolved:4046-5806",
+    "source": {
+      "provider": "isolved",
+      "company_id": "4046-5806",
+      "secondary_ids": {
+        "legalCode": "SYN42-1",
+        "clientCode": "SYN42"
+      }
+    },
+    "name": null,
+    "ein": "990004046",
+    "legal_name": "Synthetic Scrap Metal Inc",
+    "status": {
+      "raw": "Active",
+      "label": null,
+      "value": "active"
+    },
+    "status_date": null,
+    "entity_type": null,
+    "service_type": null,
+    "naics_code": null,
+    "sic_code": null,
+    "address": {
+      "kind": "legal",
+      "line1": "8123 Harbor Rd",
+      "line2": null,
+      "city": "Riverton",
+      "region": "UT",
+      "postal_code": "84065",
+      "country": null
+    },
+    "phone": {
+      "kind": "work",
+      "number": "3747925827",
+      "extension": null,
+      "preferred": null
+    },
+    "email": null,
+    "website": null,
+    "parent": {
+      "raw": "4046",
+      "label": "Synthetic Demo Holdings",
+      "value": null
+    },
+    "tax_ids": [
+      {
+        "key": "isolved:4046-5806:ein:990004046",
+        "source_id": null,
+        "tax_id": "990004046",
+        "name": null,
+        "country": null,
+        "unmapped": {}
+      }
+    ],
+    "work_locations": [
+      {
+        "key": "isolved:4046-5806:loc:25721",
+        "source_id": "25721",
+        "code": {
+          "raw": "UT1",
+          "label": "SALT LAKE CITY, UT",
+          "value": null
+        },
+        "address": {
+          "kind": "work",
+          "line1": "100 Main St",
+          "line2": null,
+          "city": "Salt Lake City",
+          "region": "UT",
+          "postal_code": "84101",
+          "country": null
+        },
+        "active": true,
+        "end_date": null,
+        "remote": false,
+        "unmapped": {
+          "workLocations[0].addressDescription": null,
+          "workLocations[0].geoCode": "000000000",
+          "workLocations[0].includeWorkSiteTaxFiling": false,
+          "workLocations[0].minimumWageRule": null,
+          "workLocations[0].overrideTaxCode": null,
+          "workLocations[0].reportingUnitNumber": null,
+          "workLocations[0].schoolDistrictCode": null,
+          "workLocations[0].taxDistrict": null,
+          "workLocations[0].timeZone": "Mountain Standard Time",
+          "workLocations[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/workLocations/25721",
+          "workLocations[0].links[0].rel": "self"
+        }
+      },
+      {
+        "key": "isolved:4046-5806:loc:25722",
+        "source_id": "25722",
+        "code": {
+          "raw": "UT2",
+          "label": "OGDEN, UT",
+          "value": null
+        },
+        "address": {
+          "kind": "work",
+          "line1": "5 Depot Rd",
+          "line2": null,
+          "city": "Ogden",
+          "region": "UT",
+          "postal_code": "84401",
+          "country": null
+        },
+        "active": false,
+        "end_date": null,
+        "remote": false,
+        "unmapped": {
+          "workLocations[1].addressDescription": null,
+          "workLocations[1].geoCode": "000000000",
+          "workLocations[1].includeWorkSiteTaxFiling": false,
+          "workLocations[1].minimumWageRule": null,
+          "workLocations[1].overrideTaxCode": null,
+          "workLocations[1].reportingUnitNumber": null,
+          "workLocations[1].schoolDistrictCode": null,
+          "workLocations[1].taxDistrict": null,
+          "workLocations[1].timeZone": "Mountain Standard Time",
+          "workLocations[1].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/workLocations/25722",
+          "workLocations[1].links[0].rel": "self"
+        }
+      }
+    ],
+    "pay_groups": [
+      {
+        "key": "isolved:4046-5806:pg:7627",
+        "source_id": "7627",
+        "code": {
+          "raw": "7627",
+          "label": "Monthly",
+          "value": null
+        },
+        "frequency": {
+          "raw": 12,
+          "label": "Monthly",
+          "value": "unknown"
+        },
+        "active": true,
+        "effective": null,
+        "unmapped": {
+          "payGroups[0].enableiSolvedPayroll": true,
+          "payGroups[0].enableiSolvedTime": false,
+          "payGroups[0].inputMethod": "Web Submit and Process",
+          "payGroups[0].normalHours": 173.33,
+          "payGroups[0].payrollType": "Regular Payroll"
+        }
+      },
+      {
+        "key": "isolved:4046-5806:pg:7628",
+        "source_id": "7628",
+        "code": {
+          "raw": "7628",
+          "label": "Old Weekly",
+          "value": null
+        },
+        "frequency": {
+          "raw": 52,
+          "label": "Old Weekly",
+          "value": "unknown"
+        },
+        "active": false,
+        "effective": null,
+        "unmapped": {
+          "payGroups[1].enableiSolvedPayroll": true,
+          "payGroups[1].enableiSolvedTime": false,
+          "payGroups[1].inputMethod": "Web Submit and Process",
+          "payGroups[1].normalHours": 173.33,
+          "payGroups[1].payrollType": "Regular Payroll"
+        }
+      }
+    ],
+    "unmapped": {
+      "id": 5806,
+      "allowRemoteWorkers": false,
+      "client.securityServiceGroup.id": 2,
+      "client.securityServiceGroup.name": "Demo",
+      "client.links": [],
+      "compensationPlans": null,
+      "forceDirectDepositPrenote": false,
+      "iSolvedTimeEnabled": false,
+      "legalAddress.addressDescription": "Legal",
+      "services[0].code": "BASE",
+      "services[0].startDate": "2018-08-13T00:00:00",
+      "services[1].code": "ACA",
+      "services[1].startDate": "2024-06-12T00:00:00",
+      "workersComps[0].code": "8810",
+      "workersComps[0].description": "Clerical",
+      "workersComps[0].state": "UT",
+      "links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806",
+      "links[0].rel": "self"
+    }
+  },
+  "employees": [],
+  "direct_deposits": [],
+  "deductions": [],
+  "pay_runs": [],
+  "paychecks": [],
+  "issues": [
+    {
+      "code": "missing_section",
+      "severity": "info",
+      "source_path": "dbaName",
+      "action": "name set null; see legal_name",
+      "record_key": "isolved:4046-5806",
+      "raw_value": null,
+      "message": "the legal record has no DBA name"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payGroups[0].payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:pg:7627",
+      "raw_value": 12,
+      "message": "payGroups.payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties/payFrequency (integer, 'Pay Frequency'))"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "payGroups[1].payFrequency",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "isolved:4046-5806:pg:7628",
+      "raw_value": 52,
+      "message": "payGroups.payFrequency: code has no documented meaning (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayGroupModel/properties/payFrequency (integer, 'Pay Frequency'))"
+    }
+  ],
+  "schema_version": "1"
+}
