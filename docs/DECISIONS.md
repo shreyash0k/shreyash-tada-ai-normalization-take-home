@@ -128,16 +128,16 @@ Each entry uses this format:
   `ein_name`. The live demo confirms the gap: asking for
   `/rest/v2/companies/{cid}` returns 404 "Unresolvable URL", and the EIN
   lookup returns one EIN named "Primary EIN", which is not a company name.
-- **Decision:** Not decided yet. The likely approach is to build the company
-  record from the company ID used at sign-in plus the EIN lookup, and leave
-  the company name empty with a reported issue. The employee task already does
-  this for its company stub (entry 32); a full company record is a later task.
+- **Decision:** The company record is built from the company ID used at
+  sign-in plus the EIN lookup. The name, address and status are empty, with
+  a reported issue. The full rule is in entry 96.
 - **Reason:** A company name that UKG does not provide cannot be filled in
   without guessing (entry 1).
 - **Evidence:** `contracts/ukg-ready/reference-docs/res/` has no company-detail
   page; `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__lookup__eins.html`;
-  live demo calls for company `33704016`.
-- **Status:** Open.
+  live demo calls for company `33704016`;
+  `tests/test_company_ukg_ready.py::test_profile_is_empty_with_an_issue`.
+- **Status:** Decided.
 
 ### 8. Live PrismHR `getEmployee` differs from its documentation
 
@@ -761,7 +761,8 @@ during implementation.
     lookup when it returns exactly one row; if it returns several, a
     `missing_lookup` issue says the EIN could not be chosen.
   The company name is empty, and a `missing_section` issue says that company
-  details are a later task.
+  details are a later task. The full company record is its own data type
+  (`--entity company`, entries 86 to 97).
 - **Reason:** Every employee needs a company key to link to, and the key can
   be built from identifiers the bundle already has. Filling in more than that
   would mean guessing (entry 1).
@@ -1801,4 +1802,197 @@ during implementation.
   mean.
 - **Evidence:** `tests/test_payroll_prismhr.py::test_both_page_keys_and_live_only_fields`;
   `tests/test_payroll_ukg_ready.py::test_no_totals_and_live_only_fields`.
+- **Status:** Open.
+
+## Company normalization
+
+### 86. A company record holds the profile, tax ids, work locations and pay groups
+
+- **Context:** Each provider describes a company with a profile (name,
+  status, address, contact details) and several lists that other data
+  types point at: the places people work, the groups they are paid in,
+  and the tax registrations the company files under.
+- **Decision:** `--entity company` writes one company record. Besides
+  the profile, it holds three lists: `tax_ids` (EINs), `work_locations`
+  and `pay_groups`. Status is grouped into active, pending, inactive,
+  terminating and terminated. Codes with no shared meaning, such as
+  PrismHR's corporation type, keep the raw code and the provider's label.
+- **Reason:** These are the company facts that employee and payroll
+  records refer to, so a reader can resolve those references.
+- **Evidence:** `src/normalization/canonical/company.py`;
+  `docs/canonical/employee.schema.json#/$defs/Company`;
+  `tests/test_canonical_model.py::test_company_fields_are_checked`.
+- **Status:** Decided.
+
+### 87. The full company comes from its own bundle
+
+- **Context:** Every output already carries a minimal company record
+  (entry 32). The full record needs extra calls that the other data
+  types do not make.
+- **Decision:** Only `--entity company` reads those calls and fills in
+  the full record. The other outputs keep the minimal record, which now
+  shows the new keys as empty.
+- **Reason:** An employee or payroll capture should not have to fetch
+  company details to be normalized. The shared key still joins them.
+- **Evidence:** `tests/test_company_links.py::test_every_output_shares_the_company_key`.
+- **Status:** Decided.
+
+### 88. Tax ids, work locations and pay groups are nested lists with their own keys
+
+- **Context:** Employees and pay runs refer to locations, pay groups
+  and EINs by a raw code. These lists are small and belong to one
+  company.
+- **Decision:** The three lists sit inside the company record. Each
+  entry has its own key (`<company key>:loc:<id>`, `:pg:<id>`,
+  `:ein:<id>`) and keeps the provider's code. Records link by raw code:
+  a PrismHR employee's location code is a work location's code, an
+  isolved pay run's pay group is a pay group's ID, and a UKG Ready pay
+  run's pay group is an EIN ID.
+- **Reason:** Nesting keeps the company in one document. The raw codes
+  are what the other records carry, so no new identifier is invented.
+- **Evidence:** `tests/test_company_links.py` (one test per provider).
+- **Status:** Decided.
+
+### 89. What a capture bundle holds for companies
+
+- **Context:** Each provider spreads the company across different calls,
+  and some calls only return details when asked.
+- **Decision:** A company bundle holds, per provider:
+  - PrismHR: `getClientMaster`, and optionally `getClientCodes` (with
+    `options=Location,PGroups`) and `getPayrollSchedule`;
+  - isolved: the legal record fetched with `includeDetails=true`;
+  - UKG Ready: the EIN lookup, and optionally the pay-period profiles.
+
+  A missing optional call leaves its lists empty. Missing PrismHR client
+  codes raise one `missing_section` issue (an expected part of the data
+  is absent).
+- **Reason:** These are the smallest sets of calls that fill the record
+  on the live demos.
+- **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
+  `tests/test_bundle.py::test_company_keys_per_provider`;
+  `tests/test_company_prismhr.py::test_missing_client_codes_leaves_lists_empty`.
+- **Status:** Open.
+
+### 90. isolved employee locations do not always name a work location
+
+- **Context:** An isolved employee's location comes from the client's
+  "Location" organization field when it is set, and otherwise from
+  `workLocation`. Only the second uses work location codes. In the
+  fixture, employee 859201's organization value is `10` ("Main Yard"),
+  which names no work location.
+- **Decision:** The employee mapping is unchanged. A location taken from
+  the organization field may not resolve to a work location.
+- **Reason:** The organization list belongs to each client, and nothing
+  links its values to work location codes.
+- **Evidence:** `tests/test_company_links.py::test_isolved_location_codes_resolve_but_organization_values_may_not`.
+- **Status:** Open.
+
+### 91. PrismHR's federal ID is masked live
+
+- **Context:** PrismHR's client record has `federalIdNumber`, the EIN.
+  The live demo sends it fully masked (`**********`).
+- **Decision:** A masked value leaves the EIN empty, adds no tax id, and
+  raises a `masked_value` warning (the provider hid the value). An
+  unmasked value becomes the EIN and one tax id.
+- **Reason:** A masked string is not an EIN (entry 1).
+- **Evidence:** `tests/test_company_prismhr.py::test_masked_federal_id_leaves_ein_null`,
+  `test_unmasked_federal_id_becomes_the_ein_and_one_tax_id`.
+- **Status:** Open.
+
+### 92. Pay-group frequency: PrismHR from its schedule codes, isolved stays unknown
+
+- **Context:** A PrismHR pay group's frequency is the `payPeriod` code
+  on its payroll schedule. The field itself is described only as "pay
+  period number", but the neighbouring `payPeriodDesc` lists the codes:
+  `D` (Daily), `W` (Weekly), `B` (Biweekly), `S` (Semi-monthly), `M`
+  (Monthly), and five `MD*` monthly variants. An isolved pay group's
+  `payFrequency` is a bare integer such as `12`.
+- **Decision:** PrismHR codes map from that list. Every `MD*` code is
+  monthly; Daily stays `unknown`, as there is no shared daily value. A
+  pay group with no schedule row has no frequency. isolved stays
+  `unknown` with an `undocumented_code` issue (a code with no documented
+  meaning), as for employees (entry 27).
+- **Reason:** The PrismHR spec documents the codes, just on the other
+  field. isolved documents nothing.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientPayrollSchedule/properties/payPeriodDesc/description`;
+  `tests/test_company_prismhr.py::test_pay_groups_take_frequency_from_the_schedule`;
+  `tests/test_company_isolved.py::test_pay_groups`.
+- **Status:** Open.
+
+### 93. isolved company name stays empty without `dbaName`
+
+- **Context:** isolved's legal record has `dbaName` (the trading name)
+  and `legalName`. The live demo never sends `dbaName`.
+- **Decision:** `name` is empty and `legal_name` holds `legalName`. One
+  `missing_section` issue at `info` severity says so.
+- **Reason:** A legal name is not necessarily the name a company trades
+  under, so copying it would blur the two fields.
+- **Evidence:** `tests/test_company_isolved.py::test_name_is_null_without_a_dba_name`.
+- **Status:** Open.
+
+### 94. isolved company status labels allowed so far
+
+- **Context:** isolved sends the legal company's status as English text,
+  and the spec lists no values. Both live legals were "Active".
+- **Decision:** "Active" is `active`. Any other label stays `unknown`
+  with an `unmapped_label` issue (a label with no shared meaning yet).
+- **Reason:** Only labels seen live are allowed, as for employee status
+  (entry 23).
+- **Evidence:** `src/normalization/adapters/isolved.py` (`COMPANY_STATUS`);
+  `tests/test_company_isolved.py::test_unlisted_status_label`.
+- **Status:** Open.
+
+### 95. UKG Ready pay-period profiles stand in for pay groups
+
+- **Context:** UKG Ready has no pay group records. Its pay-period
+  profiles define how often a group of employees is paid, with a
+  `period_type` from a closed list and, for `every_n_weeks`, a week count.
+- **Decision:** Each profile becomes a pay group. `weekly`,
+  `semi_monthly` and `monthly` map to their namesakes, and
+  `every_n_weeks` is weekly for one week and biweekly for two. Other
+  types stay `unknown`. A value outside the list raises an
+  `out_of_schema_value` issue (a value outside the documented set).
+- **Reason:** Profiles are what UKG Ready uses to group pay schedules.
+  The other types have no fixed frequency.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/273`;
+  `tests/test_company_ukg_ready.py::test_frequency_mapping`,
+  `test_out_of_enum_period_type`.
+- **Status:** Open.
+
+### 96. UKG Ready EINs come from the lookup only
+
+- **Context:** UKG Ready has no company endpoint (entry 7). The EIN
+  lookup lists one EIN, but live payrolls also use a second EIN ("2nd
+  EIN") that the lookup leaves out.
+- **Decision:** Tax ids come from the EIN lookup, one per row. With one
+  row it is also the company EIN; with several the EIN is empty and a
+  `missing_lookup` warning (a needed lookup entry is absent) says so.
+  Name, address and status are empty, with one `missing_section`
+  warning. An EIN that only payrolls mention is not added.
+- **Reason:** The lookup is the documented list. The gap is a finding
+  about the demo, not something to patch from payroll data.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/249`;
+  `tests/test_company_ukg_ready.py::test_single_ein`,
+  `test_two_eins_list_both_and_leave_ein_null`,
+  `test_profile_is_empty_with_an_issue`.
+- **Status:** Decided.
+
+### 97. Where live company data differs from the specs
+
+- **Context:** The live demo companies did not match the specs:
+  - PrismHR's client record sends seven fields the spec does not list,
+    and spells `everify` as `eVerify`.
+  - PrismHR's `getPayrollSchedule` lists schedules under
+    `clientPayrollSchedule`, not `clientPayrollSchedules`.
+  - isolved's legal record never sends `dbaName`, `naicsCode` or
+    `logoData`, and its work locations call answers 401.
+- **Decision:** Both schedule keys are read. Each PrismHR difference
+  gets one `spec_live_mismatch` issue (live data differs from the spec)
+  per bundle, and live-only fields stay in `unmapped`. The isolved gaps
+  are covered by entries 89 and 93.
+- **Reason:** These differences do not change what the other fields
+  mean.
+- **Evidence:** `tests/test_company_prismhr.py::test_live_only_fields_are_reported_once`,
+  `test_singular_schedule_key_is_reported`,
+  `test_plural_schedule_key_reads_without_an_issue`.
 - **Status:** Open.
