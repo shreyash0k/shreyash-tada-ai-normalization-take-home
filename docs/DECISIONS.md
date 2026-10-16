@@ -282,14 +282,19 @@ during implementation.
 
 ### 15. The canonical model uses plain Python classes, not a validation library
 
-- **Context:** The canonical record needs two things: a guarantee that each
-  field holds the right kind of value (a date is a date, an amount is a
-  decimal), and a written description of the output shape that other people
-  can read. Pydantic would give both, but it is a third-party package.
+- **Context:** The canonical record needs a guarantee that each field holds
+  the right kind of value (a date is a date, an amount is a decimal) and a
+  written description of the output shape that other people can read.
+  Pydantic was the obvious candidate. The problem is how it treats input: by
+  default it converts values to fit the declared type. The text `"1"` becomes
+  the number `1`, `"true"` becomes `True`, a number becomes a string. That
+  conversion is silent, and once it has happened there is no way to tell from
+  the output what the provider actually sent.
 - **Decision:** The model is built from Python's own `dataclasses` and `Enum`
-  classes, with no outside packages. Each class checks its fields when it is
-  created and refuses wrong types rather than silently converting them (for
-  example, the string `"40"` is not accepted where a number is expected).
+  classes. Each class checks its fields when it is created and refuses wrong
+  types rather than converting them: the text `"40"` is rejected where a
+  number is expected, and a `True`/`False` is not accepted as a number. A
+  value reaches the record exactly as the adapter produced it, or not at all.
   Records are immutable once built. A `to_dict()` method turns a record into
   plain JSON: dates become `YYYY-MM-DD` strings, amounts become strings so no
   precision is lost, and enums become their lowercase names.
@@ -298,9 +303,13 @@ during implementation.
   validates the test outputs against it. A test also compares the Python
   classes with the schema field by field, so the two cannot drift apart
   unnoticed.
-- **Reason:** The project stays "Python 3.14, nothing to install". The
-  adapters already clean and validate values before building a record, so the
-  type check is a final safety net rather than the main line of defence.
+- **Reason:** Entry 1 says the pipeline never guesses. A model that quietly
+  reshapes values is a guess made on our behalf, and one that leaves no trace
+  in the output or the issues list. Pydantic has a strict mode that turns
+  conversion off, but the default behaviour would have to be remembered and
+  switched off on every model; with plain classes there is nothing to switch
+  off. A side benefit is that the project still needs nothing installed
+  beyond Python 3.14.
 - **Evidence:** `src/normalization/canonical/common.py` (`check_types`,
   `to_jsonable`); `tests/test_canonical_model.py`
   (`test_each_model_field_set_matches_schema_properties`,
