@@ -10,21 +10,11 @@ import { STATUS_LABEL } from "@/lib/status";
 export function cellStyle(status: FieldStatus, accent: string, soft: string): CSSProperties {
   switch (status) {
     case "mapped":
-      return {
-        backgroundColor: soft,
-        borderColor: soft,
-        borderLeftColor: accent,
-        borderLeftWidth: 3,
-        color: accent,
-      };
+      return { backgroundColor: soft, borderColor: soft, color: accent };
     case "not_mapped_yet":
-      return { backgroundColor: "#fffbeb", borderColor: "#f59e0b", color: "#b45309" };
+      return { backgroundColor: "#faf6f0", borderColor: "#eadfce", color: "#7a5528" };
     case "not_offered":
-      return {
-        backgroundImage: "repeating-linear-gradient(135deg, #f5f5f5 0 6px, #e5e5e5 6px 7px)",
-        borderColor: "#e5e5e5",
-        color: "#737373",
-      };
+      return { backgroundColor: "#fafafa", borderColor: "#e4e4e7", color: "#5c5c5c" };
   }
 }
 

@@ -47,10 +47,14 @@ export function CoverageGrid({ providers }: { providers: ProviderCoverage[] }) {
         </label>
       </div>
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-        <table className="w-full text-sm">
+        <table className="w-full table-fixed text-sm">
+          <colgroup>
+            <col className="w-64" />
+            {providers.map((provider) => <col key={provider.id} />)}
+          </colgroup>
           <thead>
             <tr className="border-b bg-neutral-50">
-              <th className="w-72 px-4 py-3 text-left align-bottom font-medium text-neutral-500">Canonical field</th>
+              <th className="px-4 py-3 text-left align-middle font-medium text-neutral-500">Canonical field</th>
               {providers.map((provider) => <ProviderHeader key={provider.id} provider={provider} />)}
             </tr>
           </thead>
@@ -86,29 +90,16 @@ export function CoverageGrid({ providers }: { providers: ProviderCoverage[] }) {
 }
 
 function ProviderHeader({ provider }: { provider: ProviderCoverage }) {
-  const { accent, logo } = PROVIDER_STYLE[provider.id];
-  const { fields_offered: offered, fields_mapped: mapped, fields_total: total } = provider.summary;
+  const { logo } = PROVIDER_STYLE[provider.id];
   return (
-    <th className="min-w-48 px-2 py-3 text-left align-bottom font-medium">
-      <Image src={logo} alt="" width={140} height={32} className="h-7 w-auto max-w-40 object-contain object-left" />
-      <div className="mt-1">{provider.name}</div>
-      <Bar label="offered" value={offered} total={total} color={accent} opacity={0.35} />
-      <Bar label="mapped" value={mapped} total={total} color={accent} opacity={1} />
+    <th className="px-3 py-4 align-middle font-medium">
+      <Image
+        src={logo}
+        alt={provider.name}
+        width={140}
+        height={32}
+        className="mx-auto h-7 w-auto max-w-full object-contain"
+      />
     </th>
-  );
-}
-
-function Bar({ label, value, total, color, opacity }:
-  { label: string; value: number; total: number; color: string; opacity: number }) {
-  return (
-    <div className="mt-2">
-      <div className="flex justify-between text-[11px] font-normal text-neutral-500">
-        <span>{label}</span>
-        <span className="tabular-nums">{value}/{total}</span>
-      </div>
-      <div className="h-1.5 rounded-full bg-neutral-100">
-        <div className="h-1.5 rounded-full" style={{ width: `${(value / total) * 100}%`, backgroundColor: color, opacity }} />
-      </div>
-    </div>
   );
 }
