@@ -1,4 +1,4 @@
-"""PrismHR employee adapter.
+"""PrismHR employee and direct deposit adapter.
 
 Input: a capture bundle whose ``responses.get_employee`` holds raw
 ``GET /employee/v1/getEmployee`` responses requested with
@@ -6,21 +6,31 @@ Input: a capture bundle whose ``responses.get_employee`` holds raw
 carries up to twenty ``employee[]`` records with ``person``,
 ``contactInformation``, ``client`` and ``compensation`` sections.
 
+Direct deposits come from the same call requested with
+``options=DirectDeposit`` (``responses.get_employee_direct_deposit``): each
+employee's ``directDeposit`` header holds the ``achVoucher[]`` bank lines.
+
 Every code table below cites the OpenAPI description it rests on. Codes the
 spec does not explain stay raw with an ``undocumented_code`` issue.
 """
 from typing import Any, Dict, Optional
 
-from ..bundle import Bundle
+from ..bundle import Bundle, parse_bundle
 from ..canonical import (
+    AccountType,
     Address,
     AddressKind,
+    Allocation,
+    AllocationMethod,
     Citizenship,
     CodedValue,
     Company,
     CompanySource,
     Compensation,
     Contact,
+    DepositSource,
+    DepositStatus,
+    DirectDeposit,
     Email,
     EmailKind,
     Employee,
@@ -92,6 +102,28 @@ PAY_PERIOD = CodeTable(
 )
 # Spec says "standard hours per pay period (for example, 40.00 if 40 hours per week)".
 STANDARD_HOURS_PERIOD = CodedValue(raw=None, label="per pay period", value=PayPeriod.PAY_PERIOD)
+
+# 'C' is "checking account or pay card"; pay cards are set up as checking accounts.
+ACCOUNT_TYPE = CodeTable(
+    "achVoucher.accountType", AccountType,
+    {"C": AccountType.CHECKING, "S": AccountType.SAVINGS, "IP": AccountType.INSTANT_PAY},
+    f"{SPEC}/AchVoucher/properties/accountType/description",
+)
+# 'FS' is fixed, skipped when the full amount cannot be taken; the skip rule stays in the raw code.
+DEPOSIT_METHOD = CodeTable(
+    "achVoucher.method", AllocationMethod,
+    {"F": AllocationMethod.FIXED_AMOUNT, "FS": AllocationMethod.FIXED_AMOUNT,
+     "P": AllocationMethod.PERCENT, "PN": AllocationMethod.PERCENT_OF_NET,
+     "B": AllocationMethod.REMAINDER},
+    f"{SPEC}/AchVoucher/properties/method/description",
+)
+DEPOSIT_STATUS = CodeTable(
+    "achVoucher.status", DepositStatus,
+    {"D": DepositStatus.ACTIVE, "I": DepositStatus.INACTIVE, "P": DepositStatus.PRENOTE},
+    f"{SPEC}/AchVoucher/properties/status/description",
+)
+AMOUNT_METHODS = {AllocationMethod.FIXED_AMOUNT}
+PERCENT_METHODS = {AllocationMethod.PERCENT, AllocationMethod.PERCENT_OF_NET}
 
 # Property names where the live API differs from the OpenAPI document:
 # (section, live name, spec name). Spec name None means the field is absent from the spec.
@@ -199,7 +231,7 @@ class _PrismEmployeeMapper:
                                          comp.path("citizenshipStatus"), key,
                                          issue_code=IssueCode.UNMAPPED_LABEL),
             ethnicity=Collector.raw_code(person.get("ethnicCode")),
-            ssn_last4=self.issues.ssn_last4(comp.get("ssn"), comp.path("ssn"), key),
+            ssn_last4=self.issues.last4(comp.get("ssn"), comp.path("ssn"), key),
         )
 
         addresses = [a for a in (
@@ -281,39 +313,134 @@ class _PrismEmployeeMapper:
         )
 
 
-def normalize_employees(bundle: Bundle) -> NormalizedOutput:
-    if bundle.provider != PROVIDER:
-        raise ValueError(f"bundle provider is {bundle.provider!r}, expected {PROVIDER!r}")
-    issues = Collector()
-    mapper = _PrismEmployeeMapper(bundle, issues)
-    employees = []
-    for index, response in enumerate(bundle.response("get_employee") or []):
+class _PrismDepositMapper:
+    def __init__(self, bundle: Bundle, issues: Collector):
+        self.issues = issues
+        self.company_id = bundle.request["client_id"]
+        self.company_key = f"{PROVIDER}:{self.company_id}"
+
+    def map(self, raw: Dict[str, Any]) -> list[DirectDeposit]:
+        employee_id = text(raw.get("id")) or ""
+        employee_key = f"{self.company_key}:{employee_id}"
+        header = raw.get("directDeposit")
+        if not isinstance(header, dict):
+            self.issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "directDeposit",
+                            "no deposit lines emitted", employee_key,
+                            message="getEmployee response lacks the 'directDeposit' section; "
+                                    "request options=DirectDeposit")
+            return []
+        header_reader = Reader(header, "directDeposit")
+        header_reader.consume("achVoucher")
+        shared = header_reader.unmapped()
+        lines = header.get("achVoucher") or []
+        if not isinstance(lines, list):
+            raise ValueError(f"directDeposit.achVoucher of employee {employee_id!r} must be a list")
+        deposits = []
+        for index, line in enumerate(lines):
+            if isinstance(line, dict):
+                deposits.append(self._line(Reader(line, f"directDeposit.achVoucher[{index}]"),
+                                           employee_id, employee_key, str(index), shared))
+        return deposits
+
+    def _line(self, r: Reader, employee_id: str, employee_key: str, deposit_id: str,
+              shared: Dict[str, Any]) -> DirectDeposit:
+        key = f"{employee_key}:dd:{deposit_id}"
+        method = self.issues.code(DEPOSIT_METHOD, r.get("method"), r.path("method"), key)
+        amount = percent = None
+        member = method.value if method is not None else None
+        raw_amount = r.peek("amount")
+        if raw_amount is None:
+            r.consume("amount")
+        if member is AllocationMethod.REMAINDER:
+            if raw_amount is not None:
+                self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path("amount"),
+                                "kept in unmapped", key, raw_amount,
+                                f"method 'B' takes the remaining balance and must not carry an amount "
+                                f"({SPEC}/AchVoucher/properties/amount/description)")
+        elif member in AMOUNT_METHODS or member in PERCENT_METHODS:
+            if raw_amount is None:
+                self.issues.add(IssueCode.INCONSISTENT_ALLOCATION, Severity.WARNING, r.path("amount"),
+                                "amount set null", key,
+                                message=f"amount is mandatory for method {method.raw!r} "
+                                        f"({SPEC}/AchVoucher/properties/amount/description)")
+            elif member in AMOUNT_METHODS:
+                amount = self.issues.money(r.get("amount"), r.path("amount"), key)
+            else:
+                percent = self.issues.decimal(r.get("amount"), r.path("amount"), key)
+        return DirectDeposit(
+            key=key,
+            employee_key=employee_key,
+            company_key=self.company_key,
+            source=DepositSource(provider=PROVIDER, company_id=self.company_id, employee_id=employee_id,
+                                 deposit_id=deposit_id),
+            bank_name=text(r.get("bankName")),
+            routing_number=text(r.get("transitNum")),
+            account_number_last4=self.issues.last4(r.get("accountNum"), r.path("accountNum"), key),
+            account_type=self.issues.code(ACCOUNT_TYPE, r.get("accountType"), r.path("accountType"), key),
+            allocation=Allocation(method=method, amount=amount, percent=percent),
+            status=self.issues.code(DEPOSIT_STATUS, r.get("status"), r.path("status"), key),
+            unmapped={**r.unmapped(), **shared},
+        )
+
+
+def _employee_records(bundle: Bundle, response_key: str, issues: Collector):
+    """Yield every employee record of the getEmployee responses under ``response_key``."""
+    for index, response in enumerate(bundle.response(response_key) or []):
         if not isinstance(response, dict):
-            raise ValueError(f"responses.get_employee[{index}] must be an object")
+            raise ValueError(f"responses.{response_key}[{index}] must be an object")
         error_code = response.get("errorCode")
         if error_code not in (None, "0", 0):
             issues.add(IssueCode.MISSING_SECTION, Severity.WARNING,
-                       f"responses.get_employee[{index}].errorCode", "response skipped",
+                       f"responses.{response_key}[{index}].errorCode", "response skipped",
                        raw_value=error_code, message=text(response.get("errorMessage")))
             continue
         records = response.get("employee") or []
         if not isinstance(records, list):
-            raise ValueError(f"responses.get_employee[{index}].employee must be a list")
+            raise ValueError(f"responses.{response_key}[{index}].employee must be a list")
         for record in records:
             if isinstance(record, dict):
-                employees.append(mapper.map(record))
+                yield record
 
+
+def _company(company_id: str, issues: Collector) -> Company:
     issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
                "company name set null",
                message="getEmployee does not return the client name; a client endpoint is a later task")
-    company = Company(key=mapper.company_key,
-                      source=CompanySource(provider=PROVIDER, company_id=mapper.company_id))
+    return Company(key=f"{PROVIDER}:{company_id}",
+                   source=CompanySource(provider=PROVIDER, company_id=company_id))
+
+
+def _check_provider(bundle: Bundle) -> None:
+    if bundle.provider != PROVIDER:
+        raise ValueError(f"bundle provider is {bundle.provider!r}, expected {PROVIDER!r}")
+
+
+def normalize_employees(bundle: Bundle) -> NormalizedOutput:
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _PrismEmployeeMapper(bundle, issues)
+    employees = [mapper.map(record) for record in _employee_records(bundle, "get_employee", issues)]
+    company = _company(mapper.company_id, issues)
     return NormalizedOutput(provider=PROVIDER, company=company, employees=employees, issues=issues.issues)
 
 
+def normalize_direct_deposits(bundle: Bundle) -> NormalizedOutput:
+    _check_provider(bundle)
+    issues = Collector()
+    mapper = _PrismDepositMapper(bundle, issues)
+    deposits = []
+    for record in _employee_records(bundle, "get_employee_direct_deposit", issues):
+        deposits.extend(mapper.map(record))
+    company = _company(mapper.company_id, issues)
+    return NormalizedOutput(provider=PROVIDER, company=company, direct_deposits=deposits, issues=issues.issues)
+
+
+NORMALIZERS = {"employee": normalize_employees, "direct-deposit": normalize_direct_deposits}
+
+
 def normalize(entity: str, response: Any, reference: Dict[str, Any]) -> Any:
-    """Dispatch wrapper used by the CLI. ``response`` is a parsed capture bundle for employees."""
-    if entity == "employee":
-        from ..bundle import parse_bundle
-        return normalize_employees(response if isinstance(response, Bundle) else parse_bundle(response))
+    """Dispatch wrapper used by the CLI. ``response`` is a parsed capture bundle."""
+    if entity in NORMALIZERS:
+        bundle = response if isinstance(response, Bundle) else parse_bundle(response, entity=entity)
+        return NORMALIZERS[entity](bundle)
     raise NotImplementedError(f"PrismHR {entity} normalization is not implemented yet.")

@@ -27,6 +27,8 @@ FIXTURES = ROOT / "tests" / "fixtures"
 DEFAULT_SEED = 20261015
 CAPTURED_AT = "2026-10-15"
 
+BANKS = ["First Example Bank", "Harbor Sample Credit Union", "Granite Test Savings", "Summit Demo Bank N.A."]
+
 FIRST_NAMES = ["Avery", "Jordan", "Riley", "Morgan", "Casey", "Quinn", "Harper", "Rowan",
                "Emerson", "Sage", "Dakota", "Reese", "Finley", "Skyler", "Tatum", "Blake"]
 LAST_NAMES = ["Okafor", "Lindqvist", "Marchetti", "Haddad", "Nakamura", "Oyelaran", "Petrov",
@@ -73,6 +75,16 @@ class Pool:
 
     def money(self, low: int, high: int, places: int = 2) -> float:
         return round(self.rng.uniform(low, high), places)
+
+    def routing(self) -> str:
+        # ABA routing numbers never start with 99, so these cannot be real banks.
+        return f"99{self.rng.randint(0, 9_999_999):07d}"
+
+    def account(self, digits: int = 10) -> str:
+        return "".join(str(self.rng.randint(0, 9)) for _ in range(digits))
+
+    def bank(self) -> str:
+        return self.rng.choice(BANKS)
 
 
 def bundle(provider, request, responses):
@@ -245,6 +257,62 @@ def build_prismhr(seed: int):
     })
 
 
+# PrismHR direct deposits: getEmployee with options=DirectDeposit for the same
+# employees. Injected cases: P with a limit, FS prenote, PN, an unmasked
+# account number (the rest are masked, as live), B carrying an amount and F
+# without one (inconsistent_allocation), undocumented method "Z"
+# (undocumented_code), an empty header (no setup, as live), and a record with
+# directDeposit null (missing_section).
+
+def prism_ach_line(pool: Pool, method: str, amount=None, account_type="C", status="D",
+                   limit=None, override="RVS", masked=True):
+    digits = pool.rng.randint(7, 11)
+    return {"transitNum": pool.routing(), "accountNum": "*" * digits if masked else pool.account(digits),
+            "accountType": account_type, "method": method, "amount": amount, "limit": limit,
+            "status": status, "bankName": pool.bank().upper(), "voucherTypeOverride": override}
+
+
+def prism_dd_record(employee, direct_deposit):
+    record = {key: employee[key] for key in ("id", "lastName", "firstName", "middleInitial", "preferredName")}
+    for section in ("person", "contactInformation", "client", "compensation"):
+        record[section] = None
+    record["directDeposit"] = direct_deposit
+    for section in ("hsa", "employeeEvents", "health", "skillsAndEducation", "absenceJournalId",
+                    "benefitEnrollmentCompleted", "scheduledDeduction", "newHireQuestions",
+                    "enrollmentInProgress"):
+        record[section] = None
+    return record
+
+
+def prism_dd_header(pool: Pool, lines, status="A", voucher_type="RVS"):
+    return {"achStatus": status, "voucherType": voucher_type, "suppressAccountPrint": False,
+            "achVoucher": lines, "directDepositChecksum": str(pool.rng.randint(1_000_000, 9_999_999))}
+
+
+def build_prismhr_direct_deposits(seed: int):
+    employees = [r for response in build_prismhr(seed)["responses"]["get_employee"] for r in response["employee"]]
+    pool = Pool(seed, "prismhr-direct-deposit")
+    headers = [
+        prism_dd_header(pool, [prism_ach_line(pool, "F", 250.0, account_type="S", masked=False),
+                               prism_ach_line(pool, "B")]),
+        prism_dd_header(pool, [prism_ach_line(pool, "P", 20.0, limit=500.0), prism_ach_line(pool, "B")]),
+        prism_dd_header(pool, [prism_ach_line(pool, "FS", 100.0, status="P", override="R"),
+                               prism_ach_line(pool, "PN", 10.0, account_type="S", override="")]),
+        prism_dd_header(pool, [prism_ach_line(pool, "B", 75.0),  # B must not carry an amount
+                               prism_ach_line(pool, "F", None, account_type="S")]),  # F needs one
+        prism_dd_header(pool, [prism_ach_line(pool, "Z", 40.0, account_type="IP", status="I")], status="I"),
+        prism_dd_header(pool, [], status="", voucher_type=""),  # no setup, as live
+        None,  # section missing
+    ]
+    for header in headers:
+        if header is not None and not header["achVoucher"]:
+            header["directDepositChecksum"] = "0"
+    records = [prism_dd_record(employee, header) for employee, header in zip(employees, headers)]
+    return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
+        "get_employee_direct_deposit": [prism_response(records[:4]), prism_response(records[4:])],
+    })
+
+
 # --- isolved -----------------------------------------------------------------
 # Injected cases: employmentStatus "Leave of Absence" and gender "Non-binary"
 # (unmapped_label), employmentCategoryCode FT/PT and integer payFrequency
@@ -398,6 +466,42 @@ def build_isolved(seed: int):
         "employee_detail": {str(records[0]["id"]): detail},
         "personal": {str(records[1]["id"]): personal},
         "name_address": {str(records[1]["id"]): name_address},
+    })
+
+
+# isolved direct deposits: one /directdeposits array per employee id.
+# Injected cases: inactive lines without a sequence (one with neither amount
+# nor percent: inconsistent_allocation), off-allowlist "Savings" and
+# "Pending" (unmapped_label), both amount and percent set and a sequence 0
+# line with an amount (inconsistent_allocation), an empty array (the live
+# 404), and an employee with no entry (missing_section).
+
+def isolved_deposit(pool: Pool, deposit_id: int, sequence, status="Active", amount=None, percent=None,
+                    account_type="Checking"):
+    return {"id": deposit_id, "accountNumber": pool.account(pool.rng.randint(6, 12)),
+            "accountType": account_type, "amount": amount, "bankName": pool.bank(), "description": None,
+            "frequency": "Every Pay", "percent": percent, "routingNumber": pool.routing(),
+            "sequenceNumber": sequence, "status": status}
+
+
+def build_isolved_direct_deposits(seed: int):
+    employees = build_isolved(seed)["responses"]["employees"]
+    ids = [str(r["id"]) for page in employees for r in page["results"]]
+    pool = Pool(seed, "isolved-direct-deposit")
+    deposits = {
+        ids[0]: [isolved_deposit(pool, 640101, 0)],
+        ids[1]: [isolved_deposit(pool, 640102, 1, amount=200.0), isolved_deposit(pool, 640103, 0)],
+        ids[2]: [isolved_deposit(pool, 640104, None, status="Inactive"),  # neither amount nor percent
+                 isolved_deposit(pool, 640105, None, status="Inactive", amount=500.0)],
+        ids[3]: [isolved_deposit(pool, 640106, 1, percent=25.0, account_type="Savings"),
+                 isolved_deposit(pool, 640107, 2, status="Pending", amount=50.0, percent=10.0),
+                 isolved_deposit(pool, 640108, 0, amount=10.0)],
+        ids[4]: [],  # live answers 404 for an employee with no deposits
+        # ids[5] has no entry -> missing_section
+    }
+    return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
+        "employees": employees,
+        "direct_deposits": deposits,
     })
 
 
@@ -562,7 +666,90 @@ def build_ukg(seed: int):
     return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, responses)
 
 
-BUILDERS = {"prismhr": build_prismhr, "isolved": build_isolved, "ukg-ready": build_ukg}
+# UKG Ready direct deposits: one /direct-deposits response per account id.
+# Injected cases: every calc_method type, an inactive line, a short account
+# number (invalid_number), account_type MONEY_MARKET (out_of_schema_value),
+# invalid active_from (invalid_date), a RESERVE_LIVE_CHECK line with no bank
+# fields, FLAT_AMOUNT without an amount (inconsistent_allocation), an empty
+# deposits list, and an employee with no response (missing_section).
+
+UKG_CALC_NAMES = {"FULL": "Entire/Remainder", "FLAT_AMOUNT": "Flat $ Amount", "NET_PAY": "% Of Net Pay",
+                  "GROSS_EARNING": "% Of Gross Earnings", "DIRECT_DEPOSIT_PER_OF_REMAINDER": "% Of Remainder"}
+
+
+def ukg_deposit(pool: Pool, deposit_id: int, sequence: int, calc: str, amount=None, percentage=None,
+                account_type="CHECKING", active=True, active_from="2020-08-06", active_to="2099-12-31",
+                pre_note="READY_TO_SEND", kind="DIRECT_DEPOSIT", account_digits=None, bank=True):
+    base = f"{UKG_BASE}/direct-deposits/{deposit_id}"
+    line = {"id": deposit_id, "sequence": sequence, "type": kind, "active_from": active_from,
+            "active_to": active_to, "active": active}
+    if amount is not None:
+        line["amount"] = amount
+    if percentage is not None:
+        line["percentage"] = percentage
+    line["calc_method"] = {"display_name": UKG_CALC_NAMES[calc], "type": calc}
+    if bank:
+        line.update({"account_type": account_type,
+                     "account_number": pool.account(account_digits or pool.rng.randint(6, 11)),
+                     "routing_number": pool.routing(), "routing_type": "ABA", "pre_note_status": pre_note})
+    line.update({
+        "arrearage_function": "UNKNOWN", "payroll_frequency": {"type": "EVERY_PAY"},
+        "used_in_pay_statement": False, "is_paypal": False, "visible": True,
+        "_documents_count": 0, "_notes_count": 0,
+        "_links": {"self": base, "edit": base, "delete": base,
+                   "notes": f"{UKG_BASE}/notes?token=synthetic{deposit_id}",
+                   "add_note": f"{UKG_BASE}/notes?token=synthetic{deposit_id}"},
+    })
+    return line
+
+
+def ukg_deposits_response(lines):
+    add = f"{UKG_BASE}/direct-deposits"
+    return {"deposits": lines, "_links": {"add": add, "reserve_live_check": add, "cancel_pre_note": add},
+            "_routing_type": "ABA"}
+
+
+def build_ukg_direct_deposits(seed: int):
+    employees = build_ukg(seed)["responses"]["employees"]
+    ids = [str(e["id"]) for e in employees["employees"]]
+    pool = Pool(seed, "ukg-ready-direct-deposit")
+    deposits = {
+        ids[0]: ukg_deposits_response([ukg_deposit(pool, 47480101, 1, "FULL", active_from="1900-12-31")]),
+        ids[1]: ukg_deposits_response([
+            ukg_deposit(pool, 47480102, 1, "FLAT_AMOUNT", amount=1000.0, pre_note="CANCELED"),
+            ukg_deposit(pool, 47480103, 2, "NET_PAY", percentage=15.0, account_type="SAVINGS"),
+            ukg_deposit(pool, 47480104, 3, "FULL", pre_note="COMPLETE_EXPIRED"),
+        ]),
+        ids[2]: ukg_deposits_response([
+            ukg_deposit(pool, 47480105, 1, "FULL", active=False, active_from="1900-12-31",
+                        active_to="2017-07-13", pre_note="CANCELED", account_digits=3),  # short number
+            ukg_deposit(pool, 47480106, 2, "GROSS_EARNING", percentage=10.0),
+        ]),
+        ids[3]: ukg_deposits_response([
+            ukg_deposit(pool, 47480107, 1, "DIRECT_DEPOSIT_PER_OF_REMAINDER", percentage=50.0,
+                        account_type="MONEY_MARKET", active_from="2025-02-30"),
+            ukg_deposit(pool, 47480108, 2, "FULL", kind="RESERVE_LIVE_CHECK", bank=False),
+        ]),
+        # ids[4] has no response -> missing_section
+        ids[5]: ukg_deposits_response([
+            ukg_deposit(pool, 47480109, 1, "FLAT_AMOUNT"),  # amount missing
+            ukg_deposit(pool, 47480110, 2, "FULL"),
+        ]),
+    }
+    return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
+        "employees": employees,
+        "direct_deposits": deposits,
+    })
+
+
+BUILDERS = {
+    "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits},
+    "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits},
+    "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits},
+}
+# Bundle file name and golden-output suffix per entity.
+ENTITY_FILES = {"employee": ("employee-bundle.json", "employees"),
+                "direct-deposit": ("direct-deposit-bundle.json", "direct-deposits")}
 
 
 def dumps(data) -> str:
@@ -572,11 +759,13 @@ def dumps(data) -> str:
 def generate(seed: int = DEFAULT_SEED) -> dict:
     """Return {relative path: file text} for every fixture file."""
     files = {}
-    for provider, builder in BUILDERS.items():
-        raw = builder(seed)
-        files[f"{provider}/employee-bundle.json"] = dumps(raw)
-        output = ADAPTERS[provider].normalize_employees(parse_bundle(raw))
-        files[f"expected/{provider}-employees.json"] = dumps(output.to_dict())
+    for provider, builders in BUILDERS.items():
+        for entity, builder in builders.items():
+            bundle_name, suffix = ENTITY_FILES[entity]
+            raw = builder(seed)
+            files[f"{provider}/{bundle_name}"] = dumps(raw)
+            output = ADAPTERS[provider].NORMALIZERS[entity](parse_bundle(raw, entity=entity))
+            files[f"expected/{provider}-{suffix}.json"] = dumps(output.to_dict())
     return files
 
 

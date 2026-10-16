@@ -4,6 +4,7 @@ from typing import Any, Optional
 
 from .common import CanonicalEnum, Model
 from .company import Company
+from .direct_deposit import DirectDeposit
 from .employee import Employee
 
 
@@ -18,6 +19,7 @@ class IssueCode(CanonicalEnum):
     MASKED_VALUE = "masked_value"
     OUT_OF_SCHEMA_VALUE = "out_of_schema_value"
     MULTIPLE_CURRENT_RATES = "multiple_current_rates"
+    INCONSISTENT_ALLOCATION = "inconsistent_allocation"
     UNKNOWN = "unknown"
 
 
@@ -46,5 +48,6 @@ class NormalizedOutput(Model):
     provider: str
     company: Company
     employees: list[Employee] = field(default_factory=list)
+    direct_deposits: list[DirectDeposit] = field(default_factory=list)
     issues: list[Issue] = field(default_factory=list)
     schema_version: str = "1"

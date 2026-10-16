@@ -14,7 +14,7 @@ from normalization.references import all_readiness_issues, load_reference, readi
 class StarterChecks(unittest.TestCase):
     def test_expected_providers_and_entities_are_exposed(self):
         self.assertEqual(set(ADAPTERS), {"prismhr", "isolved", "ukg-ready"})
-        self.assertEqual(set(ENTITIES), {"company", "employee", "payroll"})
+        self.assertEqual(set(ENTITIES), {"company", "employee", "direct-deposit", "payroll"})
 
     def test_reference_readiness_matches_distributed_materials(self):
         self.assertEqual(all_readiness_issues(), {"prismhr": [], "isolved": [], "ukg-ready": []})
@@ -30,6 +30,25 @@ class StarterChecks(unittest.TestCase):
     def test_readiness_command_exits_zero_for_supplied_packs(self):
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(main(["check-inputs"]), 0)
+
+    def test_normalize_command_writes_direct_deposits(self):
+        bundle = Path(__file__).resolve().parent / "fixtures" / "ukg-ready" / "direct-deposit-bundle.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "out.json"
+            stderr = io.StringIO()
+            with contextlib.redirect_stderr(stderr):
+                code = main(["normalize", "--provider", "ukg-ready", "--entity", "direct-deposit",
+                             "--input", str(bundle), "--output", str(output)])
+            self.assertEqual(code, 0)
+            self.assertEqual(stderr.getvalue().strip(), "10 direct deposits, 6 issues")
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["direct_deposits"]), 10)
+
+    def test_normalize_command_rejects_a_bundle_missing_the_entity_responses(self):
+        bundle = Path(__file__).resolve().parent / "fixtures" / "prismhr" / "employee-bundle.json"
+        with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stderr(io.StringIO()):
+            code = main(["normalize", "--provider", "prismhr", "--entity", "direct-deposit",
+                         "--input", str(bundle), "--output", str(Path(tmp) / "out.json")])
+        self.assertEqual(code, 1)
 
 
 class ReadinessIssueChecks(unittest.TestCase):

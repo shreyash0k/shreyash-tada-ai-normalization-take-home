@@ -1,0 +1,531 @@
+{
+  "provider": "prismhr",
+  "company": {
+    "key": "prismhr:132",
+    "source": {
+      "provider": "prismhr",
+      "company_id": "132",
+      "secondary_ids": {}
+    },
+    "name": null,
+    "ein": null
+  },
+  "employees": [],
+  "direct_deposits": [
+    {
+      "key": "prismhr:132:F00001:dd:0",
+      "employee_key": "prismhr:132:F00001",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "F00001",
+        "deposit_id": "0"
+      },
+      "bank_name": "FIRST EXAMPLE BANK",
+      "routing_number": "997260265",
+      "account_number_last4": "2147",
+      "account_type": {
+        "raw": "S",
+        "label": null,
+        "value": "savings"
+      },
+      "allocation": {
+        "method": {
+          "raw": "F",
+          "label": null,
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "250.0",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "D",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[0].limit": null,
+        "directDeposit.achVoucher[0].voucherTypeOverride": "RVS",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "4109994"
+      }
+    },
+    {
+      "key": "prismhr:132:F00001:dd:1",
+      "employee_key": "prismhr:132:F00001",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "F00001",
+        "deposit_id": "1"
+      },
+      "bank_name": "SUMMIT DEMO BANK N.A.",
+      "routing_number": "997907305",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "C",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "B",
+          "label": null,
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "D",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[1].limit": null,
+        "directDeposit.achVoucher[1].voucherTypeOverride": "RVS",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "4109994"
+      }
+    },
+    {
+      "key": "prismhr:132:M00002:dd:0",
+      "employee_key": "prismhr:132:M00002",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "M00002",
+        "deposit_id": "0"
+      },
+      "bank_name": "GRANITE TEST SAVINGS",
+      "routing_number": "995805440",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "C",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "P",
+          "label": null,
+          "value": "percent"
+        },
+        "amount": null,
+        "percent": "20.0"
+      },
+      "priority": null,
+      "status": {
+        "raw": "D",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[0].limit": 500.0,
+        "directDeposit.achVoucher[0].voucherTypeOverride": "RVS",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "6218773"
+      }
+    },
+    {
+      "key": "prismhr:132:M00002:dd:1",
+      "employee_key": "prismhr:132:M00002",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "M00002",
+        "deposit_id": "1"
+      },
+      "bank_name": "SUMMIT DEMO BANK N.A.",
+      "routing_number": "997339119",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "C",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "B",
+          "label": null,
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "D",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[1].limit": null,
+        "directDeposit.achVoucher[1].voucherTypeOverride": "RVS",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "6218773"
+      }
+    },
+    {
+      "key": "prismhr:132:D00003:dd:0",
+      "employee_key": "prismhr:132:D00003",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "D00003",
+        "deposit_id": "0"
+      },
+      "bank_name": "FIRST EXAMPLE BANK",
+      "routing_number": "999188382",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "C",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "FS",
+          "label": null,
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "100.0",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "P",
+        "label": null,
+        "value": "prenote"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[0].limit": null,
+        "directDeposit.achVoucher[0].voucherTypeOverride": "R",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "8475794"
+      }
+    },
+    {
+      "key": "prismhr:132:D00003:dd:1",
+      "employee_key": "prismhr:132:D00003",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "D00003",
+        "deposit_id": "1"
+      },
+      "bank_name": "SUMMIT DEMO BANK N.A.",
+      "routing_number": "998126652",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "S",
+        "label": null,
+        "value": "savings"
+      },
+      "allocation": {
+        "method": {
+          "raw": "PN",
+          "label": null,
+          "value": "percent_of_net"
+        },
+        "amount": null,
+        "percent": "10.0"
+      },
+      "priority": null,
+      "status": {
+        "raw": "D",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[1].limit": null,
+        "directDeposit.achVoucher[1].voucherTypeOverride": "",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "8475794"
+      }
+    },
+    {
+      "key": "prismhr:132:S00004:dd:0",
+      "employee_key": "prismhr:132:S00004",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "S00004",
+        "deposit_id": "0"
+      },
+      "bank_name": "FIRST EXAMPLE BANK",
+      "routing_number": "990735723",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "C",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "B",
+          "label": null,
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "D",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[0].amount": 75.0,
+        "directDeposit.achVoucher[0].limit": null,
+        "directDeposit.achVoucher[0].voucherTypeOverride": "RVS",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "5683942"
+      }
+    },
+    {
+      "key": "prismhr:132:S00004:dd:1",
+      "employee_key": "prismhr:132:S00004",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "S00004",
+        "deposit_id": "1"
+      },
+      "bank_name": "HARBOR SAMPLE CREDIT UNION",
+      "routing_number": "992576631",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "S",
+        "label": null,
+        "value": "savings"
+      },
+      "allocation": {
+        "method": {
+          "raw": "F",
+          "label": null,
+          "value": "fixed_amount"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "D",
+        "label": null,
+        "value": "active"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[1].limit": null,
+        "directDeposit.achVoucher[1].voucherTypeOverride": "RVS",
+        "directDeposit.achStatus": "A",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "5683942"
+      }
+    },
+    {
+      "key": "prismhr:132:Q00005:dd:0",
+      "employee_key": "prismhr:132:Q00005",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "Q00005",
+        "deposit_id": "0"
+      },
+      "bank_name": "HARBOR SAMPLE CREDIT UNION",
+      "routing_number": "996408856",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "IP",
+        "label": null,
+        "value": "instant_pay"
+      },
+      "allocation": {
+        "method": {
+          "raw": "Z",
+          "label": null,
+          "value": "unknown"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": null,
+      "status": {
+        "raw": "I",
+        "label": null,
+        "value": "inactive"
+      },
+      "effective": null,
+      "unmapped": {
+        "directDeposit.achVoucher[0].amount": 40.0,
+        "directDeposit.achVoucher[0].limit": null,
+        "directDeposit.achVoucher[0].voucherTypeOverride": "RVS",
+        "directDeposit.achStatus": "I",
+        "directDeposit.voucherType": "RVS",
+        "directDeposit.suppressAccountPrint": false,
+        "directDeposit.directDepositChecksum": "7426166"
+      }
+    }
+  ],
+  "issues": [
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[1].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:F00001:dd:1",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[0].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:M00002:dd:0",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[1].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:M00002:dd:1",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[0].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:D00003:dd:0",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[1].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:D00003:dd:1",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "inconsistent_allocation",
+      "severity": "warning",
+      "source_path": "directDeposit.achVoucher[0].amount",
+      "action": "kept in unmapped",
+      "record_key": "prismhr:132:S00004:dd:0",
+      "raw_value": 75.0,
+      "message": "method 'B' takes the remaining balance and must not carry an amount (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/amount/description)"
+    },
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[0].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:S00004:dd:0",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "inconsistent_allocation",
+      "severity": "warning",
+      "source_path": "directDeposit.achVoucher[1].amount",
+      "action": "amount set null",
+      "record_key": "prismhr:132:S00004:dd:1",
+      "raw_value": null,
+      "message": "amount is mandatory for method 'F' (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/amount/description)"
+    },
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[1].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:S00004:dd:1",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "undocumented_code",
+      "severity": "warning",
+      "source_path": "directDeposit.achVoucher[0].method",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "prismhr:132:Q00005:dd:0",
+      "raw_value": "Z",
+      "message": "achVoucher.method: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/AchVoucher/properties/method/description)"
+    },
+    {
+      "code": "masked_value",
+      "severity": "info",
+      "source_path": "directDeposit.achVoucher[0].accountNum",
+      "action": "set null",
+      "record_key": "prismhr:132:Q00005:dd:0",
+      "raw_value": "[redacted]",
+      "message": "provider returned a masked value"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "directDeposit",
+      "action": "no deposit lines emitted",
+      "record_key": "prismhr:132:R00007",
+      "raw_value": null,
+      "message": "getEmployee response lacks the 'directDeposit' section; request options=DirectDeposit"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "responses",
+      "action": "company name set null",
+      "record_key": null,
+      "raw_value": null,
+      "message": "getEmployee does not return the client name; a client endpoint is a later task"
+    }
+  ],
+  "schema_version": "1"
+}

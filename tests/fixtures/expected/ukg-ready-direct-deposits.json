@@ -1,0 +1,660 @@
+{
+  "provider": "ukg-ready",
+  "company": {
+    "key": "ukg-ready:33704016",
+    "source": {
+      "provider": "ukg-ready",
+      "company_id": "33704016",
+      "secondary_ids": {}
+    },
+    "name": null,
+    "ein": null
+  },
+  "employees": [],
+  "direct_deposits": [
+    {
+      "key": "ukg-ready:33704016:12935181566:dd:47480101",
+      "employee_key": "ukg-ready:33704016:12935181566",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181566",
+        "deposit_id": "47480101"
+      },
+      "bank_name": null,
+      "routing_number": "995689654",
+      "account_number_last4": "7890",
+      "account_type": {
+        "raw": "CHECKING",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "FULL",
+          "label": "Entire/Remainder",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 1,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "1900-12-31",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[0].type": "DIRECT_DEPOSIT",
+        "deposits[0].routing_type": "ABA",
+        "deposits[0].pre_note_status": "READY_TO_SEND",
+        "deposits[0].arrearage_function": "UNKNOWN",
+        "deposits[0].payroll_frequency.type": "EVERY_PAY",
+        "deposits[0].used_in_pay_statement": false,
+        "deposits[0].is_paypal": false,
+        "deposits[0].visible": true,
+        "deposits[0]._documents_count": 0,
+        "deposits[0]._notes_count": 0,
+        "deposits[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480101",
+        "deposits[0]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480101",
+        "deposits[0]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480101",
+        "deposits[0]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[0]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181567:dd:47480102",
+      "employee_key": "ukg-ready:33704016:12935181567",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181567",
+        "deposit_id": "47480102"
+      },
+      "bank_name": null,
+      "routing_number": "999257355",
+      "account_number_last4": "1008",
+      "account_type": {
+        "raw": "CHECKING",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "FLAT_AMOUNT",
+          "label": "Flat $ Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "1000.0",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "priority": 1,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "2020-08-06",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[0].type": "DIRECT_DEPOSIT",
+        "deposits[0].routing_type": "ABA",
+        "deposits[0].pre_note_status": "CANCELED",
+        "deposits[0].arrearage_function": "UNKNOWN",
+        "deposits[0].payroll_frequency.type": "EVERY_PAY",
+        "deposits[0].used_in_pay_statement": false,
+        "deposits[0].is_paypal": false,
+        "deposits[0].visible": true,
+        "deposits[0]._documents_count": 0,
+        "deposits[0]._notes_count": 0,
+        "deposits[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480102",
+        "deposits[0]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480102",
+        "deposits[0]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480102",
+        "deposits[0]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[0]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181567:dd:47480103",
+      "employee_key": "ukg-ready:33704016:12935181567",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181567",
+        "deposit_id": "47480103"
+      },
+      "bank_name": null,
+      "routing_number": "997841009",
+      "account_number_last4": "3952",
+      "account_type": {
+        "raw": "SAVINGS",
+        "label": null,
+        "value": "savings"
+      },
+      "allocation": {
+        "method": {
+          "raw": "NET_PAY",
+          "label": "% Of Net Pay",
+          "value": "percent_of_net"
+        },
+        "amount": null,
+        "percent": "15.0"
+      },
+      "priority": 2,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "2020-08-06",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[1].type": "DIRECT_DEPOSIT",
+        "deposits[1].routing_type": "ABA",
+        "deposits[1].pre_note_status": "READY_TO_SEND",
+        "deposits[1].arrearage_function": "UNKNOWN",
+        "deposits[1].payroll_frequency.type": "EVERY_PAY",
+        "deposits[1].used_in_pay_statement": false,
+        "deposits[1].is_paypal": false,
+        "deposits[1].visible": true,
+        "deposits[1]._documents_count": 0,
+        "deposits[1]._notes_count": 0,
+        "deposits[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480103",
+        "deposits[1]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480103",
+        "deposits[1]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480103",
+        "deposits[1]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[1]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181567:dd:47480104",
+      "employee_key": "ukg-ready:33704016:12935181567",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181567",
+        "deposit_id": "47480104"
+      },
+      "bank_name": null,
+      "routing_number": "992056861",
+      "account_number_last4": "5129",
+      "account_type": {
+        "raw": "CHECKING",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "FULL",
+          "label": "Entire/Remainder",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 3,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "2020-08-06",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[2].type": "DIRECT_DEPOSIT",
+        "deposits[2].routing_type": "ABA",
+        "deposits[2].pre_note_status": "COMPLETE_EXPIRED",
+        "deposits[2].arrearage_function": "UNKNOWN",
+        "deposits[2].payroll_frequency.type": "EVERY_PAY",
+        "deposits[2].used_in_pay_statement": false,
+        "deposits[2].is_paypal": false,
+        "deposits[2].visible": true,
+        "deposits[2]._documents_count": 0,
+        "deposits[2]._notes_count": 0,
+        "deposits[2]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480104",
+        "deposits[2]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480104",
+        "deposits[2]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480104",
+        "deposits[2]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[2]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181568:dd:47480105",
+      "employee_key": "ukg-ready:33704016:12935181568",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181568",
+        "deposit_id": "47480105"
+      },
+      "bank_name": null,
+      "routing_number": "995919705",
+      "account_number_last4": null,
+      "account_type": {
+        "raw": "CHECKING",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "FULL",
+          "label": "Entire/Remainder",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 1,
+      "status": {
+        "raw": "false",
+        "label": null,
+        "value": "inactive"
+      },
+      "effective": {
+        "start": "1900-12-31",
+        "end": "2017-07-13"
+      },
+      "unmapped": {
+        "deposits[0].type": "DIRECT_DEPOSIT",
+        "deposits[0].routing_type": "ABA",
+        "deposits[0].pre_note_status": "CANCELED",
+        "deposits[0].arrearage_function": "UNKNOWN",
+        "deposits[0].payroll_frequency.type": "EVERY_PAY",
+        "deposits[0].used_in_pay_statement": false,
+        "deposits[0].is_paypal": false,
+        "deposits[0].visible": true,
+        "deposits[0]._documents_count": 0,
+        "deposits[0]._notes_count": 0,
+        "deposits[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480105",
+        "deposits[0]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480105",
+        "deposits[0]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480105",
+        "deposits[0]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[0]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181568:dd:47480106",
+      "employee_key": "ukg-ready:33704016:12935181568",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181568",
+        "deposit_id": "47480106"
+      },
+      "bank_name": null,
+      "routing_number": "993222524",
+      "account_number_last4": "9962",
+      "account_type": {
+        "raw": "CHECKING",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "GROSS_EARNING",
+          "label": "% Of Gross Earnings",
+          "value": "percent_of_gross"
+        },
+        "amount": null,
+        "percent": "10.0"
+      },
+      "priority": 2,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "2020-08-06",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[1].type": "DIRECT_DEPOSIT",
+        "deposits[1].routing_type": "ABA",
+        "deposits[1].pre_note_status": "READY_TO_SEND",
+        "deposits[1].arrearage_function": "UNKNOWN",
+        "deposits[1].payroll_frequency.type": "EVERY_PAY",
+        "deposits[1].used_in_pay_statement": false,
+        "deposits[1].is_paypal": false,
+        "deposits[1].visible": true,
+        "deposits[1]._documents_count": 0,
+        "deposits[1]._notes_count": 0,
+        "deposits[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480106",
+        "deposits[1]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480106",
+        "deposits[1]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480106",
+        "deposits[1]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[1]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181569:dd:47480107",
+      "employee_key": "ukg-ready:33704016:12935181569",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181569",
+        "deposit_id": "47480107"
+      },
+      "bank_name": null,
+      "routing_number": "999277181",
+      "account_number_last4": "2431",
+      "account_type": {
+        "raw": "MONEY_MARKET",
+        "label": null,
+        "value": "unknown"
+      },
+      "allocation": {
+        "method": {
+          "raw": "DIRECT_DEPOSIT_PER_OF_REMAINDER",
+          "label": "% Of Remainder",
+          "value": "percent_of_remainder"
+        },
+        "amount": null,
+        "percent": "50.0"
+      },
+      "priority": 1,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": null,
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[0].type": "DIRECT_DEPOSIT",
+        "deposits[0].routing_type": "ABA",
+        "deposits[0].pre_note_status": "READY_TO_SEND",
+        "deposits[0].arrearage_function": "UNKNOWN",
+        "deposits[0].payroll_frequency.type": "EVERY_PAY",
+        "deposits[0].used_in_pay_statement": false,
+        "deposits[0].is_paypal": false,
+        "deposits[0].visible": true,
+        "deposits[0]._documents_count": 0,
+        "deposits[0]._notes_count": 0,
+        "deposits[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480107",
+        "deposits[0]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480107",
+        "deposits[0]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480107",
+        "deposits[0]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[0]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181569:dd:47480108",
+      "employee_key": "ukg-ready:33704016:12935181569",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181569",
+        "deposit_id": "47480108"
+      },
+      "bank_name": null,
+      "routing_number": null,
+      "account_number_last4": null,
+      "account_type": null,
+      "allocation": {
+        "method": {
+          "raw": "FULL",
+          "label": "Entire/Remainder",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 2,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "2020-08-06",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[1].type": "RESERVE_LIVE_CHECK",
+        "deposits[1].arrearage_function": "UNKNOWN",
+        "deposits[1].payroll_frequency.type": "EVERY_PAY",
+        "deposits[1].used_in_pay_statement": false,
+        "deposits[1].is_paypal": false,
+        "deposits[1].visible": true,
+        "deposits[1]._documents_count": 0,
+        "deposits[1]._notes_count": 0,
+        "deposits[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480108",
+        "deposits[1]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480108",
+        "deposits[1]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480108",
+        "deposits[1]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[1]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181571:dd:47480109",
+      "employee_key": "ukg-ready:33704016:12935181571",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181571",
+        "deposit_id": "47480109"
+      },
+      "bank_name": null,
+      "routing_number": "995169931",
+      "account_number_last4": "1482",
+      "account_type": {
+        "raw": "CHECKING",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "FLAT_AMOUNT",
+          "label": "Flat $ Amount",
+          "value": "fixed_amount"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 1,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "2020-08-06",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[0].type": "DIRECT_DEPOSIT",
+        "deposits[0].routing_type": "ABA",
+        "deposits[0].pre_note_status": "READY_TO_SEND",
+        "deposits[0].arrearage_function": "UNKNOWN",
+        "deposits[0].payroll_frequency.type": "EVERY_PAY",
+        "deposits[0].used_in_pay_statement": false,
+        "deposits[0].is_paypal": false,
+        "deposits[0].visible": true,
+        "deposits[0]._documents_count": 0,
+        "deposits[0]._notes_count": 0,
+        "deposits[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480109",
+        "deposits[0]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480109",
+        "deposits[0]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480109",
+        "deposits[0]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[0]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181571:dd:47480110",
+      "employee_key": "ukg-ready:33704016:12935181571",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181571",
+        "deposit_id": "47480110"
+      },
+      "bank_name": null,
+      "routing_number": "992561324",
+      "account_number_last4": "4698",
+      "account_type": {
+        "raw": "CHECKING",
+        "label": null,
+        "value": "checking"
+      },
+      "allocation": {
+        "method": {
+          "raw": "FULL",
+          "label": "Entire/Remainder",
+          "value": "remainder"
+        },
+        "amount": null,
+        "percent": null
+      },
+      "priority": 2,
+      "status": {
+        "raw": "true",
+        "label": null,
+        "value": "active"
+      },
+      "effective": {
+        "start": "2020-08-06",
+        "end": "2099-12-31"
+      },
+      "unmapped": {
+        "deposits[1].type": "DIRECT_DEPOSIT",
+        "deposits[1].routing_type": "ABA",
+        "deposits[1].pre_note_status": "READY_TO_SEND",
+        "deposits[1].arrearage_function": "UNKNOWN",
+        "deposits[1].payroll_frequency.type": "EVERY_PAY",
+        "deposits[1].used_in_pay_statement": false,
+        "deposits[1].is_paypal": false,
+        "deposits[1].visible": true,
+        "deposits[1]._documents_count": 0,
+        "deposits[1]._notes_count": 0,
+        "deposits[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480110",
+        "deposits[1]._links.edit": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480110",
+        "deposits[1]._links.delete": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits/47480110",
+        "deposits[1]._links.notes": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "deposits[1]._links.add_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/notes?token=[redacted]",
+        "_links.add": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.reserve_live_check": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_links.cancel_pre_note": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/direct-deposits",
+        "_routing_type": "ABA"
+      }
+    }
+  ],
+  "issues": [
+    {
+      "code": "invalid_number",
+      "severity": "warning",
+      "source_path": "deposits[0].account_number",
+      "action": "set null",
+      "record_key": "ukg-ready:33704016:12935181568:dd:47480105",
+      "raw_value": "[redacted]",
+      "message": "identifier has fewer than four digits"
+    },
+    {
+      "code": "invalid_date",
+      "severity": "error",
+      "source_path": "deposits[0].active_from",
+      "action": "set null",
+      "record_key": "ukg-ready:33704016:12935181569:dd:47480107",
+      "raw_value": "2025-02-30",
+      "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
+    },
+    {
+      "code": "out_of_schema_value",
+      "severity": "warning",
+      "source_path": "deposits[0].account_type",
+      "action": "kept raw value; canonical value set to unknown",
+      "record_key": "ukg-ready:33704016:12935181569:dd:47480107",
+      "raw_value": "MONEY_MARKET",
+      "message": "deposits.account_type: value is not one of the documented codes (contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/account_type/enum)"
+    },
+    {
+      "code": "missing_section",
+      "severity": "info",
+      "source_path": "direct_deposits",
+      "action": "no deposit lines emitted",
+      "record_key": "ukg-ready:33704016:12935181570",
+      "raw_value": null,
+      "message": "bundle has no responses.direct_deposits['12935181570'] entry"
+    },
+    {
+      "code": "inconsistent_allocation",
+      "severity": "warning",
+      "source_path": "deposits[0].amount",
+      "action": "amount set null",
+      "record_key": "ukg-ready:33704016:12935181571:dd:47480109",
+      "raw_value": null,
+      "message": "calc_method FLAT_AMOUNT requires 'amount' (contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/amount)"
+    },
+    {
+      "code": "missing_section",
+      "severity": "warning",
+      "source_path": "responses",
+      "action": "company name set null",
+      "record_key": null,
+      "raw_value": null,
+      "message": "the employee endpoints do not return the company name; a company endpoint is a later task"
+    }
+  ],
+  "schema_version": "1"
+}

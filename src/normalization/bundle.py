@@ -14,6 +14,10 @@ context and one raw response per endpoint together in a single JSON document::
 
 Synthetic fixtures and hand-saved live downloads both use this shape, so
 tests and live checks run through the same adapter code.
+
+Which responses must be present depends on the entity being normalized
+(``employee`` or ``direct-deposit``). A bundle may carry responses for more
+than one entity, so one capture can feed both runs.
 """
 import json
 from dataclasses import dataclass, field
@@ -24,13 +28,23 @@ from typing import Any
 BUNDLE_VERSION = 1
 
 
+BUNDLE_ENTITIES = ("employee", "direct-deposit")
+
+
 @dataclass(frozen=True, slots=True)
 class ResponseSpec:
-    """What one provider's ``responses`` object must and may contain."""
+    """What one provider's ``responses`` object must and may contain, per entity."""
 
     request_keys: tuple[str, ...]
-    required: dict[str, type]
-    optional: dict[str, type]
+    required: dict[str, dict[str, type]]
+    optional: dict[str, dict[str, type]]
+
+    def known(self) -> dict[str, type]:
+        """Every response key any entity of this provider reads, with its container type."""
+        keys: dict[str, type] = {}
+        for table in (*self.required.values(), *self.optional.values()):
+            keys.update(table)
+        return keys
 
 
 # Keys are the endpoint names used inside ``responses``. Values are the JSON
@@ -38,32 +52,54 @@ class ResponseSpec:
 PROVIDER_SPECS: dict[str, ResponseSpec] = {
     "prismhr": ResponseSpec(
         request_keys=("client_id",),
-        # getEmployee returns at most 20 employees per call, so a company is a
-        # list of responses, each holding `employee[]`.
-        required={"get_employee": list},
-        # Maps of employeeId -> response.
-        optional={"get_employee_list": dict, "get_address_info": dict},
+        required={
+            # getEmployee returns at most 20 employees per call, so a company is a
+            # list of responses, each holding `employee[]`.
+            "employee": {"get_employee": list},
+            # The same call requested with options=DirectDeposit.
+            "direct-deposit": {"get_employee_direct_deposit": list},
+        },
+        optional={
+            # Maps of employeeId -> response.
+            "employee": {"get_employee_list": dict, "get_address_info": dict},
+            "direct-deposit": {},
+        },
     ),
     "isolved": ResponseSpec(
         request_keys=("client_id", "legal_id"),
-        # One paged response per page, each holding `results[]`.
-        required={"employees": list},
-        # Maps of employee id (string) -> response.
-        optional={"employee_detail": dict, "personal": dict, "name_address": dict},
+        required={
+            # One paged response per page, each holding `results[]`.
+            "employee": {"employees": list},
+            # Employee id (string) -> the /directdeposits array. The employee
+            # pages supply the population and the legal code.
+            "direct-deposit": {"employees": list, "direct_deposits": dict},
+        },
+        optional={
+            # Maps of employee id (string) -> response.
+            "employee": {"employee_detail": dict, "personal": dict, "name_address": dict},
+            "direct-deposit": {},
+        },
     ),
     "ukg-ready": ResponseSpec(
         request_keys=("company_id",),
         required={
-            "employees": dict,  # the list response: {"employees": [...]}
-            "employee": dict,  # account id -> detail response
-            "demographics": dict,  # account id -> demographics response
-            "pay_info": dict,  # account id -> pay-info response
-            "compensation_history": dict,  # account id -> {"compensations": [...]}
-            "lookup_employee_types": dict,
-            "lookup_pay_types": dict,
-            "lookup_eins": dict,
+            "employee": {
+                "employees": dict,  # the list response: {"employees": [...]}
+                "employee": dict,  # account id -> detail response
+                "demographics": dict,  # account id -> demographics response
+                "pay_info": dict,  # account id -> pay-info response
+                "compensation_history": dict,  # account id -> {"compensations": [...]}
+                "lookup_employee_types": dict,
+                "lookup_pay_types": dict,
+                "lookup_eins": dict,
+            },
+            # Account id -> the /direct-deposits response ({"deposits": [...]}).
+            "direct-deposit": {"employees": dict, "direct_deposits": dict},
         },
-        optional={},
+        optional={
+            "employee": {},
+            "direct-deposit": {"lookup_eins": dict},
+        },
     ),
 }
 
@@ -86,8 +122,13 @@ def _expect(condition: bool, message: str) -> None:
         raise ValueError(f"Invalid bundle: {message}")
 
 
-def parse_bundle(data: Any, source_path: str | None = None) -> Bundle:
-    """Validate raw JSON data and return a ``Bundle``. Raises ValueError with the offending path."""
+def parse_bundle(data: Any, source_path: str | None = None, entity: str = "employee") -> Bundle:
+    """Validate raw JSON data for ``entity`` and return a ``Bundle``.
+
+    Raises ValueError with the offending path.
+    """
+    if entity not in BUNDLE_ENTITIES:
+        raise ValueError(f"entity {entity!r} is not read from a capture bundle")
     _expect(isinstance(data, dict), "top level must be an object")
     for key in ("bundle_version", "provider", "captured_at", "request", "responses"):
         _expect(key in data, f"missing key '{key}'")
@@ -114,22 +155,21 @@ def parse_bundle(data: Any, source_path: str | None = None) -> Bundle:
 
     responses = data["responses"]
     _expect(isinstance(responses, dict), "responses must be an object")
-    for key, container in spec.required.items():
-        _expect(key in responses, f"responses.{key} is required for {provider}")
-        _expect(isinstance(responses[key], container),
-                f"responses.{key} must be a JSON {container.__name__}")
-    for key, container in spec.optional.items():
+    for key in spec.required[entity]:
+        _expect(key in responses, f"responses.{key} is required for {provider} {entity}")
+    known = spec.known()
+    for key, container in known.items():
         if key in responses:
             _expect(isinstance(responses[key], container),
                     f"responses.{key} must be a JSON {container.__name__}")
-    unknown = sorted(set(responses) - set(spec.required) - set(spec.optional))
+    unknown = sorted(set(responses) - set(known))
     _expect(not unknown, f"responses has unknown keys for {provider}: {unknown}")
 
     return Bundle(provider=provider, captured_at=captured_at, request=dict(request),
                   responses=responses, source_path=source_path)
 
 
-def load_bundle(path: Path) -> Bundle:
+def load_bundle(path: Path, entity: str = "employee") -> Bundle:
     with Path(path).open(encoding="utf-8") as stream:
         data = json.load(stream)
-    return parse_bundle(data, source_path=str(path))
+    return parse_bundle(data, source_path=str(path), entity=entity)

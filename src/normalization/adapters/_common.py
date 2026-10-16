@@ -24,8 +24,10 @@ REDACTED = "[redacted]"
 _SENSITIVE_PATH = re.compile(
     r"(?i)(ssn|social_security|social_insurance|national_insurance|national_id"
     r"|(^|[._\[])bsn($|[._\[])"
-    r"|password|secret|token|ticket|photo_href|bank_account)"
+    r"|password|secret|token|ticket|photo_href|bank_account"
+    r"|account_?num|routing_?num|transit_?num)"
 )
+_SECRET_QUERY = re.compile(r"(?i)([?&](?:token|ticket|sessionid|access_token)=)[^&#]*")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _DATETIME = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?$")
 _MASKED = re.compile(r"^[*Xx\-\s]+$")
@@ -43,7 +45,11 @@ def text(value: Any) -> Optional[str]:
 
 
 def redact(path: str, value: Any) -> Any:
-    return REDACTED if _SENSITIVE_PATH.search(path) and not is_blank(value) else value
+    if _SENSITIVE_PATH.search(path) and not is_blank(value):
+        return REDACTED
+    if isinstance(value, str):
+        return _SECRET_QUERY.sub(rf"\g<1>{REDACTED}", value)
+    return value
 
 
 def join_path(prefix: str, key: Union[str, int]) -> str:
@@ -191,8 +197,12 @@ class Collector:
         amount = self.decimal(raw, path, record_key)
         return None if amount is None else Money(amount=amount, currency=currency)
 
-    def ssn_last4(self, raw: Any, path: str, record_key: Optional[str]) -> Optional[str]:
-        """Return the last four digits of an identifier, never the whole value."""
+    def last4(self, raw: Any, path: str, record_key: Optional[str]) -> Optional[str]:
+        """Return the last four digits of an identifier, never the whole value.
+
+        An identifier with fewer than four digits becomes None, since its
+        "last four" would be the whole number.
+        """
         if is_blank(raw):
             return None
         if not isinstance(raw, str):
