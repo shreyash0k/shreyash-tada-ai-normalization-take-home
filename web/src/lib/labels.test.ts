@@ -22,6 +22,13 @@ describe("fieldLabel", () => {
     expect(fieldLabel("effective.start")).toBe("effective start");
     expect(fieldLabel("effective.end")).toBe("effective end");
   });
+  it("labels deduction rows", () => {
+    expect(fieldLabel("code")).toBe("code");
+    expect(fieldLabel("limits.per_pay")).toBe("per pay");
+    expect(fieldLabel("employer_match.annual_max")).toBe("annual max");
+    expect(fieldLabel("payee.id")).toBe("payee ID");
+    expect(fieldLabel("payee.name")).toBe("payee name");
+  });
 });
 
 describe("shortSource", () => {

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const LINKS = [
   { href: "/", label: "Employees" },
   { href: "/direct-deposits", label: "Direct deposits" },
+  { href: "/deductions", label: "Deductions" },
 ];
 
 export function SiteNav() {
