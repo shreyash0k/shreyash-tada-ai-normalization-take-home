@@ -1582,6 +1582,521 @@
           }
         ]
       }
+    ],
+    "deduction": [
+      {
+        "id": "prismhr",
+        "name": "PrismHR",
+        "summary": {
+          "fields_total": 20,
+          "fields_offered": 18,
+          "fields_mapped": 16
+        },
+        "coverage": [
+          {
+            "field": "code",
+            "section": "deduction",
+            "status": "mapped",
+            "source": "deductionCode, labelled by description",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/deductionCode",
+            "reason": null
+          },
+          {
+            "field": "category",
+            "section": "deduction",
+            "status": "mapped",
+            "source": "deductionType, labelled from the DeductionCodeDetail code list",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/deductionType",
+            "reason": null
+          },
+          {
+            "field": "calculation.method",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "deductionMethod, labelled from the DeductionCodeDetail code list",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/deductionMethod",
+            "reason": null
+          },
+          {
+            "field": "calculation.amount",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "amount, when usePercent is false",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "calculation.percent",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "amount, when usePercent is true",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "frequency",
+            "section": "calculation",
+            "status": "not_mapped_yet",
+            "source": "period",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/period",
+            "reason": "period lists the pay periods of the month when the deduction is taken. Turning it into a shared frequency needs the pay schedule, which the deduction call does not return."
+          },
+          {
+            "field": "limits.per_pay",
+            "section": "limits",
+            "status": "mapped",
+            "source": "limit",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/limit",
+            "reason": null
+          },
+          {
+            "field": "limits.monthly",
+            "section": "limits",
+            "status": "mapped",
+            "source": "maximum, when basis is M",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/maximum",
+            "reason": null
+          },
+          {
+            "field": "limits.quarterly",
+            "section": "limits",
+            "status": "mapped",
+            "source": "maximum, when basis is Q",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/maximum",
+            "reason": null
+          },
+          {
+            "field": "limits.annual",
+            "section": "limits",
+            "status": "mapped",
+            "source": "maximum, when basis is A",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/maximum",
+            "reason": null
+          },
+          {
+            "field": "limits.lifetime",
+            "section": "limits",
+            "status": "mapped",
+            "source": "maximum, when basis is L",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/maximum",
+            "reason": null
+          },
+          {
+            "field": "employer_match.method",
+            "section": "employer_match",
+            "status": "mapped",
+            "source": "matchMethod",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/matchMethod",
+            "reason": null
+          },
+          {
+            "field": "employer_match.amount",
+            "section": "employer_match",
+            "status": "mapped",
+            "source": "matchAmount, when matchMethod is F",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/matchAmount",
+            "reason": null
+          },
+          {
+            "field": "employer_match.percent",
+            "section": "employer_match",
+            "status": "mapped",
+            "source": "matchAmount, when matchMethod is P",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/matchAmount",
+            "reason": null
+          },
+          {
+            "field": "employer_match.annual_max",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties",
+            "reason": "The match has a method and an amount but no cap."
+          },
+          {
+            "field": "payee.id",
+            "section": "payee_order",
+            "status": "mapped",
+            "source": "cutbackPayeeCode",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/cutbackPayeeCode",
+            "reason": null
+          },
+          {
+            "field": "payee.name",
+            "section": "payee_order",
+            "status": "not_mapped_yet",
+            "source": "getPayee: payeeName",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayeeDetails/properties/payeeName",
+            "reason": "The deduction line names only the payee ID. The name is on the payee setup call, which the bundle does not fetch."
+          },
+          {
+            "field": "priority",
+            "section": "payee_order",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties",
+            "reason": "Deduction lines have no order number."
+          },
+          {
+            "field": "effective.start",
+            "section": "dates",
+            "status": "mapped",
+            "source": "startDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/startDate",
+            "reason": null
+          },
+          {
+            "field": "effective.end",
+            "section": "dates",
+            "status": "mapped",
+            "source": "stopDate",
+            "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/stopDate",
+            "reason": null
+          }
+        ]
+      },
+      {
+        "id": "isolved",
+        "name": "isolved",
+        "summary": {
+          "fields_total": 20,
+          "fields_offered": 5,
+          "fields_mapped": 5
+        },
+        "coverage": [
+          {
+            "field": "code",
+            "section": "deduction",
+            "status": "mapped",
+            "source": "payItemCode, labelled by payItemName",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/payItemCode",
+            "reason": null
+          },
+          {
+            "field": "category",
+            "section": "deduction",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no deduction type."
+          },
+          {
+            "field": "calculation.method",
+            "section": "calculation",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/calcParams",
+            "reason": "Pay items have no calculation method. calcParams labels each figure, not how it is applied."
+          },
+          {
+            "field": "calculation.amount",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "calcParams, the first Amount",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/calcParams",
+            "reason": null
+          },
+          {
+            "field": "calculation.percent",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "calcParams, the first Percent",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/calcParams",
+            "reason": null
+          },
+          {
+            "field": "frequency",
+            "section": "calculation",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/scheduleOverride",
+            "reason": "Pay items have no frequency. scheduleOverride has no documented values, so it is not known to be one."
+          },
+          {
+            "field": "limits.per_pay",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no limits."
+          },
+          {
+            "field": "limits.monthly",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no limits."
+          },
+          {
+            "field": "limits.quarterly",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no limits."
+          },
+          {
+            "field": "limits.annual",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no limits."
+          },
+          {
+            "field": "limits.lifetime",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no limits."
+          },
+          {
+            "field": "employer_match.method",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no employer match."
+          },
+          {
+            "field": "employer_match.amount",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no employer match."
+          },
+          {
+            "field": "employer_match.percent",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no employer match."
+          },
+          {
+            "field": "employer_match.annual_max",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no employer match."
+          },
+          {
+            "field": "payee.id",
+            "section": "payee_order",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no payee."
+          },
+          {
+            "field": "payee.name",
+            "section": "payee_order",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no payee."
+          },
+          {
+            "field": "priority",
+            "section": "payee_order",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties",
+            "reason": "Pay items carry a code, figures and dates, but no order number."
+          },
+          {
+            "field": "effective.start",
+            "section": "dates",
+            "status": "mapped",
+            "source": "startDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/startDate",
+            "reason": null
+          },
+          {
+            "field": "effective.end",
+            "section": "dates",
+            "status": "mapped",
+            "source": "stopDate",
+            "evidence": "contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/stopDate",
+            "reason": null
+          }
+        ]
+      },
+      {
+        "id": "ukg-ready",
+        "name": "UKG Ready",
+        "summary": {
+          "fields_total": 20,
+          "fields_offered": 13,
+          "fields_mapped": 13
+        },
+        "coverage": [
+          {
+            "field": "code",
+            "section": "deduction",
+            "status": "mapped",
+            "source": "deduction.code, labelled by deduction.name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/deduction/properties/code",
+            "reason": null
+          },
+          {
+            "field": "category",
+            "section": "deduction",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/deduction/properties",
+            "reason": "Deduction lines and the deduction code lookup carry only a code and a name, no type."
+          },
+          {
+            "field": "calculation.method",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "ee_calc_method.method.type, labelled by display_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_calc_method/properties/method/properties/type",
+            "reason": null
+          },
+          {
+            "field": "calculation.amount",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "ee_calc_method.amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_calc_method/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "calculation.percent",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "ee_calc_method.percent",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_calc_method/properties/percent",
+            "reason": null
+          },
+          {
+            "field": "frequency",
+            "section": "calculation",
+            "status": "mapped",
+            "source": "ee_frequency.type, labelled by display_name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_frequency/properties/type",
+            "reason": null
+          },
+          {
+            "field": "limits.per_pay",
+            "section": "limits",
+            "status": "mapped",
+            "source": "ee_max_calc_method.amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_max_calc_method/properties/amount",
+            "reason": null
+          },
+          {
+            "field": "limits.monthly",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties",
+            "reason": "The only caps are a per-pay maximum and an annual maximum."
+          },
+          {
+            "field": "limits.quarterly",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties",
+            "reason": "The only caps are a per-pay maximum and an annual maximum."
+          },
+          {
+            "field": "limits.annual",
+            "section": "limits",
+            "status": "mapped",
+            "source": "annual_max_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/annual_max_amount",
+            "reason": null
+          },
+          {
+            "field": "limits.lifetime",
+            "section": "limits",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties",
+            "reason": "The only caps are a per-pay maximum and an annual maximum."
+          },
+          {
+            "field": "employer_match.method",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties",
+            "reason": "The employer side has an annual maximum and a frequency, but no calculation method."
+          },
+          {
+            "field": "employer_match.amount",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties",
+            "reason": "The employer side has an annual maximum and a frequency, but no calculation method."
+          },
+          {
+            "field": "employer_match.percent",
+            "section": "employer_match",
+            "status": "not_offered",
+            "source": null,
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties",
+            "reason": "The employer side has an annual maximum and a frequency, but no calculation method."
+          },
+          {
+            "field": "employer_match.annual_max",
+            "section": "employer_match",
+            "status": "mapped",
+            "source": "er_annual_max_amount",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/er_annual_max_amount",
+            "reason": null
+          },
+          {
+            "field": "payee.id",
+            "section": "payee_order",
+            "status": "mapped",
+            "source": "vendor.id",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/vendor/properties/id",
+            "reason": null
+          },
+          {
+            "field": "payee.name",
+            "section": "payee_order",
+            "status": "mapped",
+            "source": "vendor.name",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/vendor/properties/name",
+            "reason": null
+          },
+          {
+            "field": "priority",
+            "section": "payee_order",
+            "status": "mapped",
+            "source": "sequence",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/sequence",
+            "reason": null
+          },
+          {
+            "field": "effective.start",
+            "section": "dates",
+            "status": "mapped",
+            "source": "effective_from",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/effective_from",
+            "reason": null
+          },
+          {
+            "field": "effective.end",
+            "section": "dates",
+            "status": "mapped",
+            "source": "effective_to",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/effective_to",
+            "reason": null
+          }
+        ]
+      }
     ]
   }
 }

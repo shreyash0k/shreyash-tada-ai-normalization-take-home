@@ -4,6 +4,8 @@ const LABEL_OVERRIDES: Record<string, string> = {
   account_number_last4: "account number, last 4",
   "effective.start": "effective start",
   "effective.end": "effective end",
+  "payee.id": "payee ID",
+  "payee.name": "payee name",
 };
 
 export function fieldLabel(field: string): string {

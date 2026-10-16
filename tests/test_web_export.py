@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest import mock
 
 from _fixtures import expected_output
-from normalization import deposit_field_map, field_map
+from normalization import deduction_field_map, deposit_field_map, field_map
 from normalization.bundle import PROVIDER_SPECS
 from normalization.field_map import MAPPED, NOT_OFFERED
 
@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import export_web_data  # noqa: E402
 
 PROVIDERS = tuple(PROVIDER_SPECS)
-ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map}
+ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map, "deduction": deduction_field_map}
 
 
 class WebExportChecks(unittest.TestCase):
@@ -37,7 +37,7 @@ class WebExportChecks(unittest.TestCase):
     def test_render_is_deterministic(self):
         self.assertEqual(export_web_data.render(), self.text)
 
-    def test_export_holds_both_data_types(self):
+    def test_export_holds_every_data_type(self):
         self.assertEqual(self.data["export_version"], 2)
         self.assertEqual(list(self.data["entities"]), list(ENTITY_MAPS))
 
@@ -84,9 +84,15 @@ class WebExportChecks(unittest.TestCase):
                     if value:
                         with self.subTest(provider=provider, deposit=deposit["key"]):
                             self.assertNotIn(value, self.text)
+            for deduction in expected_output(provider, "deduction")["deductions"]:
+                for value in ((deduction["payee"] or {}).get("name"), (deduction["code"] or {}).get("label")):
+                    if value:
+                        with self.subTest(provider=provider, deduction=deduction["key"]):
+                            self.assertNotIn(value, self.text)
 
     def test_missing_field_map_entry_fails_the_export(self):
-        for module, field in ((field_map, "person.first_name"), (deposit_field_map, "bank_name")):
+        for module, field in ((field_map, "person.first_name"), (deposit_field_map, "bank_name"),
+                              (deduction_field_map, "code")):
             with self.subTest(field=field), mock.patch.dict(module.FIELD_MAP["prismhr"]):
                 del module.FIELD_MAP["prismhr"][field]
                 with self.assertRaises(export_web_data.ExportError):

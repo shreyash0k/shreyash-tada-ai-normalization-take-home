@@ -26,10 +26,9 @@ deduction call answered for the demo companies. Each provider has seeded
 synthetic fixtures, a golden expected output, and edge-case tests for all
 three data types.
 
-A local web app shows how each provider's employee and direct deposit fields
-map into the canonical model: mapped, not mapped yet, or not offered (see
-[Field coverage page](#field-coverage-page)). Deductions have no coverage
-page yet.
+A local web app shows how each provider's employee, direct deposit and
+deduction fields map into the canonical model: mapped, not mapped yet, or not
+offered (see [Field coverage page](#field-coverage-page)).
 
 Not implemented yet: company detail, payroll (including the amounts taken
 for each deduction in a pay run), the optional write path, and grouped issue
@@ -87,6 +86,7 @@ starter are tracked in
 | `src/normalization/references.py` | Reference-pack readiness checks |
 | `src/normalization/field_map.py` | Per-provider source and status of each canonical employee field |
 | `src/normalization/deposit_field_map.py` | Per-provider source and status of each canonical direct deposit field |
+| `src/normalization/deduction_field_map.py` | Per-provider source and status of each canonical deduction field |
 | `scripts/generate_fixtures.py` | Seeded fixture generator |
 | `scripts/export_web_data.py` | Writes the coverage data the web pages read |
 | `web/` | Next.js field coverage pages (static export) |
@@ -165,14 +165,16 @@ python3 scripts/generate_fixtures.py --check  # exit 1 if the committed files di
 
 ## Field coverage page
 
-Two pages, linked from a nav at the top, list every canonical field against
-PrismHR, isolved and UKG Ready: employee fields at `/` and direct deposit
-fields at `/direct-deposits`. Each cell is one of three states: mapped, not
-mapped yet, or not offered. A mapped cell shows the provider field it comes
-from. Hovering a state or a cell shows what the state means, the full source
-path, and the spec entry it rests on. The data comes from
-`src/normalization/field_map.py` and `src/normalization/deposit_field_map.py`
-and holds statuses, source paths and evidence, never provider values. The
+Three pages, linked from a nav at the top, list every canonical field against
+PrismHR, isolved and UKG Ready: employee fields at `/`, direct deposit fields
+at `/direct-deposits` and deduction fields at `/deductions`. Each cell is one
+of three states: mapped, not mapped yet, or not offered. A mapped cell shows
+the provider field it comes from. Hovering a state or a cell shows what the
+state means, the full source path, and the spec entry it rests on. The data
+comes from `src/normalization/field_map.py`,
+`src/normalization/deposit_field_map.py` and
+`src/normalization/deduction_field_map.py` and holds statuses, source paths
+and evidence, never provider values. The
 logos in `web/public/logos/` are trademarks of their owners.
 
 ```sh
@@ -187,7 +189,7 @@ npm run lint    # ESLint
 npm run build   # static site in web/out/
 ```
 
-The Python tests fail if either field map or the committed `coverage.json`
+The Python tests fail if any field map or the committed `coverage.json`
 falls out of step. Each field map is checked against its golden outputs. After
 changing a field map, re-run the export. After changing an adapter,
 regenerate the fixtures with `scripts/generate_fixtures.py` first, since that
