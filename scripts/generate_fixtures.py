@@ -765,6 +765,151 @@ def build_isolved_deductions(seed: int):
     })
 
 
+# isolved payroll: the run history of one pay group, paged /checks per employee
+# and /checks/{id} detail for some checks. Injected cases: a run type and a run
+# status off the allowlists (unmapped_label), two runs sharing a pay date and
+# run number (the check that would join them gets no run), a check that joins
+# no run, checks with and without detail (missing_section), memo earnings, a
+# garnishment, benefits with and without an employer contribution, a
+# non-boolean isEmployeeTax (out_of_schema_value), check and direct deposit
+# payments, a reissued check, a check type off the allowlist, an employee with
+# an empty page and one missing from the map (missing_section).
+
+ISOLVED_PAY_GROUP = "7627"
+
+
+def isolved_datetime(value):
+    return f"{value}T00:00:00" if value else None
+
+
+def isolved_run(run_id, pay_date, number, run_type, status, period=(None, None), pay_of_month=""):
+    return {"id": run_id, "impoundDate": isolved_datetime(pay_date), "inputMethod": "Time Entry",
+            "payDate": isolved_datetime(pay_date), "payOfTheMonth": pay_of_month, "payPeriod": 26,
+            "payrollRunType": run_type, "periodBeginDate": isolved_datetime(period[0]),
+            "periodEndDate": isolved_datetime(period[1]), "processApprovedBy": None, "processedBy": "synthetic",
+            "regularCheckAutoPay": False, "runDate": isolved_datetime(pay_date), "runNumber": number,
+            "runTime": "09:00:00", "scheduledPayDate": isolved_datetime(pay_date),
+            "scheduledRunDate": isolved_datetime(pay_date), "status": status, "submittedBy": None,
+            "submittedDate": None, "submittedTime": None, "suppressPayStubEmailAlert": False}
+
+
+def isolved_item(item_id, code, description, dollars, **extra):
+    item = {"id": item_id, "checkDollars": dollars, "currentDollars": dollars, "ftdDollars": 0.0,
+            "itemCode": code, "itemDescription": description, "mtdDollars": dollars, "ptdDollars": dollars,
+            "qtdDollars": dollars, "sequence": 1, "ytdDollars": dollars, "links": []}
+    item.update(extra)
+    return item
+
+
+def isolved_earning(item_id, code, description, hours, dollars, memo=False):
+    return isolved_item(item_id, code, description, dollars, checkHours=hours, checkUnits=0.0,
+                        isMemoEarning=memo, labors=None)
+
+
+def isolved_tax(item_id, description, employee_side, dollars, wages):
+    return isolved_item(item_id, None, description, dollars, isEmployeeTax=employee_side,
+                        checkTaxableWages=wages)
+
+
+def isolved_benefit(title, employee_deduction, employer_contribution):
+    return {"benefitDescription": f"{title} plan", "benefitTitle": title, "checkEligibleWages": 1500.0,
+            "checkEmployeeCatchUp": 0.0, "checkEmployeeDeduction": employee_deduction,
+            "checkEmployerContribution": employer_contribution, "checkMatchEligibleWages": 0.0,
+            "ytdEmployeeDeduction": employee_deduction, "ytdEmployerContribution": employer_contribution}
+
+
+def isolved_check(pool: Pool, person, check_id, number, check_date, run_number, check_type, gross, net,
+                  check_amount=0.0, deposit_amount=0.0, period=(None, None), **extra):
+    address = person["nameAddress"]
+    check = {"id": check_id, "accruals": None, "benefits": None, "checkAmount": check_amount,
+             "checkDate": isolved_datetime(check_date), "checkNumber": number, "checkSequence": 1,
+             "checkTypeDescription": check_type, "deductions": [], "directDepositAmount": deposit_amount,
+             "directDeposits": None, "earnings": [], "employeeAddress1": address["address1"],
+             "employeeAddress2": None, "employeeCity": address["city"], "employeeFederalAddlAmountOrPercent": "0",
+             "employeeFederalExemptions": 0, "employeeFederalFilingStatus": "Single", "employeeId": person["id"],
+             "employeeName": f"{address['lastName']}, {address['firstName']}",
+             "employeeNumber": person["employeeNumber"], "employeeOrganizations": None,
+             "employeeSSN": pool.ssn(), "employeeState": address["state"],
+             "employeeStateAddlAmountOrPercent": "0", "employeeStateExemptions": 0,
+             "employeeStateFilingStatus": "Single", "employeeZipCode": address["zipCode"], "garnishments": None,
+             "grossPay": gross, "grossWages": gross, "isRemoteWorker": False,
+             "legalCompanyName": "Synthetic Legal Co", "netPay": net, "payrollRunNumber": run_number,
+             "payrollRunType": "Regular Payroll", "periodBeginDate": isolved_datetime(period[0]),
+             "periodEndDate": isolved_datetime(period[1]), "reissueCheckDate": None, "reissueCheckNumber": None,
+             "taxCategories": [{"taxCategoryId": "FEDWT", "description": "FEDERAL WH"}], "taxes": None,
+             "vertexResidentGeoCode": "UT0350270", "vertexSchoolDistrictCode": 0, "vertexWorkGeoCode": "UT0350270",
+             "voucherNumber": f"V{check_id}", "links": []}
+    check.update(extra)
+    return check
+
+
+def isolved_check_detail(check, taxes=(), benefits=()):
+    detail = dict(check)
+    detail.update(taxes=list(taxes), benefits=list(benefits), employeeOrganizations=[])
+    return detail
+
+
+def build_isolved_payroll(seed: int):
+    employees = build_isolved(seed)["responses"]["employees"]
+    people = [r for page in employees for r in page["results"]]
+    pool = Pool(seed, "isolved-payroll")
+    period = ("2025-12-22", "2026-01-04")
+    runs = [
+        isolved_run(4100001, "2026-01-09", 1, "Regular Payroll", "Completed Payroll Run", period,
+                    "1st Payroll of Month"),
+        isolved_run(4100002, "2026-01-23", 0, "Regular Payroll", "Payroll Not Processed"),
+        isolved_run(4100003, "2026-01-09", 2, "Data Conversion", "Completed Payroll Run"),  # off-allowlist type
+        isolved_run(4100004, "2026-02-06", 1, "Regular Payroll", "Payroll Voided"),  # off-allowlist status
+        isolved_run(4100005, "2026-02-06", 1, "Regular Payroll", "Completed Payroll Run"),  # same slot as 4100004
+    ]
+    first = isolved_check(
+        pool, people[0], 21000101, 5001, "2026-01-09", 1, "Adjustment", 1500.0, 1164.67,
+        deposit_amount=1164.67, period=period,
+        earnings=[isolved_earning(1, "01", "Regular", 80.0, 1450.0),
+                  isolved_earning(2, "14", "Commission", 0.0, 50.0),
+                  isolved_earning(3, "001", "401k Match", 0.0, 45.0, memo=True)],
+        deductions=[isolved_item(4, "030", "Medical Pre-tax", 90.33), isolved_item(5, "32", "401K", 75.0)],
+        garnishments=[isolved_item(6, "GARN", "Child Support", 50.0)],
+        directDeposits=[{"id": 7, "account": "000987654321", "depositAmount": 1164.67,
+                         "itemDescription": "Checking", "links": []}],
+    )
+    reissued = isolved_check(
+        pool, people[0], 21000102, 5002, "2026-01-23", 0, "Adjustment", 1080.0, 1080.0, check_amount=1080.0,
+        reissueCheckDate="2026-01-27T00:00:00", reissueCheckNumber=5010,
+        earnings=[isolved_earning(8, "01", "Regular", 80.0, 1080.0)],
+    )
+    manual = isolved_check(pool, people[1], 21000201, 5101, "2026-02-06", 1, "Manual Check", 400.0, 360.32,
+                           check_amount=360.32, earnings=[isolved_earning(9, "01", "Regular", 16.0, 400.0)])
+    unjoined = isolved_check(pool, people[2], 21000301, 5201, "2026-03-06", 9, "Adjustment", 190.0, 190.0,
+                             deposit_amount=190.0)
+    converted = isolved_check(pool, people[5], 21000601, 5601, "2026-01-09", 2, "Adjustment", 300.0, 300.0,
+                              check_amount=300.0, earnings=[isolved_earning(10, "01", "Regular", 12.0, 300.0)])
+    checks = {
+        str(people[0]["id"]): [isolved_page([first, reissued], 1, 1, 2)],
+        str(people[1]["id"]): [isolved_page([manual], 1, 1, 1)],
+        str(people[2]["id"]): [isolved_page([unjoined], 1, 1, 1)],
+        str(people[3]["id"]): [isolved_page([], 1, 1, 0)],  # no checks
+        # people[4] has no entry -> missing_section
+        str(people[5]["id"]): [isolved_page([converted], 1, 1, 1)],
+    }
+    details = {
+        str(first["id"]): isolved_check_detail(
+            first,
+            taxes=[isolved_tax(11, "FEDERAL WH", True, 120.0, 1334.67),
+                   isolved_tax(12, "SOC SEC ER", False, 93.0, 1500.0)],
+            benefits=[isolved_benefit("401(k)", 75.0, 45.0), isolved_benefit("Leave Accrual", 0.0, 0.0)]),
+        str(manual["id"]): isolved_check_detail(
+            manual, taxes=[isolved_tax(13, "FEDERAL WH", "yes", 39.68, 400.0)]),  # not a boolean
+        str(converted["id"]): isolved_check_detail(converted),
+    }
+    return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
+        "employees": employees,
+        "payroll_run_history": {ISOLVED_PAY_GROUP: runs},
+        "checks": checks,
+        "check_detail": details,
+    })
+
+
 # --- UKG Ready ---------------------------------------------------------------
 # Injected cases: missing demographics (missing_section), 1900-12-31 zero row
 # with num_pp_in_year 0 (out_of_schema_value) plus a future-dated row, two rows
@@ -1086,7 +1231,7 @@ BUILDERS = {
     "prismhr": {"employee": build_prismhr, "direct-deposit": build_prismhr_direct_deposits,
                 "deduction": build_prismhr_deductions, "payroll": build_prismhr_payroll},
     "isolved": {"employee": build_isolved, "direct-deposit": build_isolved_direct_deposits,
-                "deduction": build_isolved_deductions},
+                "deduction": build_isolved_deductions, "payroll": build_isolved_payroll},
     "ukg-ready": {"employee": build_ukg, "direct-deposit": build_ukg_direct_deposits,
                   "deduction": build_ukg_deductions},
 }
