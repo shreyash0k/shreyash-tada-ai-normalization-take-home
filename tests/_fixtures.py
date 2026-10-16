@@ -1,10 +1,12 @@
 """Shared loaders for the committed synthetic fixtures."""
+import functools
 import json
 from pathlib import Path
 
 from normalization.bundle import load_bundle
 
 TESTS = Path(__file__).resolve().parent
+ROOT = TESTS.parent
 FIXTURES = TESTS / "fixtures"
 SCHEMA_PATH = TESTS.parent / "docs" / "canonical" / "employee.schema.json"
 
@@ -48,3 +50,18 @@ def employee_by_source_id(output: dict, employee_id: str) -> dict:
         if employee["source"]["employee_id"] == employee_id:
             return employee
     raise KeyError(employee_id)
+
+
+@functools.lru_cache(maxsize=None)
+def _cached_json(path: str):
+    return load_json(Path(path))
+
+
+def resolve_evidence(evidence: str):
+    """Follow ``<file>#<JSON pointer>`` into a JSON file under the repository root."""
+    path, pointer = evidence.split("#", 1)
+    node = _cached_json(str(ROOT / path))
+    for token in pointer.lstrip("/").split("/"):
+        token = token.replace("~1", "/").replace("~0", "~")
+        node = node[int(token)] if isinstance(node, list) else node[token]
+    return node

@@ -16,6 +16,10 @@ contact, status and dates, job and organization, current compensation), with a
 minimal company stub so employee-to-company links resolve. Each provider has
 seeded synthetic fixtures, a golden expected output, and edge-case tests.
 
+A local web page shows how each provider's employee fields map into the
+canonical model: mapped, not mapped yet, or not offered (see
+[Field coverage page](#field-coverage-page)).
+
 Not implemented yet: company detail, direct deposits, deductions, payroll, the
 optional write path, and grouped issue reporting. `normalize --entity company`
 and `--entity payroll` still exit 1 with "not implemented". Known gaps in the
@@ -62,7 +66,11 @@ starter are tracked in
 | `src/normalization/canonical/` | Canonical model (dataclasses, enums, issues) and the schema validator |
 | `src/normalization/adapters/` | One adapter per provider plus shared helpers (`_common.py`) |
 | `src/normalization/references.py` | Reference-pack readiness checks |
+| `src/normalization/field_map.py` | Per-provider source and status of each canonical employee field |
 | `scripts/generate_fixtures.py` | Seeded fixture generator |
+| `scripts/export_web_data.py` | Writes the coverage data the web page reads |
+| `web/` | Next.js field coverage page (static export) |
+| `web/public/logos/` | Provider logos used by the coverage page |
 | `tests/` | Unit tests; `tests/fixtures/` holds the bundles and expected outputs |
 | `docs/canonical/` | JSON Schema for the normalized output |
 | `contracts/` | Provider API specifications and lookup references, as supplied |
@@ -76,6 +84,8 @@ Developed and tested with Python 3.14. No third-party packages are needed.
 git clone https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home.git
 cd shreyash-tada-ai-normalization-take-home
 ```
+
+The optional field coverage page also needs Node.js 24 (`web/.nvmrc`).
 
 ## Running
 
@@ -117,6 +127,34 @@ Regenerate or verify the synthetic fixtures:
 python3 scripts/generate_fixtures.py          # rewrite tests/fixtures/**
 python3 scripts/generate_fixtures.py --check  # exit 1 if the committed files differ
 ```
+
+## Field coverage page
+
+The page lists every canonical employee field against PrismHR, isolved and
+UKG Ready. Each cell is one of three states: mapped, not mapped yet, or not
+offered. A mapped cell shows the provider field it comes from. Hovering a
+state or a cell shows what the state means, the full source path, and the spec
+entry it rests on. The data comes from `src/normalization/field_map.py` and
+holds statuses, source paths and evidence, never provider values. The logos in
+`web/public/logos/` are trademarks of their owners.
+
+```sh
+python3 scripts/export_web_data.py          # rewrite web/src/data/coverage.json
+python3 scripts/export_web_data.py --check  # exit 1 if the committed file is out of date
+
+cd web
+npm install
+npm run dev     # http://localhost:3000
+npm test        # unit tests for statuses and labels
+npm run lint    # ESLint
+npm run build   # static site in web/out/
+```
+
+The Python tests fail if the field map or the committed `coverage.json` falls
+out of step. The field map itself is checked against the golden outputs. After
+changing the field map, re-run the export. After changing an adapter,
+regenerate the fixtures with `scripts/generate_fixtures.py` first, since that
+check reads the golden outputs.
 
 ## Live demo data (optional)
 

@@ -823,3 +823,85 @@ during implementation.
   and `#/components/schemas/NewHireEmployee/properties/gender`;
   `src/normalization/adapters/prismhr.py` (`GENDER`).
 - **Status:** Open.
+
+## Field coverage
+
+### 37. What the coverage statuses mean
+
+- **Context:** The field coverage page shows, for every canonical employee
+  field, whether each provider supplies it. A provider can have the data
+  and the adapter use it, have the data and the adapter not use it, or
+  have no such field at all. A field the adapter uses can still be empty
+  for every synthetic employee.
+- **Decision:** The page shows three states: "mapped", "not mapped yet"
+  and "not offered". A mapped cell shows the provider field it comes
+  from. Every state cites a spec path, and "not offered" cites the schema
+  that lacks the field and says why it is missing. A mapped field that no
+  fixture employee fills still needs a generator note in the field map,
+  and the tests enforce that. The page does not show it.
+- **Reason:** The page shows the mapping into the canonical model, not
+  how complete the synthetic sample is. "Not offered" is a claim about
+  the provider, so it needs the same evidence as a mapping.
+- **Evidence:** `src/normalization/field_map.py`;
+  `tests/test_field_map.py::test_mapped_rows_are_filled_or_explain_the_gap`;
+  `web/src/lib/status.ts`.
+- **Status:** Decided.
+
+### 38. UKG Ready termination and rehire details are write-only
+
+- **Context:** UKG Ready describes an employee's termination reason and
+  rehire eligibility only in the schema for updating an employee (schema
+  107, the PUT body). The schema for reading an employee (schema 106)
+  has termination and rehire dates but no reason and no eligibility.
+- **Decision:** The output has no termination reason or rehire
+  eligibility for UKG Ready, and the coverage page shows both as "not
+  offered".
+- **Reason:** A field documented only for writing is not one the read
+  call can be relied on to return.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/107/schema/properties/termination_details`
+  and `#/schemas/107/schema/properties/rehire_details`;
+  `#/schemas/106/schema/properties/dates`;
+  `src/normalization/field_map.py` (`UKG_READY`).
+- **Status:** Open.
+
+### 39. Job titles behind a lookup, and UKG Ready organization, are not mapped yet
+
+- **Context:** PrismHR and UKG Ready put only a job code on the employee
+  record; the title lives in a separate list of jobs. For PrismHR that list
+  is the job code table (`getClientCodes` with the `Job` option), where
+  each entry's `jobTitle` is the "position/job title". For UKG Ready it is
+  the jobs configuration (`config/cost-center-jobs`), and the employee's
+  default job is an ID (`pay_info.default_job`). The bundle fetches
+  neither list. UKG Ready also gives organization as up to nine
+  cost-centre levels (`cost_centers_info`, levels 0 to 8), and each
+  company defines what each level means.
+- **Decision:** The adapters map the job code but no job title for PrismHR
+  or UKG Ready, and no department, location or division for UKG Ready.
+  The coverage page shows these as "not mapped yet".
+- **Reason:** A title needs the provider's job list, which the bundle
+  would have to fetch first. Picking a cost-centre level for department
+  or location would guess at a per-company setting.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle`
+  and `#/paths/~1clientMaster~1v1~1getClientCodes`;
+  `contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/default_job`
+  and `#/schemas/106/schema/properties/cost_centers_info`;
+  `src/normalization/bundle.py` (`PROVIDER_SPECS`);
+  `src/normalization/field_map.py` (`PRISMHR`, `UKG_READY`).
+- **Status:** Open.
+
+### 40. UKG Ready contractor flag is in tax-info, which the bundle does not fetch
+
+- **Context:** UKG Ready records whether an employee is paid as a W-2
+  employee, a 1099 contractor or on a draw in the employee's tax
+  information. The read schema for that call (schema 166, tax-info) has
+  `employee-tax-type` with three yes/no flags: `W2`, `_1099` and `DRAW`.
+  The capture bundle does not fetch tax-info.
+- **Decision:** The output has no contractor flag for UKG Ready, and the
+  coverage page shows it as "not mapped yet", not "not offered".
+- **Reason:** UKG documents the flag, so the gap is in what the bundle
+  collects, not in the provider. Adding tax-info to the bundle would let
+  the adapter read `_1099`.
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099`;
+  `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys);
+  `src/normalization/field_map.py` (`UKG_READY`).
+- **Status:** Open.
