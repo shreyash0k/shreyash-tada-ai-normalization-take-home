@@ -114,7 +114,7 @@ Each entry uses this format:
 - **Decision:** Not decided yet. The likely approach is to build the company
   record from the sign-in `company_id` plus the EIN lookup, and leave the
   company name `null` with a reported issue. The employee task already does
-  this for its company stub (entry 33); a full company record is a later task.
+  this for its company stub (entry 32); a full company record is a later task.
 - **Evidence:** `contracts/ukg-ready/reference-docs/res/` has no company-detail
   page; `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__lookup__eins.html`;
   live demo calls on 2026-10-15 for company `33704016`.
@@ -140,7 +140,7 @@ Each entry uses this format:
   renamed fields; it keeps them in `unmapped` under their live names and
   reports `spec_live_mismatch` once per bundle for each of the four
   differences. A masked SSN becomes `ssn_last4: null` plus a `masked_value`
-  issue (entry 19).
+  issue (entry 18).
 - **Reason:** Renaming live fields to spec names would hide the discrepancy;
   reporting it once keeps the issue list readable.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json`, path
@@ -192,7 +192,7 @@ Each entry uses this format:
   the detail, demographics, pay-info and compensation-history responses, and
   the three company lookups (entry 14). A missing per-employee response is
   reported as `missing_section` and its fields are `null`. The current pay
-  entry is chosen as described in entry 32. `time` and `standard_work_day`
+  entry is chosen as described in entry 31. `time` and `standard_work_day`
   are converted from milliseconds to hours under entry 6, because their own
   documentation states the unit. `ein_name` on the detail response is
   reported once per bundle as `spec_live_mismatch`.
@@ -280,36 +280,27 @@ during implementation.
 
 ## Employee normalization
 
-### 15. Scope of the first normalization task
+### 15. The canonical model uses plain Python classes, not a validation library
 
-- **Context:** The assignment covers company, employee, direct deposit,
-  deduction and payroll data.
-- **Decision:** The first task normalizes the employee record only: profile and
-  contact, status and dates, job and organization, and compensation. Each
-  provider output also carries a minimal company stub (entry 33) so
-  `company_key` links resolve. Direct deposits, deductions, payroll and full
-  company records are later tasks.
-- **Reason:** Employees are the record every other type links to.
-- **Evidence:** `src/normalization/canonical/employee.py`;
-  `docs/canonical/employee.schema.json`.
-- **Status:** Decided.
-
-### 16. Standard-library dataclasses with a hand-maintained JSON Schema
-
-- **Context:** The canonical model needs strict typing and a documented output
-  shape. Pydantic was considered and rejected.
-- **Decision:** The model is frozen, slotted `dataclasses` plus `enum.Enum`
-  classes under `src/normalization/canonical/`. A shared `__post_init__`
-  checks every field against its declared type with no coercion (a `bool` is
-  not an `int`; an enum value must be a member of the declared enum).
-  `to_dict()` renders dates as ISO strings, `Decimal` as strings and enums by
-  value. `docs/canonical/employee.schema.json` is written by hand and
-  `canonical/schema_check.py` is a small validator (type, properties,
-  required, additionalProperties, items, enum, const, pattern, oneOf, local
-  `$ref`). Tests assert the dataclass fields and the schema agree.
-- **Reason:** Python 3.14 with no third-party packages stays the only
-  requirement. Adapters parse and report before building a model, so the type
-  check is the last guard, not the parser.
+- **Context:** The canonical record needs two things: a guarantee that each
+  field holds the right kind of value (a date is a date, an amount is a
+  decimal), and a written description of the output shape that other people
+  can read. Pydantic would give both, but it is a third-party package.
+- **Decision:** The model is built from Python's own `dataclasses` and `Enum`
+  classes, with no outside packages. Each class checks its fields when it is
+  created and refuses wrong types rather than silently converting them (for
+  example, the string `"40"` is not accepted where a number is expected).
+  Records are immutable once built. A `to_dict()` method turns a record into
+  plain JSON: dates become `YYYY-MM-DD` strings, amounts become strings so no
+  precision is lost, and enums become their lowercase names.
+  The output shape is written down by hand in
+  `docs/canonical/employee.schema.json`, and a small built-in checker
+  validates the test outputs against it. A test also compares the Python
+  classes with the schema field by field, so the two cannot drift apart
+  unnoticed.
+- **Reason:** The project stays "Python 3.14, nothing to install". The
+  adapters already clean and validate values before building a record, so the
+  type check is a final safety net rather than the main line of defence.
 - **Evidence:** `src/normalization/canonical/common.py` (`check_types`,
   `to_jsonable`); `tests/test_canonical_model.py`
   (`test_each_model_field_set_matches_schema_properties`,
@@ -317,7 +308,7 @@ during implementation.
   `test_golden_outputs_validate_against_schema`).
 - **Status:** Decided.
 
-### 17. Every coded field is a `CodedValue`
+### 16. Every coded field is a `CodedValue`
 
 - **Context:** Providers return codes (`A`, `35330176`), labels (`Active`,
   `FT Non-Exempt`) or both, and many codes have no documented meaning.
@@ -333,7 +324,7 @@ during implementation.
   `tests/test_canonical_model.py::test_every_canonical_enum_ends_with_unknown`.
 - **Status:** Decided.
 
-### 18. When a raw value may map to a canonical enum
+### 17. When a raw value may map to a canonical enum
 
 - **Context:** Entry 1 forbids guessing, but some labels are unambiguous.
 - **Decision:** A raw value maps to a canonical enum member only if
@@ -342,7 +333,7 @@ during implementation.
   self-describing (UKG `gender`, `citizenship`, `amount_period`,
   `time_period`), or (c) it is an exact, case-sensitive match on a short
   per-provider allowlist of labels observed live, each recorded as its own
-  entry below (entries 24-27). No substring or case-insensitive matching.
+  entry below (entries 23-26). No substring or case-insensitive matching.
   Anything else stays `unknown` with the raw value and label kept and an
   `undocumented_code` issue (codes) or `unmapped_label` issue (labels).
 - **Reason:** Makes the boundary between evidence and inference explicit and
@@ -352,7 +343,7 @@ during implementation.
   spec path.
 - **Status:** Decided.
 
-### 19. Only the last four SSN digits are emitted
+### 18. Only the last four SSN digits are emitted
 
 - **Context:** PrismHR returns `compensation.ssn` masked; isolved returns `ssn`
   empty; UKG returns `social_security` and `national_id_numbers[].value` in
@@ -372,7 +363,7 @@ during implementation.
   `tests/test_employee_ukg_ready.py::test_identifiers_and_tokens_are_redacted_in_unmapped`.
 - **Status:** Decided.
 
-### 20. Unconsumed provider fields pass through in `unmapped`
+### 19. Unconsumed provider fields pass through in `unmapped`
 
 - **Context:** The assignment asks to cover all available employee fields;
   PrismHR alone returns over 200 leaf fields per employee, most with no
@@ -380,7 +371,7 @@ during implementation.
 - **Decision:** Each adapter reads through a `Reader` that records every JSON
   path it consumed. Everything left over is emitted in `employee.unmapped`,
   keyed by its dotted source path (list items of objects are indexed, as in
-  `organizations[1].organizationId`), with the redaction of entry 19. No
+  `organizations[1].organizationId`), with the redaction of entry 18. No
   provider field is silently dropped.
 - **Reason:** Coverage without inventing canonical slots for provider-specific
   fields.
@@ -388,7 +379,7 @@ during implementation.
   `tests/test_employee_prismhr.py::test_unmapped_keeps_unconsumed_fields_and_redacts_identifiers`.
 - **Status:** Decided.
 
-### 21. Issue codes and severities for the employee task
+### 20. Issue codes and severities for the employee task
 
 - **Context:** Entry 1 requires structured issues; their vocabulary needed
   fixing.
@@ -404,28 +395,35 @@ during implementation.
   under `tests/fixtures/expected/`.
 - **Status:** Decided.
 
-### 22. Seeded synthetic fixtures with injected edge cases
+### 21. Test data is made up, generated from a fixed seed
 
-- **Context:** Tests must be deterministic and offline, and no live record may
-  be committed.
-- **Decision:** `scripts/generate_fixtures.py` builds one bundle per provider
-  from `random.Random` seeded with `20261015`, using invented name, address
-  and amount pools, and writes `tests/fixtures/<provider>/employee-bundle.json`
-  plus the adapter's output as `tests/fixtures/expected/<provider>-employees.json`.
-  Shapes follow the live field spellings. Injected cases: PrismHR `statusClass`
-  `Q`, masked SSN, invalid `birthDate`, prose `citizenshipStatus`, live field
-  spellings; isolved `Leave of Absence` status and `Non-binary` gender,
-  invalid `salaryEffectiveDate`, one record without optional sub-objects,
-  detail/personal/nameAddress overrides; UKG missing demographics, the
-  `1900-12-31` zero row with `num_pp_in_year` 0 plus a future-dated row, two
-  rows sharing `effective_from`, `eeo4_* = UNKNOWN`, an employee-type id
-  absent from the lookup, status `Suspended`, invalid seniority date.
-  `--check` compares with the committed files; a test asserts byte identity.
-- **Evidence:** `scripts/generate_fixtures.py`;
+- **Context:** Tests have to run offline and give the same result every time,
+  and no real employee record may ever be committed to Git.
+- **Decision:** A script, `scripts/generate_fixtures.py`, invents a small
+  company of six to seven employees for each provider. Names, addresses, dates
+  and pay amounts come from fixed lists and a random generator seeded with
+  the number `20261015`, so running the script again produces exactly the same
+  files. The field names and layout copy what the live APIs actually return.
+  For each provider the script writes two files: the input bundle
+  (`tests/fixtures/<provider>/employee-bundle.json`) and the output the
+  adapter is expected to produce from it
+  (`tests/fixtures/expected/<provider>-employees.json`).
+  Each company deliberately includes awkward records so the tests can check
+  that every kind of problem is caught and reported. Examples: an employee
+  with an unknown status code, a masked Social Security number, a birth date
+  of 30 February, a UKG employee with no demographics record, two pay rates
+  that start on the same day, and a status label nobody documented.
+  Running the script with `--check` compares its output with the committed
+  files and fails if they differ, and a test does the same.
+- **Reason:** Realistic but fake data lets anyone run the full test suite
+  with no credentials and no network, and makes the expected output easy to
+  read and review.
+- **Evidence:** `scripts/generate_fixtures.py` (the comment above each
+  `build_*` function lists that provider's injected cases);
   `tests/test_fixtures_deterministic.py`.
 - **Status:** Decided.
 
-### 23. PrismHR `typeClass` is the employment type
+### 22. PrismHR `typeClass` is the employment type
 
 - **Context:** `client.employeeType` is a service-provider-defined code
   ("FT"); `client.typeClass` is the classification behind it.
@@ -442,7 +440,7 @@ during implementation.
   `employeeStatus` ("defined by the service provider"), `employeeType`.
 - **Status:** Decided.
 
-### 24. isolved `employmentStatus` allowlist: `Active`, `Terminated`
+### 23. isolved `employmentStatus` allowlist: `Active`, `Terminated`
 
 - **Context:** The spec describes the field as "The current employment status
   description" with no enum.
@@ -456,7 +454,7 @@ during implementation.
   `tests/test_employee_isolved.py::test_allowlisted_labels_map`.
 - **Status:** Decided.
 
-### 25. isolved `gender` allowlist: `Male`, `Female`
+### 24. isolved `gender` allowlist: `Male`, `Female`
 
 - **Context:** The spec describes the field as "Gender description" with no
   enum.
@@ -467,19 +465,30 @@ during implementation.
   2026-10-15; `tests/test_employee_isolved.py::test_off_allowlist_labels_stay_raw_with_issue`.
 - **Status:** Decided.
 
-### 26. isolved `payType` allowlist: `Salary`, `Hourly`, `1099`
+### 25. isolved pay type: `Salary`, `Hourly` and `1099` are recognised
 
-- **Context:** The spec describes the field as "The specified pay type for the
-  employee" with no enum.
-- **Decision:** `Salary` -> `salary`, `Hourly` -> `hourly`, `1099` ->
-  `contractor_1099`. `employment.contractor_1099` is left `null` for isolved
-  rather than derived from `payType`.
-- **Evidence:** same definition, `properties/payType`; live sample on
-  2026-10-15 (labels `Salary`, `Hourly`, `1099`);
+- **Context:** isolved's `payType` field is a free-text label. The spec only
+  says it is "the specified pay type for the employee" and gives no list of
+  possible values.
+- **Decision:** Three labels are recognised, spelled exactly as isolved sends
+  them: `Salary` becomes `salary`, `Hourly` becomes `hourly`, and `1099`
+  becomes `contractor_1099`. Any other label is kept as-is with the canonical
+  value `unknown` and a reported issue.
+  Separately, the yes/no field `contractor_1099` on the employment section is
+  left empty for isolved. Seeing `payType = 1099` strongly suggests the person
+  is a contractor, but the pay type and the contractor flag are two different
+  facts, and isolved only tells us the first one.
+- **Reason:** These three labels were the only ones seen in the live demo
+  company, and their meaning is plain English. Anything beyond that would be a
+  guess.
+- **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
+  `#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeModel/properties/payType`;
+  live `GET /api/clients/4046/legals/5806/employees` on 2026-10-15 (labels
+  `Salary`, `Hourly`, `1099` across 20 employees);
   `tests/test_employee_isolved.py::test_allowlisted_labels_map`.
 - **Status:** Decided.
 
-### 27. UKG Ready `status` allowlist: `Active`, `Terminated`
+### 26. UKG Ready `status` allowlist: `Active`, `Terminated`
 
 - **Context:** The detail schema types `status` as a plain string ("only used
   for GET") with no enum.
@@ -491,37 +500,51 @@ during implementation.
   `tests/test_employee_ukg_ready.py::test_status_allowlist`.
 - **Status:** Decided.
 
-### 28. isolved `payFrequency` and `employmentCategoryCode` stay unknown
+### 27. isolved pay frequency and employment category are left as "unknown"
 
-- **Context:** `payFrequency` is an integer ("The payment frequency for the
-  employee"; live `12`). `employmentCategoryCode` is "The employee's current
-  employment category code" (live `FT`, `PT`).
-- **Decision:** Both become `CodedValue` with `value: unknown` and an
-  `undocumented_code` issue. `payFrequency` keeps `payGroup` as its label.
-  `12` is not read as monthly and `FT` is not read as full time.
-- **Reason:** Entry 1: a magnitude or an abbreviation is not documentation.
+- **Context:** Two isolved fields look obvious but are not documented.
+  `payFrequency` is a number; the live company shows `12`, which looks like
+  "12 times a year", so monthly. `employmentCategoryCode` is a short code; the
+  live company shows `FT` and `PT`, which look like full time and part time.
+  The spec describes both fields in one line each and never says what the
+  values mean.
+- **Decision:** Both values are kept exactly as received, with the canonical
+  value set to `unknown` and an issue reported. The pay frequency also carries
+  the employee's pay group name (for example `Monthly`) as a label, because
+  that is the human-readable text isolved provides next to it. `12` is not
+  turned into "monthly" and `FT` is not turned into "full time".
+- **Reason:** A number that happens to fit, or an abbreviation that looks
+  familiar, is not documentation. Employment categories in particular are set
+  up by each client, so `FT` could mean something different elsewhere. The raw
+  values and the label are still in the output for anyone who needs them.
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`, the
   `EmployeeModel` properties `payFrequency` and `employmentCategoryCode`;
   `tests/test_employee_isolved.py::test_client_codes_and_integer_frequency_are_undocumented`.
 - **Status:** Decided.
 
-### 29. UKG tenant lookup names resolve to labels but stay unknown
+### 28. UKG employee type and pay type: the name is shown, but not interpreted
 
-- **Context:** `pay_info.employee_type.id` and `pay_info.pay_type.id` decode
-  through `/lookup/employee-types` and `/lookup/pay-types` to tenant-defined
-  names such as `FT Non-Exempt` and `Salaried`.
-- **Decision:** The `CodedValue` is `{raw: id, label: name, value: unknown}`
-  with an `unmapped_label` issue. An id missing from the bundled lookup gives
-  `label: null` and a `missing_lookup` issue.
-- **Reason:** The names are configured per tenant; `FT Exempt` on one tenant
-  may mean something else on another.
+- **Context:** UKG stores an employee's type and pay type as numeric IDs only
+  (for example `35330176`). Two lookup endpoints translate those IDs into
+  names such as `FT Non-Exempt` or `Salaried`. The names are not fixed by UKG;
+  each customer defines their own list.
+- **Decision:** The output shows the ID as the raw value and the looked-up
+  name as the label, so a reader sees "35330176 = FT Non-Exempt". The
+  canonical value stays `unknown` and an issue is reported. If an ID is not
+  in the lookup at all, the label is empty and a different issue
+  (`missing_lookup`) says so.
+- **Reason:** Because customers write these names themselves, `FT Exempt` on
+  one UKG company may not mean the same thing on another, and a name could be
+  anything at all. Showing the name without claiming to understand it keeps
+  the output honest while still being useful to a person reading it.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/159`
-  (`employee_type`, `pay_type` carry only `id`); live lookups on 2026-10-15;
+  (`employee_type` and `pay_type` carry only an `id`); live
+  `/lookup/employee-types` and `/lookup/pay-types` on 2026-10-15;
   `tests/test_employee_ukg_ready.py::test_tenant_lookups_resolve_to_labels_but_stay_unknown`,
   `::test_lookup_miss_is_reported`.
 - **Status:** Decided.
 
-### 30. PrismHR `payPeriod` on `Compensation` is undocumented
+### 29. PrismHR `payPeriod` on `Compensation` is undocumented
 
 - **Context:** `Compensation.payPeriod` is described only as "pay period
   associated with the payGroup". Other schemas (`PayRate.payPeriod`) document
@@ -529,13 +552,13 @@ during implementation.
 - **Decision:** `compensation.pay_frequency` keeps the raw code with `value:
   unknown` and an `undocumented_code` issue. `hourlyPayPeriod`, whose own
   description lists H/W/B/S/M/Y, maps to `rate_period`.
-- **Reason:** Entry 18(a) requires the meaning on the field actually read.
+- **Reason:** Entry 17(a) requires the meaning on the field actually read.
 - **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/payPeriod`
   and `.../hourlyPayPeriod`;
   `tests/test_employee_prismhr.py::test_pay_period_codes_are_undocumented_on_compensation`.
 - **Status:** Open.
 
-### 31. PrismHR `payMethod` `D` is "driver", not "daily"
+### 30. PrismHR `payMethod` `D` is "driver", not "daily"
 
 - **Context:** The planning notes named the fifth canonical pay type `daily`.
   The PrismHR spec says `D` means driver.
@@ -546,29 +569,42 @@ during implementation.
   `tests/test_employee_prismhr.py::test_documented_codes_map_to_canonical_values`.
 - **Status:** Open.
 
-### 32. UKG current compensation is the latest row on or before `captured_at`
+### 31. UKG pay: which row in the pay history counts as "current"
 
-- **Context:** `/compensation/history` returns every row with nothing marking
-  the current one (entry 10). Live data holds a `1900-12-31` placeholder row
-  with zero amounts and `num_pp_in_year` 0 (below the schema minimum of 1).
-- **Decision:** The current row is the one with the greatest `effective_from`
-  that is on or before the bundle's `captured_at`. Future-dated rows are
-  ignored. If several rows share that date, the first in response order is
-  used and `multiple_current_rates` is reported. `rate` is `amount` with
-  `rate_period` from `amount_period`; `annual_amount` is filled only when
-  `amount_period` is `YEAR` and `per_period_amount` only when it is
-  `PAY_PERIOD`; `hourly_rate` is `hourly_pay`. `standard_hours` is `time` in
-  hours with `standard_hours_period` from `time_period`.
-  `num_pp_in_year` is a count, not a frequency code: it stays in `unmapped`
-  and a value of 0 is reported as `out_of_schema_value`. Other rows stay in
-  `unmapped`.
+- **Context:** UKG does not have a single "current salary" field. Instead it
+  returns the employee's whole pay history as a list of rows, each with a
+  start date, an amount, and the period that amount covers (per year, per
+  hour, per pay period, and so on). Nothing in the data says which row is in
+  force today (entry 10). The live company also has a placeholder row dated
+  31 December 1900 with zero amounts, which is simply the oldest date UKG
+  allows.
+- **Decision:** The current pay is the row with the most recent start date
+  that is not after the date the data was captured. Rows that start in the
+  future are ignored. If two rows start on the same day, the first one in
+  UKG's list is used and an issue (`multiple_current_rates`) flags the
+  conflict so a person can check.
+  From that row: the headline `rate` is the amount together with its period;
+  the `annual_amount` is filled in only when the period is a year, and the
+  `per_period_amount` only when the period is a pay period; the hourly rate is
+  copied from UKG's own `hourly_pay`. Nothing is calculated from one figure to
+  another. Standard hours come from the row's `time` value, converted from
+  milliseconds to hours (entry 6), with the period UKG gives for it.
+  The field `num_pp_in_year` ("number of pay periods in a year") is a count,
+  not a pay-frequency code, so it is not used to fill `pay_frequency`. It
+  stays in `unmapped`, and a value of `0` (which the schema says is not
+  allowed) is reported as an issue. All the other history rows are also kept
+  in `unmapped`.
+- **Reason:** "Most recent row that has already started" is what a payroll
+  clerk would pick by hand. Copying each figure from the field UKG labels for
+  it, rather than deriving one from another, means the output never claims
+  more than the source does.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/122`;
   `tests/test_employee_ukg_ready.py::test_current_compensation_skips_placeholder_and_future_rows`,
   `::test_tied_effective_dates_report_multiple_current_rates`,
   `::test_zero_pay_periods_is_out_of_schema`.
 - **Status:** Decided.
 
-### 33. Company stub with `null` name
+### 32. Company stub with `null` name
 
 - **Context:** None of the employee endpoints returns the company's name.
 - **Decision:** Each output carries `company` with `key`, `source` and `ein`
@@ -581,7 +617,7 @@ during implementation.
   `tests/test_employee_ukg_ready.py::test_company_stub_takes_ein_from_single_lookup_row`.
 - **Status:** Decided.
 
-### 34. Standard hours are "per pay period" for PrismHR and isolved
+### 33. Standard hours are "per pay period" for PrismHR and isolved
 
 - **Context:** PrismHR `standardHours` is "standard hours per pay period";
   isolved `normalHours` is "Normal work hours for the employee per pay
@@ -593,7 +629,7 @@ during implementation.
   `contracts/isolved/openapi/isolved-v6.swagger.json`, `EmployeeModel/properties/normalHours`.
 - **Status:** Open.
 
-### 35. Email and address kinds follow the field's description
+### 34. Email and address kinds follow the field's description
 
 - **Context:** PrismHR `contactInformation.emailAddress` ("the employee's
   email address") and isolved `emailAddress` ("Employee E-Mail Address") do not
@@ -612,7 +648,7 @@ during implementation.
   `contracts/ukg-ready/reference-schemas.json#/schemas/106/schema/properties/mailing_address`.
 - **Status:** Open.
 
-### 36. isolved location prefers `organizations[]`, then `workLocation`
+### 35. isolved location prefers `organizations[]`, then `workLocation`
 
 - **Context:** With `includeOrganizations`, the detail response carries
   `organizations[]` rows titled `Location` and `Department` with `value` and
@@ -628,7 +664,7 @@ during implementation.
   `tests/test_employee_isolved.py::test_detail_overlay_supplies_organizations_and_taxes`.
 - **Status:** Open.
 
-### 37. PrismHR gender codes are documented on a different schema
+### 36. PrismHR gender codes are documented on a different schema
 
 - **Context:** `Person.gender` says only "the employee's gender: M, F, X or D".
   The meanings appear on `NewHireEmployee.gender`: "'M' (male), 'F' (female),
