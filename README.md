@@ -1,300 +1,69 @@
-# Payroll data normalization: PrismHR, isolved, and UKG Ready
+# Payroll data normalization: PrismHR, isolved and UKG Ready
 
-This project reads company, employee, direct deposit, deduction, and payroll data
-from three payroll providers (PrismHR, isolved, and UKG Ready) and converts it
-into one canonical model. A record looks the same in that model no matter which
-provider it came from, and records stay linked: employees to companies,
-paychecks to employees.
+Normalizes company, employee, direct deposit, deduction and payroll data from
+three providers into one shared model, with records linked by key.
 
-The assignment is in [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md).
-Every assumption and decision is recorded in [docs/DECISIONS.md](docs/DECISIONS.md).
+- Assignment: [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md)
+- Assumptions and decisions: [docs/DECISIONS.md](docs/DECISIONS.md)
 
-## Status
+## Quick start
 
-Implemented: **employee** normalization for all three providers (profile and
-contact, status and dates, job and organization, current compensation), with a
-minimal company stub so employee-to-company links resolve. Also implemented:
-**direct deposit** normalization for all three providers, one record per bank
-line, linked to its employee by `employee_key` (bank, routing number, last four
-account digits, account type, allocation, priority, status, effective dates).
-And **deduction** normalization for all three providers, one record per
-recurring deduction rule, linked the same way (code, category, calculation
-method with amount or percent, frequency, limits, employer match, payee,
-priority, effective dates). isolved deductions are read from pay items, and
-UKG Ready's are built from its reference pages, because neither provider's
-deduction call answered for the demo companies.
-
-And **payroll** normalization for all three providers: one record per pay
-run (type, status, pay date, period, pay group) and one per employee
-paycheck, linked to its run, employee and company by key, with the
-provider's gross and net pay and its earning, tax, deduction, employer
-contribution and payment lines. isolved payroll is read from legal company
-5797, the one with payroll data.
-
-And **company** normalization for all three providers: one company record
-with its profile (name, legal name, status, EIN, address, contact details,
-industry codes, parent) and three nested lists that employee and payroll
-records point at: tax ids, work locations and pay groups. UKG Ready has no
-company profile endpoint, so its record holds only the EIN lookup and the
-pay-period profiles. The other data types keep a minimal company record with
-the same key.
-
-Each provider has seeded synthetic fixtures, a golden expected output, and
-edge-case tests for all five data types.
-
-`normalize-company` runs all five data types for one company and writes a
-single linked document, checking that every employee, pay run and company
-key in it resolves (see [Running](#running)).
-
-A local web app opens on an issue tracker that drills from provider to client
-to employee and lists everything normalization flagged on each person (see
-[Issue tracker](#issue-tracker)). A Field map button at the bottom right shows how each provider's
-employee, direct deposit, deduction, payroll and company fields map into the
-canonical model: mapped, not mapped yet, or not offered (see
-[Field coverage page](#field-coverage-page)).
-
-Not implemented yet: the optional write path and grouped issue reporting.
-Known gaps in the starter are tracked in
-[docs/DECISIONS.md](docs/DECISIONS.md#starter-code-issues).
-
-## Approach
-
-- **Capture bundles as input.** One employee's data spans several endpoints,
-  and some identifiers (PrismHR's `clientId`) exist only in the request. The
-  adapter input is therefore one JSON "bundle" per provider and company:
-  `{"bundle_version": 1, "provider", "captured_at", "request": {...},
-  "responses": {<endpoint>: <raw response or map of responses>}}`.
-  `src/normalization/bundle.py` lists the required and optional response keys
-  per provider and data type, so one bundle can hold the calls for the
-  company, employees, direct deposits, deductions and payroll; the fixtures
-  under `tests/fixtures/` are complete examples.
-- **Direct deposits, deductions, pay runs and paychecks are their own
-  records.** They sit in top-level `direct_deposits[]`, `deductions[]`,
-  `pay_runs[]` and `paychecks[]` lists rather than inside the employee, each
-  carrying the keys it links by (`employee_key`, `company_key`, and for a
-  paycheck `pay_run_key`). Paycheck totals are copied from the provider,
-  never summed from the lines. A company's tax ids, work locations and pay
-  groups are nested inside its record, each with its own key; employees and
-  pay runs reach them through the provider's raw code.
-- **One document per company, links checked.** `normalize-company` merges
-  the five data types' outputs for one company into one document and
-  reports any key that names no record in it as a `broken_link` issue.
-- **One adapter per provider.** Each adapter turns a bundle into canonical
-  records. Everything provider-specific stays inside its adapter, and every
-  code table cites the spec path it rests on.
-- **Coded values keep the raw code.** Every coded field is
-  `{"raw", "label", "value"}`: the provider's code, its provider-side
-  description when one exists, and the canonical enum member. A raw value maps
-  to a canonical value only when the spec documents the meaning, the value is a
-  member of a self-describing schema enum, or it matches a short, recorded
-  allowlist of live-observed labels exactly. Otherwise `value` is `unknown`.
-- **Nothing is dropped.** Provider fields with no canonical home are passed
-  through in each record's `unmapped`, keyed by their source JSON path. SSNs
-  and bank account numbers are reduced to their last four digits and redacted
-  everywhere else, as are tokens inside provider links.
-- **Report problems instead of guessing.** Undocumented codes, invalid values,
-  missing sections, and spec/live mismatches become structured issues with a
-  code, severity, source path, and the action taken.
-- **Standard library only.** The canonical model is frozen dataclasses with
-  strict type checks; the output shape is documented in
-  [docs/canonical/normalized-output.schema.json](docs/canonical/normalized-output.schema.json)
-  and validated in tests with a small built-in validator.
-- **Deterministic, offline tests.** Fixtures are generated from a fixed seed and
-  committed; a test asserts regeneration is byte-identical.
-
-## Repository layout
-
-| Path | Contents |
-| --- | --- |
-| `src/normalization/__main__.py` | Command-line entry point |
-| `src/normalization/bundle.py` | Capture-bundle envelope and per-provider shape checks |
-| `src/normalization/company_document.py` | Merges one company's five data types into one document and checks its links |
-| `src/normalization/canonical/` | Canonical model (company with tax ids, work locations and pay groups; employee, direct deposit, deduction, payroll, enums, issues) and the schema validator |
-| `src/normalization/adapters/` | One adapter per provider plus shared helpers (`_common.py`) |
-| `src/normalization/references.py` | Reference-pack readiness checks |
-| `src/normalization/field_map.py` | Per-provider source and status of each canonical employee field |
-| `src/normalization/deposit_field_map.py` | Per-provider source and status of each canonical direct deposit field |
-| `src/normalization/deduction_field_map.py` | Per-provider source and status of each canonical deduction field |
-| `src/normalization/payroll_field_map.py` | Per-provider source and status of each canonical payroll field |
-| `src/normalization/company_field_map.py` | Per-provider source and status of each canonical company field |
-| `src/normalization/issue_tree.py` | Places each issue under its provider, client and employee for the issue tracker |
-| `scripts/generate_fixtures.py` | Seeded fixture generator |
-| `scripts/export_web_data.py` | Writes the coverage and issue data the web pages read |
-| `web/` | Next.js field coverage and issue tracker pages (static export) |
-| `web/public/logos/` | Provider logos used by the coverage page |
-| `tests/` | Unit tests; `tests/fixtures/<provider>/` holds the company, employee, direct-deposit, deduction and payroll bundles, `tests/fixtures/expected/` the expected outputs |
-| `docs/canonical/` | JSON Schema for the normalized output |
-| `contracts/` | Provider API specifications and lookup references, as supplied |
-| `docs/` | Assignment, decisions, and the reference audit |
-
-## Setup
-
-Developed and tested with Python 3.14. No third-party packages are needed.
+Needs Python 3.10+ (macOS's built-in 3.9 will not work) and Node.js 24 for
+the web app. No Python packages to install.
 
 ```sh
 git clone https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home.git
 cd shreyash-tada-ai-normalization-take-home
-```
 
-The optional web pages also need Node.js 24 (`web/.nvmrc`).
-
-## Running
-
-Run the tests:
-
-```sh
+# Run the tests
 PYTHONPATH=src python3 -m unittest discover -s tests
-```
 
-Command-line usage:
-
-```sh
-# List supported providers
-PYTHONPATH=src python3 -m normalization list-providers
-
-# Check each provider's reference pack (exits 2 if any issues are found)
-PYTHONPATH=src python3 -m normalization check-inputs
-
-# Normalize one capture bundle into a new output file
-PYTHONPATH=src python3 -m normalization normalize \
-  --provider prismhr --entity employee \
-  --input tests/fixtures/prismhr/employee-bundle.json --output out/result.json
-
-# Normalize direct deposits from a direct-deposit bundle
-PYTHONPATH=src python3 -m normalization normalize \
-  --provider ukg-ready --entity direct-deposit \
-  --input tests/fixtures/ukg-ready/direct-deposit-bundle.json --output out/deposits.json
-
-# Normalize deductions from a deduction bundle
-PYTHONPATH=src python3 -m normalization normalize \
-  --provider prismhr --entity deduction \
-  --input tests/fixtures/prismhr/deduction-bundle.json --output out/deductions.json
-
-# Normalize pay runs and paychecks from a payroll bundle
-PYTHONPATH=src python3 -m normalization normalize \
-  --provider ukg-ready --entity payroll \
-  --input tests/fixtures/ukg-ready/payroll-bundle.json --output out/payroll.json
-
-# Normalize the full company record from a company bundle
-PYTHONPATH=src python3 -m normalization normalize \
-  --provider prismhr --entity company \
-  --input tests/fixtures/prismhr/company-bundle.json --output out/company.json
-```
-
-For every `--entity` the input must be a capture bundle whose `provider`
-matches `--provider` and that holds the responses that data type needs. On
-success a summary such as `8 employees, 5 issues`, `9 direct deposits, 1
-issues`, `13 deductions, 1 issues`, `1 pay runs, 8 paychecks, 4 issues` or
-`1 company, 5 work locations, 3 pay groups, 1 tax ids, 2 issues` is printed
-to stderr. The output is a `NormalizedOutput` document (`provider`,
-`company`, `employees[]`, `direct_deposits[]`, `deductions[]`, `pay_runs[]`,
-`paychecks[]`, `issues[]`, `schema_version`) described by
-[docs/canonical/normalized-output.schema.json](docs/canonical/normalized-output.schema.json);
-only the lists for the requested data type are filled. `--entity company`
-fills the whole `company` object; the other data types leave its profile and
-nested lists empty and fill only its key, source and, where known, EIN.
-
-To normalize everything for one company in one run, point
-`normalize-company` at a folder holding its five bundles
-(`company-bundle.json`, `employee-bundle.json`, `direct-deposit-bundle.json`,
-`deduction-bundle.json` and `payroll-bundle.json`, the layout of
-`tests/fixtures/<provider>/`):
-
-```sh
+# Normalize one company (swap prismhr for isolved or ukg-ready)
+mkdir -p out
 PYTHONPATH=src python3 -m normalization normalize-company \
   --input tests/fixtures/prismhr/ --output out/prismhr.json
+
+# Open the web app at http://localhost:3000
+cd web && npm install && npm run dev
 ```
 
-It prints `1 company, 8 employees, 9 direct deposits, 13 deductions, 1 pay
-runs, 8 paychecks, 0 broken links, 12 issues` and writes one
-`NormalizedOutput` with the full company and every list filled. Issues
-reported word for word by several data types appear once. Each employee,
-pay run, direct deposit, deduction and paycheck must point at this
-company, each deposit, deduction and paycheck at an employee in the
-document, and each paycheck at a pay run in it; a key that does not
-resolve adds a `broken_link` warning. A missing bundle file, or files for
-different providers or companies, is an error (exit 1).
+## What is covered
 
-`normalize` and `normalize-company` will not overwrite an existing output file. Exit codes: 0 means
-success, 1 means the input could not be read or normalized (including an
-invalid bundle or a bundle missing the responses the requested data type
-needs), and 2 means the reference pack or the command-line arguments are not
-usable.
+All five data types for all three providers.
 
-Regenerate or verify the synthetic fixtures:
+| Data type | What it holds |
+| --- | --- |
+| Company | Name, status, EIN, address, contacts, tax ids, work locations, pay groups |
+| Employee | Profile, contact, status and dates, job and organization, current pay |
+| Direct deposit | Bank, routing, account last four, type, amount or percent, priority, status, dates |
+| Deduction | Code, category, amount or percent, frequency, limits, employer match, payee, dates |
+| Payroll | Pay runs, and paychecks with gross, net, earnings, hours, taxes, deductions, contributions, payments |
 
-```sh
-python3 scripts/generate_fixtures.py          # rewrite tests/fixtures/**
-python3 scripts/generate_fixtures.py --check  # exit 1 if the committed files differ
-```
+Fields a provider does not offer are left empty; each gap is explained in
+[docs/DECISIONS.md](docs/DECISIONS.md). The optional write path is not built.
 
-## Field coverage page
+## How it works
 
-The site opens at `/issues`. Field coverage is a button at the bottom right of those pages.
-Its five pages list every canonical field against PrismHR, isolved and UKG
-Ready, and those links appear only there: employee fields at `/field-map`,
-direct deposit fields at `/field-map/direct-deposits`, deduction fields at
-`/field-map/deductions`, payroll fields at `/field-map/payroll` and company
-fields at `/field-map/company`. Each cell is one of three states:
-mapped, not mapped yet, or not offered. A mapped cell shows the provider field
-it comes from. Hovering a state or a cell shows what the state means, the full
-source path, and the spec entry it rests on. The data comes from
-`src/normalization/field_map.py`, `src/normalization/deposit_field_map.py`,
-`src/normalization/deduction_field_map.py`,
-`src/normalization/payroll_field_map.py` and
-`src/normalization/company_field_map.py` and holds statuses, source paths and
-evidence, never provider values. The logos in `web/public/logos/` are
-trademarks of their owners.
+- **Input:** one JSON bundle of raw API responses per provider, company and data type (see `tests/fixtures/`).
+- **One adapter per provider** in `src/normalization/adapters/` turns a bundle into shared records.
+- **No guessing:** each coded field keeps the raw code, its label and the shared value; undocumented codes become `unknown`.
+- **Nothing is dropped:** unused provider fields are kept in each record's `unmapped`.
+- **Sensitive data:** SSNs and bank account numbers keep only their last four digits.
+- **Problems are reported** as issues with a code, severity and source field.
+- **Test data is synthetic,** generated from a fixed seed. Standard library only.
 
-```sh
-python3 scripts/export_web_data.py          # rewrite web/src/data/coverage.json and issues.json
-python3 scripts/export_web_data.py --check  # exit 1 if either committed file is out of date
+## The output
 
-cd web
-npm install
-npm run dev     # http://localhost:3000
-npm test        # unit tests for statuses, labels and issue counts
-npm run lint    # ESLint
-npm run build   # static site in web/out/
-```
+One JSON document per company: `company`, `employees`, `direct_deposits`,
+`deductions`, `pay_runs`, `paychecks` and `issues`. Records link by
+`company_key`, `employee_key` and `pay_run_key`.
 
-The Python tests fail if any field map or the committed `coverage.json`
-falls out of step. Each field map is checked against its golden outputs. After
-changing a field map, re-run the export. After changing an adapter,
-regenerate the fixtures with `scripts/generate_fixtures.py` first, since that
-check reads the golden outputs.
+## The web app
 
-## Issue tracker
+- **Issue tracker** (home): drill from provider to client to employee and see every issue flagged on them.
 
-`/issues` is the front door. It answers one question: can this employee's
-data be trusted? It starts with a tile per provider, showing that provider's
-logo, then a tile
-per client, then a tile per employee. Each tile with issues has a badge with the number under it;
-a tile with none has no badge, and neither does the large provider or client tile at the top
-of its own page. Provider tiles stay in the field-mapping order: PrismHR, isolved,
-UKG Ready. Client and employee tiles are ordered by that count. Clicking an employee opens their issues in a table: the field, what the
-provider sent, the constraint that failed, and the short result (`null`,
-`unknown`, `unmapped`, `none`). Each row has a copy icon that writes the person's name, provider, id, and
-the field that failed. A client's issues that belong to no listed employee (pay
-runs, pay groups, company records, an employee missing from the employee list) are one
-link away under its tiles ("3 issues tied to the client"), and are counted in
-the badges. Provider-wide findings, such as fields the live API spells
-differently from its spec, are left out of the page; they stay in the
-normalized output files.
+  ![Issue tracker](docs/images/issue-tracker.gif)
 
-The data is `web/src/data/issues.json`, written by the same export script
-from the golden outputs. Unlike `coverage.json`, it holds the synthetic
-employee and company names and the already-redacted raw values. After
-regenerating the fixtures, re-run the export; the Python tests fail if the
-committed file is stale.
+- **Field map** (bottom-right button): every shared field against each provider, mapped, not mapped yet, or not offered.
 
-## Live demo data (optional)
-
-Live provider data is used only to check mapping assumptions. Tests never depend
-on it. To explore it, put the organizer-supplied key in `.env` as
-`DEMO_SIGNIN_API_KEY` and follow the sign-in steps in
-[docs/ASSIGNMENT.md](docs/ASSIGNMENT.md#access-live-demo-data). Both `.env` and
-`out/` are ignored by Git, so tokens and downloaded records stay local.
-isolved payroll lives on legal company 5797; legal 5806, used for the other
-data types, has no pay runs or checks
-([entry 77](docs/DECISIONS.md#77-isolved-payroll-comes-from-legal-5797)).
+  ![Field map](docs/images/field-map.png)
