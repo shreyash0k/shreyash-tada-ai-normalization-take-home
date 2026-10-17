@@ -63,7 +63,7 @@ One JSON document per company: `company`, `employees`, `direct_deposits`,
 
 ## The web app
 
-- **Issue tracker** (home): lists the records normalization could not fully map because of the source data, such as undocumented codes, invalid values or missing responses.
+- **Issue tracker** (home): lists the records normalization could not fully map because of the source data, such as undocumented codes, invalid values or missing responses. The synthetic test data has such problems planted on purpose, so the tracker has something to show.
 
   ![Issue tracker: providers](docs/images/issue-tracker-providers.png)
   ![Issue tracker: employees](docs/images/issue-tracker-employees.png)
