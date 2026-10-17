@@ -29,8 +29,8 @@ export function IssueDialog({
         {children}
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className="fixed inset-0 bg-neutral-900/35" />
-        <Dialog.Popup className="fixed left-1/2 top-20 max-h-[calc(100vh-10rem)] w-[calc(100%-3rem)] max-w-3xl -translate-x-1/2 overflow-y-auto rounded-2xl bg-white p-7 text-sm shadow-2xl outline-none">
+        <Dialog.Backdrop className="fixed inset-0 z-40 bg-neutral-900/35" />
+        <Dialog.Popup className="fixed left-1/2 top-20 z-50 max-h-[calc(100vh-10rem)] w-[calc(100%-3rem)] max-w-3xl -translate-x-1/2 overflow-y-auto rounded-2xl bg-white p-7 text-sm shadow-2xl outline-none">
           <Dialog.Close
             aria-label="Close"
             className="absolute right-5 top-4 cursor-pointer text-xl text-neutral-400 hover:text-neutral-700"

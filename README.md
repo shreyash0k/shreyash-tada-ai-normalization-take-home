@@ -42,12 +42,12 @@ the same key.
 Each provider has seeded synthetic fixtures, a golden expected output, and
 edge-case tests for all five data types.
 
-A local web app shows how each provider's employee, direct deposit,
-deduction, payroll and company fields map into the canonical model: mapped,
-not mapped yet, or not offered (see [Field coverage page](#field-coverage-page)).
-It also has an issues page that drills from provider to client to employee
-and lists everything normalization flagged on each person (see
-[Issues page](#issues-page)).
+A local web app opens on an issues page that drills from provider to client
+to employee and lists everything normalization flagged on each person (see
+[Issues page](#issues-page)). A Field map button at the bottom right shows how each provider's
+employee, direct deposit, deduction, payroll and company fields map into the
+canonical model: mapped, not mapped yet, or not offered (see
+[Field coverage page](#field-coverage-page)).
 
 Not implemented yet: the optional write path and grouped issue reporting.
 Known gaps in the starter are tracked in
@@ -201,10 +201,12 @@ python3 scripts/generate_fixtures.py --check  # exit 1 if the committed files di
 
 ## Field coverage page
 
-Five pages, linked from a nav at the top, list every canonical field against
-PrismHR, isolved and UKG Ready: employee fields at `/`, direct deposit fields
-at `/direct-deposits`, deduction fields at `/deductions`, payroll fields at
-`/payroll` and company fields at `/company`. Each cell is one of three states:
+The site opens at `/issues`. Field coverage is a button at the bottom right of those pages.
+Its five pages list every canonical field against PrismHR, isolved and UKG
+Ready, and those links appear only there: employee fields at `/field-map`,
+direct deposit fields at `/field-map/direct-deposits`, deduction fields at
+`/field-map/deductions`, payroll fields at `/field-map/payroll` and company
+fields at `/field-map/company`. Each cell is one of three states:
 mapped, not mapped yet, or not offered. A mapped cell shows the provider field
 it comes from. Hovering a state or a cell shows what the state means, the full
 source path, and the spec entry it rests on. The data comes from
@@ -235,8 +237,9 @@ check reads the golden outputs.
 
 ## Issues page
 
-`/issues` answers one question: can this employee's data be trusted? It
-starts with a tile per provider, showing that provider's logo, then a tile
+`/issues` is the front door. It answers one question: can this employee's
+data be trusted? It starts with a tile per provider, showing that provider's
+logo, then a tile
 per client, then a tile per employee. Each tile has a badge with the number of issues under it, including
 zero. Provider tiles stay in the field-mapping order: PrismHR, isolved,
 UKG Ready. Client and employee tiles are ordered by that count. Clicking an employee opens

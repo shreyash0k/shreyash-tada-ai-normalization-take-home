@@ -5,9 +5,9 @@ import { SiteNav } from "@/components/site-nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Field coverage",
+  title: "Issues",
   description:
-    "How PrismHR, isolved and UKG Ready employee, direct deposit, deduction, payroll and company fields map into one canonical model.",
+    "Issues flagged while normalizing PrismHR, isolved and UKG Ready, and how each provider's fields map into one canonical model.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

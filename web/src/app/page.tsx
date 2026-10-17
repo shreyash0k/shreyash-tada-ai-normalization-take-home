@@ -1,14 +1,19 @@
-import { CoverageGrid } from "@/components/coverage/coverage-grid";
-import { coverage } from "@/lib/data";
-import { EMPLOYEE_SECTIONS } from "@/lib/sections";
+"use client";
+
+import { useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/issues");
+  }, [router]);
   return (
-    <div>
-      <h1 className="text-3xl font-semibold tracking-tight">Employee field coverage</h1>
-      <div className="mt-6">
-        <CoverageGrid providers={coverage.employee} sectionTitles={EMPLOYEE_SECTIONS} />
-      </div>
-    </div>
+    <p className="text-sm text-neutral-500">
+      <Link href="/issues" className="underline">
+        Continue to issues
+      </Link>
+    </p>
   );
 }
