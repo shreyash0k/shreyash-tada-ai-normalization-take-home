@@ -18,7 +18,7 @@ cd shreyash-tada-ai-normalization-take-home
 # Run the tests
 PYTHONPATH=src python3 -m unittest discover -s tests
 
-# Normalize one company (swap prismhr for isolved or ukg-ready)
+# Normalize one company into out/prismhr.json (swap prismhr for isolved or ukg-ready)
 mkdir -p out
 PYTHONPATH=src python3 -m normalization normalize-company \
   --input tests/fixtures/prismhr/ --output out/prismhr.json
@@ -43,6 +43,9 @@ Fields a provider does not offer are left empty; each gap is explained in
 [docs/DECISIONS.md](docs/DECISIONS.md). The optional write path is not built.
 
 ## How it works
+
+Built one data type at a time, starting from the provider specs and checking
+assumptions against the live demo data.
 
 - **Input:** one JSON bundle of raw API responses per provider, company and data type (see `tests/fixtures/`).
 - **One adapter per provider** in `src/normalization/adapters/` turns a bundle into shared records.
