@@ -1,0 +1,1717 @@
+{
+  "export_version": 1,
+  "providers": [
+    {
+      "id": "prismhr",
+      "name": "PrismHR",
+      "issues": [
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "clientMaster",
+          "raw_value": [
+            "eVerify",
+            "externalPtoUsed",
+            "notificationEmailList",
+            "payrollFinalizationNotification",
+            "positionRatesUsed",
+            "reverseWireAccount",
+            "taxesToSuppress"
+          ],
+          "action": "kept under the live names in unmapped",
+          "expected": "the live API returns fields the spec does not list on ClientMaster",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "clientPayrollSchedule",
+          "raw_value": null,
+          "action": "read the live shape",
+          "expected": "clientPayrollSchedules",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "person.employerId",
+          "raw_value": null,
+          "action": "kept under the live name in unmapped",
+          "expected": "employerIds",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "person.autoPolicy",
+          "raw_value": null,
+          "action": "kept under the live name in unmapped",
+          "expected": "autoPolicies",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "client.hawaiiMedWaiver",
+          "raw_value": null,
+          "action": "kept under the live name in unmapped",
+          "expected": "hawaiiMedWaivers",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "compensation.payPeriodsPerWeek",
+          "raw_value": null,
+          "action": "kept under the live name in unmapped",
+          "expected": "live API returns 'payPeriodsPerWeek', which the OpenAPI document does not list on Compensation",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the client record; --entity company reads it from getClientMaster",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the client record; --entity company reads it from getClientMaster",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the client record; --entity company reads it from getClientMaster",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "get_payroll_voucher_for_batch['202601'][0].payrollVoucher",
+          "raw_value": null,
+          "action": "read the live shape",
+          "expected": "payrollVouchers",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "payrollVoucher[0].hsaPeoMatch",
+          "raw_value": null,
+          "action": "read the live shape",
+          "expected": "'hsaPeoMatch' is returned live but is not in the spec",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "payrollVoucher[0].isManualCheck",
+          "raw_value": null,
+          "action": "read the live shape",
+          "expected": "'isManualCheck' is returned live but is not in the spec",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "payrollVoucher[0].earning[0].payAmount",
+          "raw_value": null,
+          "action": "read the live shape",
+          "expected": "payAmount is described as 'pay per hour or unit'",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the client record; --entity company reads it from getClientMaster",
+          "record": null,
+          "record_id": null
+        }
+      ],
+      "companies": [
+        {
+          "id": "132",
+          "key": "prismhr:132",
+          "name": "Synthetic Demo Staffing LLP",
+          "issues": [
+            {
+              "code": "inconsistent_allocation",
+              "severity": "warning",
+              "source_path": "batchList[3].payGroup",
+              "raw_value": null,
+              "action": "period and pay group set null; pay groups kept in unmapped",
+              "expected": "batch lists 2 pay groups; a pay run holds one",
+              "record": "run",
+              "record_id": "202604"
+            },
+            {
+              "code": "undocumented_code",
+              "severity": "warning",
+              "source_path": "batchList[4].batchStatus",
+              "raw_value": "HOLD",
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "documented code",
+              "record": "run",
+              "record_id": "202605"
+            },
+            {
+              "code": "missing_section",
+              "severity": "warning",
+              "source_path": "get_payroll_voucher_for_batch['202603'][0].errorCode",
+              "raw_value": "1",
+              "action": "page skipped",
+              "expected": "No vouchers found for batch",
+              "record": "run",
+              "record_id": "202603"
+            }
+          ],
+          "unknown_employees": [
+            {
+              "key": "prismhr:132:X00099",
+              "id": "X00099",
+              "issues": [
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "get_deductions['X00099'].errorCode",
+                  "raw_value": "1",
+                  "action": "no deduction lines emitted",
+                  "expected": "Employee not found",
+                  "record": "employee",
+                  "record_id": null
+                }
+              ]
+            }
+          ],
+          "employees": [
+            {
+              "key": "prismhr:132:F00001",
+              "id": "F00001",
+              "name": "Finley Kowalczyk",
+              "issues": [
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[1].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "1"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payrollVoucher[0].status",
+                  "raw_value": "PRNT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "chk",
+                  "record_id": "V000101"
+                }
+              ]
+            },
+            {
+              "key": "prismhr:132:M00002",
+              "id": "M00002",
+              "name": "Morgan Delgado",
+              "issues": [
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "compensation.ssn",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[0].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "0"
+                },
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[1].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "1"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payrollVoucher[1].earning[2].payClass",
+                  "raw_value": "Q",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "chk",
+                  "record_id": "V000102"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payrollVoucher[1].deduction[0].deductType",
+                  "raw_value": "ZZ",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "chk",
+                  "record_id": "V000102"
+                }
+              ]
+            },
+            {
+              "key": "prismhr:132:D00003",
+              "id": "D00003",
+              "name": "Dakota Delgado",
+              "issues": [
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[0].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "0"
+                },
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[1].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "1"
+                }
+              ]
+            },
+            {
+              "key": "prismhr:132:S00004",
+              "id": "S00004",
+              "name": "Sage Ferreira",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "compensation.citizenshipStatus",
+                  "raw_value": "A lawful permanent resident",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "directDeposit.achVoucher[0].amount",
+                  "raw_value": 75.0,
+                  "action": "kept in unmapped",
+                  "expected": "method 'B' takes the remaining balance and must not carry an amount",
+                  "record": "dd",
+                  "record_id": "0"
+                },
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[0].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "0"
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "directDeposit.achVoucher[1].amount",
+                  "raw_value": null,
+                  "action": "amount set null",
+                  "expected": "amount is mandatory for method 'F'",
+                  "record": "dd",
+                  "record_id": "1"
+                },
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[1].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "1"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employeeDeductions.deduction[0].deductionType",
+                  "raw_value": "Z",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "ded",
+                  "record_id": "0"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employeeDeductions.deduction[0].deductionMethod",
+                  "raw_value": "ZZ",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "ded",
+                  "record_id": "0"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employeeDeductions.deduction[1].basis",
+                  "raw_value": "W",
+                  "action": "maximum kept in unmapped",
+                  "expected": "documented code",
+                  "record": "ded",
+                  "record_id": "1"
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "payrollVoucher[0].batchId",
+                  "raw_value": "202699",
+                  "action": "pay_run_key set null",
+                  "expected": "the voucher's batch is not in getBatchListByDate",
+                  "record": "chk",
+                  "record_id": "V000901"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payrollVoucher[0].status",
+                  "raw_value": "PEND",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "chk",
+                  "record_id": "V000901"
+                }
+              ]
+            },
+            {
+              "key": "prismhr:132:Q00005",
+              "id": "Q00005",
+              "name": "Quinn Delgado",
+              "issues": [
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "client.statusClass",
+                  "raw_value": "Q",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "directDeposit.achVoucher[0].method",
+                  "raw_value": "Z",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "dd",
+                  "record_id": "0"
+                },
+                {
+                  "code": "masked_value",
+                  "severity": "info",
+                  "source_path": "directDeposit.achVoucher[0].accountNum",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": "unmasked value",
+                  "record": "dd",
+                  "record_id": "0"
+                }
+              ]
+            },
+            {
+              "key": "prismhr:132:M00006",
+              "id": "M00006",
+              "name": "Morgan Petrov",
+              "issues": [
+                {
+                  "code": "invalid_date",
+                  "severity": "error",
+                  "source_path": "person.birthDate",
+                  "raw_value": "2001-02-30",
+                  "action": "set null",
+                  "expected": "YYYY-MM-DD",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_lookup",
+                  "severity": "warning",
+                  "source_path": "client.jobCode",
+                  "raw_value": "TECH",
+                  "action": "kept the job code; title null",
+                  "expected": "job code not present in the bundled getClientCodes job table",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "employeeDeductions.deduction[0].maximum",
+                  "raw_value": 240.0,
+                  "action": "kept in unmapped",
+                  "expected": "maximum is set but basis is empty, so the period it caps is unknown",
+                  "record": "ded",
+                  "record_id": "0"
+                },
+                {
+                  "code": "invalid_date",
+                  "severity": "error",
+                  "source_path": "employeeDeductions.deduction[1].startDate",
+                  "raw_value": "2025-02-30",
+                  "action": "set null",
+                  "expected": "YYYY-MM-DD",
+                  "record": "ded",
+                  "record_id": "1"
+                },
+                {
+                  "code": "out_of_schema_value",
+                  "severity": "warning",
+                  "source_path": "employeeDeductions.deduction[1].usePercent",
+                  "raw_value": "yes",
+                  "action": "amount kept in unmapped",
+                  "expected": "boolean, T or F",
+                  "record": "ded",
+                  "record_id": "1"
+                }
+              ]
+            },
+            {
+              "key": "prismhr:132:R00007",
+              "id": "R00007",
+              "name": "Reese Nakamura",
+              "issues": [
+                {
+                  "code": "missing_lookup",
+                  "severity": "warning",
+                  "source_path": "client.jobCode",
+                  "raw_value": "TECH",
+                  "action": "kept the job code; title null",
+                  "expected": "job code not present in the bundled getClientCodes job table",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "directDeposit",
+                  "raw_value": null,
+                  "action": "no deposit lines emitted",
+                  "expected": "getEmployee response lacks the 'directDeposit' section; request options=DirectDeposit",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "get_deductions",
+                  "raw_value": null,
+                  "action": "no deduction lines emitted",
+                  "expected": "deductions",
+                  "record": "employee",
+                  "record_id": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "isolved",
+      "name": "isolved",
+      "issues": [
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the legal record; --entity company reads it",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the legal record; --entity company reads it",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "pay_items[2].balance",
+          "raw_value": null,
+          "action": "kept in unmapped",
+          "expected": "live API returns 'balance', which EmployeePayItemModel does not list",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "unmapped_label",
+          "severity": "warning",
+          "source_path": "pay_items[2].calcParams[1].paramType",
+          "raw_value": "Amount2",
+          "action": "kept raw value in unmapped",
+          "expected": "allowlist",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "unmapped_label",
+          "severity": "warning",
+          "source_path": "pay_items[2].calcParams[0].paramType",
+          "raw_value": "Rate",
+          "action": "kept raw value in unmapped",
+          "expected": "allowlist",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the legal record; --entity company reads it",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "this bundle does not hold the legal record; --entity company reads it",
+          "record": null,
+          "record_id": null
+        }
+      ],
+      "companies": [
+        {
+          "id": "4046-5806",
+          "key": "isolved:4046-5806",
+          "name": "Synthetic Scrap Metal Inc",
+          "issues": [
+            {
+              "code": "missing_section",
+              "severity": "info",
+              "source_path": "dbaName",
+              "raw_value": null,
+              "action": "name set null; see legal_name",
+              "expected": "the legal record has no DBA name",
+              "record": "company",
+              "record_id": null
+            },
+            {
+              "code": "undocumented_code",
+              "severity": "warning",
+              "source_path": "payGroups[0].payFrequency",
+              "raw_value": 12,
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "documented code",
+              "record": "pg",
+              "record_id": "7627"
+            },
+            {
+              "code": "undocumented_code",
+              "severity": "warning",
+              "source_path": "payGroups[1].payFrequency",
+              "raw_value": 52,
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "documented code",
+              "record": "pg",
+              "record_id": "7628"
+            },
+            {
+              "code": "unmapped_label",
+              "severity": "warning",
+              "source_path": "payroll_run_history['7627'][2].payrollRunType",
+              "raw_value": "Data Conversion",
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "allowlist",
+              "record": "run",
+              "record_id": "4100003"
+            },
+            {
+              "code": "unmapped_label",
+              "severity": "warning",
+              "source_path": "payroll_run_history['7627'][3].status",
+              "raw_value": "Payroll Voided",
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "allowlist",
+              "record": "run",
+              "record_id": "4100004"
+            }
+          ],
+          "unknown_employees": [],
+          "employees": [
+            {
+              "key": "isolved:4046-5806:859201",
+              "id": "859201",
+              "name": "Casey Whitfield",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "maritalStatus",
+                  "raw_value": "Married",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "citizenship",
+                  "raw_value": "Citizen of the United States",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employmentCategoryCode",
+                  "raw_value": "FT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payFrequency",
+                  "raw_value": 12,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "check_detail",
+                  "raw_value": null,
+                  "action": "no tax lines or employer contributions emitted",
+                  "expected": "check detail",
+                  "record": "chk",
+                  "record_id": "21000102"
+                }
+              ]
+            },
+            {
+              "key": "isolved:4046-5806:859202",
+              "id": "859202",
+              "name": "Casey Haddad",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "maritalStatus",
+                  "raw_value": "Single",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "citizenship",
+                  "raw_value": "Citizen of the United States",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employmentCategoryCode",
+                  "raw_value": "FT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payFrequency",
+                  "raw_value": 12,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "results[0].payrollRunNumber",
+                  "raw_value": 1,
+                  "action": "pay_run_key set null",
+                  "expected": "more than one captured run has this pay date and run number",
+                  "record": "chk",
+                  "record_id": "21000201"
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "results[0].checkTypeDescription",
+                  "raw_value": "Manual Check",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "chk",
+                  "record_id": "21000201"
+                },
+                {
+                  "code": "out_of_schema_value",
+                  "severity": "warning",
+                  "source_path": "results[0].taxes[0].isEmployeeTax",
+                  "raw_value": "yes",
+                  "action": "amounts kept in unmapped",
+                  "expected": "boolean",
+                  "record": "chk",
+                  "record_id": "21000201"
+                }
+              ]
+            },
+            {
+              "key": "isolved:4046-5806:859203",
+              "id": "859203",
+              "name": "Reese Petrov",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "citizenship",
+                  "raw_value": "Citizen of the United States",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employmentCategoryCode",
+                  "raw_value": "FT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payFrequency",
+                  "raw_value": 12,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "direct_deposits[0].amount",
+                  "raw_value": null,
+                  "action": "method set to unknown",
+                  "expected": "neither amount nor percent is set and the sequence is not 0 (Net Pay)",
+                  "record": "dd",
+                  "record_id": "640104"
+                },
+                {
+                  "code": "invalid_date",
+                  "severity": "error",
+                  "source_path": "pay_items[2].stopDate",
+                  "raw_value": "2025-02-30T00:00:00",
+                  "action": "set null",
+                  "expected": "YYYY-MM-DD",
+                  "record": "ded",
+                  "record_id": "770303"
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_items[3].payItemType",
+                  "raw_value": "Benefit",
+                  "action": "pay item skipped",
+                  "expected": "label seen live",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "check_detail",
+                  "raw_value": null,
+                  "action": "no tax lines or employer contributions emitted",
+                  "expected": "check detail",
+                  "record": "chk",
+                  "record_id": "21000301"
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "results[0].payrollRunNumber",
+                  "raw_value": 9,
+                  "action": "pay_run_key set null",
+                  "expected": "no captured run has this pay date and run number",
+                  "record": "chk",
+                  "record_id": "21000301"
+                }
+              ]
+            },
+            {
+              "key": "isolved:4046-5806:859204",
+              "id": "859204",
+              "name": "Rowan Haddad",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "gender",
+                  "raw_value": "Non-binary",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "citizenship",
+                  "raw_value": "Citizen of the United States",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "employmentStatus",
+                  "raw_value": "Leave of Absence",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employmentCategoryCode",
+                  "raw_value": "PT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payFrequency",
+                  "raw_value": 12,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "direct_deposits[0].accountType",
+                  "raw_value": "Savings",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "dd",
+                  "record_id": "640106"
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "direct_deposits[1].amount",
+                  "raw_value": null,
+                  "action": "method set to unknown; amount and percent kept in unmapped",
+                  "expected": "both amount and percent are set; the spec says only one may be",
+                  "record": "dd",
+                  "record_id": "640107"
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "direct_deposits[1].status",
+                  "raw_value": "Pending",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "dd",
+                  "record_id": "640107"
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "direct_deposits[2].sequenceNumber",
+                  "raw_value": 0,
+                  "action": "amount and percent kept in unmapped",
+                  "expected": "sequence 0 is the Net Pay line but an amount or percent is set",
+                  "record": "dd",
+                  "record_id": "640108"
+                }
+              ]
+            },
+            {
+              "key": "isolved:4046-5806:859205",
+              "id": "859205",
+              "name": "Harper Marchetti",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "citizenship",
+                  "raw_value": "Citizen of the United States",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employmentCategoryCode",
+                  "raw_value": "PT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payFrequency",
+                  "raw_value": 12,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "invalid_date",
+                  "severity": "error",
+                  "source_path": "salaryEffectiveDate",
+                  "raw_value": "not-a-date",
+                  "action": "set null",
+                  "expected": "YYYY-MM-DD",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "pay_items",
+                  "raw_value": null,
+                  "action": "no deduction lines emitted",
+                  "expected": "deduction lines",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "checks",
+                  "raw_value": null,
+                  "action": "no paychecks emitted",
+                  "expected": "paychecks",
+                  "record": "employee",
+                  "record_id": null
+                }
+              ]
+            },
+            {
+              "key": "isolved:4046-5806:859206",
+              "id": "859206",
+              "name": "Skyler Marchetti",
+              "issues": [
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "employmentCategoryCode",
+                  "raw_value": "FT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "payFrequency",
+                  "raw_value": 12,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "direct_deposits",
+                  "raw_value": null,
+                  "action": "no deposit lines emitted",
+                  "expected": "direct deposits",
+                  "record": "employee",
+                  "record_id": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ukg-ready",
+      "name": "UKG Ready",
+      "issues": [
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "ein_name",
+          "raw_value": null,
+          "action": "kept in unmapped",
+          "expected": "live detail response carries 'ein_name', which the schema lists only on the employee list",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "_links.country-fields",
+          "raw_value": null,
+          "action": "kept in unmapped",
+          "expected": "live detail response links 'country-fields', which the schema does not list",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "pay_statements[0].calcUpto",
+          "raw_value": null,
+          "action": "kept in unmapped",
+          "expected": "live pay-statements returns 'calcUpto', which the schema does not list",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "spec_live_mismatch",
+          "severity": "info",
+          "source_path": "pay_statements[0].emptyEarning",
+          "raw_value": null,
+          "action": "kept in unmapped",
+          "expected": "live pay-statements returns 'emptyEarning', which the schema does not list",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "info",
+          "source_path": "pay_statement_detail",
+          "raw_value": null,
+          "action": "gross_pay and net_pay set null",
+          "expected": "pay statements carry no gross or net totals",
+          "record": null,
+          "record_id": null
+        },
+        {
+          "code": "missing_section",
+          "severity": "warning",
+          "source_path": "responses",
+          "raw_value": null,
+          "action": "company name set null",
+          "expected": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404",
+          "record": null,
+          "record_id": null
+        }
+      ],
+      "companies": [
+        {
+          "id": "33704016",
+          "key": "ukg-ready:33704016",
+          "name": "Client 33704016",
+          "issues": [
+            {
+              "code": "missing_section",
+              "severity": "warning",
+              "source_path": "responses",
+              "raw_value": null,
+              "action": "name, legal name, status and address set null",
+              "expected": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404",
+              "record": "company",
+              "record_id": null
+            },
+            {
+              "code": "missing_section",
+              "severity": "info",
+              "source_path": "responses",
+              "raw_value": null,
+              "action": "work locations left empty",
+              "expected": "UKG Ready has no work location records; cost centres are tenant-defined trees",
+              "record": "company",
+              "record_id": null
+            },
+            {
+              "code": "out_of_schema_value",
+              "severity": "warning",
+              "source_path": "lookup_pay_period_profiles.items[9].period_type.type",
+              "raw_value": "fortnightly",
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "documented code",
+              "record": "pg",
+              "record_id": "36562704"
+            },
+            {
+              "code": "unmapped_label",
+              "severity": "warning",
+              "source_path": "payrolls[1].type.display_name",
+              "raw_value": "Correction",
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "allowlist",
+              "record": "run",
+              "record_id": "4332470002"
+            },
+            {
+              "code": "out_of_schema_value",
+              "severity": "warning",
+              "source_path": "payrolls[2].status",
+              "raw_value": "PAUSED",
+              "action": "kept raw value; canonical value set to unknown",
+              "expected": "documented code",
+              "record": "run",
+              "record_id": "4332470003"
+            },
+            {
+              "code": "missing_section",
+              "severity": "info",
+              "source_path": "pay_statements",
+              "raw_value": null,
+              "action": "no paychecks emitted for this pay run",
+              "expected": "pay statements",
+              "record": "run",
+              "record_id": "4332470003"
+            }
+          ],
+          "unknown_employees": [],
+          "employees": [
+            {
+              "key": "ukg-ready:33704016:12935181566",
+              "id": "12935181566",
+              "name": "Avery Brennan",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.employee_type.id",
+                  "raw_value": 35330178,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "out_of_schema_value",
+                  "severity": "warning",
+                  "source_path": "compensation_history.compensations[0].num_pp_in_year",
+                  "raw_value": 0,
+                  "action": "kept in unmapped",
+                  "expected": ">= 1",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.pay_type.id",
+                  "raw_value": 35043009,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "deductions[0].ee_calc_method.method.type",
+                  "raw_value": "EARNING_LIST",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "ded",
+                  "record_id": "197121"
+                },
+                {
+                  "code": "undocumented_code",
+                  "severity": "warning",
+                  "source_path": "deductions[1].ee_calc_method.method.type",
+                  "raw_value": "FLAT_AMOUNT",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "ded",
+                  "record_id": "197122"
+                }
+              ]
+            },
+            {
+              "key": "ukg-ready:33704016:12935181567",
+              "id": "12935181567",
+              "name": "Tatum Lindqvist",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.employee_type.id",
+                  "raw_value": 35330176,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "out_of_schema_value",
+                  "severity": "warning",
+                  "source_path": "pay_info.eeo4_classification",
+                  "raw_value": "UNKNOWN",
+                  "action": "kept in unmapped",
+                  "expected": "'UNKNOWN' is not in the schema enum",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "out_of_schema_value",
+                  "severity": "warning",
+                  "source_path": "pay_info.eeo4_function",
+                  "raw_value": "UNKNOWN",
+                  "action": "kept in unmapped",
+                  "expected": "'UNKNOWN' is not in the schema enum",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.pay_type.id",
+                  "raw_value": 35043008,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_statements[1].type.display_name",
+                  "raw_value": "Gross Up",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "chk",
+                  "record_id": "85940002"
+                },
+                {
+                  "code": "invalid_number",
+                  "severity": "error",
+                  "source_path": "pay_statements[1].earnings[0].hours",
+                  "raw_value": "eight hours",
+                  "action": "set null",
+                  "expected": "milliseconds",
+                  "record": "chk",
+                  "record_id": "85940002"
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_statements[1].payments[0].type_name",
+                  "raw_value": "Pay Card",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "chk",
+                  "record_id": "85940002"
+                }
+              ]
+            },
+            {
+              "key": "ukg-ready:33704016:12935181568",
+              "id": "12935181568",
+              "name": "Riley Delgado",
+              "issues": [
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.employee_type.id",
+                  "raw_value": 35330178,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.pay_type.id",
+                  "raw_value": 35043009,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "invalid_number",
+                  "severity": "warning",
+                  "source_path": "deposits[0].account_number",
+                  "raw_value": "[redacted]",
+                  "action": "set null",
+                  "expected": ">= 4 digits",
+                  "record": "dd",
+                  "record_id": "47480105"
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "deductions[0].ee_calc_method.percent",
+                  "raw_value": 2,
+                  "action": "percent kept in unmapped; amount used",
+                  "expected": "ee_calc_method sets both amount and percent; the schema allows one",
+                  "record": "ded",
+                  "record_id": "197141"
+                },
+                {
+                  "code": "out_of_schema_value",
+                  "severity": "warning",
+                  "source_path": "deductions[0].ee_frequency.type",
+                  "raw_value": "WEEKLY",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "ded",
+                  "record_id": "197141"
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "deduction_detail",
+                  "raw_value": null,
+                  "action": "amounts, frequency and limits set null",
+                  "expected": "deduction detail",
+                  "record": "ded",
+                  "record_id": "197142"
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "pay_statement_detail",
+                  "raw_value": null,
+                  "action": "no lines emitted; list fields only",
+                  "expected": "pay statement detail",
+                  "record": "chk",
+                  "record_id": "85940003"
+                }
+              ]
+            },
+            {
+              "key": "ukg-ready:33704016:12935181569",
+              "id": "12935181569",
+              "name": "Tatum Nakamura",
+              "issues": [
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "demographics",
+                  "raw_value": null,
+                  "action": "fields from demographics set null",
+                  "expected": "demographics",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.employee_type.id",
+                  "raw_value": 35330177,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "multiple_current_rates",
+                  "severity": "warning",
+                  "source_path": "compensation_history.compensations",
+                  "raw_value": "2025-01-01",
+                  "action": "used the first row in response order",
+                  "expected": "2 compensation rows share effective_from 2025-01-01",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.pay_type.id",
+                  "raw_value": 35043008,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "invalid_date",
+                  "severity": "error",
+                  "source_path": "deposits[0].active_from",
+                  "raw_value": "2025-02-30",
+                  "action": "set null",
+                  "expected": "YYYY-MM-DD",
+                  "record": "dd",
+                  "record_id": "47480107"
+                },
+                {
+                  "code": "out_of_schema_value",
+                  "severity": "warning",
+                  "source_path": "deposits[0].account_type",
+                  "raw_value": "MONEY_MARKET",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "documented code",
+                  "record": "dd",
+                  "record_id": "47480107"
+                }
+              ]
+            },
+            {
+              "key": "ukg-ready:33704016:12935181570",
+              "id": "12935181570",
+              "name": "Rowan Delgado",
+              "issues": [
+                {
+                  "code": "missing_lookup",
+                  "severity": "warning",
+                  "source_path": "pay_info.employee_type.id",
+                  "raw_value": 99999999,
+                  "action": "kept raw id; label null; canonical value set to unknown",
+                  "expected": "id not present in the bundled lookup",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "status",
+                  "raw_value": "Suspended",
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_lookup",
+                  "severity": "warning",
+                  "source_path": "pay_info.default_job.id",
+                  "raw_value": 8634529999,
+                  "action": "kept the job id; title null",
+                  "expected": "default job id not present in the bundled jobs lookup",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.pay_type.id",
+                  "raw_value": 35043008,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "direct_deposits",
+                  "raw_value": null,
+                  "action": "no deposit lines emitted",
+                  "expected": "direct deposits",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "deductions",
+                  "raw_value": null,
+                  "action": "no deduction lines emitted",
+                  "expected": "deductions",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "missing_section",
+                  "severity": "warning",
+                  "source_path": "pay_statements['4332479999']",
+                  "raw_value": "4332479999",
+                  "action": "pay_run_key set null",
+                  "expected": "the payroll is not in the payrolls list",
+                  "record": "chk",
+                  "record_id": "85940005"
+                }
+              ]
+            },
+            {
+              "key": "ukg-ready:33704016:12935181571",
+              "id": "12935181571",
+              "name": "Emerson Brennan",
+              "issues": [
+                {
+                  "code": "missing_section",
+                  "severity": "info",
+                  "source_path": "tax_info",
+                  "raw_value": null,
+                  "action": "fields from tax_info set null",
+                  "expected": "tax info",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.employee_type.id",
+                  "raw_value": 35330179,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "invalid_date",
+                  "severity": "error",
+                  "source_path": "dates.seniority",
+                  "raw_value": "2020-13-01",
+                  "action": "set null",
+                  "expected": "YYYY-MM-DD",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "unmapped_label",
+                  "severity": "warning",
+                  "source_path": "pay_info.pay_type.id",
+                  "raw_value": 35043009,
+                  "action": "kept raw value; canonical value set to unknown",
+                  "expected": "allowlist",
+                  "record": "employee",
+                  "record_id": null
+                },
+                {
+                  "code": "inconsistent_allocation",
+                  "severity": "warning",
+                  "source_path": "deposits[0].amount",
+                  "raw_value": null,
+                  "action": "amount set null",
+                  "expected": "calc_method FLAT_AMOUNT requires 'amount'",
+                  "record": "dd",
+                  "record_id": "47480109"
+                },
+                {
+                  "code": "invalid_date",
+                  "severity": "error",
+                  "source_path": "deductions[0].effective_from",
+                  "raw_value": "2025-13-01",
+                  "action": "set null",
+                  "expected": "YYYY-MM-DD",
+                  "record": "ded",
+                  "record_id": "197161"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

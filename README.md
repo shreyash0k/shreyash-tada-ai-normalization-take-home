@@ -45,6 +45,9 @@ edge-case tests for all five data types.
 A local web app shows how each provider's employee, direct deposit,
 deduction, payroll and company fields map into the canonical model: mapped,
 not mapped yet, or not offered (see [Field coverage page](#field-coverage-page)).
+It also has an issues page that drills from provider to client to employee
+and lists everything normalization flagged on each person (see
+[Issues page](#issues-page)).
 
 Not implemented yet: the optional write path and grouped issue reporting.
 Known gaps in the starter are tracked in
@@ -106,9 +109,10 @@ Known gaps in the starter are tracked in
 | `src/normalization/deduction_field_map.py` | Per-provider source and status of each canonical deduction field |
 | `src/normalization/payroll_field_map.py` | Per-provider source and status of each canonical payroll field |
 | `src/normalization/company_field_map.py` | Per-provider source and status of each canonical company field |
+| `src/normalization/issue_tree.py` | Places each issue under its provider, client and employee for the issues page |
 | `scripts/generate_fixtures.py` | Seeded fixture generator |
-| `scripts/export_web_data.py` | Writes the coverage data the web pages read |
-| `web/` | Next.js field coverage pages (static export) |
+| `scripts/export_web_data.py` | Writes the coverage and issue data the web pages read |
+| `web/` | Next.js field coverage and issues pages (static export) |
 | `web/public/logos/` | Provider logos used by the coverage page |
 | `tests/` | Unit tests; `tests/fixtures/<provider>/` holds the company, employee, direct-deposit, deduction and payroll bundles, `tests/fixtures/expected/` the expected outputs |
 | `docs/canonical/` | JSON Schema for the normalized output |
@@ -124,7 +128,7 @@ git clone https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home
 cd shreyash-tada-ai-normalization-take-home
 ```
 
-The optional field coverage page also needs Node.js 24 (`web/.nvmrc`).
+The optional web pages also need Node.js 24 (`web/.nvmrc`).
 
 ## Running
 
@@ -212,13 +216,13 @@ evidence, never provider values. The logos in `web/public/logos/` are
 trademarks of their owners.
 
 ```sh
-python3 scripts/export_web_data.py          # rewrite web/src/data/coverage.json
-python3 scripts/export_web_data.py --check  # exit 1 if the committed file is out of date
+python3 scripts/export_web_data.py          # rewrite web/src/data/coverage.json and issues.json
+python3 scripts/export_web_data.py --check  # exit 1 if either committed file is out of date
 
 cd web
 npm install
 npm run dev     # http://localhost:3000
-npm test        # unit tests for statuses and labels
+npm test        # unit tests for statuses, labels and issue counts
 npm run lint    # ESLint
 npm run build   # static site in web/out/
 ```
@@ -228,6 +232,25 @@ falls out of step. Each field map is checked against its golden outputs. After
 changing a field map, re-run the export. After changing an adapter,
 regenerate the fixtures with `scripts/generate_fixtures.py` first, since that
 check reads the golden outputs.
+
+## Issues page
+
+`/issues` answers one question: can this employee's data be trusted? It
+starts with a tile per provider, showing that provider's logo, then a tile
+per client, then a tile per employee. Each tile has a badge with the number of issues under it, including
+zero. Provider tiles stay in the field-mapping order: PrismHR, isolved,
+UKG Ready. Client and employee tiles are ordered by that count. Clicking an employee opens
+their issues as four columns: the field, what the provider sent, the
+constraint that failed, and the short result (`null`, `unknown`, `unmapped`,
+`none`). Issues that belong to no listed employee (provider-wide findings, pay
+runs, company records, an employee missing from the employee list) are one
+link away under the tiles, and are counted in the badges.
+
+The data is `web/src/data/issues.json`, written by the same export script
+from the golden outputs. Unlike `coverage.json`, it holds the synthetic
+employee and company names and the already-redacted raw values. After
+regenerating the fixtures, re-run the export; the Python tests fail if the
+committed file is stale.
 
 ## Live demo data (optional)
 

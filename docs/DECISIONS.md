@@ -2116,3 +2116,64 @@ during implementation.
   `test_singular_schedule_key_is_reported`,
   `test_plural_schedule_key_reads_without_an_issue`.
 - **Status:** Decided.
+
+## Issues page
+
+### 94. Issue badges count everything under a tile
+
+- **Context:** The issues page shows providers, clients and employees as
+  tiles with a badge. Some issues sit above the employee: a provider has
+  findings with no record key, a client has pay-run, pay-group and
+  company-detail issues, and some issues name an employee who is not in the
+  employee list. The badge had to say whether it counts these.
+- **Decision:** A badge counts every issue under its tile, these included,
+  so PrismHR shows 48. The badge is the number only, including 0. Provider
+  tiles stay in the field-mapping order: PrismHR, isolved, UKG Ready.
+  Client and employee tiles are ordered by that count, then by name.
+- **Reason:** A provider or client badge should match what a reader finds
+  by opening everything under it. The number says where the issues are;
+  severity colour did not say which field was wrong.
+- **Evidence:** `web/src/components/issues/issue-badge.tsx`;
+  `web/src/lib/issues.ts` (`providerIssues`, `companyIssues`, `byConcern`);
+  `web/src/lib/issues.test.ts`.
+- **Status:** Decided.
+
+### 95. Issues without a listed employee are one link away
+
+- **Context:** Nearly a third of the issues in the fixtures (45 of 151) have
+  no employee tile to sit on: provider-wide findings, pay runs, pay groups and
+  company detail, and PrismHR employee `X00099`, who appears in the deductions
+  response but not in the employee list.
+- **Decision:** Under its tiles, the provider page shows a link such as
+  "14 issues not tied to a client", and the client page one such as
+  "4 issues not tied to an employee". Each appears only when its count is
+  above zero, and opens the same popup as an employee, grouped by record.
+  These issues are also counted in the badges.
+- **Reason:** The tiles stay about people, and no issue is hidden.
+- **Evidence:** `src/normalization/issue_tree.py`;
+  `tests/test_issue_tree.py::BuildProvider::test_issues_attach_to_their_node`,
+  `GoldenTrees::test_every_golden_issue_lands_once`;
+  `web/src/app/issues/[provider]/[company]/page.tsx`.
+- **Status:** Decided.
+
+### 96. The issue export holds names and redacted values
+
+- **Context:** The coverage file the web app reads holds no provider
+  values. The issues page needs employee and company names to label tiles,
+  and each issue's raw value to say what the provider sent.
+- **Decision:** The issues page reads its own file,
+  `web/src/data/issues.json`. It holds employee and company names from the
+  golden outputs and each issue's raw value as the adapter recorded it,
+  already redacted. The issue message and spec citation stay out. Each
+  issue also carries a short expected constraint taken from that message,
+  with the spec path removed. The popup shows the field, what was sent,
+  that constraint, and the short result of the action. Severity stays on
+  the issue and is not shown.
+- **Reason:** The fixtures are synthetic and adapters redact raw values
+  before they reach an issue, so the file holds nothing sensitive, and a
+  separate file keeps the coverage file free of provider values. A file
+  built from live data would need this revisited.
+- **Evidence:** `scripts/export_web_data.py` (`render_issues`);
+  `tests/test_web_export.py::WebExportChecks::test_export_holds_no_provider_values`;
+  `tests/test_issue_tree.py::IssueExport::test_committed_issue_export_is_current`.
+- **Status:** Open.

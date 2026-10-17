@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/deductions", label: "Deductions" },
   { href: "/payroll", label: "Payroll" },
   { href: "/company", label: "Company" },
+  { href: "/issues", label: "Issues" },
 ];
 
 export function SiteNav() {
@@ -16,7 +17,8 @@ export function SiteNav() {
   return (
     <nav className="mb-8 flex gap-1 text-sm">
       {LINKS.map(({ href, label }) => {
-        const active = pathname === href || pathname === `${href}/`;
+        const active =
+          pathname === href || pathname === `${href}/` || (href !== "/" && pathname.startsWith(`${href}/`));
         return (
           <Link
             key={href}

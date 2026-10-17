@@ -1,12 +1,14 @@
-"""Export the employee, direct deposit, deduction, payroll and company field coverage into ``web/src/data/coverage.json``.
+"""Export the field coverage into ``web/src/data/coverage.json`` and the issue tree into ``web/src/data/issues.json``.
 
 Usage::
 
-    python scripts/export_web_data.py          # write the file
-    python scripts/export_web_data.py --check  # exit 1 if the committed file is out of date
+    python scripts/export_web_data.py          # write both files
+    python scripts/export_web_data.py --check  # exit 1 if either committed file is out of date
 
-The file holds statuses, source paths and evidence only, never provider
-values, so the web app needs neither Python nor the fixtures.
+``coverage.json`` holds statuses, source paths and evidence only, never
+provider values. ``issues.json`` holds the issues from the golden outputs,
+with synthetic employee and company names and the already-redacted raw
+values. The web app needs neither Python nor the fixtures.
 """
 import argparse
 import json
@@ -25,9 +27,15 @@ from normalization import (  # noqa: E402
 )
 from normalization.bundle import PROVIDER_SPECS  # noqa: E402
 from normalization.field_map import MAPPED, NOT_OFFERED  # noqa: E402
+from normalization.issue_tree import ENTITIES, IssueTreeError, build_provider  # noqa: E402
 
 OUTPUT = ROOT / "web" / "src" / "data" / "coverage.json"
+ISSUES_OUTPUT = ROOT / "web" / "src" / "data" / "issues.json"
 EXPORT_VERSION = 2
+ISSUES_EXPORT_VERSION = 1
+GOLDEN = ROOT / "tests" / "fixtures" / "expected"
+GOLDEN_SUFFIX = {"company": "company", "employee": "employees", "direct-deposit": "direct-deposits",
+                 "deduction": "deductions", "payroll": "payroll"}
 PROVIDER_NAMES = {"prismhr": "PrismHR", "isolved": "isolved", "ukg-ready": "UKG Ready"}
 ENTITY_MAPS = {"employee": field_map, "direct-deposit": deposit_field_map, "deduction": deduction_field_map,
                "payroll": payroll_field_map, "company": company_field_map}
@@ -66,33 +74,58 @@ def provider_coverage(entity: str, provider: str) -> dict:
     }
 
 
+def dump(data: dict) -> str:
+    return json.dumps(data, indent=2, ensure_ascii=False, allow_nan=False) + "\n"
+
+
 def render() -> str:
-    data = {
+    return dump({
         "export_version": EXPORT_VERSION,
         "entities": {entity: [provider_coverage(entity, provider) for provider in PROVIDER_SPECS]
                      for entity in ENTITY_MAPS},
-    }
-    return json.dumps(data, indent=2, ensure_ascii=False, allow_nan=False) + "\n"
+    })
+
+
+def load_golden(provider: str, entity: str) -> dict:
+    path = GOLDEN / f"{provider}-{GOLDEN_SUFFIX[entity]}.json"
+    if not path.exists():
+        raise ExportError(f"{provider} {entity}: golden output missing at {path.relative_to(ROOT)}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def provider_issue_tree(provider: str) -> dict:
+    outputs = {entity: load_golden(provider, entity) for entity in ENTITIES}
+    try:
+        return build_provider(provider, PROVIDER_NAMES[provider], outputs)
+    except IssueTreeError as exc:
+        raise ExportError(str(exc)) from exc
+
+
+def render_issues() -> str:
+    return dump({"export_version": ISSUES_EXPORT_VERSION,
+                 "providers": [provider_issue_tree(provider) for provider in PROVIDER_SPECS]})
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--check", action="store_true",
-                        help="compare with the committed file instead of writing")
+                        help="compare with the committed files instead of writing")
     args = parser.parse_args(argv)
     try:
-        content = render()
+        files = {OUTPUT: render(), ISSUES_OUTPUT: render_issues()}
     except ExportError as exc:
         print(str(exc), file=sys.stderr)
         return 1
     if args.check:
-        if not OUTPUT.exists() or OUTPUT.read_text(encoding="utf-8") != content:
-            print(f"stale export: {OUTPUT.relative_to(ROOT)}", file=sys.stderr)
-            return 1
-        return 0
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(content, encoding="utf-8")
-    print(f"wrote {OUTPUT.relative_to(ROOT)}")
+        stale = [path for path, content in files.items()
+                 if not path.exists() or path.read_text(encoding="utf-8") != content]
+        for path in stale:
+            print(f"stale export: {path.relative_to(ROOT)}", file=sys.stderr)
+        return 1 if stale else 0
+    for path, content in files.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+        print(f"wrote {path.relative_to(ROOT)}")
     return 0
 
 
