@@ -26,7 +26,7 @@
         "key": "ukg-ready:33704016:ein:35419520",
         "source_id": "35419520",
         "tax_id": "12-3456789",
-        "name": "Primary EIN",
+        "name": "Dunder Mifflin Utica",
         "country": "USA",
         "unmapped": {
           "lookup_eins.items[0].ein_currency_code": "USD"
@@ -55,7 +55,7 @@
         },
         "unmapped": {
           "lookup_pay_period_profiles.items[0].period_type.params.start_date": "2017-10-29",
-          "lookup_pay_period_profiles.items[0].description": "Primary EIN payroll"
+          "lookup_pay_period_profiles.items[0].description": "Dunder Mifflin Utica payroll"
         }
       },
       {

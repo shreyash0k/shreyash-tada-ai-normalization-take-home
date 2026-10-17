@@ -78,194 +78,18 @@
         "payroll_run_history['7627'][0].submittedTime": null,
         "payroll_run_history['7627'][0].suppressPayStubEmailAlert": false
       }
-    },
-    {
-      "key": "isolved:4046-5806:run:4100002",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "pay_run_id": "4100002"
-      },
-      "type": {
-        "raw": "Regular Payroll",
-        "label": null,
-        "value": "regular"
-      },
-      "status": {
-        "raw": "Payroll Not Processed",
-        "label": null,
-        "value": "open"
-      },
-      "pay_date": "2026-01-23",
-      "period": null,
-      "description": null,
-      "pay_group": {
-        "raw": "7627",
-        "label": null,
-        "value": null
-      },
-      "unmapped": {
-        "payroll_run_history['7627'][1].impoundDate": "2026-01-23T00:00:00",
-        "payroll_run_history['7627'][1].inputMethod": "Time Entry",
-        "payroll_run_history['7627'][1].payPeriod": 26,
-        "payroll_run_history['7627'][1].processApprovedBy": null,
-        "payroll_run_history['7627'][1].processedBy": "synthetic",
-        "payroll_run_history['7627'][1].regularCheckAutoPay": false,
-        "payroll_run_history['7627'][1].runDate": "2026-01-23T00:00:00",
-        "payroll_run_history['7627'][1].runNumber": 0,
-        "payroll_run_history['7627'][1].runTime": "09:00:00",
-        "payroll_run_history['7627'][1].scheduledPayDate": "2026-01-23T00:00:00",
-        "payroll_run_history['7627'][1].scheduledRunDate": "2026-01-23T00:00:00",
-        "payroll_run_history['7627'][1].submittedBy": null,
-        "payroll_run_history['7627'][1].submittedDate": null,
-        "payroll_run_history['7627'][1].submittedTime": null,
-        "payroll_run_history['7627'][1].suppressPayStubEmailAlert": false
-      }
-    },
-    {
-      "key": "isolved:4046-5806:run:4100003",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "pay_run_id": "4100003"
-      },
-      "type": {
-        "raw": "Data Conversion",
-        "label": null,
-        "value": "unknown"
-      },
-      "status": {
-        "raw": "Completed Payroll Run",
-        "label": null,
-        "value": "completed"
-      },
-      "pay_date": "2026-01-09",
-      "period": null,
-      "description": null,
-      "pay_group": {
-        "raw": "7627",
-        "label": null,
-        "value": null
-      },
-      "unmapped": {
-        "payroll_run_history['7627'][2].impoundDate": "2026-01-09T00:00:00",
-        "payroll_run_history['7627'][2].inputMethod": "Time Entry",
-        "payroll_run_history['7627'][2].payPeriod": 26,
-        "payroll_run_history['7627'][2].processApprovedBy": null,
-        "payroll_run_history['7627'][2].processedBy": "synthetic",
-        "payroll_run_history['7627'][2].regularCheckAutoPay": false,
-        "payroll_run_history['7627'][2].runDate": "2026-01-09T00:00:00",
-        "payroll_run_history['7627'][2].runNumber": 2,
-        "payroll_run_history['7627'][2].runTime": "09:00:00",
-        "payroll_run_history['7627'][2].scheduledPayDate": "2026-01-09T00:00:00",
-        "payroll_run_history['7627'][2].scheduledRunDate": "2026-01-09T00:00:00",
-        "payroll_run_history['7627'][2].submittedBy": null,
-        "payroll_run_history['7627'][2].submittedDate": null,
-        "payroll_run_history['7627'][2].submittedTime": null,
-        "payroll_run_history['7627'][2].suppressPayStubEmailAlert": false
-      }
-    },
-    {
-      "key": "isolved:4046-5806:run:4100004",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "pay_run_id": "4100004"
-      },
-      "type": {
-        "raw": "Regular Payroll",
-        "label": null,
-        "value": "regular"
-      },
-      "status": {
-        "raw": "Payroll Voided",
-        "label": null,
-        "value": "unknown"
-      },
-      "pay_date": "2026-02-06",
-      "period": null,
-      "description": null,
-      "pay_group": {
-        "raw": "7627",
-        "label": null,
-        "value": null
-      },
-      "unmapped": {
-        "payroll_run_history['7627'][3].impoundDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][3].inputMethod": "Time Entry",
-        "payroll_run_history['7627'][3].payPeriod": 26,
-        "payroll_run_history['7627'][3].processApprovedBy": null,
-        "payroll_run_history['7627'][3].processedBy": "synthetic",
-        "payroll_run_history['7627'][3].regularCheckAutoPay": false,
-        "payroll_run_history['7627'][3].runDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][3].runNumber": 1,
-        "payroll_run_history['7627'][3].runTime": "09:00:00",
-        "payroll_run_history['7627'][3].scheduledPayDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][3].scheduledRunDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][3].submittedBy": null,
-        "payroll_run_history['7627'][3].submittedDate": null,
-        "payroll_run_history['7627'][3].submittedTime": null,
-        "payroll_run_history['7627'][3].suppressPayStubEmailAlert": false
-      }
-    },
-    {
-      "key": "isolved:4046-5806:run:4100005",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "pay_run_id": "4100005"
-      },
-      "type": {
-        "raw": "Regular Payroll",
-        "label": null,
-        "value": "regular"
-      },
-      "status": {
-        "raw": "Completed Payroll Run",
-        "label": null,
-        "value": "completed"
-      },
-      "pay_date": "2026-02-06",
-      "period": null,
-      "description": null,
-      "pay_group": {
-        "raw": "7627",
-        "label": null,
-        "value": null
-      },
-      "unmapped": {
-        "payroll_run_history['7627'][4].impoundDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][4].inputMethod": "Time Entry",
-        "payroll_run_history['7627'][4].payPeriod": 26,
-        "payroll_run_history['7627'][4].processApprovedBy": null,
-        "payroll_run_history['7627'][4].processedBy": "synthetic",
-        "payroll_run_history['7627'][4].regularCheckAutoPay": false,
-        "payroll_run_history['7627'][4].runDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][4].runNumber": 1,
-        "payroll_run_history['7627'][4].runTime": "09:00:00",
-        "payroll_run_history['7627'][4].scheduledPayDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][4].scheduledRunDate": "2026-02-06T00:00:00",
-        "payroll_run_history['7627'][4].submittedBy": null,
-        "payroll_run_history['7627'][4].submittedDate": null,
-        "payroll_run_history['7627'][4].submittedTime": null,
-        "payroll_run_history['7627'][4].suppressPayStubEmailAlert": false
-      }
     }
   ],
   "paychecks": [
     {
-      "key": "isolved:4046-5806:859201:chk:21000101",
+      "key": "isolved:4046-5806:859201:chk:21010001",
       "employee_key": "isolved:4046-5806:859201",
       "company_key": "isolved:4046-5806",
       "source": {
         "provider": "isolved",
         "company_id": "4046-5806",
         "employee_id": "859201",
-        "paycheck_id": "21000101",
+        "paycheck_id": "21010001",
         "pay_run_id": "4100001"
       },
       "pay_run_key": "isolved:4046-5806:run:4100001",
@@ -280,13 +104,13 @@
         "start": "2025-12-22",
         "end": "2026-01-04"
       },
-      "check_number": "5001",
+      "check_number": "6000",
       "gross_pay": {
-        "amount": "1500.0",
+        "amount": "1000.0",
         "currency": "USD"
       },
       "net_pay": {
-        "amount": "1164.67",
+        "amount": "920.0",
         "currency": "USD"
       },
       "void_date": null,
@@ -301,48 +125,21 @@
           "hours": "80.0",
           "rate": null,
           "amount": {
-            "amount": "1450.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "results[0].earnings[0].id": 1,
-            "results[0].earnings[0].currentDollars": 1450.0,
+            "results[0].earnings[0].id": 3000,
+            "results[0].earnings[0].currentDollars": 1000.0,
             "results[0].earnings[0].ftdDollars": 0.0,
-            "results[0].earnings[0].mtdDollars": 1450.0,
-            "results[0].earnings[0].ptdDollars": 1450.0,
-            "results[0].earnings[0].qtdDollars": 1450.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
             "results[0].earnings[0].sequence": 1,
-            "results[0].earnings[0].ytdDollars": 1450.0,
+            "results[0].earnings[0].ytdDollars": 1000.0,
             "results[0].earnings[0].links": [],
             "results[0].earnings[0].checkUnits": 0.0,
             "results[0].earnings[0].labors": null
-          }
-        },
-        {
-          "code": {
-            "raw": "14",
-            "label": "Commission",
-            "value": null
-          },
-          "category": null,
-          "hours": "0.0",
-          "rate": null,
-          "amount": {
-            "amount": "50.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "results[0].earnings[1].id": 2,
-            "results[0].earnings[1].currentDollars": 50.0,
-            "results[0].earnings[1].ftdDollars": 0.0,
-            "results[0].earnings[1].mtdDollars": 50.0,
-            "results[0].earnings[1].ptdDollars": 50.0,
-            "results[0].earnings[1].qtdDollars": 50.0,
-            "results[0].earnings[1].sequence": 1,
-            "results[0].earnings[1].ytdDollars": 50.0,
-            "results[0].earnings[1].links": [],
-            "results[0].earnings[1].checkUnits": 0.0,
-            "results[0].earnings[1].labors": null
           }
         },
         {
@@ -363,17 +160,17 @@
             "currency": "USD"
           },
           "unmapped": {
-            "results[0].earnings[2].id": 3,
-            "results[0].earnings[2].currentDollars": 45.0,
-            "results[0].earnings[2].ftdDollars": 0.0,
-            "results[0].earnings[2].mtdDollars": 45.0,
-            "results[0].earnings[2].ptdDollars": 45.0,
-            "results[0].earnings[2].qtdDollars": 45.0,
-            "results[0].earnings[2].sequence": 1,
-            "results[0].earnings[2].ytdDollars": 45.0,
-            "results[0].earnings[2].links": [],
-            "results[0].earnings[2].checkUnits": 0.0,
-            "results[0].earnings[2].labors": null
+            "results[0].earnings[1].id": 3001,
+            "results[0].earnings[1].currentDollars": 45.0,
+            "results[0].earnings[1].ftdDollars": 0.0,
+            "results[0].earnings[1].mtdDollars": 45.0,
+            "results[0].earnings[1].ptdDollars": 45.0,
+            "results[0].earnings[1].qtdDollars": 45.0,
+            "results[0].earnings[1].sequence": 1,
+            "results[0].earnings[1].ytdDollars": 45.0,
+            "results[0].earnings[1].links": [],
+            "results[0].earnings[1].checkUnits": 0.0,
+            "results[0].earnings[1].labors": null
           }
         }
       ],
@@ -385,24 +182,24 @@
             "value": null
           },
           "employee_amount": {
-            "amount": "120.0",
+            "amount": "80.0",
             "currency": "USD"
           },
           "employer_amount": null,
           "employee_taxable_wages": {
-            "amount": "1334.67",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "employer_taxable_wages": null,
           "unmapped": {
-            "results[0].taxes[0].id": 11,
-            "results[0].taxes[0].currentDollars": 120.0,
+            "results[0].taxes[0].id": 4000,
+            "results[0].taxes[0].currentDollars": 80.0,
             "results[0].taxes[0].ftdDollars": 0.0,
-            "results[0].taxes[0].mtdDollars": 120.0,
-            "results[0].taxes[0].ptdDollars": 120.0,
-            "results[0].taxes[0].qtdDollars": 120.0,
+            "results[0].taxes[0].mtdDollars": 80.0,
+            "results[0].taxes[0].ptdDollars": 80.0,
+            "results[0].taxes[0].qtdDollars": 80.0,
             "results[0].taxes[0].sequence": 1,
-            "results[0].taxes[0].ytdDollars": 120.0,
+            "results[0].taxes[0].ytdDollars": 80.0,
             "results[0].taxes[0].links": []
           }
         },
@@ -414,23 +211,23 @@
           },
           "employee_amount": null,
           "employer_amount": {
-            "amount": "93.0",
+            "amount": "62.0",
             "currency": "USD"
           },
           "employee_taxable_wages": null,
           "employer_taxable_wages": {
-            "amount": "1500.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "results[0].taxes[1].id": 12,
-            "results[0].taxes[1].currentDollars": 93.0,
+            "results[0].taxes[1].id": 4001,
+            "results[0].taxes[1].currentDollars": 62.0,
             "results[0].taxes[1].ftdDollars": 0.0,
-            "results[0].taxes[1].mtdDollars": 93.0,
-            "results[0].taxes[1].ptdDollars": 93.0,
-            "results[0].taxes[1].qtdDollars": 93.0,
+            "results[0].taxes[1].mtdDollars": 62.0,
+            "results[0].taxes[1].ptdDollars": 62.0,
+            "results[0].taxes[1].qtdDollars": 62.0,
             "results[0].taxes[1].sequence": 1,
-            "results[0].taxes[1].ytdDollars": 93.0,
+            "results[0].taxes[1].ytdDollars": 62.0,
             "results[0].taxes[1].links": []
           }
         }
@@ -444,65 +241,19 @@
           },
           "category": null,
           "amount": {
-            "amount": "90.33",
+            "amount": "40.0",
             "currency": "USD"
           },
           "unmapped": {
-            "results[0].deductions[0].id": 4,
-            "results[0].deductions[0].currentDollars": 90.33,
+            "results[0].deductions[0].id": 3002,
+            "results[0].deductions[0].currentDollars": 40.0,
             "results[0].deductions[0].ftdDollars": 0.0,
-            "results[0].deductions[0].mtdDollars": 90.33,
-            "results[0].deductions[0].ptdDollars": 90.33,
-            "results[0].deductions[0].qtdDollars": 90.33,
+            "results[0].deductions[0].mtdDollars": 40.0,
+            "results[0].deductions[0].ptdDollars": 40.0,
+            "results[0].deductions[0].qtdDollars": 40.0,
             "results[0].deductions[0].sequence": 1,
-            "results[0].deductions[0].ytdDollars": 90.33,
+            "results[0].deductions[0].ytdDollars": 40.0,
             "results[0].deductions[0].links": []
-          }
-        },
-        {
-          "code": {
-            "raw": "32",
-            "label": "401K",
-            "value": null
-          },
-          "category": null,
-          "amount": {
-            "amount": "75.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "results[0].deductions[1].id": 5,
-            "results[0].deductions[1].currentDollars": 75.0,
-            "results[0].deductions[1].ftdDollars": 0.0,
-            "results[0].deductions[1].mtdDollars": 75.0,
-            "results[0].deductions[1].ptdDollars": 75.0,
-            "results[0].deductions[1].qtdDollars": 75.0,
-            "results[0].deductions[1].sequence": 1,
-            "results[0].deductions[1].ytdDollars": 75.0,
-            "results[0].deductions[1].links": []
-          }
-        },
-        {
-          "code": {
-            "raw": "GARN",
-            "label": "Child Support",
-            "value": null
-          },
-          "category": null,
-          "amount": {
-            "amount": "50.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "results[0].garnishments[0].id": 6,
-            "results[0].garnishments[0].currentDollars": 50.0,
-            "results[0].garnishments[0].ftdDollars": 0.0,
-            "results[0].garnishments[0].mtdDollars": 50.0,
-            "results[0].garnishments[0].ptdDollars": 50.0,
-            "results[0].garnishments[0].qtdDollars": 50.0,
-            "results[0].garnishments[0].sequence": 1,
-            "results[0].garnishments[0].ytdDollars": 50.0,
-            "results[0].garnishments[0].links": []
           }
         }
       ],
@@ -521,9 +272,9 @@
             "results[0].benefits[0].benefitDescription": "401(k) plan",
             "results[0].benefits[0].checkEligibleWages": 1500.0,
             "results[0].benefits[0].checkEmployeeCatchUp": 0.0,
-            "results[0].benefits[0].checkEmployeeDeduction": 75.0,
+            "results[0].benefits[0].checkEmployeeDeduction": 40.0,
             "results[0].benefits[0].checkMatchEligibleWages": 0.0,
-            "results[0].benefits[0].ytdEmployeeDeduction": 75.0,
+            "results[0].benefits[0].ytdEmployeeDeduction": 40.0,
             "results[0].benefits[0].ytdEmployerContribution": 45.0
           }
         }
@@ -536,12 +287,12 @@
             "value": "direct_deposit"
           },
           "amount": {
-            "amount": "1164.67",
+            "amount": "920.0",
             "currency": "USD"
           },
           "account_last4": "4321",
           "unmapped": {
-            "results[0].directDeposits[0].id": 7,
+            "results[0].directDeposits[0].id": 3003,
             "results[0].directDeposits[0].itemDescription": "Checking",
             "results[0].directDeposits[0].links": []
           }
@@ -549,25 +300,16 @@
       ],
       "unmapped": {
         "results[0].accruals": null,
-        "results[0].benefits[1].benefitDescription": "Leave Accrual plan",
-        "results[0].benefits[1].benefitTitle": "Leave Accrual",
-        "results[0].benefits[1].checkEligibleWages": 1500.0,
-        "results[0].benefits[1].checkEmployeeCatchUp": 0.0,
-        "results[0].benefits[1].checkEmployeeDeduction": 0.0,
-        "results[0].benefits[1].checkEmployerContribution": 0.0,
-        "results[0].benefits[1].checkMatchEligibleWages": 0.0,
-        "results[0].benefits[1].ytdEmployeeDeduction": 0.0,
-        "results[0].benefits[1].ytdEmployerContribution": 0.0,
         "results[0].checkAmount": 0.0,
         "results[0].checkSequence": 1,
-        "results[0].directDepositAmount": 1164.67,
+        "results[0].directDepositAmount": 920.0,
         "results[0].employeeAddress1": "2229 Birch Ct",
         "results[0].employeeAddress2": null,
         "results[0].employeeCity": "Springfield",
         "results[0].employeeFederalAddlAmountOrPercent": "0",
         "results[0].employeeFederalExemptions": 0,
         "results[0].employeeFederalFilingStatus": "Single",
-        "results[0].employeeName": "Whitfield, Casey",
+        "results[0].employeeName": "Vance, Phyllis",
         "results[0].employeeNumber": "1",
         "results[0].employeeOrganizations": [],
         "results[0].employeeSSN": "[redacted]",
@@ -576,7 +318,7 @@
         "results[0].employeeStateExemptions": 0,
         "results[0].employeeStateFilingStatus": "Single",
         "results[0].employeeZipCode": "62704",
-        "results[0].grossWages": 1500.0,
+        "results[0].grossWages": 1000.0,
         "results[0].isRemoteWorker": false,
         "results[0].legalCompanyName": "Synthetic Legal Co",
         "results[0].payrollRunNumber": 1,
@@ -588,37 +330,40 @@
         "results[0].vertexResidentGeoCode": "UT0350270",
         "results[0].vertexSchoolDistrictCode": 0,
         "results[0].vertexWorkGeoCode": "UT0350270",
-        "results[0].voucherNumber": "V21000101",
+        "results[0].voucherNumber": "V21010001",
         "results[0].links": []
       }
     },
     {
-      "key": "isolved:4046-5806:859201:chk:21000102",
-      "employee_key": "isolved:4046-5806:859201",
+      "key": "isolved:4046-5806:859202:chk:21010002",
+      "employee_key": "isolved:4046-5806:859202",
       "company_key": "isolved:4046-5806",
       "source": {
         "provider": "isolved",
         "company_id": "4046-5806",
-        "employee_id": "859201",
-        "paycheck_id": "21000102",
-        "pay_run_id": "4100002"
+        "employee_id": "859202",
+        "paycheck_id": "21010002",
+        "pay_run_id": "4100001"
       },
-      "pay_run_key": "isolved:4046-5806:run:4100002",
+      "pay_run_key": "isolved:4046-5806:run:4100001",
       "type": {
         "raw": "Adjustment",
         "label": null,
         "value": "adjustment"
       },
       "status": null,
-      "pay_date": "2026-01-23",
-      "period": null,
-      "check_number": "5002",
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-22",
+        "end": "2026-01-04"
+      },
+      "check_number": "6001",
       "gross_pay": {
-        "amount": "1080.0",
+        "amount": "1000.0",
         "currency": "USD"
       },
       "net_pay": {
-        "amount": "1080.0",
+        "amount": "920.0",
         "currency": "USD"
       },
       "void_date": null,
@@ -633,130 +378,18 @@
           "hours": "80.0",
           "rate": null,
           "amount": {
-            "amount": "1080.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "results[1].earnings[0].id": 8,
-            "results[1].earnings[0].currentDollars": 1080.0,
-            "results[1].earnings[0].ftdDollars": 0.0,
-            "results[1].earnings[0].mtdDollars": 1080.0,
-            "results[1].earnings[0].ptdDollars": 1080.0,
-            "results[1].earnings[0].qtdDollars": 1080.0,
-            "results[1].earnings[0].sequence": 1,
-            "results[1].earnings[0].ytdDollars": 1080.0,
-            "results[1].earnings[0].links": [],
-            "results[1].earnings[0].checkUnits": 0.0,
-            "results[1].earnings[0].labors": null
-          }
-        }
-      ],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [
-        {
-          "method": {
-            "raw": null,
-            "label": "checkAmount",
-            "value": "check"
-          },
-          "amount": {
-            "amount": "1080.0",
-            "currency": "USD"
-          },
-          "account_last4": null,
-          "unmapped": {}
-        }
-      ],
-      "unmapped": {
-        "results[1].accruals": null,
-        "results[1].checkSequence": 1,
-        "results[1].directDepositAmount": 0.0,
-        "results[1].employeeAddress1": "2229 Birch Ct",
-        "results[1].employeeAddress2": null,
-        "results[1].employeeCity": "Springfield",
-        "results[1].employeeFederalAddlAmountOrPercent": "0",
-        "results[1].employeeFederalExemptions": 0,
-        "results[1].employeeFederalFilingStatus": "Single",
-        "results[1].employeeName": "Whitfield, Casey",
-        "results[1].employeeNumber": "1",
-        "results[1].employeeOrganizations": null,
-        "results[1].employeeSSN": "[redacted]",
-        "results[1].employeeState": "IL",
-        "results[1].employeeStateAddlAmountOrPercent": "0",
-        "results[1].employeeStateExemptions": 0,
-        "results[1].employeeStateFilingStatus": "Single",
-        "results[1].employeeZipCode": "62704",
-        "results[1].grossWages": 1080.0,
-        "results[1].isRemoteWorker": false,
-        "results[1].legalCompanyName": "Synthetic Legal Co",
-        "results[1].payrollRunNumber": 0,
-        "results[1].payrollRunType": "Regular Payroll",
-        "results[1].reissueCheckDate": "2026-01-27T00:00:00",
-        "results[1].reissueCheckNumber": 5010,
-        "results[1].taxCategories[0].taxCategoryId": "FEDWT",
-        "results[1].taxCategories[0].description": "FEDERAL WH",
-        "results[1].vertexResidentGeoCode": "UT0350270",
-        "results[1].vertexSchoolDistrictCode": 0,
-        "results[1].vertexWorkGeoCode": "UT0350270",
-        "results[1].voucherNumber": "V21000102",
-        "results[1].links": []
-      }
-    },
-    {
-      "key": "isolved:4046-5806:859202:chk:21000201",
-      "employee_key": "isolved:4046-5806:859202",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "employee_id": "859202",
-        "paycheck_id": "21000201",
-        "pay_run_id": null
-      },
-      "pay_run_key": null,
-      "type": {
-        "raw": "Manual Check",
-        "label": null,
-        "value": "unknown"
-      },
-      "status": null,
-      "pay_date": "2026-02-06",
-      "period": null,
-      "check_number": "5101",
-      "gross_pay": {
-        "amount": "400.0",
-        "currency": "USD"
-      },
-      "net_pay": {
-        "amount": "360.32",
-        "currency": "USD"
-      },
-      "void_date": null,
-      "earnings": [
-        {
-          "code": {
-            "raw": "01",
-            "label": "Regular",
-            "value": null
-          },
-          "category": null,
-          "hours": "16.0",
-          "rate": null,
-          "amount": {
-            "amount": "400.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "results[0].earnings[0].id": 9,
-            "results[0].earnings[0].currentDollars": 400.0,
+            "results[0].earnings[0].id": 3001,
+            "results[0].earnings[0].currentDollars": 1000.0,
             "results[0].earnings[0].ftdDollars": 0.0,
-            "results[0].earnings[0].mtdDollars": 400.0,
-            "results[0].earnings[0].ptdDollars": 400.0,
-            "results[0].earnings[0].qtdDollars": 400.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
             "results[0].earnings[0].sequence": 1,
-            "results[0].earnings[0].ytdDollars": 400.0,
+            "results[0].earnings[0].ytdDollars": 1000.0,
             "results[0].earnings[0].links": [],
             "results[0].earnings[0].checkUnits": 0.0,
             "results[0].earnings[0].labors": null
@@ -770,23 +403,26 @@
             "label": "FEDERAL WH",
             "value": null
           },
-          "employee_amount": null,
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
           "employer_amount": null,
-          "employee_taxable_wages": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
           "employer_taxable_wages": null,
           "unmapped": {
-            "results[0].taxes[0].id": 13,
-            "results[0].taxes[0].checkDollars": 39.68,
-            "results[0].taxes[0].currentDollars": 39.68,
+            "results[0].taxes[0].id": 4001,
+            "results[0].taxes[0].currentDollars": 80.0,
             "results[0].taxes[0].ftdDollars": 0.0,
-            "results[0].taxes[0].mtdDollars": 39.68,
-            "results[0].taxes[0].ptdDollars": 39.68,
-            "results[0].taxes[0].qtdDollars": 39.68,
+            "results[0].taxes[0].mtdDollars": 80.0,
+            "results[0].taxes[0].ptdDollars": 80.0,
+            "results[0].taxes[0].qtdDollars": 80.0,
             "results[0].taxes[0].sequence": 1,
-            "results[0].taxes[0].ytdDollars": 39.68,
-            "results[0].taxes[0].links": [],
-            "results[0].taxes[0].isEmployeeTax": "yes",
-            "results[0].taxes[0].checkTaxableWages": 400.0
+            "results[0].taxes[0].ytdDollars": 80.0,
+            "results[0].taxes[0].links": []
           }
         }
       ],
@@ -796,11 +432,11 @@
         {
           "method": {
             "raw": null,
-            "label": "checkAmount",
-            "value": "check"
+            "label": "directDepositAmount",
+            "value": "direct_deposit"
           },
           "amount": {
-            "amount": "360.32",
+            "amount": "920.0",
             "currency": "USD"
           },
           "account_last4": null,
@@ -810,24 +446,24 @@
       "unmapped": {
         "results[0].accruals": null,
         "results[0].benefits": [],
+        "results[0].checkAmount": 0.0,
         "results[0].checkSequence": 1,
-        "results[0].directDepositAmount": 0.0,
-        "results[0].employeeAddress1": "6839 Cedar Ln",
+        "results[0].employeeAddress1": "5648 Granite St",
         "results[0].employeeAddress2": null,
-        "results[0].employeeCity": "Georgetown",
+        "results[0].employeeCity": "Madison",
         "results[0].employeeFederalAddlAmountOrPercent": "0",
         "results[0].employeeFederalExemptions": 0,
         "results[0].employeeFederalFilingStatus": "Single",
-        "results[0].employeeName": "Haddad, Casey",
+        "results[0].employeeName": "Bratton, Creed",
         "results[0].employeeNumber": "2",
         "results[0].employeeOrganizations": [],
         "results[0].employeeSSN": "[redacted]",
-        "results[0].employeeState": "TX",
+        "results[0].employeeState": "WI",
         "results[0].employeeStateAddlAmountOrPercent": "0",
         "results[0].employeeStateExemptions": 0,
         "results[0].employeeStateFilingStatus": "Single",
-        "results[0].employeeZipCode": "78626",
-        "results[0].grossWages": 400.0,
+        "results[0].employeeZipCode": "53703",
+        "results[0].grossWages": 1000.0,
         "results[0].isRemoteWorker": false,
         "results[0].legalCompanyName": "Synthetic Legal Co",
         "results[0].payrollRunNumber": 1,
@@ -839,106 +475,22 @@
         "results[0].vertexResidentGeoCode": "UT0350270",
         "results[0].vertexSchoolDistrictCode": 0,
         "results[0].vertexWorkGeoCode": "UT0350270",
-        "results[0].voucherNumber": "V21000201",
+        "results[0].voucherNumber": "V21010002",
         "results[0].links": []
       }
     },
     {
-      "key": "isolved:4046-5806:859203:chk:21000301",
+      "key": "isolved:4046-5806:859203:chk:21010003",
       "employee_key": "isolved:4046-5806:859203",
       "company_key": "isolved:4046-5806",
       "source": {
         "provider": "isolved",
         "company_id": "4046-5806",
         "employee_id": "859203",
-        "paycheck_id": "21000301",
-        "pay_run_id": null
+        "paycheck_id": "21010003",
+        "pay_run_id": "4100001"
       },
-      "pay_run_key": null,
-      "type": {
-        "raw": "Adjustment",
-        "label": null,
-        "value": "adjustment"
-      },
-      "status": null,
-      "pay_date": "2026-03-06",
-      "period": null,
-      "check_number": "5201",
-      "gross_pay": {
-        "amount": "190.0",
-        "currency": "USD"
-      },
-      "net_pay": {
-        "amount": "190.0",
-        "currency": "USD"
-      },
-      "void_date": null,
-      "earnings": [],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [
-        {
-          "method": {
-            "raw": null,
-            "label": "directDepositAmount",
-            "value": "direct_deposit"
-          },
-          "amount": {
-            "amount": "190.0",
-            "currency": "USD"
-          },
-          "account_last4": null,
-          "unmapped": {}
-        }
-      ],
-      "unmapped": {
-        "results[0].accruals": null,
-        "results[0].checkAmount": 0.0,
-        "results[0].checkSequence": 1,
-        "results[0].employeeAddress1": "1854 Birch Ct",
-        "results[0].employeeAddress2": null,
-        "results[0].employeeCity": "Springfield",
-        "results[0].employeeFederalAddlAmountOrPercent": "0",
-        "results[0].employeeFederalExemptions": 0,
-        "results[0].employeeFederalFilingStatus": "Single",
-        "results[0].employeeName": "Petrov, Reese",
-        "results[0].employeeNumber": "3",
-        "results[0].employeeOrganizations": null,
-        "results[0].employeeSSN": "[redacted]",
-        "results[0].employeeState": "IL",
-        "results[0].employeeStateAddlAmountOrPercent": "0",
-        "results[0].employeeStateExemptions": 0,
-        "results[0].employeeStateFilingStatus": "Single",
-        "results[0].employeeZipCode": "62704",
-        "results[0].grossWages": 190.0,
-        "results[0].isRemoteWorker": false,
-        "results[0].legalCompanyName": "Synthetic Legal Co",
-        "results[0].payrollRunNumber": 9,
-        "results[0].payrollRunType": "Regular Payroll",
-        "results[0].reissueCheckDate": null,
-        "results[0].reissueCheckNumber": null,
-        "results[0].taxCategories[0].taxCategoryId": "FEDWT",
-        "results[0].taxCategories[0].description": "FEDERAL WH",
-        "results[0].vertexResidentGeoCode": "UT0350270",
-        "results[0].vertexSchoolDistrictCode": 0,
-        "results[0].vertexWorkGeoCode": "UT0350270",
-        "results[0].voucherNumber": "V21000301",
-        "results[0].links": []
-      }
-    },
-    {
-      "key": "isolved:4046-5806:859206:chk:21000601",
-      "employee_key": "isolved:4046-5806:859206",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "employee_id": "859206",
-        "paycheck_id": "21000601",
-        "pay_run_id": "4100003"
-      },
-      "pay_run_key": "isolved:4046-5806:run:4100003",
+      "pay_run_key": "isolved:4046-5806:run:4100001",
       "type": {
         "raw": "Adjustment",
         "label": null,
@@ -946,14 +498,17 @@
       },
       "status": null,
       "pay_date": "2026-01-09",
-      "period": null,
-      "check_number": "5601",
+      "period": {
+        "start": "2025-12-22",
+        "end": "2026-01-04"
+      },
+      "check_number": "6002",
       "gross_pay": {
-        "amount": "300.0",
+        "amount": "1000.0",
         "currency": "USD"
       },
       "net_pay": {
-        "amount": "300.0",
+        "amount": "920.0",
         "currency": "USD"
       },
       "void_date": null,
@@ -965,21 +520,746 @@
             "value": null
           },
           "category": null,
-          "hours": "12.0",
+          "hours": "80.0",
           "rate": null,
           "amount": {
-            "amount": "300.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "results[0].earnings[0].id": 10,
-            "results[0].earnings[0].currentDollars": 300.0,
+            "results[0].earnings[0].id": 3002,
+            "results[0].earnings[0].currentDollars": 1000.0,
             "results[0].earnings[0].ftdDollars": 0.0,
-            "results[0].earnings[0].mtdDollars": 300.0,
-            "results[0].earnings[0].ptdDollars": 300.0,
-            "results[0].earnings[0].qtdDollars": 300.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
             "results[0].earnings[0].sequence": 1,
-            "results[0].earnings[0].ytdDollars": 300.0,
+            "results[0].earnings[0].ytdDollars": 1000.0,
+            "results[0].earnings[0].links": [],
+            "results[0].earnings[0].checkUnits": 0.0,
+            "results[0].earnings[0].labors": null
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": null,
+            "label": "FEDERAL WH",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "results[0].taxes[0].id": 4002,
+            "results[0].taxes[0].currentDollars": 80.0,
+            "results[0].taxes[0].ftdDollars": 0.0,
+            "results[0].taxes[0].mtdDollars": 80.0,
+            "results[0].taxes[0].ptdDollars": 80.0,
+            "results[0].taxes[0].qtdDollars": 80.0,
+            "results[0].taxes[0].sequence": 1,
+            "results[0].taxes[0].ytdDollars": 80.0,
+            "results[0].taxes[0].links": []
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [
+        {
+          "method": {
+            "raw": null,
+            "label": "directDepositAmount",
+            "value": "direct_deposit"
+          },
+          "amount": {
+            "amount": "920.0",
+            "currency": "USD"
+          },
+          "account_last4": null,
+          "unmapped": {}
+        }
+      ],
+      "unmapped": {
+        "results[0].accruals": null,
+        "results[0].benefits": [],
+        "results[0].checkAmount": 0.0,
+        "results[0].checkSequence": 1,
+        "results[0].employeeAddress1": "4048 Cedar Ln",
+        "results[0].employeeAddress2": null,
+        "results[0].employeeCity": "Fairview",
+        "results[0].employeeFederalAddlAmountOrPercent": "0",
+        "results[0].employeeFederalExemptions": 0,
+        "results[0].employeeFederalFilingStatus": "Single",
+        "results[0].employeeName": "Palmer, Meredith",
+        "results[0].employeeNumber": "3",
+        "results[0].employeeOrganizations": [],
+        "results[0].employeeSSN": "[redacted]",
+        "results[0].employeeState": "OR",
+        "results[0].employeeStateAddlAmountOrPercent": "0",
+        "results[0].employeeStateExemptions": 0,
+        "results[0].employeeStateFilingStatus": "Single",
+        "results[0].employeeZipCode": "97024",
+        "results[0].grossWages": 1000.0,
+        "results[0].isRemoteWorker": false,
+        "results[0].legalCompanyName": "Synthetic Legal Co",
+        "results[0].payrollRunNumber": 1,
+        "results[0].payrollRunType": "Regular Payroll",
+        "results[0].reissueCheckDate": null,
+        "results[0].reissueCheckNumber": null,
+        "results[0].taxCategories[0].taxCategoryId": "FEDWT",
+        "results[0].taxCategories[0].description": "FEDERAL WH",
+        "results[0].vertexResidentGeoCode": "UT0350270",
+        "results[0].vertexSchoolDistrictCode": 0,
+        "results[0].vertexWorkGeoCode": "UT0350270",
+        "results[0].voucherNumber": "V21010003",
+        "results[0].links": []
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859204:chk:21010004",
+      "employee_key": "isolved:4046-5806:859204",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859204",
+        "paycheck_id": "21010004",
+        "pay_run_id": "4100001"
+      },
+      "pay_run_key": "isolved:4046-5806:run:4100001",
+      "type": {
+        "raw": "Adjustment",
+        "label": null,
+        "value": "adjustment"
+      },
+      "status": null,
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-22",
+        "end": "2026-01-04"
+      },
+      "check_number": "6003",
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "01",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.0",
+          "rate": null,
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "results[0].earnings[0].id": 3003,
+            "results[0].earnings[0].currentDollars": 1000.0,
+            "results[0].earnings[0].ftdDollars": 0.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
+            "results[0].earnings[0].sequence": 1,
+            "results[0].earnings[0].ytdDollars": 1000.0,
+            "results[0].earnings[0].links": [],
+            "results[0].earnings[0].checkUnits": 0.0,
+            "results[0].earnings[0].labors": null
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": null,
+            "label": "FEDERAL WH",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "results[0].taxes[0].id": 4003,
+            "results[0].taxes[0].currentDollars": 80.0,
+            "results[0].taxes[0].ftdDollars": 0.0,
+            "results[0].taxes[0].mtdDollars": 80.0,
+            "results[0].taxes[0].ptdDollars": 80.0,
+            "results[0].taxes[0].qtdDollars": 80.0,
+            "results[0].taxes[0].sequence": 1,
+            "results[0].taxes[0].ytdDollars": 80.0,
+            "results[0].taxes[0].links": []
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [
+        {
+          "method": {
+            "raw": null,
+            "label": "directDepositAmount",
+            "value": "direct_deposit"
+          },
+          "amount": {
+            "amount": "920.0",
+            "currency": "USD"
+          },
+          "account_last4": null,
+          "unmapped": {}
+        }
+      ],
+      "unmapped": {
+        "results[0].accruals": null,
+        "results[0].benefits": [],
+        "results[0].checkAmount": 0.0,
+        "results[0].checkSequence": 1,
+        "results[0].employeeAddress1": "7164 Birch Ct",
+        "results[0].employeeAddress2": null,
+        "results[0].employeeCity": "Georgetown",
+        "results[0].employeeFederalAddlAmountOrPercent": "0",
+        "results[0].employeeFederalExemptions": 0,
+        "results[0].employeeFederalFilingStatus": "Single",
+        "results[0].employeeName": "Howard, Ryan",
+        "results[0].employeeNumber": "4",
+        "results[0].employeeOrganizations": [],
+        "results[0].employeeSSN": "[redacted]",
+        "results[0].employeeState": "TX",
+        "results[0].employeeStateAddlAmountOrPercent": "0",
+        "results[0].employeeStateExemptions": 0,
+        "results[0].employeeStateFilingStatus": "Single",
+        "results[0].employeeZipCode": "78626",
+        "results[0].grossWages": 1000.0,
+        "results[0].isRemoteWorker": false,
+        "results[0].legalCompanyName": "Synthetic Legal Co",
+        "results[0].payrollRunNumber": 1,
+        "results[0].payrollRunType": "Regular Payroll",
+        "results[0].reissueCheckDate": null,
+        "results[0].reissueCheckNumber": null,
+        "results[0].taxCategories[0].taxCategoryId": "FEDWT",
+        "results[0].taxCategories[0].description": "FEDERAL WH",
+        "results[0].vertexResidentGeoCode": "UT0350270",
+        "results[0].vertexSchoolDistrictCode": 0,
+        "results[0].vertexWorkGeoCode": "UT0350270",
+        "results[0].voucherNumber": "V21010004",
+        "results[0].links": []
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859205:chk:21010005",
+      "employee_key": "isolved:4046-5806:859205",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859205",
+        "paycheck_id": "21010005",
+        "pay_run_id": "4100001"
+      },
+      "pay_run_key": "isolved:4046-5806:run:4100001",
+      "type": {
+        "raw": "Adjustment",
+        "label": null,
+        "value": "adjustment"
+      },
+      "status": null,
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-22",
+        "end": "2026-01-04"
+      },
+      "check_number": "6004",
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "01",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.0",
+          "rate": null,
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "results[0].earnings[0].id": 3004,
+            "results[0].earnings[0].currentDollars": 1000.0,
+            "results[0].earnings[0].ftdDollars": 0.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
+            "results[0].earnings[0].sequence": 1,
+            "results[0].earnings[0].ytdDollars": 1000.0,
+            "results[0].earnings[0].links": [],
+            "results[0].earnings[0].checkUnits": 0.0,
+            "results[0].earnings[0].labors": null
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": null,
+            "label": "FEDERAL WH",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "results[0].taxes[0].id": 4004,
+            "results[0].taxes[0].currentDollars": 80.0,
+            "results[0].taxes[0].ftdDollars": 0.0,
+            "results[0].taxes[0].mtdDollars": 80.0,
+            "results[0].taxes[0].ptdDollars": 80.0,
+            "results[0].taxes[0].qtdDollars": 80.0,
+            "results[0].taxes[0].sequence": 1,
+            "results[0].taxes[0].ytdDollars": 80.0,
+            "results[0].taxes[0].links": []
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [
+        {
+          "method": {
+            "raw": null,
+            "label": "directDepositAmount",
+            "value": "direct_deposit"
+          },
+          "amount": {
+            "amount": "920.0",
+            "currency": "USD"
+          },
+          "account_last4": null,
+          "unmapped": {}
+        }
+      ],
+      "unmapped": {
+        "results[0].accruals": null,
+        "results[0].benefits": [],
+        "results[0].checkAmount": 0.0,
+        "results[0].checkSequence": 1,
+        "results[0].employeeAddress1": "3591 Birch Ct",
+        "results[0].employeeAddress2": null,
+        "results[0].employeeCity": "Clayton",
+        "results[0].employeeFederalAddlAmountOrPercent": "0",
+        "results[0].employeeFederalExemptions": 0,
+        "results[0].employeeFederalFilingStatus": "Single",
+        "results[0].employeeName": "Kapoor, Kelly",
+        "results[0].employeeNumber": "5",
+        "results[0].employeeOrganizations": [],
+        "results[0].employeeSSN": "[redacted]",
+        "results[0].employeeState": "MO",
+        "results[0].employeeStateAddlAmountOrPercent": "0",
+        "results[0].employeeStateExemptions": 0,
+        "results[0].employeeStateFilingStatus": "Single",
+        "results[0].employeeZipCode": "63105",
+        "results[0].grossWages": 1000.0,
+        "results[0].isRemoteWorker": false,
+        "results[0].legalCompanyName": "Synthetic Legal Co",
+        "results[0].payrollRunNumber": 1,
+        "results[0].payrollRunType": "Regular Payroll",
+        "results[0].reissueCheckDate": null,
+        "results[0].reissueCheckNumber": null,
+        "results[0].taxCategories[0].taxCategoryId": "FEDWT",
+        "results[0].taxCategories[0].description": "FEDERAL WH",
+        "results[0].vertexResidentGeoCode": "UT0350270",
+        "results[0].vertexSchoolDistrictCode": 0,
+        "results[0].vertexWorkGeoCode": "UT0350270",
+        "results[0].voucherNumber": "V21010005",
+        "results[0].links": []
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859206:chk:21010006",
+      "employee_key": "isolved:4046-5806:859206",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859206",
+        "paycheck_id": "21010006",
+        "pay_run_id": "4100001"
+      },
+      "pay_run_key": "isolved:4046-5806:run:4100001",
+      "type": {
+        "raw": "Adjustment",
+        "label": null,
+        "value": "adjustment"
+      },
+      "status": null,
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-22",
+        "end": "2026-01-04"
+      },
+      "check_number": "6005",
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "01",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.0",
+          "rate": null,
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "results[0].earnings[0].id": 3005,
+            "results[0].earnings[0].currentDollars": 1000.0,
+            "results[0].earnings[0].ftdDollars": 0.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
+            "results[0].earnings[0].sequence": 1,
+            "results[0].earnings[0].ytdDollars": 1000.0,
+            "results[0].earnings[0].links": [],
+            "results[0].earnings[0].checkUnits": 0.0,
+            "results[0].earnings[0].labors": null
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": null,
+            "label": "FEDERAL WH",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "results[0].taxes[0].id": 4005,
+            "results[0].taxes[0].currentDollars": 80.0,
+            "results[0].taxes[0].ftdDollars": 0.0,
+            "results[0].taxes[0].mtdDollars": 80.0,
+            "results[0].taxes[0].ptdDollars": 80.0,
+            "results[0].taxes[0].qtdDollars": 80.0,
+            "results[0].taxes[0].sequence": 1,
+            "results[0].taxes[0].ytdDollars": 80.0,
+            "results[0].taxes[0].links": []
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [
+        {
+          "method": {
+            "raw": null,
+            "label": "directDepositAmount",
+            "value": "direct_deposit"
+          },
+          "amount": {
+            "amount": "920.0",
+            "currency": "USD"
+          },
+          "account_last4": null,
+          "unmapped": {}
+        }
+      ],
+      "unmapped": {
+        "results[0].accruals": null,
+        "results[0].benefits": [],
+        "results[0].checkAmount": 0.0,
+        "results[0].checkSequence": 1,
+        "results[0].employeeAddress1": "994 Granite St",
+        "results[0].employeeAddress2": null,
+        "results[0].employeeCity": "Riverton",
+        "results[0].employeeFederalAddlAmountOrPercent": "0",
+        "results[0].employeeFederalExemptions": 0,
+        "results[0].employeeFederalFilingStatus": "Single",
+        "results[0].employeeName": "Flenderson, Toby",
+        "results[0].employeeNumber": "6",
+        "results[0].employeeOrganizations": [],
+        "results[0].employeeSSN": "[redacted]",
+        "results[0].employeeState": "UT",
+        "results[0].employeeStateAddlAmountOrPercent": "0",
+        "results[0].employeeStateExemptions": 0,
+        "results[0].employeeStateFilingStatus": "Single",
+        "results[0].employeeZipCode": "84065",
+        "results[0].grossWages": 1000.0,
+        "results[0].isRemoteWorker": false,
+        "results[0].legalCompanyName": "Synthetic Legal Co",
+        "results[0].payrollRunNumber": 1,
+        "results[0].payrollRunType": "Regular Payroll",
+        "results[0].reissueCheckDate": null,
+        "results[0].reissueCheckNumber": null,
+        "results[0].taxCategories[0].taxCategoryId": "FEDWT",
+        "results[0].taxCategories[0].description": "FEDERAL WH",
+        "results[0].vertexResidentGeoCode": "UT0350270",
+        "results[0].vertexSchoolDistrictCode": 0,
+        "results[0].vertexWorkGeoCode": "UT0350270",
+        "results[0].voucherNumber": "V21010006",
+        "results[0].links": []
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859207:chk:21010007",
+      "employee_key": "isolved:4046-5806:859207",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859207",
+        "paycheck_id": "21010007",
+        "pay_run_id": "4100001"
+      },
+      "pay_run_key": "isolved:4046-5806:run:4100001",
+      "type": {
+        "raw": "Adjustment",
+        "label": null,
+        "value": "adjustment"
+      },
+      "status": null,
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-22",
+        "end": "2026-01-04"
+      },
+      "check_number": "6006",
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "01",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.0",
+          "rate": null,
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "results[0].earnings[0].id": 3006,
+            "results[0].earnings[0].currentDollars": 1000.0,
+            "results[0].earnings[0].ftdDollars": 0.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
+            "results[0].earnings[0].sequence": 1,
+            "results[0].earnings[0].ytdDollars": 1000.0,
+            "results[0].earnings[0].links": [],
+            "results[0].earnings[0].checkUnits": 0.0,
+            "results[0].earnings[0].labors": null
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": null,
+            "label": "FEDERAL WH",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "results[0].taxes[0].id": 4006,
+            "results[0].taxes[0].currentDollars": 80.0,
+            "results[0].taxes[0].ftdDollars": 0.0,
+            "results[0].taxes[0].mtdDollars": 80.0,
+            "results[0].taxes[0].ptdDollars": 80.0,
+            "results[0].taxes[0].qtdDollars": 80.0,
+            "results[0].taxes[0].sequence": 1,
+            "results[0].taxes[0].ytdDollars": 80.0,
+            "results[0].taxes[0].links": []
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [
+        {
+          "method": {
+            "raw": null,
+            "label": "directDepositAmount",
+            "value": "direct_deposit"
+          },
+          "amount": {
+            "amount": "920.0",
+            "currency": "USD"
+          },
+          "account_last4": null,
+          "unmapped": {}
+        }
+      ],
+      "unmapped": {
+        "results[0].accruals": null,
+        "results[0].benefits": [],
+        "results[0].checkAmount": 0.0,
+        "results[0].checkSequence": 1,
+        "results[0].employeeAddress1": "3416 Harbor Rd",
+        "results[0].employeeAddress2": null,
+        "results[0].employeeCity": "Ashland",
+        "results[0].employeeFederalAddlAmountOrPercent": "0",
+        "results[0].employeeFederalExemptions": 0,
+        "results[0].employeeFederalFilingStatus": "Single",
+        "results[0].employeeName": "Philbin, Darryl",
+        "results[0].employeeNumber": "7",
+        "results[0].employeeOrganizations": [],
+        "results[0].employeeSSN": "[redacted]",
+        "results[0].employeeState": "VA",
+        "results[0].employeeStateAddlAmountOrPercent": "0",
+        "results[0].employeeStateExemptions": 0,
+        "results[0].employeeStateFilingStatus": "Single",
+        "results[0].employeeZipCode": "23005",
+        "results[0].grossWages": 1000.0,
+        "results[0].isRemoteWorker": false,
+        "results[0].legalCompanyName": "Synthetic Legal Co",
+        "results[0].payrollRunNumber": 1,
+        "results[0].payrollRunType": "Regular Payroll",
+        "results[0].reissueCheckDate": null,
+        "results[0].reissueCheckNumber": null,
+        "results[0].taxCategories[0].taxCategoryId": "FEDWT",
+        "results[0].taxCategories[0].description": "FEDERAL WH",
+        "results[0].vertexResidentGeoCode": "UT0350270",
+        "results[0].vertexSchoolDistrictCode": 0,
+        "results[0].vertexWorkGeoCode": "UT0350270",
+        "results[0].voucherNumber": "V21010007",
+        "results[0].links": []
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859208:chk:21010008",
+      "employee_key": "isolved:4046-5806:859208",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859208",
+        "paycheck_id": "21010008",
+        "pay_run_id": "4100001"
+      },
+      "pay_run_key": "isolved:4046-5806:run:4100001",
+      "type": {
+        "raw": "Adjustment",
+        "label": null,
+        "value": "adjustment"
+      },
+      "status": null,
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-22",
+        "end": "2026-01-04"
+      },
+      "check_number": "6007",
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "01",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.0",
+          "rate": null,
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "results[0].earnings[0].id": 3007,
+            "results[0].earnings[0].currentDollars": 1000.0,
+            "results[0].earnings[0].ftdDollars": 0.0,
+            "results[0].earnings[0].mtdDollars": 1000.0,
+            "results[0].earnings[0].ptdDollars": 1000.0,
+            "results[0].earnings[0].qtdDollars": 1000.0,
+            "results[0].earnings[0].sequence": 1,
+            "results[0].earnings[0].ytdDollars": 1000.0,
             "results[0].earnings[0].links": [],
             "results[0].earnings[0].checkUnits": 0.0,
             "results[0].earnings[0].labors": null
@@ -993,11 +1273,11 @@
         {
           "method": {
             "raw": null,
-            "label": "checkAmount",
-            "value": "check"
+            "label": "directDepositAmount",
+            "value": "direct_deposit"
           },
           "amount": {
-            "amount": "300.0",
+            "amount": "920.0",
             "currency": "USD"
           },
           "account_last4": null,
@@ -1006,28 +1286,27 @@
       ],
       "unmapped": {
         "results[0].accruals": null,
-        "results[0].benefits": [],
+        "results[0].checkAmount": 0.0,
         "results[0].checkSequence": 1,
-        "results[0].directDepositAmount": 0.0,
-        "results[0].employeeAddress1": "3913 Harbor Rd",
+        "results[0].employeeAddress1": "9645 Maple Ave",
         "results[0].employeeAddress2": null,
         "results[0].employeeCity": "Springfield",
         "results[0].employeeFederalAddlAmountOrPercent": "0",
         "results[0].employeeFederalExemptions": 0,
         "results[0].employeeFederalFilingStatus": "Single",
-        "results[0].employeeName": "Marchetti, Skyler",
-        "results[0].employeeNumber": "6",
-        "results[0].employeeOrganizations": [],
+        "results[0].employeeName": "Bernard, Andy",
+        "results[0].employeeNumber": "8",
+        "results[0].employeeOrganizations": null,
         "results[0].employeeSSN": "[redacted]",
         "results[0].employeeState": "IL",
         "results[0].employeeStateAddlAmountOrPercent": "0",
         "results[0].employeeStateExemptions": 0,
         "results[0].employeeStateFilingStatus": "Single",
         "results[0].employeeZipCode": "62704",
-        "results[0].grossWages": 300.0,
+        "results[0].grossWages": 1000.0,
         "results[0].isRemoteWorker": false,
         "results[0].legalCompanyName": "Synthetic Legal Co",
-        "results[0].payrollRunNumber": 2,
+        "results[0].payrollRunNumber": 1,
         "results[0].payrollRunType": "Regular Payroll",
         "results[0].reissueCheckDate": null,
         "results[0].reissueCheckNumber": null,
@@ -1036,92 +1315,20 @@
         "results[0].vertexResidentGeoCode": "UT0350270",
         "results[0].vertexSchoolDistrictCode": 0,
         "results[0].vertexWorkGeoCode": "UT0350270",
-        "results[0].voucherNumber": "V21000601",
+        "results[0].voucherNumber": "V21010008",
         "results[0].links": []
       }
     }
   ],
   "issues": [
     {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "payroll_run_history['7627'][2].payrollRunType",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "isolved:4046-5806:run:4100003",
-      "raw_value": "Data Conversion",
-      "message": "payrollRunHistory.payrollRunType: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/payrollRunType ('Type of payroll that was run'); labels from live GET .../paygroupId/{paygroupId}/payrollRunHistory and .../employees/{employeeId}/checks captures (docs/DECISIONS.md payroll entries))"
-    },
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "payroll_run_history['7627'][3].status",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "isolved:4046-5806:run:4100004",
-      "raw_value": "Payroll Voided",
-      "message": "payrollRunHistory.status: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/status ('Status of the payroll'); labels from live GET .../paygroupId/{paygroupId}/payrollRunHistory and .../employees/{employeeId}/checks captures (docs/DECISIONS.md payroll entries))"
-    },
-    {
       "code": "missing_section",
       "severity": "info",
       "source_path": "check_detail",
       "action": "no tax lines or employer contributions emitted",
-      "record_key": "isolved:4046-5806:859201:chk:21000102",
+      "record_key": "isolved:4046-5806:859208:chk:21010008",
       "raw_value": null,
-      "message": "bundle has no responses.check_detail['21000102'] entry"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "results[0].payrollRunNumber",
-      "action": "pay_run_key set null",
-      "record_key": "isolved:4046-5806:859202:chk:21000201",
-      "raw_value": 1,
-      "message": "more than one captured run has this pay date and run number"
-    },
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "results[0].checkTypeDescription",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "isolved:4046-5806:859202:chk:21000201",
-      "raw_value": "Manual Check",
-      "message": "checks.checkTypeDescription: label is not on the documented allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckModel/properties/checkTypeDescription ('Check Type Description'); labels from live GET .../paygroupId/{paygroupId}/payrollRunHistory and .../employees/{employeeId}/checks captures (docs/DECISIONS.md payroll entries))"
-    },
-    {
-      "code": "out_of_schema_value",
-      "severity": "warning",
-      "source_path": "results[0].taxes[0].isEmployeeTax",
-      "action": "amounts kept in unmapped",
-      "record_key": "isolved:4046-5806:859202:chk:21000201",
-      "raw_value": "yes",
-      "message": "isEmployeeTax must be a boolean (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.CheckTaxAccumulationModel/properties/isEmployeeTax)"
-    },
-    {
-      "code": "missing_section",
-      "severity": "info",
-      "source_path": "check_detail",
-      "action": "no tax lines or employer contributions emitted",
-      "record_key": "isolved:4046-5806:859203:chk:21000301",
-      "raw_value": null,
-      "message": "bundle has no responses.check_detail['21000301'] entry"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "results[0].payrollRunNumber",
-      "action": "pay_run_key set null",
-      "record_key": "isolved:4046-5806:859203:chk:21000301",
-      "raw_value": 9,
-      "message": "no captured run has this pay date and run number"
-    },
-    {
-      "code": "missing_section",
-      "severity": "info",
-      "source_path": "checks",
-      "action": "no paychecks emitted",
-      "record_key": "isolved:4046-5806:859205",
-      "raw_value": null,
-      "message": "bundle has no responses.checks['859205'] entry"
+      "message": "bundle has no responses.check_detail['21010008'] entry"
     },
     {
       "code": "missing_section",

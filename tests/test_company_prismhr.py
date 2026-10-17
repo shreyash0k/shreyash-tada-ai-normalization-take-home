@@ -42,7 +42,7 @@ class PrismHRCompanyChecks(unittest.TestCase):
         company = self.company
         self.assertEqual(company["key"], COMPANY)
         self.assertEqual((company["name"], company["legal_name"]),
-                         ("Synthetic Demo Staffing", "Synthetic Demo Staffing LLP"))
+                         ("Dunder Mifflin", "Dunder Mifflin Paper Company, Inc."))
         self.assertEqual(company["status"], {"raw": "A", "label": "Active", "value": "active"})
         self.assertEqual(company["status_date"], "2019-04-01")
         self.assertEqual(company["entity_type"], {"raw": "M", "label": "Limited Liability Partnership", "value": None})
@@ -51,9 +51,9 @@ class PrismHRCompanyChecks(unittest.TestCase):
         self.assertEqual(company["address"]["kind"], "mailing")
         self.assertTrue(company["address"]["postal_code"].endswith("-1234"))
         self.assertEqual((company["phone"]["kind"], company["phone"]["extension"]), ("work", "101"))
-        self.assertEqual(company["email"], {"kind": "work", "address": "payroll@staffing.example"})
-        self.assertEqual(company["website"], "https://staffing.example")
-        self.assertEqual(company["unmapped"]["clientMaster.businessDescription"], "Temporary staffing")
+        self.assertEqual(company["email"], {"kind": "work", "address": "payroll@dundermifflin.example"})
+        self.assertEqual(company["website"], "https://dundermifflin.example")
+        self.assertEqual(company["unmapped"]["clientMaster.businessDescription"], "Paper and office supplies")
 
     def test_unmasked_federal_id_becomes_the_ein_and_one_tax_id(self):
         self.assertEqual(self.company["ein"], "99-0000132")

@@ -49,7 +49,7 @@ class UkgCompanyChecks(unittest.TestCase):
         self.assertEqual(self.company["ein"], "12-3456789")
         self.assertEqual(self.company["tax_ids"], [{
             "key": f"{COMPANY}:ein:35419520", "source_id": "35419520", "tax_id": "12-3456789",
-            "name": "Primary EIN", "country": "USA",
+            "name": "Dunder Mifflin Utica", "country": "USA",
             "unmapped": {"lookup_eins.items[0].ein_currency_code": "USD"}}])
 
     def test_two_eins_list_both_and_leave_ein_null(self):
@@ -85,7 +85,8 @@ class UkgCompanyChecks(unittest.TestCase):
         self.assertEqual(first["code"], {"raw": "36562688", "label": "Primary-EIN Regular Bi-Weekly", "value": None})
         self.assertIs(first["active"], True)
         self.assertEqual(first["effective"], {"start": "2018-01-21", "end": None})
-        self.assertEqual(first["unmapped"]["lookup_pay_period_profiles.items[0].description"], "Primary EIN payroll")
+        self.assertEqual(first["unmapped"]["lookup_pay_period_profiles.items[0].description"],
+                         "Dunder Mifflin Utica payroll")
         self.assertEqual(groups["36562699"]["effective"], {"start": "2023-05-01", "end": "2023-10-01"})
 
     def test_missing_profiles_leave_pay_groups_empty(self):

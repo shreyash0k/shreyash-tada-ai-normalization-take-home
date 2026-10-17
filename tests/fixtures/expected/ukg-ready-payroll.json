@@ -6,7 +6,7 @@
       "provider": "ukg-ready",
       "company_id": "33704016",
       "secondary_ids": {
-        "ein_name": "Primary EIN"
+        "ein_name": "Dunder Mifflin Utica"
       }
     },
     "name": null,
@@ -58,7 +58,7 @@
       "description": "Primary-EIN Regular Bi-Weekly 01/09/2026",
       "pay_group": {
         "raw": "35419520",
-        "label": "Primary EIN",
+        "label": "Dunder Mifflin Utica",
         "value": null
       },
       "unmapped": {
@@ -72,141 +72,18 @@
         "payrolls[0].dflt_pay_stub_note": "",
         "payrolls[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001"
       }
-    },
-    {
-      "key": "ukg-ready:33704016:run:4332470002",
-      "company_key": "ukg-ready:33704016",
-      "source": {
-        "provider": "ukg-ready",
-        "company_id": "33704016",
-        "pay_run_id": "4332470002"
-      },
-      "type": {
-        "raw": "706",
-        "label": "Correction",
-        "value": "unknown"
-      },
-      "status": {
-        "raw": "OPEN",
-        "label": null,
-        "value": "open"
-      },
-      "pay_date": "2026-01-16",
-      "period": {
-        "start": "2025-12-21",
-        "end": "2026-01-03"
-      },
-      "description": "Correction 01/16/2026",
-      "pay_group": {
-        "raw": "35419520",
-        "label": "Primary EIN",
-        "value": null
-      },
-      "unmapped": {
-        "payrolls[1].ein.ein_tax_id": "12-3456789",
-        "payrolls[1].billable": true,
-        "payrolls[1].direct_deposit_date": "2026-01-16",
-        "payrolls[1].sch_submit_date_time": null,
-        "payrolls[1].invoice_generator_id": null,
-        "payrolls[1].adjustment_grab_YTD_from_payroll_id": null,
-        "payrolls[1].dflt_pay_statement_type_id": 36656000,
-        "payrolls[1].dflt_pay_stub_note": "",
-        "payrolls[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470002"
-      }
-    },
-    {
-      "key": "ukg-ready:33704016:run:4332470003",
-      "company_key": "ukg-ready:33704016",
-      "source": {
-        "provider": "ukg-ready",
-        "company_id": "33704016",
-        "pay_run_id": "4332470003"
-      },
-      "type": {
-        "raw": "641",
-        "label": "Regular",
-        "value": "regular"
-      },
-      "status": {
-        "raw": "PAUSED",
-        "label": null,
-        "value": "unknown"
-      },
-      "pay_date": "2026-01-23",
-      "period": {
-        "start": "2026-01-04",
-        "end": "2026-01-17"
-      },
-      "description": "Paused run",
-      "pay_group": {
-        "raw": "35419520",
-        "label": "Primary EIN",
-        "value": null
-      },
-      "unmapped": {
-        "payrolls[2].ein.ein_tax_id": "12-3456789",
-        "payrolls[2].billable": true,
-        "payrolls[2].direct_deposit_date": "2026-01-23",
-        "payrolls[2].sch_submit_date_time": null,
-        "payrolls[2].invoice_generator_id": null,
-        "payrolls[2].adjustment_grab_YTD_from_payroll_id": null,
-        "payrolls[2].dflt_pay_statement_type_id": 36656000,
-        "payrolls[2].dflt_pay_stub_note": "",
-        "payrolls[2]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470003"
-      }
-    },
-    {
-      "key": "ukg-ready:33704016:run:4332470004",
-      "company_key": "ukg-ready:33704016",
-      "source": {
-        "provider": "ukg-ready",
-        "company_id": "33704016",
-        "pay_run_id": "4332470004"
-      },
-      "type": {
-        "raw": "641",
-        "label": "Regular",
-        "value": "regular"
-      },
-      "status": {
-        "raw": "CLOSE_FAILED",
-        "label": null,
-        "value": "failed"
-      },
-      "pay_date": "2026-02-06",
-      "period": {
-        "start": "2026-01-18",
-        "end": "2026-01-31"
-      },
-      "description": "Failed close",
-      "pay_group": {
-        "raw": "35419520",
-        "label": "Primary EIN",
-        "value": null
-      },
-      "unmapped": {
-        "payrolls[3].ein.ein_tax_id": "12-3456789",
-        "payrolls[3].billable": true,
-        "payrolls[3].direct_deposit_date": "2026-02-06",
-        "payrolls[3].sch_submit_date_time": null,
-        "payrolls[3].invoice_generator_id": null,
-        "payrolls[3].adjustment_grab_YTD_from_payroll_id": null,
-        "payrolls[3].dflt_pay_statement_type_id": 36656000,
-        "payrolls[3].dflt_pay_stub_note": "",
-        "payrolls[3]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470004"
-      }
     }
   ],
   "paychecks": [
     {
-      "key": "ukg-ready:33704016:12935181566:chk:85940001",
+      "key": "ukg-ready:33704016:12935181566:chk:85950001",
       "employee_key": "ukg-ready:33704016:12935181566",
       "company_key": "ukg-ready:33704016",
       "source": {
         "provider": "ukg-ready",
         "company_id": "33704016",
         "employee_id": "12935181566",
-        "paycheck_id": "85940001",
+        "paycheck_id": "85950001",
         "pay_run_id": "4332470001"
       },
       "pay_run_key": "ukg-ready:33704016:run:4332470001",
@@ -243,45 +120,18 @@
             "currency": "USD"
           },
           "amount": {
-            "amount": "2000.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "pay_statements[0].earnings[0].id": 1,
+            "pay_statements[0].earnings[0].id": 860000,
             "pay_statements[0].earnings[0].type_name": "Earning",
             "pay_statements[0].earnings[0].batch.id": 1,
             "pay_statements[0].earnings[0].batch.display_name": "Auto",
             "pay_statements[0].earnings[0].quantity": 0,
             "pay_statements[0].earnings[0].cost_centers": [],
             "pay_statements[0].earnings[0].earning.external_id": "",
-            "pay_statements[0].earnings[0].earning.id": 101
-          }
-        },
-        {
-          "code": {
-            "raw": "OT",
-            "label": "Overtime",
-            "value": null
-          },
-          "category": null,
-          "hours": "2.00",
-          "rate": {
-            "amount": "37.5",
-            "currency": "USD"
-          },
-          "amount": {
-            "amount": "75.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "pay_statements[0].earnings[1].id": 2,
-            "pay_statements[0].earnings[1].type_name": "Earning",
-            "pay_statements[0].earnings[1].batch.id": 1,
-            "pay_statements[0].earnings[1].batch.display_name": "Auto",
-            "pay_statements[0].earnings[1].quantity": 0,
-            "pay_statements[0].earnings[1].cost_centers": [],
-            "pay_statements[0].earnings[1].earning.external_id": "",
-            "pay_statements[0].earnings[1].earning.id": 102
+            "pay_statements[0].earnings[0].earning.id": 860100
           }
         }
       ],
@@ -293,7 +143,7 @@
             "value": null
           },
           "employee_amount": {
-            "amount": "210.0",
+            "amount": "80.0",
             "currency": "USD"
           },
           "employer_amount": {
@@ -301,57 +151,765 @@
             "currency": "USD"
           },
           "employee_taxable_wages": {
-            "amount": "1954.5",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "employer_taxable_wages": {
-            "amount": "1954.5",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "pay_statements[0].taxes[0].id": 7,
+            "pay_statements[0].taxes[0].id": 870000,
             "pay_statements[0].taxes[0].type_name": "Tax",
             "pay_statements[0].taxes[0].batch.id": 1,
             "pay_statements[0].taxes[0].batch.display_name": "Auto",
             "pay_statements[0].taxes[0].ee_gross_wage": 2075.0,
-            "pay_statements[0].taxes[0].ee_gross_subject_wage": 1954.5,
+            "pay_statements[0].taxes[0].ee_gross_subject_wage": 1000.0,
             "pay_statements[0].taxes[0].er_gross_wage": 2075.0,
-            "pay_statements[0].taxes[0].er_gross_subject_wage": 1954.5,
+            "pay_statements[0].taxes[0].er_gross_subject_wage": 1000.0,
             "pay_statements[0].taxes[0].company_tax.abbrev": "FIT"
           }
-        },
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "pay_statements[0].calcUpto": null,
+        "pay_statements[0].emptyEarning": false,
+        "pay_statements[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950001",
+        "pay_statements[0].messages": []
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181567:chk:85950002",
+      "employee_key": "ukg-ready:33704016:12935181567",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181567",
+        "paycheck_id": "85950002",
+        "pay_run_id": "4332470001"
+      },
+      "pay_run_key": "ukg-ready:33704016:run:4332470001",
+      "type": {
+        "raw": "36656000",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "FINALIZED",
+        "label": null,
+        "value": "finalized"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-21",
+        "end": "2026-01-03"
+      },
+      "check_number": null,
+      "gross_pay": null,
+      "net_pay": null,
+      "void_date": null,
+      "earnings": [
         {
           "code": {
-            "raw": "SS",
-            "label": "Social Security",
+            "raw": "REG",
+            "label": "Regular",
             "value": null
           },
-          "employee_amount": {
-            "amount": "128.65",
+          "category": null,
+          "hours": "80.00",
+          "rate": {
+            "amount": "25.0",
             "currency": "USD"
           },
-          "employer_amount": {
-            "amount": "128.65",
-            "currency": "USD"
-          },
-          "employee_taxable_wages": {
-            "amount": "2075.0",
-            "currency": "USD"
-          },
-          "employer_taxable_wages": {
-            "amount": "2075.0",
+          "amount": {
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "pay_statements[0].taxes[1].id": 8,
-            "pay_statements[0].taxes[1].type_name": "Tax",
-            "pay_statements[0].taxes[1].batch.id": 1,
-            "pay_statements[0].taxes[1].batch.display_name": "Auto",
-            "pay_statements[0].taxes[1].ee_gross_wage": 2075.0,
-            "pay_statements[0].taxes[1].ee_gross_subject_wage": 2075.0,
-            "pay_statements[0].taxes[1].er_gross_wage": 2075.0,
-            "pay_statements[0].taxes[1].er_gross_subject_wage": 2075.0,
-            "pay_statements[0].taxes[1].company_tax.abbrev": "SS"
+            "pay_statements[1].earnings[0].id": 860001,
+            "pay_statements[1].earnings[0].type_name": "Earning",
+            "pay_statements[1].earnings[0].batch.id": 1,
+            "pay_statements[1].earnings[0].batch.display_name": "Auto",
+            "pay_statements[1].earnings[0].quantity": 0,
+            "pay_statements[1].earnings[0].cost_centers": [],
+            "pay_statements[1].earnings[0].earning.external_id": "",
+            "pay_statements[1].earnings[0].earning.id": 860101
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "FIT",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": {
+            "amount": "0.0",
+            "currency": "USD"
+          },
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[1].taxes[0].id": 870001,
+            "pay_statements[1].taxes[0].type_name": "Tax",
+            "pay_statements[1].taxes[0].batch.id": 1,
+            "pay_statements[1].taxes[0].batch.display_name": "Auto",
+            "pay_statements[1].taxes[0].ee_gross_wage": 2075.0,
+            "pay_statements[1].taxes[0].ee_gross_subject_wage": 1000.0,
+            "pay_statements[1].taxes[0].er_gross_wage": 2075.0,
+            "pay_statements[1].taxes[0].er_gross_subject_wage": 1000.0,
+            "pay_statements[1].taxes[0].company_tax.abbrev": "FIT"
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "pay_statements[1].calcUpto": null,
+        "pay_statements[1].emptyEarning": false,
+        "pay_statements[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950002",
+        "pay_statements[1].messages": []
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181568:chk:85950003",
+      "employee_key": "ukg-ready:33704016:12935181568",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181568",
+        "paycheck_id": "85950003",
+        "pay_run_id": "4332470001"
+      },
+      "pay_run_key": "ukg-ready:33704016:run:4332470001",
+      "type": {
+        "raw": "36656000",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "FINALIZED",
+        "label": null,
+        "value": "finalized"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-21",
+        "end": "2026-01-03"
+      },
+      "check_number": null,
+      "gross_pay": null,
+      "net_pay": null,
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.00",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[2].earnings[0].id": 860002,
+            "pay_statements[2].earnings[0].type_name": "Earning",
+            "pay_statements[2].earnings[0].batch.id": 1,
+            "pay_statements[2].earnings[0].batch.display_name": "Auto",
+            "pay_statements[2].earnings[0].quantity": 0,
+            "pay_statements[2].earnings[0].cost_centers": [],
+            "pay_statements[2].earnings[0].earning.external_id": "",
+            "pay_statements[2].earnings[0].earning.id": 860102
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "FIT",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": {
+            "amount": "0.0",
+            "currency": "USD"
+          },
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[2].taxes[0].id": 870002,
+            "pay_statements[2].taxes[0].type_name": "Tax",
+            "pay_statements[2].taxes[0].batch.id": 1,
+            "pay_statements[2].taxes[0].batch.display_name": "Auto",
+            "pay_statements[2].taxes[0].ee_gross_wage": 2075.0,
+            "pay_statements[2].taxes[0].ee_gross_subject_wage": 1000.0,
+            "pay_statements[2].taxes[0].er_gross_wage": 2075.0,
+            "pay_statements[2].taxes[0].er_gross_subject_wage": 1000.0,
+            "pay_statements[2].taxes[0].company_tax.abbrev": "FIT"
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "pay_statements[2].calcUpto": null,
+        "pay_statements[2].emptyEarning": false,
+        "pay_statements[2]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950003",
+        "pay_statements[2].messages": []
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181569:chk:85950004",
+      "employee_key": "ukg-ready:33704016:12935181569",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181569",
+        "paycheck_id": "85950004",
+        "pay_run_id": "4332470001"
+      },
+      "pay_run_key": "ukg-ready:33704016:run:4332470001",
+      "type": {
+        "raw": "36656000",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "FINALIZED",
+        "label": null,
+        "value": "finalized"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-21",
+        "end": "2026-01-03"
+      },
+      "check_number": null,
+      "gross_pay": null,
+      "net_pay": null,
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.00",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[3].earnings[0].id": 860003,
+            "pay_statements[3].earnings[0].type_name": "Earning",
+            "pay_statements[3].earnings[0].batch.id": 1,
+            "pay_statements[3].earnings[0].batch.display_name": "Auto",
+            "pay_statements[3].earnings[0].quantity": 0,
+            "pay_statements[3].earnings[0].cost_centers": [],
+            "pay_statements[3].earnings[0].earning.external_id": "",
+            "pay_statements[3].earnings[0].earning.id": 860103
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "FIT",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": {
+            "amount": "0.0",
+            "currency": "USD"
+          },
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[3].taxes[0].id": 870003,
+            "pay_statements[3].taxes[0].type_name": "Tax",
+            "pay_statements[3].taxes[0].batch.id": 1,
+            "pay_statements[3].taxes[0].batch.display_name": "Auto",
+            "pay_statements[3].taxes[0].ee_gross_wage": 2075.0,
+            "pay_statements[3].taxes[0].ee_gross_subject_wage": 1000.0,
+            "pay_statements[3].taxes[0].er_gross_wage": 2075.0,
+            "pay_statements[3].taxes[0].er_gross_subject_wage": 1000.0,
+            "pay_statements[3].taxes[0].company_tax.abbrev": "FIT"
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "pay_statements[3].calcUpto": null,
+        "pay_statements[3].emptyEarning": false,
+        "pay_statements[3]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950004",
+        "pay_statements[3].messages": []
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181570:chk:85950005",
+      "employee_key": "ukg-ready:33704016:12935181570",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181570",
+        "paycheck_id": "85950005",
+        "pay_run_id": "4332470001"
+      },
+      "pay_run_key": "ukg-ready:33704016:run:4332470001",
+      "type": {
+        "raw": "36656000",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "FINALIZED",
+        "label": null,
+        "value": "finalized"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-21",
+        "end": "2026-01-03"
+      },
+      "check_number": null,
+      "gross_pay": null,
+      "net_pay": null,
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.00",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[4].earnings[0].id": 860004,
+            "pay_statements[4].earnings[0].type_name": "Earning",
+            "pay_statements[4].earnings[0].batch.id": 1,
+            "pay_statements[4].earnings[0].batch.display_name": "Auto",
+            "pay_statements[4].earnings[0].quantity": 0,
+            "pay_statements[4].earnings[0].cost_centers": [],
+            "pay_statements[4].earnings[0].earning.external_id": "",
+            "pay_statements[4].earnings[0].earning.id": 860104
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "FIT",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": {
+            "amount": "0.0",
+            "currency": "USD"
+          },
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[4].taxes[0].id": 870004,
+            "pay_statements[4].taxes[0].type_name": "Tax",
+            "pay_statements[4].taxes[0].batch.id": 1,
+            "pay_statements[4].taxes[0].batch.display_name": "Auto",
+            "pay_statements[4].taxes[0].ee_gross_wage": 2075.0,
+            "pay_statements[4].taxes[0].ee_gross_subject_wage": 1000.0,
+            "pay_statements[4].taxes[0].er_gross_wage": 2075.0,
+            "pay_statements[4].taxes[0].er_gross_subject_wage": 1000.0,
+            "pay_statements[4].taxes[0].company_tax.abbrev": "FIT"
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "pay_statements[4].calcUpto": null,
+        "pay_statements[4].emptyEarning": false,
+        "pay_statements[4]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950005",
+        "pay_statements[4].messages": []
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181571:chk:85950006",
+      "employee_key": "ukg-ready:33704016:12935181571",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181571",
+        "paycheck_id": "85950006",
+        "pay_run_id": "4332470001"
+      },
+      "pay_run_key": "ukg-ready:33704016:run:4332470001",
+      "type": {
+        "raw": "36656000",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "FINALIZED",
+        "label": null,
+        "value": "finalized"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-21",
+        "end": "2026-01-03"
+      },
+      "check_number": null,
+      "gross_pay": null,
+      "net_pay": null,
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.00",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[5].earnings[0].id": 860005,
+            "pay_statements[5].earnings[0].type_name": "Earning",
+            "pay_statements[5].earnings[0].batch.id": 1,
+            "pay_statements[5].earnings[0].batch.display_name": "Auto",
+            "pay_statements[5].earnings[0].quantity": 0,
+            "pay_statements[5].earnings[0].cost_centers": [],
+            "pay_statements[5].earnings[0].earning.external_id": "",
+            "pay_statements[5].earnings[0].earning.id": 860105
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "FIT",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": {
+            "amount": "0.0",
+            "currency": "USD"
+          },
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[5].taxes[0].id": 870005,
+            "pay_statements[5].taxes[0].type_name": "Tax",
+            "pay_statements[5].taxes[0].batch.id": 1,
+            "pay_statements[5].taxes[0].batch.display_name": "Auto",
+            "pay_statements[5].taxes[0].ee_gross_wage": 2075.0,
+            "pay_statements[5].taxes[0].ee_gross_subject_wage": 1000.0,
+            "pay_statements[5].taxes[0].er_gross_wage": 2075.0,
+            "pay_statements[5].taxes[0].er_gross_subject_wage": 1000.0,
+            "pay_statements[5].taxes[0].company_tax.abbrev": "FIT"
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "pay_statements[5].calcUpto": null,
+        "pay_statements[5].emptyEarning": false,
+        "pay_statements[5]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950006",
+        "pay_statements[5].messages": []
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181572:chk:85950007",
+      "employee_key": "ukg-ready:33704016:12935181572",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181572",
+        "paycheck_id": "85950007",
+        "pay_run_id": "4332470001"
+      },
+      "pay_run_key": "ukg-ready:33704016:run:4332470001",
+      "type": {
+        "raw": "36656000",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "FINALIZED",
+        "label": null,
+        "value": "finalized"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-21",
+        "end": "2026-01-03"
+      },
+      "check_number": null,
+      "gross_pay": null,
+      "net_pay": null,
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.00",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[6].earnings[0].id": 860006,
+            "pay_statements[6].earnings[0].type_name": "Earning",
+            "pay_statements[6].earnings[0].batch.id": 1,
+            "pay_statements[6].earnings[0].batch.display_name": "Auto",
+            "pay_statements[6].earnings[0].quantity": 0,
+            "pay_statements[6].earnings[0].cost_centers": [],
+            "pay_statements[6].earnings[0].earning.external_id": "",
+            "pay_statements[6].earnings[0].earning.id": 860106
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "FIT",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": {
+            "amount": "0.0",
+            "currency": "USD"
+          },
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[6].taxes[0].id": 870006,
+            "pay_statements[6].taxes[0].type_name": "Tax",
+            "pay_statements[6].taxes[0].batch.id": 1,
+            "pay_statements[6].taxes[0].batch.display_name": "Auto",
+            "pay_statements[6].taxes[0].ee_gross_wage": 2075.0,
+            "pay_statements[6].taxes[0].ee_gross_subject_wage": 1000.0,
+            "pay_statements[6].taxes[0].er_gross_wage": 2075.0,
+            "pay_statements[6].taxes[0].er_gross_subject_wage": 1000.0,
+            "pay_statements[6].taxes[0].company_tax.abbrev": "FIT"
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "pay_statements[6].calcUpto": null,
+        "pay_statements[6].emptyEarning": false,
+        "pay_statements[6]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950007",
+        "pay_statements[6].messages": []
+      }
+    },
+    {
+      "key": "ukg-ready:33704016:12935181573:chk:85950008",
+      "employee_key": "ukg-ready:33704016:12935181573",
+      "company_key": "ukg-ready:33704016",
+      "source": {
+        "provider": "ukg-ready",
+        "company_id": "33704016",
+        "employee_id": "12935181573",
+        "paycheck_id": "85950008",
+        "pay_run_id": "4332470001"
+      },
+      "pay_run_key": "ukg-ready:33704016:run:4332470001",
+      "type": {
+        "raw": "36656002",
+        "label": "Gross Up",
+        "value": "unknown"
+      },
+      "status": {
+        "raw": "FINALIZED",
+        "label": null,
+        "value": "finalized"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-21",
+        "end": "2026-01-03"
+      },
+      "check_number": null,
+      "gross_pay": null,
+      "net_pay": null,
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": "Regular",
+            "value": null
+          },
+          "category": null,
+          "hours": "80.00",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[7].earnings[0].id": 860007,
+            "pay_statements[7].earnings[0].type_name": "Earning",
+            "pay_statements[7].earnings[0].batch.id": 1,
+            "pay_statements[7].earnings[0].batch.display_name": "Auto",
+            "pay_statements[7].earnings[0].quantity": 0,
+            "pay_statements[7].earnings[0].cost_centers": [],
+            "pay_statements[7].earnings[0].earning.external_id": "",
+            "pay_statements[7].earnings[0].earning.id": 860107
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "FIT",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": {
+            "amount": "0.0",
+            "currency": "USD"
+          },
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "pay_statements[7].taxes[0].id": 870007,
+            "pay_statements[7].taxes[0].type_name": "Tax",
+            "pay_statements[7].taxes[0].batch.id": 1,
+            "pay_statements[7].taxes[0].batch.display_name": "Auto",
+            "pay_statements[7].taxes[0].ee_gross_wage": 2075.0,
+            "pay_statements[7].taxes[0].ee_gross_subject_wage": 1000.0,
+            "pay_statements[7].taxes[0].er_gross_wage": 2075.0,
+            "pay_statements[7].taxes[0].er_gross_subject_wage": 1000.0,
+            "pay_statements[7].taxes[0].company_tax.abbrev": "FIT"
           }
         }
       ],
@@ -364,75 +922,22 @@
           },
           "category": null,
           "amount": {
-            "amount": "120.0",
+            "amount": "50.0",
             "currency": "USD"
           },
           "unmapped": {
-            "pay_statements[0].deductions[0].id": 3,
-            "pay_statements[0].deductions[0].type_name": "Deduction (Auto)",
-            "pay_statements[0].deductions[0].batch.id": 1,
-            "pay_statements[0].deductions[0].batch.display_name": "Auto",
-            "pay_statements[0].deductions[0].quantity": 0,
-            "pay_statements[0].deductions[0].base_rate": 0,
-            "pay_statements[0].deductions[0].vendor": null,
-            "pay_statements[0].deductions[0].cost_centers": [],
-            "pay_statements[0].deductions[0].deduction.external_id": "",
-            "pay_statements[0].deductions[0].ee_gross_wage": 2075.0,
-            "pay_statements[0].deductions[0].ee_subject_wage": 2075.0,
-            "pay_statements[0].deductions[0].ee_gross_subject_wage": 2075.0
-          }
-        },
-        {
-          "code": {
-            "raw": "S125_Med",
-            "label": "Medical",
-            "value": null
-          },
-          "category": null,
-          "amount": {
-            "amount": "45.5",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "pay_statements[0].deductions[1].id": 4,
-            "pay_statements[0].deductions[1].type_name": "Deduction (Auto)",
-            "pay_statements[0].deductions[1].batch.id": 1,
-            "pay_statements[0].deductions[1].batch.display_name": "Auto",
-            "pay_statements[0].deductions[1].quantity": 0,
-            "pay_statements[0].deductions[1].base_rate": 0,
-            "pay_statements[0].deductions[1].vendor": null,
-            "pay_statements[0].deductions[1].cost_centers": [],
-            "pay_statements[0].deductions[1].deduction.external_id": "",
-            "pay_statements[0].deductions[1].ee_gross_wage": 2075.0,
-            "pay_statements[0].deductions[1].ee_subject_wage": 2075.0,
-            "pay_statements[0].deductions[1].ee_gross_subject_wage": 2075.0,
-            "pay_statements[0].deductions[1].er_amount": 0.0
-          }
-        },
-        {
-          "code": {
-            "raw": "401K Loan 1",
-            "label": "401K Loan 1",
-            "value": null
-          },
-          "category": null,
-          "amount": {
-            "amount": "30.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "pay_statements[0].deductions[3].id": 6,
-            "pay_statements[0].deductions[3].type_name": "Deduction (Discarded)",
-            "pay_statements[0].deductions[3].batch.id": 1,
-            "pay_statements[0].deductions[3].batch.display_name": "Auto",
-            "pay_statements[0].deductions[3].quantity": 0,
-            "pay_statements[0].deductions[3].base_rate": 0,
-            "pay_statements[0].deductions[3].vendor": null,
-            "pay_statements[0].deductions[3].cost_centers": [],
-            "pay_statements[0].deductions[3].deduction.external_id": "",
-            "pay_statements[0].deductions[3].ee_gross_wage": 2075.0,
-            "pay_statements[0].deductions[3].ee_subject_wage": 2075.0,
-            "pay_statements[0].deductions[3].ee_gross_subject_wage": 2075.0
+            "pay_statements[7].deductions[0].id": 860100,
+            "pay_statements[7].deductions[0].type_name": "Deduction (Auto)",
+            "pay_statements[7].deductions[0].batch.id": 1,
+            "pay_statements[7].deductions[0].batch.display_name": "Auto",
+            "pay_statements[7].deductions[0].quantity": 0,
+            "pay_statements[7].deductions[0].base_rate": 0,
+            "pay_statements[7].deductions[0].vendor": null,
+            "pay_statements[7].deductions[0].cost_centers": [],
+            "pay_statements[7].deductions[0].deduction.external_id": "",
+            "pay_statements[7].deductions[0].ee_gross_wage": 2075.0,
+            "pay_statements[7].deductions[0].ee_subject_wage": 2075.0,
+            "pay_statements[7].deductions[0].ee_gross_subject_wage": 2075.0
           }
         }
       ],
@@ -444,48 +949,22 @@
             "value": null
           },
           "amount": {
-            "amount": "60.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "pay_statements[0].deductions[0].id": 3,
-            "pay_statements[0].deductions[0].type_name": "Deduction (Auto)",
-            "pay_statements[0].deductions[0].batch.id": 1,
-            "pay_statements[0].deductions[0].batch.display_name": "Auto",
-            "pay_statements[0].deductions[0].quantity": 0,
-            "pay_statements[0].deductions[0].base_rate": 0,
-            "pay_statements[0].deductions[0].vendor": null,
-            "pay_statements[0].deductions[0].cost_centers": [],
-            "pay_statements[0].deductions[0].deduction.external_id": "",
-            "pay_statements[0].deductions[0].ee_gross_wage": 2075.0,
-            "pay_statements[0].deductions[0].ee_subject_wage": 2075.0,
-            "pay_statements[0].deductions[0].ee_gross_subject_wage": 2075.0
-          }
-        },
-        {
-          "code": {
-            "raw": "ER_HSA",
-            "label": "HSA Employer",
-            "value": null
-          },
-          "amount": {
             "amount": "25.0",
             "currency": "USD"
           },
           "unmapped": {
-            "pay_statements[0].deductions[2].id": 5,
-            "pay_statements[0].deductions[2].type_name": "Deduction (Auto)",
-            "pay_statements[0].deductions[2].batch.id": 1,
-            "pay_statements[0].deductions[2].batch.display_name": "Auto",
-            "pay_statements[0].deductions[2].quantity": 0,
-            "pay_statements[0].deductions[2].base_rate": 0,
-            "pay_statements[0].deductions[2].vendor": null,
-            "pay_statements[0].deductions[2].cost_centers": [],
-            "pay_statements[0].deductions[2].deduction.external_id": "",
-            "pay_statements[0].deductions[2].ee_gross_wage": 2075.0,
-            "pay_statements[0].deductions[2].ee_subject_wage": 2075.0,
-            "pay_statements[0].deductions[2].ee_gross_subject_wage": 2075.0,
-            "pay_statements[0].deductions[2].ee_amount": 0.0
+            "pay_statements[7].deductions[0].id": 860100,
+            "pay_statements[7].deductions[0].type_name": "Deduction (Auto)",
+            "pay_statements[7].deductions[0].batch.id": 1,
+            "pay_statements[7].deductions[0].batch.display_name": "Auto",
+            "pay_statements[7].deductions[0].quantity": 0,
+            "pay_statements[7].deductions[0].base_rate": 0,
+            "pay_statements[7].deductions[0].vendor": null,
+            "pay_statements[7].deductions[0].cost_centers": [],
+            "pay_statements[7].deductions[0].deduction.external_id": "",
+            "pay_statements[7].deductions[0].ee_gross_wage": 2075.0,
+            "pay_statements[7].deductions[0].ee_subject_wage": 2075.0,
+            "pay_statements[7].deductions[0].ee_gross_subject_wage": 2075.0
           }
         }
       ],
@@ -497,326 +976,28 @@
             "value": "direct_deposit"
           },
           "amount": {
-            "amount": "1500.0",
+            "amount": "920.0",
             "currency": "USD"
           },
           "account_last4": null,
           "unmapped": {
-            "pay_statements[0].payments[0].id": 9,
-            "pay_statements[0].payments[0].hours": 0,
-            "pay_statements[0].payments[0].quantity": 0,
-            "pay_statements[0].payments[0].batch.id": 1,
-            "pay_statements[0].payments[0].batch.display_name": "Auto"
-          }
-        },
-        {
-          "method": {
-            "raw": "Check",
-            "label": null,
-            "value": "check"
-          },
-          "amount": {
-            "amount": "40.85",
-            "currency": "USD"
-          },
-          "account_last4": null,
-          "unmapped": {
-            "pay_statements[0].payments[1].id": 10,
-            "pay_statements[0].payments[1].hours": 0,
-            "pay_statements[0].payments[1].quantity": 0,
-            "pay_statements[0].payments[1].batch.id": 1,
-            "pay_statements[0].payments[1].batch.display_name": "Auto"
+            "pay_statements[7].payments[0].id": 860200,
+            "pay_statements[7].payments[0].hours": 0,
+            "pay_statements[7].payments[0].quantity": 0,
+            "pay_statements[7].payments[0].batch.id": 1,
+            "pay_statements[7].payments[0].batch.display_name": "Auto"
           }
         }
       ],
       "unmapped": {
-        "pay_statements[0].calcUpto": null,
-        "pay_statements[0].emptyEarning": false,
-        "pay_statements[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85940001",
-        "pay_statements[0].messages[0].id": 11,
-        "pay_statements[0].messages[0].type_name": "Message",
-        "pay_statements[0].messages[0].message.text": "Synthetic note",
-        "pay_statements[0].messages[0].message.severity": "INFO",
-        "pay_statements[0].messages[0].batch.id": 1,
-        "pay_statements[0].messages[0].batch.display_name": "Auto"
-      }
-    },
-    {
-      "key": "ukg-ready:33704016:12935181567:chk:85940002",
-      "employee_key": "ukg-ready:33704016:12935181567",
-      "company_key": "ukg-ready:33704016",
-      "source": {
-        "provider": "ukg-ready",
-        "company_id": "33704016",
-        "employee_id": "12935181567",
-        "paycheck_id": "85940002",
-        "pay_run_id": "4332470001"
-      },
-      "pay_run_key": "ukg-ready:33704016:run:4332470001",
-      "type": {
-        "raw": "36656002",
-        "label": "Gross Up",
-        "value": "unknown"
-      },
-      "status": {
-        "raw": "OPEN",
-        "label": null,
-        "value": "open"
-      },
-      "pay_date": "2026-01-09",
-      "period": {
-        "start": "2025-12-21",
-        "end": "2026-01-03"
-      },
-      "check_number": null,
-      "gross_pay": null,
-      "net_pay": null,
-      "void_date": null,
-      "earnings": [
-        {
-          "code": {
-            "raw": "REG",
-            "label": "Regular",
-            "value": null
-          },
-          "category": null,
-          "hours": null,
-          "rate": {
-            "amount": "20.0",
-            "currency": "USD"
-          },
-          "amount": {
-            "amount": "160.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "pay_statements[1].earnings[0].id": 12,
-            "pay_statements[1].earnings[0].type_name": "Earning",
-            "pay_statements[1].earnings[0].batch.id": 1,
-            "pay_statements[1].earnings[0].batch.display_name": "Auto",
-            "pay_statements[1].earnings[0].quantity": 0,
-            "pay_statements[1].earnings[0].cost_centers": [],
-            "pay_statements[1].earnings[0].earning.external_id": "",
-            "pay_statements[1].earnings[0].earning.id": 112
-          }
-        }
-      ],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [
-        {
-          "method": {
-            "raw": "Pay Card",
-            "label": null,
-            "value": "unknown"
-          },
-          "amount": {
-            "amount": "160.0",
-            "currency": "USD"
-          },
-          "account_last4": null,
-          "unmapped": {
-            "pay_statements[1].payments[0].id": 13,
-            "pay_statements[1].payments[0].hours": 0,
-            "pay_statements[1].payments[0].quantity": 0,
-            "pay_statements[1].payments[0].batch.id": 1,
-            "pay_statements[1].payments[0].batch.display_name": "Auto"
-          }
-        }
-      ],
-      "unmapped": {
-        "pay_statements[1].calcUpto": null,
-        "pay_statements[1].emptyEarning": false,
-        "pay_statements[1]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85940002",
-        "pay_statements[1].messages": []
-      }
-    },
-    {
-      "key": "ukg-ready:33704016:12935181568:chk:85940003",
-      "employee_key": "ukg-ready:33704016:12935181568",
-      "company_key": "ukg-ready:33704016",
-      "source": {
-        "provider": "ukg-ready",
-        "company_id": "33704016",
-        "employee_id": "12935181568",
-        "paycheck_id": "85940003",
-        "pay_run_id": "4332470001"
-      },
-      "pay_run_key": "ukg-ready:33704016:run:4332470001",
-      "type": {
-        "raw": "36656000",
-        "label": "Regular",
-        "value": "regular"
-      },
-      "status": {
-        "raw": "CLOSED",
-        "label": null,
-        "value": "closed"
-      },
-      "pay_date": "2026-01-09",
-      "period": {
-        "start": "2025-12-21",
-        "end": "2026-01-03"
-      },
-      "check_number": null,
-      "gross_pay": null,
-      "net_pay": null,
-      "void_date": null,
-      "earnings": [],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [],
-      "unmapped": {
-        "pay_statements[2].calcUpto": null,
-        "pay_statements[2].emptyEarning": false,
-        "pay_statements[2]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85940003"
-      }
-    },
-    {
-      "key": "ukg-ready:33704016:12935181569:chk:85940004",
-      "employee_key": "ukg-ready:33704016:12935181569",
-      "company_key": "ukg-ready:33704016",
-      "source": {
-        "provider": "ukg-ready",
-        "company_id": "33704016",
-        "employee_id": "12935181569",
-        "paycheck_id": "85940004",
-        "pay_run_id": "4332470002"
-      },
-      "pay_run_key": "ukg-ready:33704016:run:4332470002",
-      "type": {
-        "raw": "36656000",
-        "label": "Regular",
-        "value": "regular"
-      },
-      "status": {
-        "raw": "INVALID",
-        "label": null,
-        "value": "invalid"
-      },
-      "pay_date": "2026-01-16",
-      "period": {
-        "start": "2025-12-21",
-        "end": "2026-01-03"
-      },
-      "check_number": null,
-      "gross_pay": null,
-      "net_pay": null,
-      "void_date": null,
-      "earnings": [],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [],
-      "unmapped": {
-        "pay_statements[0].calcUpto": null,
-        "pay_statements[0].emptyEarning": false,
-        "pay_statements[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470002/pay-statements/85940004",
-        "pay_statements[0].messages": []
-      }
-    },
-    {
-      "key": "ukg-ready:33704016:12935181570:chk:85940005",
-      "employee_key": "ukg-ready:33704016:12935181570",
-      "company_key": "ukg-ready:33704016",
-      "source": {
-        "provider": "ukg-ready",
-        "company_id": "33704016",
-        "employee_id": "12935181570",
-        "paycheck_id": "85940005",
-        "pay_run_id": "4332479999"
-      },
-      "pay_run_key": null,
-      "type": {
-        "raw": "36656000",
-        "label": "Regular",
-        "value": "regular"
-      },
-      "status": {
-        "raw": "NEW",
-        "label": null,
-        "value": "open"
-      },
-      "pay_date": "2026-02-20",
-      "period": {
-        "start": "2026-02-01",
-        "end": "2026-02-14"
-      },
-      "check_number": null,
-      "gross_pay": null,
-      "net_pay": null,
-      "void_date": null,
-      "earnings": [
-        {
-          "code": {
-            "raw": "REG",
-            "label": "Regular",
-            "value": null
-          },
-          "category": null,
-          "hours": "40.00",
-          "rate": {
-            "amount": "25.0",
-            "currency": "USD"
-          },
-          "amount": {
-            "amount": "1000.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "pay_statements[0].earnings[0].id": 14,
-            "pay_statements[0].earnings[0].type_name": "Earning",
-            "pay_statements[0].earnings[0].batch.id": 1,
-            "pay_statements[0].earnings[0].batch.display_name": "Auto",
-            "pay_statements[0].earnings[0].quantity": 0,
-            "pay_statements[0].earnings[0].cost_centers": [],
-            "pay_statements[0].earnings[0].earning.external_id": "",
-            "pay_statements[0].earnings[0].earning.id": 114
-          }
-        }
-      ],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [],
-      "unmapped": {
-        "pay_statements[0].calcUpto": null,
-        "pay_statements[0].emptyEarning": false,
-        "pay_statements[0]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332479999/pay-statements/85940005",
-        "pay_statements[0].messages": []
+        "pay_statements[7].calcUpto": null,
+        "pay_statements[7].emptyEarning": false,
+        "pay_statements[7]._links.self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/payrolls/4332470001/pay-statements/85950008",
+        "pay_statements[7].messages": []
       }
     }
   ],
   "issues": [
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "payrolls[1].type.display_name",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "ukg-ready:33704016:run:4332470002",
-      "raw_value": "Correction",
-      "message": "payrolls.type.display_name: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/type (tenant lookup); labels from live GET /v2/companies/{cid}/payrolls and .../pay-statements captures (docs/DECISIONS.md payroll entries))"
-    },
-    {
-      "code": "out_of_schema_value",
-      "severity": "warning",
-      "source_path": "payrolls[2].status",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "ukg-ready:33704016:run:4332470003",
-      "raw_value": "PAUSED",
-      "message": "payrolls.status: value is not one of the documented codes (contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/status/enum)"
-    },
-    {
-      "code": "missing_section",
-      "severity": "info",
-      "source_path": "pay_statements",
-      "action": "no paychecks emitted for this pay run",
-      "record_key": "ukg-ready:33704016:run:4332470003",
-      "raw_value": null,
-      "message": "bundle has no responses.pay_statements['4332470003'] entry"
-    },
     {
       "code": "spec_live_mismatch",
       "severity": "info",
@@ -838,47 +1019,11 @@
     {
       "code": "unmapped_label",
       "severity": "warning",
-      "source_path": "pay_statements[1].type.display_name",
+      "source_path": "pay_statements[7].type.display_name",
       "action": "kept raw value; canonical value set to unknown",
-      "record_key": "ukg-ready:33704016:12935181567:chk:85940002",
+      "record_key": "ukg-ready:33704016:12935181573:chk:85950008",
       "raw_value": "Gross Up",
       "message": "pay_statements.type.display_name: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/type (tenant lookup); labels from live GET /v2/companies/{cid}/payrolls and .../pay-statements captures (docs/DECISIONS.md payroll entries))"
-    },
-    {
-      "code": "invalid_number",
-      "severity": "error",
-      "source_path": "pay_statements[1].earnings[0].hours",
-      "action": "set null",
-      "record_key": "ukg-ready:33704016:12935181567:chk:85940002",
-      "raw_value": "eight hours",
-      "message": "hours must be a number of milliseconds"
-    },
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "pay_statements[1].payments[0].type_name",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "ukg-ready:33704016:12935181567:chk:85940002",
-      "raw_value": "Pay Card",
-      "message": "payments.type_name: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties/payments/items/properties/type_name (string, no enum); labels from live GET /v2/companies/{cid}/payrolls and .../pay-statements captures (docs/DECISIONS.md payroll entries))"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "pay_statement_detail",
-      "action": "no lines emitted; list fields only",
-      "record_key": "ukg-ready:33704016:12935181568:chk:85940003",
-      "raw_value": null,
-      "message": "bundle has no responses.pay_statement_detail['85940003'] entry"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "pay_statements['4332479999']",
-      "action": "pay_run_key set null",
-      "record_key": "ukg-ready:33704016:12935181570:chk:85940005",
-      "raw_value": "4332479999",
-      "message": "the payroll is not in the payrolls list"
     },
     {
       "code": "missing_section",

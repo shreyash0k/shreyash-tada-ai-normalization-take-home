@@ -40,8 +40,8 @@ class StarterChecks(unittest.TestCase):
                 code = main(["normalize", "--provider", "ukg-ready", "--entity", "direct-deposit",
                              "--input", str(bundle), "--output", str(output)])
             self.assertEqual(code, 0)
-            self.assertEqual(stderr.getvalue().strip(), "10 direct deposits, 6 issues")
-            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["direct_deposits"]), 10)
+            self.assertEqual(stderr.getvalue().strip(), "9 direct deposits, 2 issues")
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["direct_deposits"]), 9)
 
     def test_normalize_command_writes_deductions(self):
         bundle = Path(__file__).resolve().parent / "fixtures" / "prismhr" / "deduction-bundle.json"
@@ -52,8 +52,8 @@ class StarterChecks(unittest.TestCase):
                 code = main(["normalize", "--provider", "prismhr", "--entity", "deduction",
                              "--input", str(bundle), "--output", str(output)])
             self.assertEqual(code, 0)
-            self.assertEqual(stderr.getvalue().strip(), "11 deductions, 9 issues")
-            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["deductions"]), 11)
+            self.assertEqual(stderr.getvalue().strip(), "13 deductions, 2 issues")
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["deductions"]), 13)
 
     def test_normalize_command_writes_payroll(self):
         bundle = Path(__file__).resolve().parent / "fixtures" / "ukg-ready" / "payroll-bundle.json"
@@ -64,9 +64,9 @@ class StarterChecks(unittest.TestCase):
                 code = main(["normalize", "--provider", "ukg-ready", "--entity", "payroll",
                              "--input", str(bundle), "--output", str(output)])
             self.assertEqual(code, 0)
-            self.assertEqual(stderr.getvalue().strip(), "4 pay runs, 5 paychecks, 12 issues")
+            self.assertEqual(stderr.getvalue().strip(), "1 pay runs, 8 paychecks, 5 issues")
             written = json.loads(output.read_text(encoding="utf-8"))
-            self.assertEqual((len(written["pay_runs"]), len(written["paychecks"])), (4, 5))
+            self.assertEqual((len(written["pay_runs"]), len(written["paychecks"])), (1, 8))
 
     def test_normalize_command_writes_company(self):
         bundle = Path(__file__).resolve().parent / "fixtures" / "prismhr" / "company-bundle.json"

@@ -297,7 +297,7 @@ class _UkgEmployeeMapper:
                             "kept raw id; label null; canonical value set to unknown", key, raw_id,
                             f"{table.name}: id not present in the bundled lookup ({table.evidence})")
             return CodedValue(raw=raw_id, label=None, value=table.enum.UNKNOWN)
-        return self.issues.code(table, raw_id, path, key, label=name)
+        return self.issues.code_once(table, raw_id, path, key, label=name)
 
     def _report_once(self, path: str, message: str) -> None:
         if path in self.reported_mismatch:

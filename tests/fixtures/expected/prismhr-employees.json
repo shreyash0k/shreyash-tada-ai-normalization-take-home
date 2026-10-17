@@ -28,22 +28,22 @@
   },
   "employees": [
     {
-      "key": "prismhr:132:F00001",
+      "key": "prismhr:132:M00001",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "F00001",
+        "employee_id": "M00001",
         "secondary_ids": {
           "clientEmployeeId": "1"
         }
       },
       "person": {
-        "first_name": "Finley",
-        "middle_name": "C",
-        "last_name": "Kowalczyk",
+        "first_name": "Michael",
+        "middle_name": "R",
+        "last_name": "Scott",
         "preferred_name": null,
-        "birth_date": "1982-08-11",
+        "birth_date": "1968-03-22",
         "gender": {
           "raw": "X",
           "label": null,
@@ -64,17 +64,17 @@
           "label": null,
           "value": null
         },
-        "ssn_last4": "9978"
+        "ssn_last4": "3709"
       },
       "contact": {
         "addresses": [
           {
             "kind": "home",
-            "line1": "7191 Harbor Rd",
+            "line1": "8403 Summit Dr",
             "line2": null,
-            "city": "Riverton",
-            "region": "UT",
-            "postal_code": "84065",
+            "city": "Clayton",
+            "region": "MO",
+            "postal_code": "63105",
             "country": null
           },
           {
@@ -90,13 +90,13 @@
         "phones": [
           {
             "kind": "home",
-            "number": "5988095171",
+            "number": "5372415353",
             "extension": null,
             "preferred": null
           },
           {
             "kind": "mobile",
-            "number": "5875101597",
+            "number": "7535975171",
             "extension": null,
             "preferred": null
           }
@@ -104,11 +104,11 @@
         "emails": [
           {
             "kind": "unknown",
-            "address": "finley.kowalczyk@example.test"
+            "address": "mscott@dundermifflin.example"
           },
           {
             "kind": "other",
-            "address": "finley.benefits@example.test"
+            "address": "michael.benefits@example.test"
           }
         ]
       },
@@ -118,748 +118,26 @@
           "label": "A",
           "value": "active"
         },
-        "status_date": "2016-10-25",
+        "status_date": "2025-03-14",
         "employment_type": {
           "raw": "F",
           "label": "FT",
           "value": "full_time"
         },
-        "hire_date": "2016-10-25",
-        "original_hire_date": "2016-10-25",
+        "hire_date": "2025-03-14",
+        "original_hire_date": "2025-03-14",
         "rehire_date": null,
         "termination_date": null,
-        "seniority_date": "2016-10-25",
+        "seniority_date": "2025-03-14",
         "termination_reason": null,
         "rehire_eligible": true,
         "flsa_exempt": true,
         "contractor_1099": false
       },
       "job": {
-        "title": "Warehouse Associate",
+        "title": "Sales Representative",
         "job_code": {
-          "raw": "WHSE",
-          "label": null,
-          "value": null
-        },
-        "department": {
-          "raw": "200",
-          "label": null,
-          "value": null
-        },
-        "location": {
-          "raw": "1",
-          "label": null,
-          "value": null
-        },
-        "division": null,
-        "manager_employee_id": null,
-        "job_start_date": "2016-10-25"
-      },
-      "compensation": {
-        "pay_type": {
-          "raw": "S",
-          "label": null,
-          "value": "salary"
-        },
-        "pay_frequency": {
-          "raw": "B",
-          "label": null,
-          "value": "biweekly"
-        },
-        "rate": {
-          "amount": "2007.21",
-          "currency": "USD"
-        },
-        "rate_period": {
-          "raw": "B",
-          "label": null,
-          "value": "biweekly"
-        },
-        "hourly_rate": {
-          "amount": "0.0000",
-          "currency": "USD"
-        },
-        "annual_amount": {
-          "amount": "52187.46",
-          "currency": "USD"
-        },
-        "per_period_amount": {
-          "amount": "2007.21",
-          "currency": "USD"
-        },
-        "standard_hours": "40.00",
-        "standard_hours_period": {
-          "raw": null,
-          "label": "per pay period",
-          "value": "pay_period"
-        },
-        "standard_work_day_hours": null,
-        "effective_date": "2025-10-24"
-      },
-      "unmapped": {
-        "person.driverLicenseId": "",
-        "person.cobraSSN": "",
-        "person.employerId": [
-          "5"
-        ],
-        "person.cobraOnly": false,
-        "person.geoCode": "260030036",
-        "person.marriedDate": "",
-        "person.smoker": "N",
-        "person.peoStartDate": "2016-10-25",
-        "person.handicapped": "N",
-        "person.blind": "N",
-        "person.veteran": "N",
-        "person.vietnamVet": "N",
-        "person.disabledVet": "N",
-        "person.hrpCitizenshipCountry": null,
-        "person.deceased": false,
-        "person.taxZipCode": "",
-        "person.highlyCompensated": false,
-        "person.keyEmployee": false,
-        "person.overrideGeoCode": "",
-        "person.overrideGeoEndDate": "",
-        "person.nickname": "",
-        "person.deceasedDate": "",
-        "person.driverState": "",
-        "person.driverLicenseExpireDate": "",
-        "person.driverLicenseClass": "",
-        "person.ohioFormC112": false,
-        "person.unincorporatedResidence": false,
-        "person.w2ElecForm": true,
-        "person.w2ElecFormDate": "",
-        "person.hispanic": false,
-        "person.agricultureWorker": false,
-        "person.otherProtectedVet": "N",
-        "person.activeDutyBadgeVet": "N",
-        "person.recentlySeparatedVet": "N",
-        "person.serviceMedalVet": "N",
-        "person.preferredLanguage": "ENG",
-        "person.emergencyContact": [],
-        "person.userId": "",
-        "person.autoPolicy": [],
-        "person.vehicleDetails": [],
-        "person.personChecksum": "82459901",
-        "contactInformation.county": "",
-        "contactInformation.schoolDistrict": "",
-        "client.typeDate": "2016-10-25",
-        "client.transferInfo": [],
-        "client.property": [],
-        "client.hawaiiMedWaiver": [],
-        "client.cafeteriaPlan": [],
-        "client.officer": false,
-        "client.workCompOfficer": false,
-        "client.scorpOwner": false,
-        "client.businessOwner": false,
-        "client.lastStatusChangeDate": "",
-        "client.lastJobChangeDate": "",
-        "client.newHireReportDate": "",
-        "client.clockNum": "",
-        "client.primaryEmailSource": "",
-        "client.returnDate": "",
-        "client.probationDate": "2016-10-25",
-        "client.courtOrderMedical": false,
-        "client.childSpouseSupport": false,
-        "client.childSpouseArrears": false,
-        "client.handbookMailDate": "",
-        "client.handbookRecvDate": "",
-        "client.unionCode": "",
-        "client.unionDate": "",
-        "client.subCostCenter": "",
-        "client.electronicOnboard": false,
-        "client.electronicOnboardDate": "",
-        "client.reportsTo": "",
-        "client.onboardInProgress": false,
-        "client.backgroundTest": false,
-        "client.backgroundTestDate": "",
-        "client.workersCompExempt": null,
-        "client.genderDesignation": "",
-        "client.preferredPronoun": "",
-        "client.clientChecksum": "23723636",
-        "client.workShift": "",
-        "client.projCostCenter": "",
-        "client.workGroupCode": "",
-        "client.benefitGroup": "1",
-        "client.retirementBenefitGroup": "1",
-        "client.electronic1095C": "N",
-        "client.selfIdDisabilityForm": "",
-        "client.applicantId": "",
-        "compensation.payGroup": "WFRI",
-        "compensation.payPeriodsPerWeek": "",
-        "compensation.payPeriodInfo[0].periodCode": "W",
-        "compensation.payPeriodInfo[0].periodBase": "0.00",
-        "compensation.payPeriodInfo[1].periodCode": "B",
-        "compensation.payPeriodInfo[1].periodBase": "0.00",
-        "compensation.payPeriodInfo[2].periodCode": "S",
-        "compensation.payPeriodInfo[2].periodBase": "0.00",
-        "compensation.payPeriodInfo[3].periodCode": "M",
-        "compensation.payPeriodInfo[3].periodBase": "0.00",
-        "compensation.payPeriodInfo[4].periodCode": "A",
-        "compensation.payPeriodInfo[4].periodBase": "0.00",
-        "compensation.defaultHours": "0.00",
-        "compensation.allocationTemplateId": "",
-        "compensation.payAllocation": [],
-        "compensation.stateTax[0].stateCode": "UT",
-        "compensation.stateTax[0].nonResCertFiled": "",
-        "compensation.stateTax[0].filingStatus": "Single",
-        "compensation.stateTax[0].primaryAllowance": "0",
-        "compensation.stateTax[0].secondaryAllowance": "",
-        "compensation.stateTax[0].exemptAmount": "",
-        "compensation.stateTax[0].supplExemptAmount": "",
-        "compensation.stateTax[0].overrideType": "",
-        "compensation.stateTax[0].overrideAmount": "",
-        "compensation.stateTax[0].reduceAddlWithholding": null,
-        "compensation.stateTax[0].fixedWithholding": null,
-        "compensation.stateTax[0].alternateCalc": "",
-        "compensation.stateTax[0].stateW4Filed": "",
-        "compensation.stateTax[0].stateW4Year": "",
-        "compensation.stateTax[0].multipleJobs": false,
-        "compensation.stateTax[0].dependents": 0.0,
-        "compensation.stateTax[0].otherIncome": 0.0,
-        "compensation.stateTax[0].deductions": 0.0,
-        "compensation.stateTax[0].nonResCertYear": "",
-        "compensation.workShift": "",
-        "compensation.paidThruDate": "2016-10-25",
-        "compensation.eicFileStatus": "",
-        "compensation.fedFilingStatus": "M",
-        "compensation.fedWithholdAllowance": "0",
-        "compensation.fedOverrideType": "",
-        "compensation.fedOverrideAmt": "",
-        "compensation.fedTaxCalc": "",
-        "compensation.fedMultipleJobs": false,
-        "compensation.fedDependents": 0.0,
-        "compensation.fedOtherIncome": 0.0,
-        "compensation.fedDeductions": 0.0,
-        "compensation.deliverCheckHome": false,
-        "compensation.autoAcceptTimeSheet": false,
-        "compensation.longPayTable": "",
-        "compensation.longBasisDate": "",
-        "compensation.localTax": [],
-        "compensation.lastChangePct": "0.00",
-        "compensation.lastChangeAmt": "0.00",
-        "compensation.lastPayDate": "",
-        "compensation.quartile": "",
-        "compensation.compaRatio": "",
-        "compensation.benefitsBasePay": "",
-        "compensation.perDiemPay": "",
-        "compensation.taxCreditEmp": false,
-        "compensation.autoPayCode": "",
-        "compensation.altPayRate": [],
-        "compensation.pensionStatus": "N",
-        "compensation.profitSharing": "",
-        "compensation.eeImage": [],
-        "compensation.wagePlanCA": false,
-        "compensation.perfReviewLastDate": "",
-        "compensation.perfReviewNextDate": "",
-        "compensation.i9imageAudit": [],
-        "compensation.perfReviewLastRating": "",
-        "compensation.compReviewNextDate": "",
-        "compensation.perfReviewLastTitle": "",
-        "compensation.fedW5Year": "",
-        "compensation.fedW5Filed": false,
-        "compensation.fedW4Filed": false,
-        "compensation.fedW4Year": "",
-        "compensation.lockIns": [],
-        "compensation.formI9Filed": true,
-        "compensation.formI9RenewDate": "",
-        "compensation.notes": "",
-        "compensation.ficaExempt": false,
-        "compensation.benefitsPerHour": "",
-        "compensation.perfAgreement": false,
-        "compensation.payRate2": "",
-        "compensation.payRate3": "",
-        "compensation.payRate4": "",
-        "compensation.payChangeLastDate": "",
-        "compensation.overrideWorkGeocode": "",
-        "compensation.familyMemberMI": "",
-        "compensation.probationCodeMO": "",
-        "compensation.electronicPayStub": true,
-        "compensation.healthInsVT": false,
-        "compensation.lastWorkedDate": "",
-        "compensation.irsLockInDate": "",
-        "compensation.nonResAlien": false,
-        "compensation.alienRegExpDate": "",
-        "compensation.benefitSalary": "",
-        "compensation.firstPayPeriodHours": "",
-        "compensation.compensationChecksum": "40407862",
-        "compensation.providerNotifiedOn": "",
-        "compensation.alternateId": "",
-        "compensation.w8Filed": false,
-        "directDeposit": null,
-        "hsa": null,
-        "employeeEvents": null,
-        "health": null,
-        "skillsAndEducation": null,
-        "absenceJournalId": null,
-        "benefitEnrollmentCompleted": null,
-        "scheduledDeduction": null,
-        "newHireQuestions": null,
-        "enrollmentInProgress": null
-      }
-    },
-    {
-      "key": "prismhr:132:M00002",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "M00002",
-        "secondary_ids": {
-          "clientEmployeeId": "2"
-        }
-      },
-      "person": {
-        "first_name": "Morgan",
-        "middle_name": "M",
-        "last_name": "Delgado",
-        "preferred_name": null,
-        "birth_date": "1967-09-25",
-        "gender": {
-          "raw": "D",
-          "label": null,
-          "value": "declined"
-        },
-        "marital_status": {
-          "raw": "S",
-          "label": null,
-          "value": "single"
-        },
-        "citizenship": {
-          "raw": "Z01",
-          "label": null,
-          "value": "citizen"
-        },
-        "ethnicity": {
-          "raw": "H",
-          "label": null,
-          "value": null
-        },
-        "ssn_last4": null
-      },
-      "contact": {
-        "addresses": [
-          {
-            "kind": "home",
-            "line1": "6875 Cedar Ln",
-            "line2": null,
-            "city": "Ashland",
-            "region": "VA",
-            "postal_code": "23005",
-            "country": null
-          }
-        ],
-        "phones": [
-          {
-            "kind": "home",
-            "number": "9525565686",
-            "extension": null,
-            "preferred": null
-          }
-        ],
-        "emails": [
-          {
-            "kind": "unknown",
-            "address": "morgan.delgado@example.test"
-          },
-          {
-            "kind": "work",
-            "address": "mdelgado@client.test"
-          }
-        ]
-      },
-      "employment": {
-        "status": {
-          "raw": "A",
-          "label": "A",
-          "value": "active"
-        },
-        "status_date": "2015-05-17",
-        "employment_type": {
-          "raw": "F",
-          "label": "FT",
-          "value": "full_time"
-        },
-        "hire_date": "2015-05-17",
-        "original_hire_date": "2015-05-17",
-        "rehire_date": null,
-        "termination_date": null,
-        "seniority_date": "2015-05-17",
-        "termination_reason": null,
-        "rehire_eligible": null,
-        "flsa_exempt": false,
-        "contractor_1099": false
-      },
-      "job": {
-        "title": "Office Staff",
-        "job_code": {
-          "raw": "OFFICE",
-          "label": null,
-          "value": null
-        },
-        "department": {
-          "raw": "200",
-          "label": null,
-          "value": null
-        },
-        "location": {
-          "raw": "1",
-          "label": null,
-          "value": null
-        },
-        "division": {
-          "raw": "EAST",
-          "label": null,
-          "value": null
-        },
-        "manager_employee_id": "F00001",
-        "job_start_date": "2015-05-17"
-      },
-      "compensation": {
-        "pay_type": {
-          "raw": "H",
-          "label": null,
-          "value": "hourly"
-        },
-        "pay_frequency": {
-          "raw": "S",
-          "label": null,
-          "value": "semimonthly"
-        },
-        "rate": {
-          "amount": "22.6990",
-          "currency": "USD"
-        },
-        "rate_period": {
-          "raw": "H",
-          "label": null,
-          "value": "hourly"
-        },
-        "hourly_rate": {
-          "amount": "22.6990",
-          "currency": "USD"
-        },
-        "annual_amount": {
-          "amount": "47213.92",
-          "currency": "USD"
-        },
-        "per_period_amount": {
-          "amount": "0.00",
-          "currency": "USD"
-        },
-        "standard_hours": "40.00",
-        "standard_hours_period": {
-          "raw": null,
-          "label": "per pay period",
-          "value": "pay_period"
-        },
-        "standard_work_day_hours": null,
-        "effective_date": "2025-05-21"
-      },
-      "unmapped": {
-        "person.driverLicenseId": "",
-        "person.cobraSSN": "",
-        "person.employerId": [
-          "5"
-        ],
-        "person.cobraOnly": false,
-        "person.geoCode": "260030036",
-        "person.marriedDate": "",
-        "person.smoker": "N",
-        "person.peoStartDate": "2015-05-17",
-        "person.handicapped": "N",
-        "person.blind": "N",
-        "person.veteran": "N",
-        "person.vietnamVet": "N",
-        "person.disabledVet": "N",
-        "person.hrpCitizenshipCountry": null,
-        "person.deceased": false,
-        "person.taxZipCode": "",
-        "person.highlyCompensated": false,
-        "person.keyEmployee": false,
-        "person.overrideGeoCode": "",
-        "person.overrideGeoEndDate": "",
-        "person.nickname": "",
-        "person.deceasedDate": "",
-        "person.driverState": "",
-        "person.driverLicenseExpireDate": "",
-        "person.driverLicenseClass": "",
-        "person.ohioFormC112": false,
-        "person.unincorporatedResidence": false,
-        "person.w2ElecForm": true,
-        "person.w2ElecFormDate": "",
-        "person.hispanic": false,
-        "person.agricultureWorker": false,
-        "person.otherProtectedVet": "N",
-        "person.activeDutyBadgeVet": "N",
-        "person.recentlySeparatedVet": "N",
-        "person.serviceMedalVet": "N",
-        "person.preferredLanguage": "ENG",
-        "person.emergencyContact": [],
-        "person.userId": "",
-        "person.autoPolicy": [],
-        "person.vehicleDetails": [],
-        "person.personChecksum": "14655538",
-        "contactInformation.county": "",
-        "contactInformation.schoolDistrict": "",
-        "client.typeDate": "2015-05-17",
-        "client.transferInfo": [],
-        "client.property": [],
-        "client.hawaiiMedWaiver": [],
-        "client.cafeteriaPlan": [],
-        "client.officer": false,
-        "client.workCompOfficer": false,
-        "client.scorpOwner": false,
-        "client.businessOwner": false,
-        "client.lastStatusChangeDate": "",
-        "client.lastJobChangeDate": "",
-        "client.newHireReportDate": "",
-        "client.clockNum": "",
-        "client.primaryEmailSource": "",
-        "client.returnDate": "",
-        "client.probationDate": "2015-05-17",
-        "client.courtOrderMedical": false,
-        "client.childSpouseSupport": false,
-        "client.childSpouseArrears": false,
-        "client.handbookMailDate": "",
-        "client.handbookRecvDate": "",
-        "client.unionCode": "",
-        "client.unionDate": "",
-        "client.subCostCenter": "",
-        "client.electronicOnboard": false,
-        "client.electronicOnboardDate": "",
-        "client.reportsTo": "",
-        "client.onboardInProgress": false,
-        "client.backgroundTest": false,
-        "client.backgroundTestDate": "",
-        "client.workersCompExempt": null,
-        "client.genderDesignation": "",
-        "client.preferredPronoun": "",
-        "client.clientChecksum": "40243631",
-        "client.workShift": "",
-        "client.projCostCenter": "",
-        "client.workGroupCode": "",
-        "client.benefitGroup": "1",
-        "client.retirementBenefitGroup": "1",
-        "client.electronic1095C": "N",
-        "client.selfIdDisabilityForm": "",
-        "client.applicantId": "",
-        "compensation.payGroup": "WFRI",
-        "compensation.payPeriodsPerWeek": "",
-        "compensation.payPeriodInfo[0].periodCode": "W",
-        "compensation.payPeriodInfo[0].periodBase": "0.00",
-        "compensation.payPeriodInfo[1].periodCode": "B",
-        "compensation.payPeriodInfo[1].periodBase": "0.00",
-        "compensation.payPeriodInfo[2].periodCode": "S",
-        "compensation.payPeriodInfo[2].periodBase": "0.00",
-        "compensation.payPeriodInfo[3].periodCode": "M",
-        "compensation.payPeriodInfo[3].periodBase": "0.00",
-        "compensation.payPeriodInfo[4].periodCode": "A",
-        "compensation.payPeriodInfo[4].periodBase": "0.00",
-        "compensation.defaultHours": "0.00",
-        "compensation.allocationTemplateId": "",
-        "compensation.payAllocation": [],
-        "compensation.stateTax[0].stateCode": "VA",
-        "compensation.stateTax[0].nonResCertFiled": "",
-        "compensation.stateTax[0].filingStatus": "Single",
-        "compensation.stateTax[0].primaryAllowance": "0",
-        "compensation.stateTax[0].secondaryAllowance": "",
-        "compensation.stateTax[0].exemptAmount": "",
-        "compensation.stateTax[0].supplExemptAmount": "",
-        "compensation.stateTax[0].overrideType": "",
-        "compensation.stateTax[0].overrideAmount": "",
-        "compensation.stateTax[0].reduceAddlWithholding": null,
-        "compensation.stateTax[0].fixedWithholding": null,
-        "compensation.stateTax[0].alternateCalc": "",
-        "compensation.stateTax[0].stateW4Filed": "",
-        "compensation.stateTax[0].stateW4Year": "",
-        "compensation.stateTax[0].multipleJobs": false,
-        "compensation.stateTax[0].dependents": 0.0,
-        "compensation.stateTax[0].otherIncome": 0.0,
-        "compensation.stateTax[0].deductions": 0.0,
-        "compensation.stateTax[0].nonResCertYear": "",
-        "compensation.workShift": "",
-        "compensation.paidThruDate": "2015-05-17",
-        "compensation.eicFileStatus": "",
-        "compensation.fedFilingStatus": "SS",
-        "compensation.fedWithholdAllowance": "0",
-        "compensation.fedOverrideType": "",
-        "compensation.fedOverrideAmt": "",
-        "compensation.fedTaxCalc": "",
-        "compensation.fedMultipleJobs": false,
-        "compensation.fedDependents": 0.0,
-        "compensation.fedOtherIncome": 0.0,
-        "compensation.fedDeductions": 0.0,
-        "compensation.deliverCheckHome": false,
-        "compensation.autoAcceptTimeSheet": false,
-        "compensation.longPayTable": "",
-        "compensation.longBasisDate": "",
-        "compensation.localTax": [],
-        "compensation.lastChangePct": "0.00",
-        "compensation.lastChangeAmt": "0.00",
-        "compensation.lastPayDate": "",
-        "compensation.quartile": "",
-        "compensation.compaRatio": "",
-        "compensation.benefitsBasePay": "",
-        "compensation.perDiemPay": "",
-        "compensation.taxCreditEmp": false,
-        "compensation.autoPayCode": "",
-        "compensation.altPayRate": [],
-        "compensation.pensionStatus": "N",
-        "compensation.profitSharing": "",
-        "compensation.eeImage": [],
-        "compensation.wagePlanCA": false,
-        "compensation.perfReviewLastDate": "",
-        "compensation.perfReviewNextDate": "",
-        "compensation.i9imageAudit": [],
-        "compensation.perfReviewLastRating": "",
-        "compensation.compReviewNextDate": "",
-        "compensation.perfReviewLastTitle": "",
-        "compensation.fedW5Year": "",
-        "compensation.fedW5Filed": false,
-        "compensation.fedW4Filed": false,
-        "compensation.fedW4Year": "",
-        "compensation.lockIns": [],
-        "compensation.formI9Filed": true,
-        "compensation.formI9RenewDate": "",
-        "compensation.notes": "",
-        "compensation.ficaExempt": false,
-        "compensation.benefitsPerHour": "",
-        "compensation.perfAgreement": false,
-        "compensation.payRate2": "",
-        "compensation.payRate3": "",
-        "compensation.payRate4": "",
-        "compensation.payChangeLastDate": "",
-        "compensation.overrideWorkGeocode": "",
-        "compensation.familyMemberMI": "",
-        "compensation.probationCodeMO": "",
-        "compensation.electronicPayStub": true,
-        "compensation.healthInsVT": false,
-        "compensation.lastWorkedDate": "",
-        "compensation.irsLockInDate": "",
-        "compensation.nonResAlien": false,
-        "compensation.alienRegExpDate": "",
-        "compensation.benefitSalary": "",
-        "compensation.firstPayPeriodHours": "",
-        "compensation.compensationChecksum": "10169624",
-        "compensation.providerNotifiedOn": "",
-        "compensation.alternateId": "",
-        "compensation.w8Filed": false,
-        "directDeposit": null,
-        "hsa": null,
-        "employeeEvents": null,
-        "health": null,
-        "skillsAndEducation": null,
-        "absenceJournalId": null,
-        "benefitEnrollmentCompleted": null,
-        "scheduledDeduction": null,
-        "newHireQuestions": null,
-        "enrollmentInProgress": null
-      }
-    },
-    {
-      "key": "prismhr:132:D00003",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "D00003",
-        "secondary_ids": {
-          "clientEmployeeId": "3"
-        }
-      },
-      "person": {
-        "first_name": "Dakota",
-        "middle_name": "C",
-        "last_name": "Delgado",
-        "preferred_name": null,
-        "birth_date": "1988-06-22",
-        "gender": {
-          "raw": "D",
-          "label": null,
-          "value": "declined"
-        },
-        "marital_status": {
-          "raw": "M",
-          "label": null,
-          "value": "married"
-        },
-        "citizenship": {
-          "raw": "Z01",
-          "label": null,
-          "value": "citizen"
-        },
-        "ethnicity": {
-          "raw": "*",
-          "label": null,
-          "value": null
-        },
-        "ssn_last4": "8313"
-      },
-      "contact": {
-        "addresses": [
-          {
-            "kind": "home",
-            "line1": "3476 Birch Ct",
-            "line2": null,
-            "city": "Ashland",
-            "region": "VA",
-            "postal_code": "23005",
-            "country": null
-          }
-        ],
-        "phones": [
-          {
-            "kind": "home",
-            "number": "5407708308",
-            "extension": null,
-            "preferred": null
-          },
-          {
-            "kind": "mobile",
-            "number": "9049243249",
-            "extension": null,
-            "preferred": null
-          },
-          {
-            "kind": "work",
-            "number": "2416382176",
-            "extension": "12",
-            "preferred": null
-          }
-        ],
-        "emails": [
-          {
-            "kind": "unknown",
-            "address": "dakota.delgado@example.test"
-          }
-        ]
-      },
-      "employment": {
-        "status": {
-          "raw": "L",
-          "label": "LOA",
-          "value": "on_leave"
-        },
-        "status_date": "2018-08-28",
-        "employment_type": {
-          "raw": "P",
-          "label": "PT",
-          "value": "part_time"
-        },
-        "hire_date": "2018-08-28",
-        "original_hire_date": "2018-08-28",
-        "rehire_date": null,
-        "termination_date": null,
-        "seniority_date": "2018-08-28",
-        "termination_reason": null,
-        "rehire_eligible": null,
-        "flsa_exempt": false,
-        "contractor_1099": false
-      },
-      "job": {
-        "title": "Office Staff",
-        "job_code": {
-          "raw": "OFFICE",
+          "raw": "SALES",
           "label": null,
           "value": null
         },
@@ -869,372 +147,13 @@
           "value": null
         },
         "location": {
-          "raw": "1",
-          "label": null,
-          "value": null
-        },
-        "division": null,
-        "manager_employee_id": "F00001",
-        "job_start_date": "2018-08-28"
-      },
-      "compensation": {
-        "pay_type": {
-          "raw": "H",
-          "label": null,
-          "value": "hourly"
-        },
-        "pay_frequency": {
-          "raw": "M",
-          "label": null,
-          "value": "monthly"
-        },
-        "rate": {
-          "amount": "46.5025",
-          "currency": "USD"
-        },
-        "rate_period": {
-          "raw": "H",
-          "label": null,
-          "value": "hourly"
-        },
-        "hourly_rate": {
-          "amount": "46.5025",
-          "currency": "USD"
-        },
-        "annual_amount": {
-          "amount": "96725.20",
-          "currency": "USD"
-        },
-        "per_period_amount": {
-          "amount": "0.00",
-          "currency": "USD"
-        },
-        "standard_hours": "24.00",
-        "standard_hours_period": {
-          "raw": null,
-          "label": "per pay period",
-          "value": "pay_period"
-        },
-        "standard_work_day_hours": null,
-        "effective_date": "2025-03-09"
-      },
-      "unmapped": {
-        "person.driverLicenseId": "",
-        "person.cobraSSN": "",
-        "person.employerId": [
-          "5"
-        ],
-        "person.cobraOnly": false,
-        "person.geoCode": "260030036",
-        "person.marriedDate": "",
-        "person.smoker": "N",
-        "person.peoStartDate": "2018-08-28",
-        "person.handicapped": "N",
-        "person.blind": "N",
-        "person.veteran": "N",
-        "person.vietnamVet": "N",
-        "person.disabledVet": "N",
-        "person.hrpCitizenshipCountry": null,
-        "person.deceased": false,
-        "person.taxZipCode": "",
-        "person.highlyCompensated": false,
-        "person.keyEmployee": false,
-        "person.overrideGeoCode": "",
-        "person.overrideGeoEndDate": "",
-        "person.nickname": "",
-        "person.deceasedDate": "",
-        "person.driverState": "",
-        "person.driverLicenseExpireDate": "",
-        "person.driverLicenseClass": "",
-        "person.ohioFormC112": false,
-        "person.unincorporatedResidence": false,
-        "person.w2ElecForm": true,
-        "person.w2ElecFormDate": "",
-        "person.hispanic": false,
-        "person.agricultureWorker": false,
-        "person.otherProtectedVet": "N",
-        "person.activeDutyBadgeVet": "N",
-        "person.recentlySeparatedVet": "N",
-        "person.serviceMedalVet": "N",
-        "person.preferredLanguage": "ENG",
-        "person.emergencyContact": [],
-        "person.userId": "",
-        "person.autoPolicy": [],
-        "person.vehicleDetails": [],
-        "person.personChecksum": "15786840",
-        "contactInformation.county": "",
-        "contactInformation.schoolDistrict": "",
-        "client.typeDate": "2018-08-28",
-        "client.transferInfo": [],
-        "client.property": [],
-        "client.hawaiiMedWaiver": [],
-        "client.cafeteriaPlan": [],
-        "client.officer": false,
-        "client.workCompOfficer": false,
-        "client.scorpOwner": false,
-        "client.businessOwner": false,
-        "client.lastStatusChangeDate": "",
-        "client.lastJobChangeDate": "",
-        "client.newHireReportDate": "",
-        "client.clockNum": "",
-        "client.primaryEmailSource": "",
-        "client.returnDate": "",
-        "client.probationDate": "2018-08-28",
-        "client.courtOrderMedical": false,
-        "client.childSpouseSupport": false,
-        "client.childSpouseArrears": false,
-        "client.handbookMailDate": "",
-        "client.handbookRecvDate": "",
-        "client.unionCode": "",
-        "client.unionDate": "",
-        "client.subCostCenter": "",
-        "client.electronicOnboard": false,
-        "client.electronicOnboardDate": "",
-        "client.reportsTo": "",
-        "client.onboardInProgress": false,
-        "client.backgroundTest": false,
-        "client.backgroundTestDate": "",
-        "client.workersCompExempt": null,
-        "client.genderDesignation": "",
-        "client.preferredPronoun": "",
-        "client.clientChecksum": "60276515",
-        "client.workShift": "",
-        "client.projCostCenter": "",
-        "client.workGroupCode": "",
-        "client.benefitGroup": "1",
-        "client.retirementBenefitGroup": "1",
-        "client.electronic1095C": "N",
-        "client.selfIdDisabilityForm": "",
-        "client.applicantId": "",
-        "compensation.payGroup": "WFRI",
-        "compensation.payPeriodsPerWeek": "",
-        "compensation.payPeriodInfo[0].periodCode": "W",
-        "compensation.payPeriodInfo[0].periodBase": "0.00",
-        "compensation.payPeriodInfo[1].periodCode": "B",
-        "compensation.payPeriodInfo[1].periodBase": "0.00",
-        "compensation.payPeriodInfo[2].periodCode": "S",
-        "compensation.payPeriodInfo[2].periodBase": "0.00",
-        "compensation.payPeriodInfo[3].periodCode": "M",
-        "compensation.payPeriodInfo[3].periodBase": "0.00",
-        "compensation.payPeriodInfo[4].periodCode": "A",
-        "compensation.payPeriodInfo[4].periodBase": "0.00",
-        "compensation.defaultHours": "0.00",
-        "compensation.allocationTemplateId": "",
-        "compensation.payAllocation": [],
-        "compensation.stateTax[0].stateCode": "VA",
-        "compensation.stateTax[0].nonResCertFiled": "",
-        "compensation.stateTax[0].filingStatus": "Single",
-        "compensation.stateTax[0].primaryAllowance": "0",
-        "compensation.stateTax[0].secondaryAllowance": "",
-        "compensation.stateTax[0].exemptAmount": "",
-        "compensation.stateTax[0].supplExemptAmount": "",
-        "compensation.stateTax[0].overrideType": "",
-        "compensation.stateTax[0].overrideAmount": "",
-        "compensation.stateTax[0].reduceAddlWithholding": null,
-        "compensation.stateTax[0].fixedWithholding": null,
-        "compensation.stateTax[0].alternateCalc": "",
-        "compensation.stateTax[0].stateW4Filed": "",
-        "compensation.stateTax[0].stateW4Year": "",
-        "compensation.stateTax[0].multipleJobs": false,
-        "compensation.stateTax[0].dependents": 0.0,
-        "compensation.stateTax[0].otherIncome": 0.0,
-        "compensation.stateTax[0].deductions": 0.0,
-        "compensation.stateTax[0].nonResCertYear": "",
-        "compensation.workShift": "",
-        "compensation.paidThruDate": "2018-08-28",
-        "compensation.eicFileStatus": "",
-        "compensation.fedFilingStatus": "H",
-        "compensation.fedWithholdAllowance": "0",
-        "compensation.fedOverrideType": "",
-        "compensation.fedOverrideAmt": "",
-        "compensation.fedTaxCalc": "",
-        "compensation.fedMultipleJobs": false,
-        "compensation.fedDependents": 0.0,
-        "compensation.fedOtherIncome": 0.0,
-        "compensation.fedDeductions": 0.0,
-        "compensation.deliverCheckHome": false,
-        "compensation.autoAcceptTimeSheet": false,
-        "compensation.longPayTable": "",
-        "compensation.longBasisDate": "",
-        "compensation.localTax": [],
-        "compensation.lastChangePct": "0.00",
-        "compensation.lastChangeAmt": "0.00",
-        "compensation.lastPayDate": "",
-        "compensation.quartile": "",
-        "compensation.compaRatio": "",
-        "compensation.benefitsBasePay": "",
-        "compensation.perDiemPay": "",
-        "compensation.taxCreditEmp": false,
-        "compensation.autoPayCode": "",
-        "compensation.altPayRate": [],
-        "compensation.pensionStatus": "N",
-        "compensation.profitSharing": "",
-        "compensation.eeImage": [],
-        "compensation.wagePlanCA": false,
-        "compensation.perfReviewLastDate": "",
-        "compensation.perfReviewNextDate": "",
-        "compensation.i9imageAudit": [],
-        "compensation.perfReviewLastRating": "",
-        "compensation.compReviewNextDate": "",
-        "compensation.perfReviewLastTitle": "",
-        "compensation.fedW5Year": "",
-        "compensation.fedW5Filed": false,
-        "compensation.fedW4Filed": false,
-        "compensation.fedW4Year": "",
-        "compensation.lockIns": [],
-        "compensation.formI9Filed": true,
-        "compensation.formI9RenewDate": "",
-        "compensation.notes": "",
-        "compensation.ficaExempt": false,
-        "compensation.benefitsPerHour": "",
-        "compensation.perfAgreement": false,
-        "compensation.payRate2": "",
-        "compensation.payRate3": "",
-        "compensation.payRate4": "",
-        "compensation.payChangeLastDate": "",
-        "compensation.overrideWorkGeocode": "",
-        "compensation.familyMemberMI": "",
-        "compensation.probationCodeMO": "",
-        "compensation.electronicPayStub": true,
-        "compensation.healthInsVT": false,
-        "compensation.lastWorkedDate": "",
-        "compensation.irsLockInDate": "",
-        "compensation.nonResAlien": false,
-        "compensation.alienRegExpDate": "",
-        "compensation.benefitSalary": "",
-        "compensation.firstPayPeriodHours": "",
-        "compensation.compensationChecksum": "38359721",
-        "compensation.providerNotifiedOn": "",
-        "compensation.alternateId": "",
-        "compensation.w8Filed": false,
-        "directDeposit": null,
-        "hsa": null,
-        "employeeEvents": null,
-        "health": null,
-        "skillsAndEducation": null,
-        "absenceJournalId": null,
-        "benefitEnrollmentCompleted": null,
-        "scheduledDeduction": null,
-        "newHireQuestions": null,
-        "enrollmentInProgress": null
-      }
-    },
-    {
-      "key": "prismhr:132:S00004",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "S00004",
-        "secondary_ids": {
-          "clientEmployeeId": "4"
-        }
-      },
-      "person": {
-        "first_name": "Sage",
-        "middle_name": "K",
-        "last_name": "Ferreira",
-        "preferred_name": null,
-        "birth_date": "1963-05-18",
-        "gender": {
-          "raw": "X",
-          "label": null,
-          "value": "nonbinary"
-        },
-        "marital_status": {
-          "raw": "W",
-          "label": null,
-          "value": "widowed"
-        },
-        "citizenship": {
-          "raw": "A lawful permanent resident",
-          "label": null,
-          "value": "unknown"
-        },
-        "ethnicity": {
-          "raw": "*",
-          "label": null,
-          "value": null
-        },
-        "ssn_last4": "7722"
-      },
-      "contact": {
-        "addresses": [
-          {
-            "kind": "home",
-            "line1": "9591 Summit Dr",
-            "line2": null,
-            "city": "Franklin",
-            "region": "TN",
-            "postal_code": "37064",
-            "country": null
-          }
-        ],
-        "phones": [
-          {
-            "kind": "home",
-            "number": "8707441835",
-            "extension": null,
-            "preferred": null
-          }
-        ],
-        "emails": [
-          {
-            "kind": "unknown",
-            "address": "sage.ferreira@example.test"
-          },
-          {
-            "kind": "work",
-            "address": "sferreira@client.test"
-          }
-        ]
-      },
-      "employment": {
-        "status": {
-          "raw": "T",
-          "label": "T",
-          "value": "terminated"
-        },
-        "status_date": "2015-01-09",
-        "employment_type": {
-          "raw": "F",
-          "label": "FT",
-          "value": "full_time"
-        },
-        "hire_date": "2015-01-09",
-        "original_hire_date": "2015-01-09",
-        "rehire_date": null,
-        "termination_date": null,
-        "seniority_date": "2015-01-09",
-        "termination_reason": {
-          "raw": "RES",
-          "label": "Resigned",
-          "value": null
-        },
-        "rehire_eligible": false,
-        "flsa_exempt": true,
-        "contractor_1099": false
-      },
-      "job": {
-        "title": "Warehouse Associate",
-        "job_code": {
-          "raw": "WHSE",
-          "label": null,
-          "value": null
-        },
-        "department": {
-          "raw": "300",
-          "label": null,
-          "value": null
-        },
-        "location": {
-          "raw": "3",
+          "raw": "2",
           "label": null,
           "value": null
         },
         "division": null,
         "manager_employee_id": null,
-        "job_start_date": "2015-01-09"
+        "job_start_date": "2025-03-14"
       },
       "compensation": {
         "pay_type": {
@@ -1243,29 +162,29 @@
           "value": "salary"
         },
         "pay_frequency": {
-          "raw": "B",
+          "raw": "M",
           "label": null,
-          "value": "biweekly"
+          "value": "monthly"
         },
         "rate": {
-          "amount": "3747.13",
+          "amount": "3849.01",
           "currency": "USD"
         },
         "rate_period": {
-          "raw": "B",
+          "raw": "Y",
           "label": null,
-          "value": "biweekly"
+          "value": "annual"
         },
         "hourly_rate": {
           "amount": "0.0000",
           "currency": "USD"
         },
         "annual_amount": {
-          "amount": "97425.38",
+          "amount": "100074.26",
           "currency": "USD"
         },
         "per_period_amount": {
-          "amount": "3747.13",
+          "amount": "3849.01",
           "currency": "USD"
         },
         "standard_hours": "40.00",
@@ -1275,7 +194,7 @@
           "value": "pay_period"
         },
         "standard_work_day_hours": null,
-        "effective_date": "2026-11-21"
+        "effective_date": "2025-12-16"
       },
       "unmapped": {
         "person.driverLicenseId": "",
@@ -1287,7 +206,7 @@
         "person.geoCode": "260030036",
         "person.marriedDate": "",
         "person.smoker": "N",
-        "person.peoStartDate": "2015-01-09",
+        "person.peoStartDate": "2025-03-14",
         "person.handicapped": "N",
         "person.blind": "N",
         "person.veteran": "N",
@@ -1320,10 +239,10 @@
         "person.userId": "",
         "person.autoPolicy": [],
         "person.vehicleDetails": [],
-        "person.personChecksum": "35362856",
+        "person.personChecksum": "70881149",
         "contactInformation.county": "",
         "contactInformation.schoolDistrict": "",
-        "client.typeDate": "2015-01-09",
+        "client.typeDate": "2025-03-14",
         "client.transferInfo": [],
         "client.property": [],
         "client.hawaiiMedWaiver": [],
@@ -1338,7 +257,7 @@
         "client.clockNum": "",
         "client.primaryEmailSource": "",
         "client.returnDate": "",
-        "client.probationDate": "2015-01-09",
+        "client.probationDate": "2025-03-14",
         "client.courtOrderMedical": false,
         "client.childSpouseSupport": false,
         "client.childSpouseArrears": false,
@@ -1356,7 +275,7 @@
         "client.workersCompExempt": null,
         "client.genderDesignation": "",
         "client.preferredPronoun": "",
-        "client.clientChecksum": "80059533",
+        "client.clientChecksum": "60674538",
         "client.workShift": "",
         "client.projCostCenter": "",
         "client.workGroupCode": "",
@@ -1380,7 +299,7 @@
         "compensation.defaultHours": "0.00",
         "compensation.allocationTemplateId": "",
         "compensation.payAllocation": [],
-        "compensation.stateTax[0].stateCode": "TN",
+        "compensation.stateTax[0].stateCode": "MO",
         "compensation.stateTax[0].nonResCertFiled": "",
         "compensation.stateTax[0].filingStatus": "Single",
         "compensation.stateTax[0].primaryAllowance": "0",
@@ -1400,7 +319,7 @@
         "compensation.stateTax[0].deductions": 0.0,
         "compensation.stateTax[0].nonResCertYear": "",
         "compensation.workShift": "",
-        "compensation.paidThruDate": "2015-01-09",
+        "compensation.paidThruDate": "2025-03-14",
         "compensation.eicFileStatus": "",
         "compensation.fedFilingStatus": "S",
         "compensation.fedWithholdAllowance": "0",
@@ -1462,7 +381,7 @@
         "compensation.alienRegExpDate": "",
         "compensation.benefitSalary": "",
         "compensation.firstPayPeriodHours": "",
-        "compensation.compensationChecksum": "95543829",
+        "compensation.compensationChecksum": "33836460",
         "compensation.providerNotifiedOn": "",
         "compensation.alternateId": "",
         "compensation.w8Filed": false,
@@ -1479,31 +398,31 @@
       }
     },
     {
-      "key": "prismhr:132:Q00005",
+      "key": "prismhr:132:D00002",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "Q00005",
+        "employee_id": "D00002",
         "secondary_ids": {
-          "clientEmployeeId": "5"
+          "clientEmployeeId": "2"
         }
       },
       "person": {
-        "first_name": "Quinn",
-        "middle_name": "S",
-        "last_name": "Delgado",
+        "first_name": "Dwight",
+        "middle_name": "E",
+        "last_name": "Schrute",
         "preferred_name": null,
-        "birth_date": "1983-11-14",
+        "birth_date": "1978-09-07",
         "gender": {
-          "raw": "F",
+          "raw": "D",
           "label": null,
-          "value": "female"
+          "value": "declined"
         },
         "marital_status": {
-          "raw": "S",
+          "raw": "W",
           "label": null,
-          "value": "single"
+          "value": "widowed"
         },
         "citizenship": {
           "raw": "Z01",
@@ -1515,30 +434,24 @@
           "label": null,
           "value": null
         },
-        "ssn_last4": "9809"
+        "ssn_last4": "5686"
       },
       "contact": {
         "addresses": [
           {
             "kind": "home",
-            "line1": "3378 Birch Ct",
+            "line1": "3811 Willow Way",
             "line2": null,
-            "city": "Franklin",
-            "region": "TN",
-            "postal_code": "37064",
+            "city": "Springfield",
+            "region": "IL",
+            "postal_code": "62704",
             "country": null
           }
         ],
         "phones": [
           {
             "kind": "home",
-            "number": "4795079207",
-            "extension": null,
-            "preferred": null
-          },
-          {
-            "kind": "mobile",
-            "number": "3119632272",
+            "number": "7279852792",
             "extension": null,
             "preferred": null
           }
@@ -1546,46 +459,50 @@
         "emails": [
           {
             "kind": "unknown",
-            "address": "quinn.delgado@example.test"
+            "address": "dschrute@dundermifflin.example"
+          },
+          {
+            "kind": "work",
+            "address": "dschrute@client.test"
           }
         ]
       },
       "employment": {
         "status": {
-          "raw": "Q",
-          "label": "Q",
-          "value": "unknown"
+          "raw": "A",
+          "label": "A",
+          "value": "active"
         },
-        "status_date": "2022-04-03",
+        "status_date": "2016-08-15",
         "employment_type": {
           "raw": "F",
           "label": "FT",
           "value": "full_time"
         },
-        "hire_date": "2022-04-03",
-        "original_hire_date": "2022-04-03",
+        "hire_date": "2016-08-15",
+        "original_hire_date": "2016-08-15",
         "rehire_date": null,
         "termination_date": null,
-        "seniority_date": "2022-04-03",
+        "seniority_date": "2016-08-15",
         "termination_reason": null,
         "rehire_eligible": null,
         "flsa_exempt": false,
         "contractor_1099": false
       },
       "job": {
-        "title": "Warehouse Associate",
+        "title": "Receptionist",
         "job_code": {
-          "raw": "WHSE",
+          "raw": "OFFICE",
           "label": null,
           "value": null
         },
         "department": {
-          "raw": "300",
+          "raw": "100",
           "label": null,
           "value": null
         },
         "location": {
-          "raw": "1",
+          "raw": "3",
           "label": null,
           "value": null
         },
@@ -1594,39 +511,39 @@
           "label": null,
           "value": null
         },
-        "manager_employee_id": "F00001",
-        "job_start_date": "2022-04-03"
+        "manager_employee_id": "M00001",
+        "job_start_date": "2016-08-15"
       },
       "compensation": {
         "pay_type": {
-          "raw": "C",
+          "raw": "H",
           "label": null,
-          "value": "commission"
+          "value": "hourly"
         },
         "pay_frequency": {
-          "raw": "M",
-          "label": null,
-          "value": "monthly"
-        },
-        "rate": {
-          "amount": "3983.42",
-          "currency": "USD"
-        },
-        "rate_period": {
           "raw": "W",
           "label": null,
           "value": "weekly"
         },
+        "rate": {
+          "amount": "47.3237",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "H",
+          "label": null,
+          "value": "hourly"
+        },
         "hourly_rate": {
-          "amount": "0.0000",
+          "amount": "47.3237",
           "currency": "USD"
         },
         "annual_amount": {
-          "amount": "103568.92",
+          "amount": "98433.30",
           "currency": "USD"
         },
         "per_period_amount": {
-          "amount": "3983.42",
+          "amount": "0.00",
           "currency": "USD"
         },
         "standard_hours": "40.00",
@@ -1636,7 +553,7 @@
           "value": "pay_period"
         },
         "standard_work_day_hours": null,
-        "effective_date": "2025-07-05"
+        "effective_date": "2025-06-13"
       },
       "unmapped": {
         "person.driverLicenseId": "",
@@ -1648,7 +565,7 @@
         "person.geoCode": "260030036",
         "person.marriedDate": "",
         "person.smoker": "N",
-        "person.peoStartDate": "2022-04-03",
+        "person.peoStartDate": "2016-08-15",
         "person.handicapped": "N",
         "person.blind": "N",
         "person.veteran": "N",
@@ -1681,10 +598,10 @@
         "person.userId": "",
         "person.autoPolicy": [],
         "person.vehicleDetails": [],
-        "person.personChecksum": "49134534",
+        "person.personChecksum": "26054102",
         "contactInformation.county": "",
         "contactInformation.schoolDistrict": "",
-        "client.typeDate": "2022-04-03",
+        "client.typeDate": "2016-08-15",
         "client.transferInfo": [],
         "client.property": [],
         "client.hawaiiMedWaiver": [],
@@ -1699,7 +616,7 @@
         "client.clockNum": "",
         "client.primaryEmailSource": "",
         "client.returnDate": "",
-        "client.probationDate": "2022-04-03",
+        "client.probationDate": "2016-08-15",
         "client.courtOrderMedical": false,
         "client.childSpouseSupport": false,
         "client.childSpouseArrears": false,
@@ -1717,7 +634,729 @@
         "client.workersCompExempt": null,
         "client.genderDesignation": "",
         "client.preferredPronoun": "",
-        "client.clientChecksum": "56836388",
+        "client.clientChecksum": "91297113",
+        "client.workShift": "",
+        "client.projCostCenter": "",
+        "client.workGroupCode": "",
+        "client.benefitGroup": "1",
+        "client.retirementBenefitGroup": "1",
+        "client.electronic1095C": "N",
+        "client.selfIdDisabilityForm": "",
+        "client.applicantId": "",
+        "compensation.payGroup": "WFRI",
+        "compensation.payPeriodsPerWeek": "",
+        "compensation.payPeriodInfo[0].periodCode": "W",
+        "compensation.payPeriodInfo[0].periodBase": "0.00",
+        "compensation.payPeriodInfo[1].periodCode": "B",
+        "compensation.payPeriodInfo[1].periodBase": "0.00",
+        "compensation.payPeriodInfo[2].periodCode": "S",
+        "compensation.payPeriodInfo[2].periodBase": "0.00",
+        "compensation.payPeriodInfo[3].periodCode": "M",
+        "compensation.payPeriodInfo[3].periodBase": "0.00",
+        "compensation.payPeriodInfo[4].periodCode": "A",
+        "compensation.payPeriodInfo[4].periodBase": "0.00",
+        "compensation.defaultHours": "0.00",
+        "compensation.allocationTemplateId": "",
+        "compensation.payAllocation": [],
+        "compensation.stateTax[0].stateCode": "IL",
+        "compensation.stateTax[0].nonResCertFiled": "",
+        "compensation.stateTax[0].filingStatus": "Single",
+        "compensation.stateTax[0].primaryAllowance": "0",
+        "compensation.stateTax[0].secondaryAllowance": "",
+        "compensation.stateTax[0].exemptAmount": "",
+        "compensation.stateTax[0].supplExemptAmount": "",
+        "compensation.stateTax[0].overrideType": "",
+        "compensation.stateTax[0].overrideAmount": "",
+        "compensation.stateTax[0].reduceAddlWithholding": null,
+        "compensation.stateTax[0].fixedWithholding": null,
+        "compensation.stateTax[0].alternateCalc": "",
+        "compensation.stateTax[0].stateW4Filed": "",
+        "compensation.stateTax[0].stateW4Year": "",
+        "compensation.stateTax[0].multipleJobs": false,
+        "compensation.stateTax[0].dependents": 0.0,
+        "compensation.stateTax[0].otherIncome": 0.0,
+        "compensation.stateTax[0].deductions": 0.0,
+        "compensation.stateTax[0].nonResCertYear": "",
+        "compensation.workShift": "",
+        "compensation.paidThruDate": "2016-08-15",
+        "compensation.eicFileStatus": "",
+        "compensation.fedFilingStatus": "MJ",
+        "compensation.fedWithholdAllowance": "0",
+        "compensation.fedOverrideType": "",
+        "compensation.fedOverrideAmt": "",
+        "compensation.fedTaxCalc": "",
+        "compensation.fedMultipleJobs": false,
+        "compensation.fedDependents": 0.0,
+        "compensation.fedOtherIncome": 0.0,
+        "compensation.fedDeductions": 0.0,
+        "compensation.deliverCheckHome": false,
+        "compensation.autoAcceptTimeSheet": false,
+        "compensation.longPayTable": "",
+        "compensation.longBasisDate": "",
+        "compensation.localTax": [],
+        "compensation.lastChangePct": "0.00",
+        "compensation.lastChangeAmt": "0.00",
+        "compensation.lastPayDate": "",
+        "compensation.quartile": "",
+        "compensation.compaRatio": "",
+        "compensation.benefitsBasePay": "",
+        "compensation.perDiemPay": "",
+        "compensation.taxCreditEmp": false,
+        "compensation.autoPayCode": "",
+        "compensation.altPayRate": [],
+        "compensation.pensionStatus": "N",
+        "compensation.profitSharing": "",
+        "compensation.eeImage": [],
+        "compensation.wagePlanCA": false,
+        "compensation.perfReviewLastDate": "",
+        "compensation.perfReviewNextDate": "",
+        "compensation.i9imageAudit": [],
+        "compensation.perfReviewLastRating": "",
+        "compensation.compReviewNextDate": "",
+        "compensation.perfReviewLastTitle": "",
+        "compensation.fedW5Year": "",
+        "compensation.fedW5Filed": false,
+        "compensation.fedW4Filed": false,
+        "compensation.fedW4Year": "",
+        "compensation.lockIns": [],
+        "compensation.formI9Filed": true,
+        "compensation.formI9RenewDate": "",
+        "compensation.notes": "",
+        "compensation.ficaExempt": false,
+        "compensation.benefitsPerHour": "",
+        "compensation.perfAgreement": false,
+        "compensation.payRate2": "",
+        "compensation.payRate3": "",
+        "compensation.payRate4": "",
+        "compensation.payChangeLastDate": "",
+        "compensation.overrideWorkGeocode": "",
+        "compensation.familyMemberMI": "",
+        "compensation.probationCodeMO": "",
+        "compensation.electronicPayStub": true,
+        "compensation.healthInsVT": false,
+        "compensation.lastWorkedDate": "",
+        "compensation.irsLockInDate": "",
+        "compensation.nonResAlien": false,
+        "compensation.alienRegExpDate": "",
+        "compensation.benefitSalary": "",
+        "compensation.firstPayPeriodHours": "",
+        "compensation.compensationChecksum": "55983450",
+        "compensation.providerNotifiedOn": "",
+        "compensation.alternateId": "",
+        "compensation.w8Filed": false,
+        "directDeposit": null,
+        "hsa": null,
+        "employeeEvents": null,
+        "health": null,
+        "skillsAndEducation": null,
+        "absenceJournalId": null,
+        "benefitEnrollmentCompleted": null,
+        "scheduledDeduction": null,
+        "newHireQuestions": null,
+        "enrollmentInProgress": null
+      }
+    },
+    {
+      "key": "prismhr:132:J00003",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "J00003",
+        "secondary_ids": {
+          "clientEmployeeId": "3"
+        }
+      },
+      "person": {
+        "first_name": "Jim",
+        "middle_name": "L",
+        "last_name": "Halpert",
+        "preferred_name": null,
+        "birth_date": "1968-04-15",
+        "gender": {
+          "raw": "F",
+          "label": null,
+          "value": "female"
+        },
+        "marital_status": {
+          "raw": "C",
+          "label": null,
+          "value": "civil_union"
+        },
+        "citizenship": {
+          "raw": "Z01",
+          "label": null,
+          "value": "citizen"
+        },
+        "ethnicity": {
+          "raw": "W",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "4808"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "965 Cedar Ln",
+            "line2": null,
+            "city": "Springfield",
+            "region": "IL",
+            "postal_code": "62704",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "2476586385",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "mobile",
+            "number": "9003888913",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "work",
+            "number": "2455398308",
+            "extension": "12",
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "jhalpert@dundermifflin.example"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "A",
+          "label": "A",
+          "value": "active"
+        },
+        "status_date": "2025-01-11",
+        "employment_type": {
+          "raw": "F",
+          "label": "FT",
+          "value": "full_time"
+        },
+        "hire_date": "2025-01-11",
+        "original_hire_date": "2025-01-11",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": "2025-01-11",
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": true,
+        "contractor_1099": false
+      },
+      "job": {
+        "title": "Sales Representative",
+        "job_code": {
+          "raw": "SALES",
+          "label": null,
+          "value": null
+        },
+        "department": {
+          "raw": "200",
+          "label": null,
+          "value": null
+        },
+        "location": {
+          "raw": "1",
+          "label": null,
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": "M00001",
+        "job_start_date": "2025-01-11"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "S",
+          "label": null,
+          "value": "salary"
+        },
+        "pay_frequency": {
+          "raw": "B",
+          "label": null,
+          "value": "biweekly"
+        },
+        "rate": {
+          "amount": "4006.98",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "B",
+          "label": null,
+          "value": "biweekly"
+        },
+        "hourly_rate": {
+          "amount": "0.0000",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "104181.48",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "4006.98",
+          "currency": "USD"
+        },
+        "standard_hours": "40.00",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2026-08-18"
+      },
+      "unmapped": {
+        "person.driverLicenseId": "",
+        "person.cobraSSN": "",
+        "person.employerId": [
+          "5"
+        ],
+        "person.cobraOnly": false,
+        "person.geoCode": "260030036",
+        "person.marriedDate": "",
+        "person.smoker": "N",
+        "person.peoStartDate": "2025-01-11",
+        "person.handicapped": "N",
+        "person.blind": "N",
+        "person.veteran": "N",
+        "person.vietnamVet": "N",
+        "person.disabledVet": "N",
+        "person.hrpCitizenshipCountry": null,
+        "person.deceased": false,
+        "person.taxZipCode": "",
+        "person.highlyCompensated": false,
+        "person.keyEmployee": false,
+        "person.overrideGeoCode": "",
+        "person.overrideGeoEndDate": "",
+        "person.nickname": "",
+        "person.deceasedDate": "",
+        "person.driverState": "",
+        "person.driverLicenseExpireDate": "",
+        "person.driverLicenseClass": "",
+        "person.ohioFormC112": false,
+        "person.unincorporatedResidence": false,
+        "person.w2ElecForm": true,
+        "person.w2ElecFormDate": "",
+        "person.hispanic": false,
+        "person.agricultureWorker": false,
+        "person.otherProtectedVet": "N",
+        "person.activeDutyBadgeVet": "N",
+        "person.recentlySeparatedVet": "N",
+        "person.serviceMedalVet": "N",
+        "person.preferredLanguage": "ENG",
+        "person.emergencyContact": [],
+        "person.userId": "",
+        "person.autoPolicy": [],
+        "person.vehicleDetails": [],
+        "person.personChecksum": "83010117",
+        "contactInformation.county": "",
+        "contactInformation.schoolDistrict": "",
+        "client.typeDate": "2025-01-11",
+        "client.transferInfo": [],
+        "client.property": [],
+        "client.hawaiiMedWaiver": [],
+        "client.cafeteriaPlan": [],
+        "client.officer": false,
+        "client.workCompOfficer": false,
+        "client.scorpOwner": false,
+        "client.businessOwner": false,
+        "client.lastStatusChangeDate": "",
+        "client.lastJobChangeDate": "",
+        "client.newHireReportDate": "",
+        "client.clockNum": "",
+        "client.primaryEmailSource": "",
+        "client.returnDate": "",
+        "client.probationDate": "2025-01-11",
+        "client.courtOrderMedical": false,
+        "client.childSpouseSupport": false,
+        "client.childSpouseArrears": false,
+        "client.handbookMailDate": "",
+        "client.handbookRecvDate": "",
+        "client.unionCode": "",
+        "client.unionDate": "",
+        "client.subCostCenter": "",
+        "client.electronicOnboard": false,
+        "client.electronicOnboardDate": "",
+        "client.reportsTo": "",
+        "client.onboardInProgress": false,
+        "client.backgroundTest": false,
+        "client.backgroundTestDate": "",
+        "client.workersCompExempt": null,
+        "client.genderDesignation": "",
+        "client.preferredPronoun": "",
+        "client.clientChecksum": "28425216",
+        "client.workShift": "",
+        "client.projCostCenter": "",
+        "client.workGroupCode": "",
+        "client.benefitGroup": "1",
+        "client.retirementBenefitGroup": "1",
+        "client.electronic1095C": "N",
+        "client.selfIdDisabilityForm": "",
+        "client.applicantId": "",
+        "compensation.payGroup": "WFRI",
+        "compensation.payPeriodsPerWeek": "",
+        "compensation.payPeriodInfo[0].periodCode": "W",
+        "compensation.payPeriodInfo[0].periodBase": "0.00",
+        "compensation.payPeriodInfo[1].periodCode": "B",
+        "compensation.payPeriodInfo[1].periodBase": "0.00",
+        "compensation.payPeriodInfo[2].periodCode": "S",
+        "compensation.payPeriodInfo[2].periodBase": "0.00",
+        "compensation.payPeriodInfo[3].periodCode": "M",
+        "compensation.payPeriodInfo[3].periodBase": "0.00",
+        "compensation.payPeriodInfo[4].periodCode": "A",
+        "compensation.payPeriodInfo[4].periodBase": "0.00",
+        "compensation.defaultHours": "0.00",
+        "compensation.allocationTemplateId": "",
+        "compensation.payAllocation": [],
+        "compensation.stateTax[0].stateCode": "IL",
+        "compensation.stateTax[0].nonResCertFiled": "",
+        "compensation.stateTax[0].filingStatus": "Single",
+        "compensation.stateTax[0].primaryAllowance": "0",
+        "compensation.stateTax[0].secondaryAllowance": "",
+        "compensation.stateTax[0].exemptAmount": "",
+        "compensation.stateTax[0].supplExemptAmount": "",
+        "compensation.stateTax[0].overrideType": "",
+        "compensation.stateTax[0].overrideAmount": "",
+        "compensation.stateTax[0].reduceAddlWithholding": null,
+        "compensation.stateTax[0].fixedWithholding": null,
+        "compensation.stateTax[0].alternateCalc": "",
+        "compensation.stateTax[0].stateW4Filed": "",
+        "compensation.stateTax[0].stateW4Year": "",
+        "compensation.stateTax[0].multipleJobs": false,
+        "compensation.stateTax[0].dependents": 0.0,
+        "compensation.stateTax[0].otherIncome": 0.0,
+        "compensation.stateTax[0].deductions": 0.0,
+        "compensation.stateTax[0].nonResCertYear": "",
+        "compensation.workShift": "",
+        "compensation.paidThruDate": "2025-01-11",
+        "compensation.eicFileStatus": "",
+        "compensation.fedFilingStatus": "MJ",
+        "compensation.fedWithholdAllowance": "0",
+        "compensation.fedOverrideType": "",
+        "compensation.fedOverrideAmt": "",
+        "compensation.fedTaxCalc": "",
+        "compensation.fedMultipleJobs": false,
+        "compensation.fedDependents": 0.0,
+        "compensation.fedOtherIncome": 0.0,
+        "compensation.fedDeductions": 0.0,
+        "compensation.deliverCheckHome": false,
+        "compensation.autoAcceptTimeSheet": false,
+        "compensation.longPayTable": "",
+        "compensation.longBasisDate": "",
+        "compensation.localTax": [],
+        "compensation.lastChangePct": "0.00",
+        "compensation.lastChangeAmt": "0.00",
+        "compensation.lastPayDate": "",
+        "compensation.quartile": "",
+        "compensation.compaRatio": "",
+        "compensation.benefitsBasePay": "",
+        "compensation.perDiemPay": "",
+        "compensation.taxCreditEmp": false,
+        "compensation.autoPayCode": "",
+        "compensation.altPayRate": [],
+        "compensation.pensionStatus": "N",
+        "compensation.profitSharing": "",
+        "compensation.eeImage": [],
+        "compensation.wagePlanCA": false,
+        "compensation.perfReviewLastDate": "",
+        "compensation.perfReviewNextDate": "",
+        "compensation.i9imageAudit": [],
+        "compensation.perfReviewLastRating": "",
+        "compensation.compReviewNextDate": "",
+        "compensation.perfReviewLastTitle": "",
+        "compensation.fedW5Year": "",
+        "compensation.fedW5Filed": false,
+        "compensation.fedW4Filed": false,
+        "compensation.fedW4Year": "",
+        "compensation.lockIns": [],
+        "compensation.formI9Filed": true,
+        "compensation.formI9RenewDate": "",
+        "compensation.notes": "",
+        "compensation.ficaExempt": false,
+        "compensation.benefitsPerHour": "",
+        "compensation.perfAgreement": false,
+        "compensation.payRate2": "",
+        "compensation.payRate3": "",
+        "compensation.payRate4": "",
+        "compensation.payChangeLastDate": "",
+        "compensation.overrideWorkGeocode": "",
+        "compensation.familyMemberMI": "",
+        "compensation.probationCodeMO": "",
+        "compensation.electronicPayStub": true,
+        "compensation.healthInsVT": false,
+        "compensation.lastWorkedDate": "",
+        "compensation.irsLockInDate": "",
+        "compensation.nonResAlien": false,
+        "compensation.alienRegExpDate": "",
+        "compensation.benefitSalary": "",
+        "compensation.firstPayPeriodHours": "",
+        "compensation.compensationChecksum": "76387221",
+        "compensation.providerNotifiedOn": "",
+        "compensation.alternateId": "",
+        "compensation.w8Filed": false,
+        "directDeposit": null,
+        "hsa": null,
+        "employeeEvents": null,
+        "health": null,
+        "skillsAndEducation": null,
+        "absenceJournalId": null,
+        "benefitEnrollmentCompleted": null,
+        "scheduledDeduction": null,
+        "newHireQuestions": null,
+        "enrollmentInProgress": null
+      }
+    },
+    {
+      "key": "prismhr:132:P00004",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "P00004",
+        "secondary_ids": {
+          "clientEmployeeId": "4"
+        }
+      },
+      "person": {
+        "first_name": "Pam",
+        "middle_name": "S",
+        "last_name": "Beesly",
+        "preferred_name": null,
+        "birth_date": "1963-05-14",
+        "gender": {
+          "raw": "M",
+          "label": null,
+          "value": "male"
+        },
+        "marital_status": {
+          "raw": "W",
+          "label": null,
+          "value": "widowed"
+        },
+        "citizenship": {
+          "raw": "Z01",
+          "label": null,
+          "value": "citizen"
+        },
+        "ethnicity": {
+          "raw": "*",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "4096"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "1035 Birch Ct",
+            "line2": null,
+            "city": "Franklin",
+            "region": "TN",
+            "postal_code": "37064",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "4767567445",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "pbeesly@dundermifflin.example"
+          },
+          {
+            "kind": "work",
+            "address": "pbeesly@client.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "A",
+          "label": "A",
+          "value": "active"
+        },
+        "status_date": "2019-04-10",
+        "employment_type": {
+          "raw": "F",
+          "label": "FT",
+          "value": "full_time"
+        },
+        "hire_date": "2019-04-10",
+        "original_hire_date": "2019-04-10",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": "2019-04-10",
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": false,
+        "contractor_1099": false
+      },
+      "job": {
+        "title": "Warehouse Associate",
+        "job_code": {
+          "raw": "WHSE",
+          "label": null,
+          "value": null
+        },
+        "department": {
+          "raw": "300",
+          "label": null,
+          "value": null
+        },
+        "location": {
+          "raw": "3",
+          "label": null,
+          "value": null
+        },
+        "division": {
+          "raw": "WEST",
+          "label": null,
+          "value": null
+        },
+        "manager_employee_id": "M00001",
+        "job_start_date": "2019-04-10"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "H",
+          "label": null,
+          "value": "hourly"
+        },
+        "pay_frequency": {
+          "raw": "W",
+          "label": null,
+          "value": "weekly"
+        },
+        "rate": {
+          "amount": "41.0575",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "H",
+          "label": null,
+          "value": "hourly"
+        },
+        "hourly_rate": {
+          "amount": "41.0575",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "85399.60",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "0.00",
+          "currency": "USD"
+        },
+        "standard_hours": "40.00",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2025-10-12"
+      },
+      "unmapped": {
+        "person.driverLicenseId": "",
+        "person.cobraSSN": "",
+        "person.employerId": [
+          "5"
+        ],
+        "person.cobraOnly": false,
+        "person.geoCode": "260030036",
+        "person.marriedDate": "",
+        "person.smoker": "N",
+        "person.peoStartDate": "2019-04-10",
+        "person.handicapped": "N",
+        "person.blind": "N",
+        "person.veteran": "N",
+        "person.vietnamVet": "N",
+        "person.disabledVet": "N",
+        "person.hrpCitizenshipCountry": null,
+        "person.deceased": false,
+        "person.taxZipCode": "",
+        "person.highlyCompensated": false,
+        "person.keyEmployee": false,
+        "person.overrideGeoCode": "",
+        "person.overrideGeoEndDate": "",
+        "person.nickname": "",
+        "person.deceasedDate": "",
+        "person.driverState": "",
+        "person.driverLicenseExpireDate": "",
+        "person.driverLicenseClass": "",
+        "person.ohioFormC112": false,
+        "person.unincorporatedResidence": false,
+        "person.w2ElecForm": true,
+        "person.w2ElecFormDate": "",
+        "person.hispanic": false,
+        "person.agricultureWorker": false,
+        "person.otherProtectedVet": "N",
+        "person.activeDutyBadgeVet": "N",
+        "person.recentlySeparatedVet": "N",
+        "person.serviceMedalVet": "N",
+        "person.preferredLanguage": "ENG",
+        "person.emergencyContact": [],
+        "person.userId": "",
+        "person.autoPolicy": [],
+        "person.vehicleDetails": [],
+        "person.personChecksum": "17652333",
+        "contactInformation.county": "",
+        "contactInformation.schoolDistrict": "",
+        "client.typeDate": "2019-04-10",
+        "client.transferInfo": [],
+        "client.property": [],
+        "client.hawaiiMedWaiver": [],
+        "client.cafeteriaPlan": [],
+        "client.officer": false,
+        "client.workCompOfficer": false,
+        "client.scorpOwner": false,
+        "client.businessOwner": false,
+        "client.lastStatusChangeDate": "",
+        "client.lastJobChangeDate": "",
+        "client.newHireReportDate": "",
+        "client.clockNum": "",
+        "client.primaryEmailSource": "",
+        "client.returnDate": "",
+        "client.probationDate": "2019-04-10",
+        "client.courtOrderMedical": false,
+        "client.childSpouseSupport": false,
+        "client.childSpouseArrears": false,
+        "client.handbookMailDate": "",
+        "client.handbookRecvDate": "",
+        "client.unionCode": "",
+        "client.unionDate": "",
+        "client.subCostCenter": "",
+        "client.electronicOnboard": false,
+        "client.electronicOnboardDate": "",
+        "client.reportsTo": "",
+        "client.onboardInProgress": false,
+        "client.backgroundTest": false,
+        "client.backgroundTestDate": "",
+        "client.workersCompExempt": null,
+        "client.genderDesignation": "",
+        "client.preferredPronoun": "",
+        "client.clientChecksum": "81952604",
         "client.workShift": "",
         "client.projCostCenter": "",
         "client.workGroupCode": "",
@@ -1761,9 +1400,9 @@
         "compensation.stateTax[0].deductions": 0.0,
         "compensation.stateTax[0].nonResCertYear": "",
         "compensation.workShift": "",
-        "compensation.paidThruDate": "2022-04-03",
+        "compensation.paidThruDate": "2019-04-10",
         "compensation.eicFileStatus": "",
-        "compensation.fedFilingStatus": "H",
+        "compensation.fedFilingStatus": "MJ",
         "compensation.fedWithholdAllowance": "0",
         "compensation.fedOverrideType": "",
         "compensation.fedOverrideAmt": "",
@@ -1823,7 +1462,7 @@
         "compensation.alienRegExpDate": "",
         "compensation.benefitSalary": "",
         "compensation.firstPayPeriodHours": "",
-        "compensation.compensationChecksum": "99793246",
+        "compensation.compensationChecksum": "13830424",
         "compensation.providerNotifiedOn": "",
         "compensation.alternateId": "",
         "compensation.w8Filed": false,
@@ -1840,31 +1479,31 @@
       }
     },
     {
-      "key": "prismhr:132:M00006",
+      "key": "prismhr:132:A00005",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "M00006",
+        "employee_id": "A00005",
         "secondary_ids": {
-          "clientEmployeeId": "6"
+          "clientEmployeeId": "5"
         }
       },
       "person": {
-        "first_name": "Morgan",
-        "middle_name": "T",
-        "last_name": "Petrov",
+        "first_name": "Angela",
+        "middle_name": "S",
+        "last_name": "Martin",
         "preferred_name": null,
-        "birth_date": null,
+        "birth_date": "1990-05-07",
         "gender": {
-          "raw": "X",
+          "raw": "D",
           "label": null,
-          "value": "nonbinary"
+          "value": "declined"
         },
         "marital_status": {
-          "raw": "C",
+          "raw": "M",
           "label": null,
-          "value": "civil_union"
+          "value": "married"
         },
         "citizenship": {
           "raw": "Z01",
@@ -1872,46 +1511,42 @@
           "value": "citizen"
         },
         "ethnicity": {
-          "raw": "H",
+          "raw": "W",
           "label": null,
           "value": null
         },
-        "ssn_last4": "4850"
+        "ssn_last4": "2761"
       },
       "contact": {
         "addresses": [
           {
             "kind": "home",
-            "line1": "1952 Maple Ave",
+            "line1": "3616 Summit Dr",
             "line2": null,
-            "city": "Riverton",
-            "region": "UT",
-            "postal_code": "84065",
+            "city": "Clayton",
+            "region": "MO",
+            "postal_code": "63105",
             "country": null
           }
         ],
         "phones": [
           {
             "kind": "home",
-            "number": "7415101738",
+            "number": "2876751375",
             "extension": null,
             "preferred": null
           },
           {
-            "kind": "work",
-            "number": "7934784234",
-            "extension": "12",
+            "kind": "mobile",
+            "number": "5708868135",
+            "extension": null,
             "preferred": null
           }
         ],
         "emails": [
           {
             "kind": "unknown",
-            "address": "morgan.petrov@example.test"
-          },
-          {
-            "kind": "work",
-            "address": "mpetrov@client.test"
+            "address": "amartin@dundermifflin.example"
           }
         ]
       },
@@ -1921,31 +1556,31 @@
           "label": "A",
           "value": "active"
         },
-        "status_date": "2017-09-09",
+        "status_date": "2017-06-21",
         "employment_type": {
-          "raw": "P",
-          "label": "PT",
-          "value": "part_time"
+          "raw": "F",
+          "label": "FT",
+          "value": "full_time"
         },
-        "hire_date": "2017-09-09",
-        "original_hire_date": "2017-09-09",
+        "hire_date": "2017-06-21",
+        "original_hire_date": "2017-06-21",
         "rehire_date": null,
         "termination_date": null,
-        "seniority_date": "2017-09-09",
+        "seniority_date": "2017-06-21",
         "termination_reason": null,
         "rehire_eligible": null,
-        "flsa_exempt": false,
+        "flsa_exempt": true,
         "contractor_1099": false
       },
       "job": {
-        "title": null,
+        "title": "Receptionist",
         "job_code": {
-          "raw": "TECH",
+          "raw": "OFFICE",
           "label": null,
           "value": null
         },
         "department": {
-          "raw": "100",
+          "raw": "200",
           "label": null,
           "value": null
         },
@@ -1955,18 +1590,18 @@
           "value": null
         },
         "division": {
-          "raw": "WEST",
+          "raw": "EAST",
           "label": null,
           "value": null
         },
-        "manager_employee_id": null,
-        "job_start_date": "2017-09-09"
+        "manager_employee_id": "M00001",
+        "job_start_date": "2017-06-21"
       },
       "compensation": {
         "pay_type": {
-          "raw": "H",
+          "raw": "S",
           "label": null,
-          "value": "hourly"
+          "value": "salary"
         },
         "pay_frequency": {
           "raw": "W",
@@ -1974,34 +1609,34 @@
           "value": "weekly"
         },
         "rate": {
-          "amount": "36.6744",
+          "amount": "4744.61",
           "currency": "USD"
         },
         "rate_period": {
-          "raw": "H",
+          "raw": "S",
           "label": null,
-          "value": "hourly"
+          "value": "semimonthly"
         },
         "hourly_rate": {
-          "amount": "36.6744",
+          "amount": "0.0000",
           "currency": "USD"
         },
         "annual_amount": {
-          "amount": "76282.75",
+          "amount": "123359.86",
           "currency": "USD"
         },
         "per_period_amount": {
-          "amount": "0.00",
+          "amount": "4744.61",
           "currency": "USD"
         },
-        "standard_hours": "24.00",
+        "standard_hours": "40.00",
         "standard_hours_period": {
           "raw": null,
           "label": "per pay period",
           "value": "pay_period"
         },
         "standard_work_day_hours": null,
-        "effective_date": "2025-02-01"
+        "effective_date": "2025-07-19"
       },
       "unmapped": {
         "person.driverLicenseId": "",
@@ -2013,7 +1648,7 @@
         "person.geoCode": "260030036",
         "person.marriedDate": "",
         "person.smoker": "N",
-        "person.peoStartDate": "2017-09-09",
+        "person.peoStartDate": "2017-06-21",
         "person.handicapped": "N",
         "person.blind": "N",
         "person.veteran": "N",
@@ -2046,10 +1681,10 @@
         "person.userId": "",
         "person.autoPolicy": [],
         "person.vehicleDetails": [],
-        "person.personChecksum": "80000192",
+        "person.personChecksum": "37568922",
         "contactInformation.county": "",
         "contactInformation.schoolDistrict": "",
-        "client.typeDate": "2017-09-09",
+        "client.typeDate": "2017-06-21",
         "client.transferInfo": [],
         "client.property": [],
         "client.hawaiiMedWaiver": [],
@@ -2064,7 +1699,7 @@
         "client.clockNum": "",
         "client.primaryEmailSource": "",
         "client.returnDate": "",
-        "client.probationDate": "2017-09-09",
+        "client.probationDate": "2017-06-21",
         "client.courtOrderMedical": false,
         "client.childSpouseSupport": false,
         "client.childSpouseArrears": false,
@@ -2082,7 +1717,7 @@
         "client.workersCompExempt": null,
         "client.genderDesignation": "",
         "client.preferredPronoun": "",
-        "client.clientChecksum": "41625622",
+        "client.clientChecksum": "22998286",
         "client.workShift": "",
         "client.projCostCenter": "",
         "client.workGroupCode": "",
@@ -2106,7 +1741,7 @@
         "compensation.defaultHours": "0.00",
         "compensation.allocationTemplateId": "",
         "compensation.payAllocation": [],
-        "compensation.stateTax[0].stateCode": "UT",
+        "compensation.stateTax[0].stateCode": "MO",
         "compensation.stateTax[0].nonResCertFiled": "",
         "compensation.stateTax[0].filingStatus": "Single",
         "compensation.stateTax[0].primaryAllowance": "0",
@@ -2126,9 +1761,9 @@
         "compensation.stateTax[0].deductions": 0.0,
         "compensation.stateTax[0].nonResCertYear": "",
         "compensation.workShift": "",
-        "compensation.paidThruDate": "2017-09-09",
+        "compensation.paidThruDate": "2017-06-21",
         "compensation.eicFileStatus": "",
-        "compensation.fedFilingStatus": "H",
+        "compensation.fedFilingStatus": "MJ",
         "compensation.fedWithholdAllowance": "0",
         "compensation.fedOverrideType": "",
         "compensation.fedOverrideAmt": "",
@@ -2188,7 +1823,7 @@
         "compensation.alienRegExpDate": "",
         "compensation.benefitSalary": "",
         "compensation.firstPayPeriodHours": "",
-        "compensation.compensationChecksum": "49334174",
+        "compensation.compensationChecksum": "38520436",
         "compensation.providerNotifiedOn": "",
         "compensation.alternateId": "",
         "compensation.w8Filed": false,
@@ -2205,26 +1840,26 @@
       }
     },
     {
-      "key": "prismhr:132:R00007",
+      "key": "prismhr:132:K00006",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "R00007",
+        "employee_id": "K00006",
         "secondary_ids": {
-          "clientEmployeeId": "7"
+          "clientEmployeeId": "6"
         }
       },
       "person": {
-        "first_name": "Reese",
-        "middle_name": "E",
-        "last_name": "Nakamura",
+        "first_name": "Kevin",
+        "middle_name": "S",
+        "last_name": "Malone",
         "preferred_name": null,
-        "birth_date": "1983-03-06",
+        "birth_date": "1985-03-27",
         "gender": {
-          "raw": "X",
+          "raw": "M",
           "label": null,
-          "value": "nonbinary"
+          "value": "male"
         },
         "marital_status": {
           "raw": "S",
@@ -2237,42 +1872,46 @@
           "value": "citizen"
         },
         "ethnicity": {
-          "raw": "H",
+          "raw": "*",
           "label": null,
           "value": null
         },
-        "ssn_last4": "8086"
+        "ssn_last4": "9380"
       },
       "contact": {
         "addresses": [
           {
             "kind": "home",
-            "line1": "3109 Summit Dr",
+            "line1": "8909 Harbor Rd",
             "line2": null,
-            "city": "Riverton",
-            "region": "UT",
-            "postal_code": "84065",
+            "city": "Fairview",
+            "region": "OR",
+            "postal_code": "97024",
             "country": null
           }
         ],
         "phones": [
           {
             "kind": "home",
-            "number": "3076045214",
+            "number": "7644701707",
             "extension": null,
             "preferred": null
           },
           {
-            "kind": "mobile",
-            "number": "4333996005",
-            "extension": null,
+            "kind": "work",
+            "number": "9668428997",
+            "extension": "12",
             "preferred": null
           }
         ],
         "emails": [
           {
             "kind": "unknown",
-            "address": "reese.nakamura@example.test"
+            "address": "kmalone@dundermifflin.example"
+          },
+          {
+            "kind": "work",
+            "address": "kmalone@client.test"
           }
         ]
       },
@@ -2282,73 +1921,77 @@
           "label": "A",
           "value": "active"
         },
-        "status_date": "2025-09-15",
+        "status_date": "2019-01-05",
         "employment_type": {
           "raw": "F",
           "label": "FT",
           "value": "full_time"
         },
-        "hire_date": "2025-09-15",
-        "original_hire_date": "2025-09-15",
+        "hire_date": "2019-01-05",
+        "original_hire_date": "2019-01-05",
         "rehire_date": null,
         "termination_date": null,
-        "seniority_date": "2025-09-15",
+        "seniority_date": "2019-01-05",
         "termination_reason": null,
         "rehire_eligible": null,
         "flsa_exempt": false,
-        "contractor_1099": true
+        "contractor_1099": false
       },
       "job": {
-        "title": null,
+        "title": "Sales Representative",
         "job_code": {
-          "raw": "TECH",
+          "raw": "SALES",
           "label": null,
           "value": null
         },
         "department": {
-          "raw": "100",
+          "raw": "300",
           "label": null,
           "value": null
         },
         "location": {
-          "raw": "3",
+          "raw": "2",
           "label": null,
           "value": null
         },
-        "division": null,
-        "manager_employee_id": "F00001",
-        "job_start_date": "2025-09-15"
+        "division": {
+          "raw": "WEST",
+          "label": null,
+          "value": null
+        },
+        "manager_employee_id": "M00001",
+        "job_start_date": "2019-01-05"
       },
       "compensation": {
         "pay_type": {
-          "raw": "D",
+          "raw": "H",
           "label": null,
-          "value": "driver"
+          "value": "hourly"
         },
         "pay_frequency": {
-          "raw": "W",
+          "raw": "M",
           "label": null,
-          "value": "weekly"
+          "value": "monthly"
         },
         "rate": {
-          "amount": "2188.83",
+          "amount": "28.1682",
           "currency": "USD"
         },
         "rate_period": {
-          "raw": "Y",
+          "raw": "H",
           "label": null,
-          "value": "annual"
+          "value": "hourly"
         },
         "hourly_rate": {
-          "amount": "0.0000",
+          "amount": "28.1682",
           "currency": "USD"
         },
         "annual_amount": {
-          "amount": "56909.58",
+          "amount": "58589.86",
           "currency": "USD"
         },
         "per_period_amount": {
-          "amount": "2188.83",
+          "amount": "0.00",
           "currency": "USD"
         },
         "standard_hours": "40.00",
@@ -2358,7 +2001,7 @@
           "value": "pay_period"
         },
         "standard_work_day_hours": null,
-        "effective_date": "2025-03-01"
+        "effective_date": "2026-04-08"
       },
       "unmapped": {
         "person.driverLicenseId": "",
@@ -2370,7 +2013,7 @@
         "person.geoCode": "260030036",
         "person.marriedDate": "",
         "person.smoker": "N",
-        "person.peoStartDate": "2025-09-15",
+        "person.peoStartDate": "2019-01-05",
         "person.handicapped": "N",
         "person.blind": "N",
         "person.veteran": "N",
@@ -2403,10 +2046,10 @@
         "person.userId": "",
         "person.autoPolicy": [],
         "person.vehicleDetails": [],
-        "person.personChecksum": "61543185",
+        "person.personChecksum": "30082738",
         "contactInformation.county": "",
         "contactInformation.schoolDistrict": "",
-        "client.typeDate": "2025-09-15",
+        "client.typeDate": "2019-01-05",
         "client.transferInfo": [],
         "client.property": [],
         "client.hawaiiMedWaiver": [],
@@ -2421,7 +2064,7 @@
         "client.clockNum": "",
         "client.primaryEmailSource": "",
         "client.returnDate": "",
-        "client.probationDate": "2025-09-15",
+        "client.probationDate": "2019-01-05",
         "client.courtOrderMedical": false,
         "client.childSpouseSupport": false,
         "client.childSpouseArrears": false,
@@ -2439,7 +2082,7 @@
         "client.workersCompExempt": null,
         "client.genderDesignation": "",
         "client.preferredPronoun": "",
-        "client.clientChecksum": "19435318",
+        "client.clientChecksum": "93670872",
         "client.workShift": "",
         "client.projCostCenter": "",
         "client.workGroupCode": "",
@@ -2463,7 +2106,7 @@
         "compensation.defaultHours": "0.00",
         "compensation.allocationTemplateId": "",
         "compensation.payAllocation": [],
-        "compensation.stateTax[0].stateCode": "UT",
+        "compensation.stateTax[0].stateCode": "OR",
         "compensation.stateTax[0].nonResCertFiled": "",
         "compensation.stateTax[0].filingStatus": "Single",
         "compensation.stateTax[0].primaryAllowance": "0",
@@ -2483,7 +2126,364 @@
         "compensation.stateTax[0].deductions": 0.0,
         "compensation.stateTax[0].nonResCertYear": "",
         "compensation.workShift": "",
-        "compensation.paidThruDate": "2025-09-15",
+        "compensation.paidThruDate": "2019-01-05",
+        "compensation.eicFileStatus": "",
+        "compensation.fedFilingStatus": "S",
+        "compensation.fedWithholdAllowance": "0",
+        "compensation.fedOverrideType": "",
+        "compensation.fedOverrideAmt": "",
+        "compensation.fedTaxCalc": "",
+        "compensation.fedMultipleJobs": false,
+        "compensation.fedDependents": 0.0,
+        "compensation.fedOtherIncome": 0.0,
+        "compensation.fedDeductions": 0.0,
+        "compensation.deliverCheckHome": false,
+        "compensation.autoAcceptTimeSheet": false,
+        "compensation.longPayTable": "",
+        "compensation.longBasisDate": "",
+        "compensation.localTax": [],
+        "compensation.lastChangePct": "0.00",
+        "compensation.lastChangeAmt": "0.00",
+        "compensation.lastPayDate": "",
+        "compensation.quartile": "",
+        "compensation.compaRatio": "",
+        "compensation.benefitsBasePay": "",
+        "compensation.perDiemPay": "",
+        "compensation.taxCreditEmp": false,
+        "compensation.autoPayCode": "",
+        "compensation.altPayRate": [],
+        "compensation.pensionStatus": "N",
+        "compensation.profitSharing": "",
+        "compensation.eeImage": [],
+        "compensation.wagePlanCA": false,
+        "compensation.perfReviewLastDate": "",
+        "compensation.perfReviewNextDate": "",
+        "compensation.i9imageAudit": [],
+        "compensation.perfReviewLastRating": "",
+        "compensation.compReviewNextDate": "",
+        "compensation.perfReviewLastTitle": "",
+        "compensation.fedW5Year": "",
+        "compensation.fedW5Filed": false,
+        "compensation.fedW4Filed": false,
+        "compensation.fedW4Year": "",
+        "compensation.lockIns": [],
+        "compensation.formI9Filed": true,
+        "compensation.formI9RenewDate": "",
+        "compensation.notes": "",
+        "compensation.ficaExempt": false,
+        "compensation.benefitsPerHour": "",
+        "compensation.perfAgreement": false,
+        "compensation.payRate2": "",
+        "compensation.payRate3": "",
+        "compensation.payRate4": "",
+        "compensation.payChangeLastDate": "",
+        "compensation.overrideWorkGeocode": "",
+        "compensation.familyMemberMI": "",
+        "compensation.probationCodeMO": "",
+        "compensation.electronicPayStub": true,
+        "compensation.healthInsVT": false,
+        "compensation.lastWorkedDate": "",
+        "compensation.irsLockInDate": "",
+        "compensation.nonResAlien": false,
+        "compensation.alienRegExpDate": "",
+        "compensation.benefitSalary": "",
+        "compensation.firstPayPeriodHours": "",
+        "compensation.compensationChecksum": "40435037",
+        "compensation.providerNotifiedOn": "",
+        "compensation.alternateId": "",
+        "compensation.w8Filed": false,
+        "directDeposit": null,
+        "hsa": null,
+        "employeeEvents": null,
+        "health": null,
+        "skillsAndEducation": null,
+        "absenceJournalId": null,
+        "benefitEnrollmentCompleted": null,
+        "scheduledDeduction": null,
+        "newHireQuestions": null,
+        "enrollmentInProgress": null
+      }
+    },
+    {
+      "key": "prismhr:132:O00007",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "O00007",
+        "secondary_ids": {
+          "clientEmployeeId": "7"
+        }
+      },
+      "person": {
+        "first_name": "Oscar",
+        "middle_name": "A",
+        "last_name": "Martinez",
+        "preferred_name": null,
+        "birth_date": "1961-05-12",
+        "gender": {
+          "raw": "F",
+          "label": null,
+          "value": "female"
+        },
+        "marital_status": {
+          "raw": "D",
+          "label": null,
+          "value": "divorced"
+        },
+        "citizenship": {
+          "raw": "Z01",
+          "label": null,
+          "value": "citizen"
+        },
+        "ethnicity": {
+          "raw": "*",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "7291"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "6746 Birch Ct",
+            "line2": null,
+            "city": "Springfield",
+            "region": "IL",
+            "postal_code": "62704",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "8198529498",
+            "extension": null,
+            "preferred": null
+          },
+          {
+            "kind": "mobile",
+            "number": "6802845690",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "omartinez@dundermifflin.example"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "A",
+          "label": "A",
+          "value": "active"
+        },
+        "status_date": "2016-06-18",
+        "employment_type": {
+          "raw": "F",
+          "label": "FT",
+          "value": "full_time"
+        },
+        "hire_date": "2016-06-18",
+        "original_hire_date": "2016-06-18",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": "2016-06-18",
+        "termination_reason": null,
+        "rehire_eligible": null,
+        "flsa_exempt": true,
+        "contractor_1099": false
+      },
+      "job": {
+        "title": "Warehouse Associate",
+        "job_code": {
+          "raw": "WHSE",
+          "label": null,
+          "value": null
+        },
+        "department": {
+          "raw": "100",
+          "label": null,
+          "value": null
+        },
+        "location": {
+          "raw": "2",
+          "label": null,
+          "value": null
+        },
+        "division": null,
+        "manager_employee_id": "M00001",
+        "job_start_date": "2016-06-18"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "S",
+          "label": null,
+          "value": "salary"
+        },
+        "pay_frequency": {
+          "raw": "W",
+          "label": null,
+          "value": "weekly"
+        },
+        "rate": {
+          "amount": "6120.40",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "S",
+          "label": null,
+          "value": "semimonthly"
+        },
+        "hourly_rate": {
+          "amount": "0.0000",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "159130.40",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "6120.40",
+          "currency": "USD"
+        },
+        "standard_hours": "40.00",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2025-04-22"
+      },
+      "unmapped": {
+        "person.driverLicenseId": "",
+        "person.cobraSSN": "",
+        "person.employerId": [
+          "5"
+        ],
+        "person.cobraOnly": false,
+        "person.geoCode": "260030036",
+        "person.marriedDate": "",
+        "person.smoker": "N",
+        "person.peoStartDate": "2016-06-18",
+        "person.handicapped": "N",
+        "person.blind": "N",
+        "person.veteran": "N",
+        "person.vietnamVet": "N",
+        "person.disabledVet": "N",
+        "person.hrpCitizenshipCountry": null,
+        "person.deceased": false,
+        "person.taxZipCode": "",
+        "person.highlyCompensated": false,
+        "person.keyEmployee": false,
+        "person.overrideGeoCode": "",
+        "person.overrideGeoEndDate": "",
+        "person.nickname": "",
+        "person.deceasedDate": "",
+        "person.driverState": "",
+        "person.driverLicenseExpireDate": "",
+        "person.driverLicenseClass": "",
+        "person.ohioFormC112": false,
+        "person.unincorporatedResidence": false,
+        "person.w2ElecForm": true,
+        "person.w2ElecFormDate": "",
+        "person.hispanic": false,
+        "person.agricultureWorker": false,
+        "person.otherProtectedVet": "N",
+        "person.activeDutyBadgeVet": "N",
+        "person.recentlySeparatedVet": "N",
+        "person.serviceMedalVet": "N",
+        "person.preferredLanguage": "ENG",
+        "person.emergencyContact": [],
+        "person.userId": "",
+        "person.autoPolicy": [],
+        "person.vehicleDetails": [],
+        "person.personChecksum": "34649966",
+        "contactInformation.county": "",
+        "contactInformation.schoolDistrict": "",
+        "client.typeDate": "2016-06-18",
+        "client.transferInfo": [],
+        "client.property": [],
+        "client.hawaiiMedWaiver": [],
+        "client.cafeteriaPlan": [],
+        "client.officer": false,
+        "client.workCompOfficer": false,
+        "client.scorpOwner": false,
+        "client.businessOwner": false,
+        "client.lastStatusChangeDate": "",
+        "client.lastJobChangeDate": "",
+        "client.newHireReportDate": "",
+        "client.clockNum": "",
+        "client.primaryEmailSource": "",
+        "client.returnDate": "",
+        "client.probationDate": "2016-06-18",
+        "client.courtOrderMedical": false,
+        "client.childSpouseSupport": false,
+        "client.childSpouseArrears": false,
+        "client.handbookMailDate": "",
+        "client.handbookRecvDate": "",
+        "client.unionCode": "",
+        "client.unionDate": "",
+        "client.subCostCenter": "",
+        "client.electronicOnboard": false,
+        "client.electronicOnboardDate": "",
+        "client.reportsTo": "",
+        "client.onboardInProgress": false,
+        "client.backgroundTest": false,
+        "client.backgroundTestDate": "",
+        "client.workersCompExempt": null,
+        "client.genderDesignation": "",
+        "client.preferredPronoun": "",
+        "client.clientChecksum": "64046193",
+        "client.workShift": "",
+        "client.projCostCenter": "",
+        "client.workGroupCode": "",
+        "client.benefitGroup": "1",
+        "client.retirementBenefitGroup": "1",
+        "client.electronic1095C": "N",
+        "client.selfIdDisabilityForm": "",
+        "client.applicantId": "",
+        "compensation.payGroup": "WFRI",
+        "compensation.payPeriodsPerWeek": "",
+        "compensation.payPeriodInfo[0].periodCode": "W",
+        "compensation.payPeriodInfo[0].periodBase": "0.00",
+        "compensation.payPeriodInfo[1].periodCode": "B",
+        "compensation.payPeriodInfo[1].periodBase": "0.00",
+        "compensation.payPeriodInfo[2].periodCode": "S",
+        "compensation.payPeriodInfo[2].periodBase": "0.00",
+        "compensation.payPeriodInfo[3].periodCode": "M",
+        "compensation.payPeriodInfo[3].periodBase": "0.00",
+        "compensation.payPeriodInfo[4].periodCode": "A",
+        "compensation.payPeriodInfo[4].periodBase": "0.00",
+        "compensation.defaultHours": "0.00",
+        "compensation.allocationTemplateId": "",
+        "compensation.payAllocation": [],
+        "compensation.stateTax[0].stateCode": "IL",
+        "compensation.stateTax[0].nonResCertFiled": "",
+        "compensation.stateTax[0].filingStatus": "Single",
+        "compensation.stateTax[0].primaryAllowance": "0",
+        "compensation.stateTax[0].secondaryAllowance": "",
+        "compensation.stateTax[0].exemptAmount": "",
+        "compensation.stateTax[0].supplExemptAmount": "",
+        "compensation.stateTax[0].overrideType": "",
+        "compensation.stateTax[0].overrideAmount": "",
+        "compensation.stateTax[0].reduceAddlWithholding": null,
+        "compensation.stateTax[0].fixedWithholding": null,
+        "compensation.stateTax[0].alternateCalc": "",
+        "compensation.stateTax[0].stateW4Filed": "",
+        "compensation.stateTax[0].stateW4Year": "",
+        "compensation.stateTax[0].multipleJobs": false,
+        "compensation.stateTax[0].dependents": 0.0,
+        "compensation.stateTax[0].otherIncome": 0.0,
+        "compensation.stateTax[0].deductions": 0.0,
+        "compensation.stateTax[0].nonResCertYear": "",
+        "compensation.workShift": "",
+        "compensation.paidThruDate": "2016-06-18",
         "compensation.eicFileStatus": "",
         "compensation.fedFilingStatus": "M",
         "compensation.fedWithholdAllowance": "0",
@@ -2545,7 +2545,370 @@
         "compensation.alienRegExpDate": "",
         "compensation.benefitSalary": "",
         "compensation.firstPayPeriodHours": "",
-        "compensation.compensationChecksum": "89849441",
+        "compensation.compensationChecksum": "51007999",
+        "compensation.providerNotifiedOn": "",
+        "compensation.alternateId": "",
+        "compensation.w8Filed": false,
+        "directDeposit": null,
+        "hsa": null,
+        "employeeEvents": null,
+        "health": null,
+        "skillsAndEducation": null,
+        "absenceJournalId": null,
+        "benefitEnrollmentCompleted": null,
+        "scheduledDeduction": null,
+        "newHireQuestions": null,
+        "enrollmentInProgress": null
+      }
+    },
+    {
+      "key": "prismhr:132:S00008",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "S00008",
+        "secondary_ids": {
+          "clientEmployeeId": "8"
+        }
+      },
+      "person": {
+        "first_name": "Stanley",
+        "middle_name": "K",
+        "last_name": "Hudson",
+        "preferred_name": null,
+        "birth_date": null,
+        "gender": {
+          "raw": "D",
+          "label": null,
+          "value": "declined"
+        },
+        "marital_status": {
+          "raw": "O",
+          "label": null,
+          "value": "other"
+        },
+        "citizenship": {
+          "raw": "Z01",
+          "label": null,
+          "value": "citizen"
+        },
+        "ethnicity": {
+          "raw": "*",
+          "label": null,
+          "value": null
+        },
+        "ssn_last4": "5108"
+      },
+      "contact": {
+        "addresses": [
+          {
+            "kind": "home",
+            "line1": "1251 Summit Dr",
+            "line2": null,
+            "city": "Clayton",
+            "region": "MO",
+            "postal_code": "63105",
+            "country": null
+          }
+        ],
+        "phones": [
+          {
+            "kind": "home",
+            "number": "3823911043",
+            "extension": null,
+            "preferred": null
+          }
+        ],
+        "emails": [
+          {
+            "kind": "unknown",
+            "address": "shudson@dundermifflin.example"
+          },
+          {
+            "kind": "work",
+            "address": "shudson@client.test"
+          }
+        ]
+      },
+      "employment": {
+        "status": {
+          "raw": "T",
+          "label": "T",
+          "value": "terminated"
+        },
+        "status_date": "2017-04-23",
+        "employment_type": {
+          "raw": "F",
+          "label": "FT",
+          "value": "full_time"
+        },
+        "hire_date": "2017-04-23",
+        "original_hire_date": "2017-04-23",
+        "rehire_date": null,
+        "termination_date": null,
+        "seniority_date": "2017-04-23",
+        "termination_reason": {
+          "raw": "RES",
+          "label": "Resigned",
+          "value": null
+        },
+        "rehire_eligible": null,
+        "flsa_exempt": false,
+        "contractor_1099": false
+      },
+      "job": {
+        "title": "Sales Representative",
+        "job_code": {
+          "raw": "SALES",
+          "label": null,
+          "value": null
+        },
+        "department": {
+          "raw": "300",
+          "label": null,
+          "value": null
+        },
+        "location": {
+          "raw": "2",
+          "label": null,
+          "value": null
+        },
+        "division": {
+          "raw": "WEST",
+          "label": null,
+          "value": null
+        },
+        "manager_employee_id": "M00001",
+        "job_start_date": "2017-04-23"
+      },
+      "compensation": {
+        "pay_type": {
+          "raw": "H",
+          "label": null,
+          "value": "hourly"
+        },
+        "pay_frequency": {
+          "raw": "S",
+          "label": null,
+          "value": "semimonthly"
+        },
+        "rate": {
+          "amount": "42.4819",
+          "currency": "USD"
+        },
+        "rate_period": {
+          "raw": "H",
+          "label": null,
+          "value": "hourly"
+        },
+        "hourly_rate": {
+          "amount": "42.4819",
+          "currency": "USD"
+        },
+        "annual_amount": {
+          "amount": "88362.35",
+          "currency": "USD"
+        },
+        "per_period_amount": {
+          "amount": "0.00",
+          "currency": "USD"
+        },
+        "standard_hours": "40.00",
+        "standard_hours_period": {
+          "raw": null,
+          "label": "per pay period",
+          "value": "pay_period"
+        },
+        "standard_work_day_hours": null,
+        "effective_date": "2026-08-22"
+      },
+      "unmapped": {
+        "person.driverLicenseId": "",
+        "person.cobraSSN": "",
+        "person.employerId": [
+          "5"
+        ],
+        "person.cobraOnly": false,
+        "person.geoCode": "260030036",
+        "person.marriedDate": "",
+        "person.smoker": "N",
+        "person.peoStartDate": "2017-04-23",
+        "person.handicapped": "N",
+        "person.blind": "N",
+        "person.veteran": "N",
+        "person.vietnamVet": "N",
+        "person.disabledVet": "N",
+        "person.hrpCitizenshipCountry": null,
+        "person.deceased": false,
+        "person.taxZipCode": "",
+        "person.highlyCompensated": false,
+        "person.keyEmployee": false,
+        "person.overrideGeoCode": "",
+        "person.overrideGeoEndDate": "",
+        "person.nickname": "",
+        "person.deceasedDate": "",
+        "person.driverState": "",
+        "person.driverLicenseExpireDate": "",
+        "person.driverLicenseClass": "",
+        "person.ohioFormC112": false,
+        "person.unincorporatedResidence": false,
+        "person.w2ElecForm": true,
+        "person.w2ElecFormDate": "",
+        "person.hispanic": false,
+        "person.agricultureWorker": false,
+        "person.otherProtectedVet": "N",
+        "person.activeDutyBadgeVet": "N",
+        "person.recentlySeparatedVet": "N",
+        "person.serviceMedalVet": "N",
+        "person.preferredLanguage": "ENG",
+        "person.emergencyContact": [],
+        "person.userId": "",
+        "person.autoPolicy": [],
+        "person.vehicleDetails": [],
+        "person.personChecksum": "82831173",
+        "contactInformation.county": "",
+        "contactInformation.schoolDistrict": "",
+        "client.typeDate": "2017-04-23",
+        "client.transferInfo": [],
+        "client.property": [],
+        "client.hawaiiMedWaiver": [],
+        "client.cafeteriaPlan": [],
+        "client.officer": false,
+        "client.workCompOfficer": false,
+        "client.scorpOwner": false,
+        "client.businessOwner": false,
+        "client.lastStatusChangeDate": "",
+        "client.lastJobChangeDate": "",
+        "client.newHireReportDate": "",
+        "client.clockNum": "",
+        "client.primaryEmailSource": "",
+        "client.returnDate": "",
+        "client.probationDate": "2017-04-23",
+        "client.courtOrderMedical": false,
+        "client.childSpouseSupport": false,
+        "client.childSpouseArrears": false,
+        "client.handbookMailDate": "",
+        "client.handbookRecvDate": "",
+        "client.unionCode": "",
+        "client.unionDate": "",
+        "client.subCostCenter": "",
+        "client.electronicOnboard": false,
+        "client.electronicOnboardDate": "",
+        "client.reportsTo": "",
+        "client.onboardInProgress": false,
+        "client.backgroundTest": false,
+        "client.backgroundTestDate": "",
+        "client.workersCompExempt": null,
+        "client.genderDesignation": "",
+        "client.preferredPronoun": "",
+        "client.clientChecksum": "89849441",
+        "client.workShift": "",
+        "client.projCostCenter": "",
+        "client.workGroupCode": "",
+        "client.benefitGroup": "1",
+        "client.retirementBenefitGroup": "1",
+        "client.electronic1095C": "N",
+        "client.selfIdDisabilityForm": "",
+        "client.applicantId": "",
+        "compensation.payGroup": "WFRI",
+        "compensation.payPeriodsPerWeek": "",
+        "compensation.payPeriodInfo[0].periodCode": "W",
+        "compensation.payPeriodInfo[0].periodBase": "0.00",
+        "compensation.payPeriodInfo[1].periodCode": "B",
+        "compensation.payPeriodInfo[1].periodBase": "0.00",
+        "compensation.payPeriodInfo[2].periodCode": "S",
+        "compensation.payPeriodInfo[2].periodBase": "0.00",
+        "compensation.payPeriodInfo[3].periodCode": "M",
+        "compensation.payPeriodInfo[3].periodBase": "0.00",
+        "compensation.payPeriodInfo[4].periodCode": "A",
+        "compensation.payPeriodInfo[4].periodBase": "0.00",
+        "compensation.defaultHours": "0.00",
+        "compensation.allocationTemplateId": "",
+        "compensation.payAllocation": [],
+        "compensation.stateTax[0].stateCode": "MO",
+        "compensation.stateTax[0].nonResCertFiled": "",
+        "compensation.stateTax[0].filingStatus": "Single",
+        "compensation.stateTax[0].primaryAllowance": "0",
+        "compensation.stateTax[0].secondaryAllowance": "",
+        "compensation.stateTax[0].exemptAmount": "",
+        "compensation.stateTax[0].supplExemptAmount": "",
+        "compensation.stateTax[0].overrideType": "",
+        "compensation.stateTax[0].overrideAmount": "",
+        "compensation.stateTax[0].reduceAddlWithholding": null,
+        "compensation.stateTax[0].fixedWithholding": null,
+        "compensation.stateTax[0].alternateCalc": "",
+        "compensation.stateTax[0].stateW4Filed": "",
+        "compensation.stateTax[0].stateW4Year": "",
+        "compensation.stateTax[0].multipleJobs": false,
+        "compensation.stateTax[0].dependents": 0.0,
+        "compensation.stateTax[0].otherIncome": 0.0,
+        "compensation.stateTax[0].deductions": 0.0,
+        "compensation.stateTax[0].nonResCertYear": "",
+        "compensation.workShift": "",
+        "compensation.paidThruDate": "2017-04-23",
+        "compensation.eicFileStatus": "",
+        "compensation.fedFilingStatus": "SS",
+        "compensation.fedWithholdAllowance": "0",
+        "compensation.fedOverrideType": "",
+        "compensation.fedOverrideAmt": "",
+        "compensation.fedTaxCalc": "",
+        "compensation.fedMultipleJobs": false,
+        "compensation.fedDependents": 0.0,
+        "compensation.fedOtherIncome": 0.0,
+        "compensation.fedDeductions": 0.0,
+        "compensation.deliverCheckHome": false,
+        "compensation.autoAcceptTimeSheet": false,
+        "compensation.longPayTable": "",
+        "compensation.longBasisDate": "",
+        "compensation.localTax": [],
+        "compensation.lastChangePct": "0.00",
+        "compensation.lastChangeAmt": "0.00",
+        "compensation.lastPayDate": "",
+        "compensation.quartile": "",
+        "compensation.compaRatio": "",
+        "compensation.benefitsBasePay": "",
+        "compensation.perDiemPay": "",
+        "compensation.taxCreditEmp": false,
+        "compensation.autoPayCode": "",
+        "compensation.altPayRate": [],
+        "compensation.pensionStatus": "N",
+        "compensation.profitSharing": "",
+        "compensation.eeImage": [],
+        "compensation.wagePlanCA": false,
+        "compensation.perfReviewLastDate": "",
+        "compensation.perfReviewNextDate": "",
+        "compensation.i9imageAudit": [],
+        "compensation.perfReviewLastRating": "",
+        "compensation.compReviewNextDate": "",
+        "compensation.perfReviewLastTitle": "",
+        "compensation.fedW5Year": "",
+        "compensation.fedW5Filed": false,
+        "compensation.fedW4Filed": false,
+        "compensation.fedW4Year": "",
+        "compensation.lockIns": [],
+        "compensation.formI9Filed": true,
+        "compensation.formI9RenewDate": "",
+        "compensation.notes": "",
+        "compensation.ficaExempt": false,
+        "compensation.benefitsPerHour": "",
+        "compensation.perfAgreement": false,
+        "compensation.payRate2": "",
+        "compensation.payRate3": "",
+        "compensation.payRate4": "",
+        "compensation.payChangeLastDate": "",
+        "compensation.overrideWorkGeocode": "",
+        "compensation.familyMemberMI": "",
+        "compensation.probationCodeMO": "",
+        "compensation.electronicPayStub": true,
+        "compensation.healthInsVT": false,
+        "compensation.lastWorkedDate": "",
+        "compensation.irsLockInDate": "",
+        "compensation.nonResAlien": false,
+        "compensation.alienRegExpDate": "",
+        "compensation.benefitSalary": "",
+        "compensation.firstPayPeriodHours": "",
+        "compensation.compensationChecksum": "98753302",
         "compensation.providerNotifiedOn": "",
         "compensation.alternateId": "",
         "compensation.w8Filed": false,
@@ -2604,58 +2967,13 @@
       "message": "live API returns 'payPeriodsPerWeek', which the OpenAPI document does not list on Compensation (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties)"
     },
     {
-      "code": "masked_value",
-      "severity": "info",
-      "source_path": "compensation.ssn",
-      "action": "set null",
-      "record_key": "prismhr:132:M00002",
-      "raw_value": "[redacted]",
-      "message": "provider returned a masked value"
-    },
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "compensation.citizenshipStatus",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:S00004",
-      "raw_value": "A lawful permanent resident",
-      "message": "compensation.citizenshipStatus: value is not one of the documented codes (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Compensation/properties/citizenshipStatus/description)"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "client.statusClass",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:Q00005",
-      "raw_value": "Q",
-      "message": "client.statusClass: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Client/properties/statusClass/description)"
-    },
-    {
       "code": "invalid_date",
       "severity": "error",
       "source_path": "person.birthDate",
       "action": "set null",
-      "record_key": "prismhr:132:M00006",
+      "record_key": "prismhr:132:S00008",
       "raw_value": "2001-02-30",
       "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
-    },
-    {
-      "code": "missing_lookup",
-      "severity": "warning",
-      "source_path": "client.jobCode",
-      "action": "kept the job code; title null",
-      "record_key": "prismhr:132:M00006",
-      "raw_value": "TECH",
-      "message": "job code not present in the bundled getClientCodes job table (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle)"
-    },
-    {
-      "code": "missing_lookup",
-      "severity": "warning",
-      "source_path": "client.jobCode",
-      "action": "kept the job code; title null",
-      "record_key": "prismhr:132:R00007",
-      "raw_value": "TECH",
-      "message": "job code not present in the bundled getClientCodes job table (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/JobCode/properties/jobTitle)"
     },
     {
       "code": "missing_section",

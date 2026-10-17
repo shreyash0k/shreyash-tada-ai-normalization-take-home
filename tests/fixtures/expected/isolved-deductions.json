@@ -32,14 +32,14 @@
   "direct_deposits": [],
   "deductions": [
     {
-      "key": "isolved:4046-5806:859201:ded:770103",
+      "key": "isolved:4046-5806:859201:ded:780000",
       "employee_key": "isolved:4046-5806:859201",
       "company_key": "isolved:4046-5806",
       "source": {
         "provider": "isolved",
         "company_id": "4046-5806",
         "employee_id": "859201",
-        "deduction_id": "770103"
+        "deduction_id": "780000"
       },
       "code": {
         "raw": "030",
@@ -50,7 +50,7 @@
       "calculation": {
         "method": null,
         "amount": {
-          "amount": "139.91",
+          "amount": "119.91",
           "currency": "USD"
         },
         "percent": null
@@ -71,29 +71,407 @@
         "end": null
       },
       "unmapped": {
-        "pay_items[2].employeeId": 859201,
-        "pay_items[2].employeeNumber": "1",
-        "pay_items[2].firstName": "Casey",
-        "pay_items[2].lastName": "Whitfield",
-        "pay_items[2].payItemId": 770103,
-        "pay_items[2].referenceNumber": null,
-        "pay_items[2].scheduleOverride": null,
-        "pay_items[2].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
-        "pay_items[2].links[0].rel": "parent",
-        "pay_items[2].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/payItems",
-        "pay_items[2].links[1].method": "POST",
-        "pay_items[2].links[1].rel": "Update EE Pay Item"
+        "pay_items[0].employeeId": 859201,
+        "pay_items[0].employeeNumber": "1",
+        "pay_items[0].firstName": "Phyllis",
+        "pay_items[0].lastName": "Vance",
+        "pay_items[0].payItemId": 780000,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
       }
     },
     {
-      "key": "isolved:4046-5806:859201:ded:770104",
-      "employee_key": "isolved:4046-5806:859201",
+      "key": "isolved:4046-5806:859202:ded:780001",
+      "employee_key": "isolved:4046-5806:859202",
       "company_key": "isolved:4046-5806",
       "source": {
         "provider": "isolved",
         "company_id": "4046-5806",
-        "employee_id": "859201",
-        "deduction_id": "770104"
+        "employee_id": "859202",
+        "deduction_id": "780001"
+      },
+      "code": {
+        "raw": "030",
+        "label": "Medical Pre-tax",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": {
+          "amount": "69.82",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "pay_items[0].employeeId": 859202,
+        "pay_items[0].employeeNumber": "2",
+        "pay_items[0].firstName": "Creed",
+        "pay_items[0].lastName": "Bratton",
+        "pay_items[0].payItemId": 780001,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859203:ded:780002",
+      "employee_key": "isolved:4046-5806:859203",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859203",
+        "deduction_id": "780002"
+      },
+      "code": {
+        "raw": "030",
+        "label": "Medical Pre-tax",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": {
+          "amount": "55.92",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "pay_items[0].employeeId": 859203,
+        "pay_items[0].employeeNumber": "3",
+        "pay_items[0].firstName": "Meredith",
+        "pay_items[0].lastName": "Palmer",
+        "pay_items[0].payItemId": 780002,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859204:ded:780003",
+      "employee_key": "isolved:4046-5806:859204",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859204",
+        "deduction_id": "780003"
+      },
+      "code": {
+        "raw": "030",
+        "label": "Medical Pre-tax",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": {
+          "amount": "119.91",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "pay_items[0].employeeId": 859204,
+        "pay_items[0].employeeNumber": "4",
+        "pay_items[0].firstName": "Ryan",
+        "pay_items[0].lastName": "Howard",
+        "pay_items[0].payItemId": 780003,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859204/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859205:ded:780004",
+      "employee_key": "isolved:4046-5806:859205",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859205",
+        "deduction_id": "780004"
+      },
+      "code": {
+        "raw": "030",
+        "label": "Medical Pre-tax",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": {
+          "amount": "110.16",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "pay_items[0].employeeId": 859205,
+        "pay_items[0].employeeNumber": "5",
+        "pay_items[0].firstName": "Kelly",
+        "pay_items[0].lastName": "Kapoor",
+        "pay_items[0].payItemId": 780004,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859205/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859206:ded:780005",
+      "employee_key": "isolved:4046-5806:859206",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859206",
+        "deduction_id": "780005"
+      },
+      "code": {
+        "raw": "030",
+        "label": "Medical Pre-tax",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": {
+          "amount": "111.16",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "pay_items[0].employeeId": 859206,
+        "pay_items[0].employeeNumber": "6",
+        "pay_items[0].firstName": "Toby",
+        "pay_items[0].lastName": "Flenderson",
+        "pay_items[0].payItemId": 780005,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859207:ded:780006",
+      "employee_key": "isolved:4046-5806:859207",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859207",
+        "deduction_id": "780006"
+      },
+      "code": {
+        "raw": "030",
+        "label": "Medical Pre-tax",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": {
+          "amount": "119.95",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "pay_items[0].employeeId": 859207,
+        "pay_items[0].employeeNumber": "7",
+        "pay_items[0].firstName": "Darryl",
+        "pay_items[0].lastName": "Philbin",
+        "pay_items[0].payItemId": 780006,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859207",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859207/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859208:ded:780007",
+      "employee_key": "isolved:4046-5806:859208",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859208",
+        "deduction_id": "780007"
+      },
+      "code": {
+        "raw": "030",
+        "label": "Medical Pre-tax",
+        "value": null
+      },
+      "category": null,
+      "calculation": {
+        "method": null,
+        "amount": {
+          "amount": "80.37",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "pay_items[0].employeeId": 859208,
+        "pay_items[0].employeeNumber": "8",
+        "pay_items[0].firstName": "Andy",
+        "pay_items[0].lastName": "Bernard",
+        "pay_items[0].payItemId": 780007,
+        "pay_items[0].referenceNumber": null,
+        "pay_items[0].scheduleOverride": null,
+        "pay_items[0].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859208",
+        "pay_items[0].links[0].rel": "parent",
+        "pay_items[0].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859208/payItems",
+        "pay_items[0].links[1].method": "POST",
+        "pay_items[0].links[1].rel": "Update EE Pay Item"
+      }
+    },
+    {
+      "key": "isolved:4046-5806:859208:ded:780100",
+      "employee_key": "isolved:4046-5806:859208",
+      "company_key": "isolved:4046-5806",
+      "source": {
+        "provider": "isolved",
+        "company_id": "4046-5806",
+        "employee_id": "859208",
+        "deduction_id": "780100"
       },
       "code": {
         "raw": "32",
@@ -103,10 +481,7 @@
       "category": null,
       "calculation": {
         "method": null,
-        "amount": {
-          "amount": "0.0",
-          "currency": "USD"
-        },
+        "amount": null,
         "percent": "6.0"
       },
       "frequency": null,
@@ -122,234 +497,21 @@
       "priority": null,
       "effective": {
         "start": "2023-04-01",
-        "end": null
+        "end": "2026-12-31"
       },
       "unmapped": {
-        "pay_items[3].employeeId": 859201,
-        "pay_items[3].employeeNumber": "1",
-        "pay_items[3].firstName": "Casey",
-        "pay_items[3].lastName": "Whitfield",
-        "pay_items[3].payItemId": 770104,
-        "pay_items[3].referenceNumber": null,
-        "pay_items[3].scheduleOverride": null,
-        "pay_items[3].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201",
-        "pay_items[3].links[0].rel": "parent",
-        "pay_items[3].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859201/payItems",
-        "pay_items[3].links[1].method": "POST",
-        "pay_items[3].links[1].rel": "Update EE Pay Item"
-      }
-    },
-    {
-      "key": "isolved:4046-5806:859202:ded:770203",
-      "employee_key": "isolved:4046-5806:859202",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "employee_id": "859202",
-        "deduction_id": "770203"
-      },
-      "code": {
-        "raw": "011W",
-        "label": "United Way",
-        "value": null
-      },
-      "category": null,
-      "calculation": {
-        "method": null,
-        "amount": {
-          "amount": "10.0",
-          "currency": "USD"
-        },
-        "percent": "0.0"
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": {
-        "start": "2025-01-01",
-        "end": "2025-12-31"
-      },
-      "unmapped": {
-        "pay_items[2].calcParams[1].paramType": "Amount2",
-        "pay_items[2].calcParams[1].paramValue": 0.0,
-        "pay_items[2].employeeId": 859202,
-        "pay_items[2].employeeNumber": "2",
-        "pay_items[2].firstName": "Casey",
-        "pay_items[2].lastName": "Haddad",
-        "pay_items[2].payItemId": 770203,
-        "pay_items[2].referenceNumber": null,
-        "pay_items[2].scheduleOverride": null,
-        "pay_items[2].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
-        "pay_items[2].links[0].rel": "parent",
-        "pay_items[2].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/payItems",
-        "pay_items[2].links[1].method": "POST",
-        "pay_items[2].links[1].rel": "Update EE Pay Item",
-        "pay_items[2].balance": 0.0
-      }
-    },
-    {
-      "key": "isolved:4046-5806:859202:ded:770204",
-      "employee_key": "isolved:4046-5806:859202",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "employee_id": "859202",
-        "deduction_id": "770204"
-      },
-      "code": {
-        "raw": null,
-        "label": "FSA Medical pos",
-        "value": null
-      },
-      "category": null,
-      "calculation": {
-        "method": null,
-        "amount": {
-          "amount": "41.67",
-          "currency": "USD"
-        },
-        "percent": null
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": null,
-      "unmapped": {
-        "pay_items[3].employeeId": 859202,
-        "pay_items[3].employeeNumber": "2",
-        "pay_items[3].firstName": "Casey",
-        "pay_items[3].lastName": "Haddad",
-        "pay_items[3].payItemId": 770204,
-        "pay_items[3].referenceNumber": null,
-        "pay_items[3].scheduleOverride": null,
-        "pay_items[3].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202",
-        "pay_items[3].links[0].rel": "parent",
-        "pay_items[3].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859202/payItems",
-        "pay_items[3].links[1].method": "POST",
-        "pay_items[3].links[1].rel": "Update EE Pay Item"
-      }
-    },
-    {
-      "key": "isolved:4046-5806:859203:ded:770303",
-      "employee_key": "isolved:4046-5806:859203",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "employee_id": "859203",
-        "deduction_id": "770303"
-      },
-      "code": {
-        "raw": "006",
-        "label": "401K Loan",
-        "value": null
-      },
-      "category": null,
-      "calculation": {
-        "method": null,
-        "amount": null,
-        "percent": null
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": {
-        "start": "2022-06-01",
-        "end": null
-      },
-      "unmapped": {
-        "pay_items[2].calcParams": [],
-        "pay_items[2].employeeId": 859203,
-        "pay_items[2].employeeNumber": "3",
-        "pay_items[2].firstName": "Reese",
-        "pay_items[2].lastName": "Petrov",
-        "pay_items[2].payItemId": 770303,
-        "pay_items[2].referenceNumber": null,
-        "pay_items[2].scheduleOverride": null,
-        "pay_items[2].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203",
-        "pay_items[2].links[0].rel": "parent",
-        "pay_items[2].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859203/payItems",
-        "pay_items[2].links[1].method": "POST",
-        "pay_items[2].links[1].rel": "Update EE Pay Item"
-      }
-    },
-    {
-      "key": "isolved:4046-5806:859206:ded:770603",
-      "employee_key": "isolved:4046-5806:859206",
-      "company_key": "isolved:4046-5806",
-      "source": {
-        "provider": "isolved",
-        "company_id": "4046-5806",
-        "employee_id": "859206",
-        "deduction_id": "770603"
-      },
-      "code": {
-        "raw": "008",
-        "label": "Vision Pre-tax",
-        "value": null
-      },
-      "category": null,
-      "calculation": {
-        "method": null,
-        "amount": {
-          "amount": "0.0",
-          "currency": "USD"
-        },
-        "percent": null
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": null,
-      "unmapped": {
-        "pay_items[2].calcParams[0].paramType": "Rate",
-        "pay_items[2].calcParams[0].paramValue": 1.25,
-        "pay_items[2].employeeId": 859206,
-        "pay_items[2].employeeNumber": "6",
-        "pay_items[2].firstName": "Skyler",
-        "pay_items[2].lastName": "Marchetti",
-        "pay_items[2].payItemId": 770603,
-        "pay_items[2].referenceNumber": null,
-        "pay_items[2].scheduleOverride": null,
-        "pay_items[2].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206",
-        "pay_items[2].links[0].rel": "parent",
-        "pay_items[2].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859206/payItems",
-        "pay_items[2].links[1].method": "POST",
-        "pay_items[2].links[1].rel": "Update EE Pay Item"
+        "pay_items[1].employeeId": 859208,
+        "pay_items[1].employeeNumber": "8",
+        "pay_items[1].firstName": "Andy",
+        "pay_items[1].lastName": "Bernard",
+        "pay_items[1].payItemId": 780100,
+        "pay_items[1].referenceNumber": null,
+        "pay_items[1].scheduleOverride": null,
+        "pay_items[1].links[0].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859208",
+        "pay_items[1].links[0].rel": "parent",
+        "pay_items[1].links[1].href": "https://myisolved.example/rest/api/clients/4046/legals/5806/employees/859208/payItems",
+        "pay_items[1].links[1].method": "POST",
+        "pay_items[1].links[1].rel": "Update EE Pay Item"
       }
     }
   ],
@@ -357,58 +519,13 @@
   "paychecks": [],
   "issues": [
     {
-      "code": "spec_live_mismatch",
-      "severity": "info",
-      "source_path": "pay_items[2].balance",
-      "action": "kept in unmapped",
-      "record_key": null,
-      "raw_value": null,
-      "message": "live API returns 'balance', which EmployeePayItemModel does not list (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties)"
-    },
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "pay_items[2].calcParams[1].paramType",
-      "action": "kept raw value in unmapped",
-      "record_key": null,
-      "raw_value": "Amount2",
-      "message": "calcParams.paramType has no documented values and this label is not on the allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/calcParams)"
-    },
-    {
       "code": "invalid_date",
       "severity": "error",
-      "source_path": "pay_items[2].stopDate",
+      "source_path": "pay_items[0].stopDate",
       "action": "set null",
-      "record_key": "isolved:4046-5806:859203:ded:770303",
+      "record_key": "isolved:4046-5806:859208:ded:780007",
       "raw_value": "2025-02-30T00:00:00",
       "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
-    },
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "pay_items[3].payItemType",
-      "action": "pay item skipped",
-      "record_key": "isolved:4046-5806:859203",
-      "raw_value": "Benefit",
-      "message": "payItemType is not one of the labels seen live (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/payItemType; labels from live GET /api/clients/{clientId}/legals/{legalId}/employees/{employeeId}/payItems capture (docs/DECISIONS.md deduction entries))"
-    },
-    {
-      "code": "missing_section",
-      "severity": "info",
-      "source_path": "pay_items",
-      "action": "no deduction lines emitted",
-      "record_key": "isolved:4046-5806:859205",
-      "raw_value": null,
-      "message": "bundle has no responses.pay_items['859205'] entry"
-    },
-    {
-      "code": "unmapped_label",
-      "severity": "warning",
-      "source_path": "pay_items[2].calcParams[0].paramType",
-      "action": "kept raw value in unmapped",
-      "record_key": null,
-      "raw_value": "Rate",
-      "message": "calcParams.paramType has no documented values and this label is not on the allowlist (contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeePayItemModel/properties/calcParams)"
     },
     {
       "code": "missing_section",

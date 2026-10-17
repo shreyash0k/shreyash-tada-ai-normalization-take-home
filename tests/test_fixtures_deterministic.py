@@ -25,6 +25,19 @@ class FixtureDeterminismChecks(unittest.TestCase):
         self.assertEqual(generate_fixtures.generate(7), generate_fixtures.generate(7))
         self.assertNotEqual(generate_fixtures.generate(7), generate_fixtures.generate())
 
+    def test_each_company_has_its_own_eight_names(self):
+        rosters = (generate_fixtures.SCRANTON_ROSTER, generate_fixtures.STAMFORD_ROSTER,
+                   generate_fixtures.UTICA_ROSTER)
+        self.assertEqual([len(roster) for roster in rosters], [8, 8, 8])
+        combined = [name for roster in rosters for name in roster]
+        self.assertEqual(len(combined), len(set(combined)))
+        self.assertEqual(rosters[0][0], ("Michael", "Scott"))
+        self.assertEqual(rosters[1][0], ("Phyllis", "Vance"))
+        self.assertEqual(rosters[2][0], ("Erin", "Hannon"))
+        mail = generate_fixtures.Pool(1, "mail")
+        self.assertEqual(mail.email("Michael", "Scott"), "mscott@dundermifflin.example")
+        self.assertEqual(mail.email("Morgan", "Scott"), "mscott2@dundermifflin.example")
+
     def test_fixture_files_contain_no_live_identifiers(self):
         for path in FIXTURES.rglob("*.json"):
             text = path.read_text(encoding="utf-8")

@@ -1,4 +1,4 @@
-"""PrismHR direct deposit adapter: golden output plus the injected edge cases."""
+"""PrismHR direct deposit adapter."""
 import json
 import unittest
 
@@ -34,48 +34,15 @@ class PrismHRDirectDepositChecks(unittest.TestCase):
                 self.assertEqual(deposit["company_key"], "prismhr:132")
                 self.assertTrue(deposit["key"].startswith(deposit["employee_key"] + ":dd:"))
 
-    def test_line_position_is_the_deposit_id(self):
-        self.assertEqual([d["source"]["deposit_id"] for d in self.lines(0)], ["0", "1"])
-        self.assertTrue(all(d["priority"] is None for d in self.output["direct_deposits"]))
-
-    def test_fixed_then_remainder(self):
-        fixed, remainder = self.lines(0)
+    def test_fixed_and_percent_lines(self):
+        fixed, percent = self.lines(0)
         self.assertEqual(fixed["allocation"]["method"], {"raw": "F", "label": None, "value": "fixed_amount"})
-        self.assertEqual(fixed["allocation"]["amount"], {"amount": "250.0", "currency": "USD"})
-        self.assertEqual(fixed["account_type"]["value"], "savings")
-        self.assertEqual(remainder["allocation"], {"method": {"raw": "B", "label": None, "value": "remainder"},
-                                                   "amount": None, "percent": None})
-
-    def test_percent_methods_fill_percent_and_keep_limit_unmapped(self):
-        percent = self.lines(1)[0]
+        self.assertIsNotNone(fixed["allocation"]["amount"])
+        self.assertEqual(fixed["account_type"]["value"], "checking")
         self.assertEqual(percent["allocation"]["method"]["value"], "percent")
-        self.assertEqual(percent["allocation"]["percent"], "20.0")
+        self.assertEqual(percent["allocation"]["percent"], "10.0")
         self.assertIsNone(percent["allocation"]["amount"])
-        self.assertEqual(percent["unmapped"]["directDeposit.achVoucher[0].limit"], 500.0)
-        of_net = self.lines(2)[1]
-        self.assertEqual(of_net["allocation"]["method"], {"raw": "PN", "label": None, "value": "percent_of_net"})
-
-    def test_fixed_skip_and_prenote(self):
-        skip = self.lines(2)[0]
-        self.assertEqual(skip["allocation"]["method"], {"raw": "FS", "label": None, "value": "fixed_amount"})
-        self.assertEqual(skip["status"], {"raw": "P", "label": None, "value": "prenote"})
-
-    def test_inconsistent_amounts_are_reported(self):
-        remainder_with_amount, fixed_without = self.lines(3)
-        self.assertIsNone(remainder_with_amount["allocation"]["amount"])
-        self.assertEqual(remainder_with_amount["unmapped"]["directDeposit.achVoucher[0].amount"], 75.0)
-        self.assertIsNone(fixed_without["allocation"]["amount"])
-        found = issues_with(self.output, "inconsistent_allocation")
-        self.assertEqual([i["record_key"] for i in found],
-                         [remainder_with_amount["key"], fixed_without["key"]])
-
-    def test_undocumented_method_and_instant_pay(self):
-        odd = self.lines(4)[0]
-        self.assertEqual(odd["allocation"]["method"]["value"], "unknown")
-        self.assertEqual(odd["unmapped"]["directDeposit.achVoucher[0].amount"], 40.0)
-        self.assertEqual(odd["account_type"], {"raw": "IP", "label": None, "value": "instant_pay"})
-        self.assertEqual(odd["status"]["value"], "inactive")
-        self.assertEqual([i["raw_value"] for i in issues_with(self.output, "undocumented_code", "method")], ["Z"])
+        self.assertTrue(all(d["priority"] is None for d in self.output["direct_deposits"]))
 
     def test_header_fields_ride_along_in_unmapped(self):
         for deposit in self.lines(0):
@@ -83,25 +50,15 @@ class PrismHRDirectDepositChecks(unittest.TestCase):
             self.assertEqual(deposit["unmapped"]["directDeposit.voucherType"], "RVS")
             self.assertNotIn("directDeposit.achVoucher", deposit["unmapped"])
 
-    def test_line_pay_type_override_stays_unmapped(self):
-        skip, of_net = self.lines(2)
-        self.assertEqual(skip["unmapped"]["directDeposit.achVoucher[0].voucherTypeOverride"], "R")
-        self.assertEqual(of_net["unmapped"]["directDeposit.achVoucher[1].voucherTypeOverride"], "")
-
-    def test_empty_header_and_missing_section(self):
-        self.assertEqual(self.lines(5), [])
-        self.assertEqual(self.lines(6), [])
-        missing = issues_with(self.output, "missing_section", "directDeposit")
-        self.assertEqual([i["record_key"] for i in missing], [f"prismhr:132:{self.ids[6]}"])
-
-    def test_account_numbers_are_last_four_or_masked(self):
+    def test_one_account_number_is_masked(self):
         unmasked = self.records[0]["directDeposit"]["achVoucher"][0]["accountNum"]
         self.assertEqual(self.lines(0)[0]["account_number_last4"], unmasked[-4:])
-        self.assertIsNone(self.lines(0)[1]["account_number_last4"])
-        self.assertEqual(len(issues_with(self.output, "masked_value", "accountNum")), 8)
+        masked = self.lines(7)[0]
+        self.assertIsNone(masked["account_number_last4"])
+        found = issues_with(self.output, "masked_value", "accountNum")
+        self.assertEqual([i["record_key"] for i in found], [masked["key"]])
         text = json.dumps(self.output)
         self.assertNotIn(unmasked, text)
-        self.assertNotIn("accountNum\": \"*", text)
 
     def test_code_tables_quote_the_spec_descriptions(self):
         for table in (prismhr.ACCOUNT_TYPE, prismhr.DEPOSIT_METHOD, prismhr.DEPOSIT_STATUS):

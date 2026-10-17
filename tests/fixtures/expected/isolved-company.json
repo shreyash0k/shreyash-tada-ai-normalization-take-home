@@ -12,7 +12,7 @@
     },
     "name": null,
     "ein": "990004046",
-    "legal_name": "Synthetic Scrap Metal Inc",
+    "legal_name": "Dunder Mifflin Stamford, Inc.",
     "status": {
       "raw": "Active",
       "label": null,
@@ -25,16 +25,16 @@
     "sic_code": null,
     "address": {
       "kind": "legal",
-      "line1": "8123 Harbor Rd",
+      "line1": "400 Canal Street",
       "line2": null,
-      "city": "Riverton",
-      "region": "UT",
-      "postal_code": "84065",
+      "city": "Stamford",
+      "region": "CT",
+      "postal_code": "06902",
       "country": null
     },
     "phone": {
       "kind": "work",
-      "number": "3747925827",
+      "number": "9413309023",
       "extension": null,
       "preferred": null
     },
@@ -42,7 +42,7 @@
     "website": null,
     "parent": {
       "raw": "4046",
-      "label": "Synthetic Demo Holdings",
+      "label": "Dunder Mifflin",
       "value": null
     },
     "tax_ids": [

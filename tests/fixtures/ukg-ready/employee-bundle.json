@@ -11,11 +11,11 @@
         {
           "id": 12935181566,
           "employee_id": "1",
-          "username": "abrennan",
-          "first_name": "Avery",
-          "last_name": "Brennan",
+          "username": "ehannon",
+          "first_name": "Erin",
+          "last_name": "Hannon",
           "primary_account_id": 12935181566,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "_links": {
             "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566",
             "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/demographics",
@@ -25,18 +25,18 @@
           },
           "status": "Active",
           "dates": {
-            "hired": "2019-02-17",
-            "started": "2019-02-17"
+            "hired": "2017-10-08",
+            "started": "2017-10-08"
           }
         },
         {
           "id": 12935181567,
           "employee_id": "2",
-          "username": "tlindqvist",
-          "first_name": "Tatum",
-          "last_name": "Lindqvist",
+          "username": "glewis",
+          "first_name": "Gabe",
+          "last_name": "Lewis",
           "primary_account_id": 12935181567,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "_links": {
             "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567",
             "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/demographics",
@@ -46,18 +46,18 @@
           },
           "status": "Active",
           "dates": {
-            "hired": "2024-09-24",
-            "started": "2024-09-24"
+            "hired": "2021-09-18",
+            "started": "2021-09-18"
           }
         },
         {
           "id": 12935181568,
           "employee_id": "3",
-          "username": "rdelgado",
-          "first_name": "Riley",
-          "last_name": "Delgado",
+          "username": "hflax",
+          "first_name": "Holly",
+          "last_name": "Flax",
           "primary_account_id": 12935181568,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "_links": {
             "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568",
             "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/demographics",
@@ -65,21 +65,20 @@
             "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/pay-info",
             "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/profiles"
           },
-          "status": "Terminated",
+          "status": "Active",
           "dates": {
-            "hired": "2019-11-21",
-            "started": "2019-11-21",
-            "terminated": "2024-06-28"
+            "hired": "2017-08-28",
+            "started": "2017-08-28"
           }
         },
         {
           "id": 12935181569,
           "employee_id": "4",
-          "username": "tnakamura",
-          "first_name": "Tatum",
-          "last_name": "Nakamura",
+          "username": "jlevinson",
+          "first_name": "Jan",
+          "last_name": "Levinson",
           "primary_account_id": 12935181569,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "_links": {
             "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569",
             "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/demographics",
@@ -89,19 +88,18 @@
           },
           "status": "Active",
           "dates": {
-            "hired": "2016-02-26",
-            "started": "2016-02-26",
-            "re_hired": "2022-02-14"
+            "hired": "2021-10-09",
+            "started": "2021-10-09"
           }
         },
         {
           "id": 12935181570,
           "employee_id": "5",
-          "username": "rdelgado",
-          "first_name": "Rowan",
-          "last_name": "Delgado",
+          "username": "dwallace",
+          "first_name": "David",
+          "last_name": "Wallace",
           "primary_account_id": 12935181570,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "_links": {
             "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570",
             "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/demographics",
@@ -109,20 +107,20 @@
             "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/pay-info",
             "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/profiles"
           },
-          "status": "Suspended",
+          "status": "Active",
           "dates": {
-            "hired": "2020-12-25",
-            "started": "2020-12-25"
+            "hired": "2017-05-07",
+            "started": "2017-05-07"
           }
         },
         {
           "id": 12935181571,
           "employee_id": "6",
-          "username": "ebrennan",
-          "first_name": "Emerson",
-          "last_name": "Brennan",
+          "username": "kfilippelli",
+          "first_name": "Karen",
+          "last_name": "Filippelli",
           "primary_account_id": 12935181571,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "_links": {
             "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571",
             "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/demographics",
@@ -132,9 +130,52 @@
           },
           "status": "Active",
           "dates": {
+            "hired": "2020-11-27",
+            "started": "2020-11-27"
+          }
+        },
+        {
+          "id": 12935181572,
+          "employee_id": "7",
+          "username": "randerson",
+          "first_name": "Roy",
+          "last_name": "Anderson",
+          "primary_account_id": 12935181572,
+          "ein_name": "Dunder Mifflin Utica",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/profiles"
+          },
+          "status": "Active",
+          "dates": {
             "hired": "2022-09-12",
-            "started": "2022-09-12",
-            "seniority": "2020-13-01"
+            "started": "2022-09-12"
+          }
+        },
+        {
+          "id": 12935181573,
+          "employee_id": "8",
+          "username": "cminer",
+          "first_name": "Charles",
+          "last_name": "Miner",
+          "primary_account_id": 12935181573,
+          "ein_name": "Dunder Mifflin Utica",
+          "_links": {
+            "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573",
+            "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/demographics",
+            "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/badges",
+            "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/pay-info",
+            "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/profiles"
+          },
+          "status": "Terminated",
+          "dates": {
+            "hired": "2021-02-04",
+            "started": "2021-02-04",
+            "re_hired": "2022-02-14",
+            "terminated": "2024-06-28"
           }
         }
       ]
@@ -143,11 +184,11 @@
       "12935181566": {
         "id": 12935181566,
         "employee_id": "1",
-        "username": "abrennan",
-        "first_name": "Avery",
-        "last_name": "Brennan",
+        "username": "ehannon",
+        "first_name": "Erin",
+        "last_name": "Hannon",
         "primary_account_id": 12935181566,
-        "ein_name": "Primary EIN",
+        "ein_name": "Dunder Mifflin Utica",
         "_links": {
           "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566",
           "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181566/country-fields",
@@ -158,39 +199,39 @@
         },
         "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181566",
         "isPhotoUploaded": false,
-        "middle_name": "T",
+        "middle_name": "B",
         "status": "Active",
         "locked": false,
         "force_change_password": false,
-        "social_security": "703-40-9772",
+        "social_security": "636-98-4884",
         "first_screen": {
           "id": "SCREEN:101"
         },
         "address": {
-          "address_line_1": "1443 Summit Dr",
+          "address_line_1": "6216 Willow Way",
           "country": "USA",
-          "city": "Georgetown",
-          "state": "TX",
-          "zip": "78626",
-          "state_code": "TX"
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "state_code": "IL"
         },
         "use_separate_mailing_address": false,
         "timezone": "America/Chicago",
         "dates": {
-          "hired": "2019-02-17",
-          "started": "2019-02-17",
-          "birthday": "1994-03-03"
+          "hired": "2017-10-08",
+          "started": "2017-10-08",
+          "birthday": "1994-09-05"
         },
         "ein": {
           "id": 35419520
         },
         "phones": {
-          "cell_phone": "9516618227",
-          "home_phone": "8117171862",
+          "cell_phone": "2909508379",
+          "home_phone": "9586519286",
           "work_phone": "",
           "preferred_phone": "CELL"
         },
-        "primary_email": "abrennan@example.test",
+        "primary_email": "ehannon@dundermifflin.example",
         "add_to_new_hire_export": true,
         "hardware_settings": {
           "in_touch": {
@@ -202,7 +243,7 @@
         "national_id_numbers": [
           {
             "type": "SSN",
-            "value": "703-40-9772",
+            "value": "636-98-4884",
             "primary": true
           }
         ]
@@ -210,11 +251,11 @@
       "12935181567": {
         "id": 12935181567,
         "employee_id": "2",
-        "username": "tlindqvist",
-        "first_name": "Tatum",
-        "last_name": "Lindqvist",
+        "username": "glewis",
+        "first_name": "Gabe",
+        "last_name": "Lewis",
         "primary_account_id": 12935181567,
-        "ein_name": "Primary EIN",
+        "ein_name": "Dunder Mifflin Utica",
         "_links": {
           "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567",
           "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181567/country-fields",
@@ -225,39 +266,39 @@
         },
         "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181567",
         "isPhotoUploaded": false,
-        "middle_name": "J",
+        "middle_name": "S",
         "status": "Active",
         "locked": false,
         "force_change_password": false,
-        "social_security": "180-33-3548",
+        "social_security": "613-78-6386",
         "first_screen": {
           "id": "SCREEN:101"
         },
         "address": {
-          "address_line_1": "8487 Summit Dr",
+          "address_line_1": "7269 Maple Ave",
           "country": "USA",
-          "city": "Georgetown",
-          "state": "TX",
-          "zip": "78626",
-          "state_code": "TX"
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "state_code": "IL"
         },
         "use_separate_mailing_address": true,
         "timezone": "America/Chicago",
         "dates": {
-          "hired": "2024-09-24",
-          "started": "2024-09-24",
-          "birthday": "1984-11-13"
+          "hired": "2021-09-18",
+          "started": "2021-09-18",
+          "birthday": "1965-03-05"
         },
         "ein": {
           "id": 35419520
         },
         "phones": {
-          "cell_phone": "6533934411",
+          "cell_phone": "9765877296",
           "home_phone": "",
           "work_phone": "",
           "preferred_phone": "HOME"
         },
-        "primary_email": "tlindqvist@example.test",
+        "primary_email": "glewis@dundermifflin.example",
         "add_to_new_hire_export": true,
         "hardware_settings": {
           "in_touch": {
@@ -269,17 +310,17 @@
         "national_id_numbers": [
           {
             "type": "SSN",
-            "value": "180-33-3548",
+            "value": "613-78-6386",
             "primary": true
           }
         ],
         "mailing_address": {
           "address_line_1": "PO Box 77",
           "country": "USA",
-          "city": "Georgetown",
-          "state": "TX",
-          "zip": "78626",
-          "state_code": "TX"
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "state_code": "IL"
         },
         "managers": [
           {
@@ -293,11 +334,11 @@
       "12935181568": {
         "id": 12935181568,
         "employee_id": "3",
-        "username": "rdelgado",
-        "first_name": "Riley",
-        "last_name": "Delgado",
+        "username": "hflax",
+        "first_name": "Holly",
+        "last_name": "Flax",
         "primary_account_id": 12935181568,
-        "ein_name": "Primary EIN",
+        "ein_name": "Dunder Mifflin Utica",
         "_links": {
           "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568",
           "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181568/country-fields",
@@ -308,40 +349,39 @@
         },
         "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181568",
         "isPhotoUploaded": false,
-        "middle_name": "L",
-        "status": "Terminated",
+        "middle_name": "M",
+        "status": "Active",
         "locked": false,
         "force_change_password": false,
-        "social_security": "556-26-9205",
+        "social_security": "515-93-7430",
         "first_screen": {
           "id": "SCREEN:101"
         },
         "address": {
-          "address_line_1": "6530 Maple Ave",
+          "address_line_1": "3198 Birch Ct",
           "country": "USA",
-          "city": "Clayton",
-          "state": "MO",
-          "zip": "63105",
-          "state_code": "MO"
+          "city": "Ashland",
+          "state": "VA",
+          "zip": "23005",
+          "state_code": "VA"
         },
         "use_separate_mailing_address": false,
         "timezone": "America/Chicago",
         "dates": {
-          "hired": "2019-11-21",
-          "started": "2019-11-21",
-          "terminated": "2024-06-28",
-          "birthday": "1994-07-24"
+          "hired": "2017-08-28",
+          "started": "2017-08-28",
+          "birthday": "1967-04-21"
         },
         "ein": {
           "id": 35419520
         },
         "phones": {
-          "cell_phone": "5622537040",
-          "home_phone": "7834776820",
+          "cell_phone": "8686888297",
+          "home_phone": "3347129903",
           "work_phone": "",
           "preferred_phone": "CELL"
         },
-        "primary_email": "rdelgado@example.test",
+        "primary_email": "hflax@dundermifflin.example",
         "add_to_new_hire_export": true,
         "hardware_settings": {
           "in_touch": {
@@ -353,7 +393,7 @@
         "national_id_numbers": [
           {
             "type": "SSN",
-            "value": "556-26-9205",
+            "value": "515-93-7430",
             "primary": true
           }
         ],
@@ -369,11 +409,11 @@
       "12935181569": {
         "id": 12935181569,
         "employee_id": "4",
-        "username": "tnakamura",
-        "first_name": "Tatum",
-        "last_name": "Nakamura",
+        "username": "jlevinson",
+        "first_name": "Jan",
+        "last_name": "Levinson",
         "primary_account_id": 12935181569,
-        "ein_name": "Primary EIN",
+        "ein_name": "Dunder Mifflin Utica",
         "_links": {
           "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569",
           "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181569/country-fields",
@@ -384,16 +424,16 @@
         },
         "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181569",
         "isPhotoUploaded": false,
-        "middle_name": "B",
+        "middle_name": "S",
         "status": "Active",
         "locked": false,
         "force_change_password": false,
-        "social_security": "768-19-5399",
+        "social_security": "463-95-8436",
         "first_screen": {
           "id": "SCREEN:101"
         },
         "address": {
-          "address_line_1": "6189 Willow Way",
+          "address_line_1": "5888 Maple Ave",
           "country": "USA",
           "city": "Clayton",
           "state": "MO",
@@ -403,21 +443,20 @@
         "use_separate_mailing_address": false,
         "timezone": "America/Chicago",
         "dates": {
-          "hired": "2016-02-26",
-          "started": "2016-02-26",
-          "re_hired": "2022-02-14",
-          "birthday": "1973-08-06"
+          "hired": "2021-10-09",
+          "started": "2021-10-09",
+          "birthday": "1977-07-12"
         },
         "ein": {
           "id": 35419520
         },
         "phones": {
-          "cell_phone": "2648353643",
+          "cell_phone": "9009191951",
           "home_phone": "",
           "work_phone": "",
           "preferred_phone": "HOME"
         },
-        "primary_email": "tnakamura@example.test",
+        "primary_email": "jlevinson@dundermifflin.example",
         "add_to_new_hire_export": true,
         "hardware_settings": {
           "in_touch": {
@@ -429,19 +468,13 @@
         "national_id_numbers": [
           {
             "type": "SSN",
-            "value": "768-19-5399",
+            "value": "463-95-8436",
             "primary": true
           }
         ],
         "managers": [
           {
             "index": 0,
-            "empl_ref": {
-              "account_id": 12935181567
-            }
-          },
-          {
-            "index": 1,
             "empl_ref": {
               "account_id": 12935181566
             }
@@ -451,11 +484,11 @@
       "12935181570": {
         "id": 12935181570,
         "employee_id": "5",
-        "username": "rdelgado",
-        "first_name": "Rowan",
-        "last_name": "Delgado",
+        "username": "dwallace",
+        "first_name": "David",
+        "last_name": "Wallace",
         "primary_account_id": 12935181570,
-        "ein_name": "Primary EIN",
+        "ein_name": "Dunder Mifflin Utica",
         "_links": {
           "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570",
           "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181570/country-fields",
@@ -466,39 +499,39 @@
         },
         "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181570",
         "isPhotoUploaded": false,
-        "middle_name": "A",
-        "status": "Suspended",
+        "middle_name": "L",
+        "status": "Active",
         "locked": false,
         "force_change_password": false,
-        "social_security": "420-57-1087",
+        "social_security": "288-17-3643",
         "first_screen": {
           "id": "SCREEN:101"
         },
         "address": {
-          "address_line_1": "6486 Harbor Rd",
+          "address_line_1": "2005 Willow Way",
           "country": "USA",
-          "city": "Franklin",
-          "state": "TN",
-          "zip": "37064",
-          "state_code": "TN"
+          "city": "Fairview",
+          "state": "OR",
+          "zip": "97024",
+          "state_code": "OR"
         },
         "use_separate_mailing_address": false,
         "timezone": "America/Chicago",
         "dates": {
-          "hired": "2020-12-25",
-          "started": "2020-12-25",
-          "birthday": "1978-11-27"
+          "hired": "2017-05-07",
+          "started": "2017-05-07",
+          "birthday": "1974-08-09"
         },
         "ein": {
           "id": 35419520
         },
         "phones": {
-          "cell_phone": "4898247318",
-          "home_phone": "5644229366",
+          "cell_phone": "6006335638",
+          "home_phone": "9099981642",
           "work_phone": "",
           "preferred_phone": "CELL"
         },
-        "primary_email": "rdelgado@example.test",
+        "primary_email": "dwallace@dundermifflin.example",
         "add_to_new_hire_export": true,
         "hardware_settings": {
           "in_touch": {
@@ -510,7 +543,7 @@
         "national_id_numbers": [
           {
             "type": "SSN",
-            "value": "420-57-1087",
+            "value": "288-17-3643",
             "primary": true
           }
         ],
@@ -526,11 +559,11 @@
       "12935181571": {
         "id": 12935181571,
         "employee_id": "6",
-        "username": "ebrennan",
-        "first_name": "Emerson",
-        "last_name": "Brennan",
+        "username": "kfilippelli",
+        "first_name": "Karen",
+        "last_name": "Filippelli",
         "primary_account_id": 12935181571,
-        "ein_name": "Primary EIN",
+        "ein_name": "Dunder Mifflin Utica",
         "_links": {
           "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571",
           "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181571/country-fields",
@@ -541,6 +574,81 @@
         },
         "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181571",
         "isPhotoUploaded": false,
+        "middle_name": "E",
+        "status": "Active",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "724-59-6813",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "6227 Maple Ave",
+          "country": "USA",
+          "city": "Georgetown",
+          "state": "TX",
+          "zip": "78626",
+          "state_code": "TX"
+        },
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2020-11-27",
+          "started": "2020-11-27",
+          "birthday": "1973-09-09"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "8477348582",
+          "home_phone": "",
+          "work_phone": "",
+          "preferred_phone": "HOME"
+        },
+        "primary_email": "kfilippelli@dundermifflin.example",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "724-59-6813",
+            "primary": true
+          }
+        ],
+        "managers": [
+          {
+            "index": 0,
+            "empl_ref": {
+              "account_id": 12935181566
+            }
+          }
+        ]
+      },
+      "12935181572": {
+        "id": 12935181572,
+        "employee_id": "7",
+        "username": "randerson",
+        "first_name": "Roy",
+        "last_name": "Anderson",
+        "primary_account_id": 12935181572,
+        "ein_name": "Dunder Mifflin Utica",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181572/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181572",
+        "isPhotoUploaded": false,
         "middle_name": "M",
         "status": "Active",
         "locked": false,
@@ -550,19 +658,18 @@
           "id": "SCREEN:101"
         },
         "address": {
-          "address_line_1": "2196 Summit Dr",
+          "address_line_1": "9757 Granite St",
           "country": "USA",
-          "city": "Ashland",
-          "state": "VA",
-          "zip": "23005",
-          "state_code": "VA"
+          "city": "Riverton",
+          "state": "UT",
+          "zip": "84065",
+          "state_code": "UT"
         },
         "use_separate_mailing_address": false,
         "timezone": "America/Chicago",
         "dates": {
           "hired": "2022-09-12",
           "started": "2022-09-12",
-          "seniority": "2020-13-01",
           "birthday": "1964-07-08"
         },
         "ein": {
@@ -570,11 +677,11 @@
         },
         "phones": {
           "cell_phone": "4517172349",
-          "home_phone": "",
+          "home_phone": "8927823671",
           "work_phone": "",
-          "preferred_phone": "HOME"
+          "preferred_phone": "CELL"
         },
-        "primary_email": "ebrennan@example.test",
+        "primary_email": "randerson@dundermifflin.example",
         "add_to_new_hire_export": true,
         "hardware_settings": {
           "in_touch": {
@@ -594,7 +701,84 @@
           {
             "index": 0,
             "empl_ref": {
-              "account_id": 12935181567
+              "account_id": 12935181566
+            }
+          }
+        ]
+      },
+      "12935181573": {
+        "id": 12935181573,
+        "employee_id": "8",
+        "username": "cminer",
+        "first_name": "Charles",
+        "last_name": "Miner",
+        "primary_account_id": 12935181573,
+        "ein_name": "Dunder Mifflin Utica",
+        "_links": {
+          "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573",
+          "country-fields": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/country-fields",
+          "demographics": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/demographics",
+          "badges": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/badges",
+          "pay-info": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/pay-info",
+          "profiles": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/employees/12935181573/profiles"
+        },
+        "photo_href": "https://secure.example-ukg.test/ta/fs?ticket=synthetic-12935181573",
+        "isPhotoUploaded": false,
+        "middle_name": "D",
+        "status": "Terminated",
+        "locked": false,
+        "force_change_password": false,
+        "social_security": "523-67-5170",
+        "first_screen": {
+          "id": "SCREEN:101"
+        },
+        "address": {
+          "address_line_1": "6976 Willow Way",
+          "country": "USA",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "state_code": "WI"
+        },
+        "use_separate_mailing_address": false,
+        "timezone": "America/Chicago",
+        "dates": {
+          "hired": "2021-02-04",
+          "started": "2021-02-04",
+          "re_hired": "2022-02-14",
+          "terminated": "2024-06-28",
+          "birthday": "1960-08-27"
+        },
+        "ein": {
+          "id": 35419520
+        },
+        "phones": {
+          "cell_phone": "8467265768",
+          "home_phone": "",
+          "work_phone": "",
+          "preferred_phone": "HOME"
+        },
+        "primary_email": "cminer@dundermifflin.example",
+        "add_to_new_hire_export": true,
+        "hardware_settings": {
+          "in_touch": {
+            "security_level": "EMPLOYEE",
+            "pin": 0
+          }
+        },
+        "managed_cost_centers_enabled": false,
+        "national_id_numbers": [
+          {
+            "type": "SSN",
+            "value": "523-67-5170",
+            "primary": true
+          }
+        ],
+        "managers": [
+          {
+            "index": 0,
+            "empl_ref": {
+              "account_id": 12935181566
             }
           }
         ]
@@ -602,34 +786,49 @@
     },
     "demographics": {
       "12935181566": {
-        "citizenship": "ALIEN_WITH_WORK_PERMIT",
-        "ethnicity": "ASIAN",
+        "citizenship": "PERMANENT_RESIDENT",
+        "ethnicity": "WHITE",
         "gender": "MALE"
       },
       "12935181567": {
-        "citizenship": "PERMANENT_RESIDENT",
-        "ethnicity": "HISPANIC_OR_LATINO",
+        "citizenship": "US_CITIZEN",
+        "ethnicity": "ASIAN",
         "gender": "FEMALE"
       },
       "12935181568": {
         "citizenship": "US_CITIZEN",
         "ethnicity": "WHITE",
+        "gender": "MALE"
+      },
+      "12935181569": {
+        "citizenship": "PERMANENT_RESIDENT",
+        "ethnicity": "ASIAN",
         "gender": "FEMALE"
       },
       "12935181570": {
-        "citizenship": "US_CITIZEN",
+        "citizenship": "ALIEN_WITH_WORK_PERMIT",
         "ethnicity": "TWO_OR_MORE_RACES",
-        "gender": "UNDEFINED"
+        "gender": "MALE"
       },
       "12935181571": {
-        "citizenship": "PERMANENT_RESIDENT",
+        "citizenship": "US_CITIZEN",
+        "ethnicity": "HISPANIC_OR_LATINO",
+        "gender": "FEMALE"
+      },
+      "12935181572": {
+        "citizenship": "US_CITIZEN",
         "ethnicity": "HISPANIC_OR_LATINO",
         "gender": "MALE"
+      },
+      "12935181573": {
+        "citizenship": "US_CITIZEN",
+        "ethnicity": "ASIAN",
+        "gender": "FEMALE"
       }
     },
     "pay_info": {
       "12935181566": {
-        "standard_work_day": 0,
+        "standard_work_day": 28800000,
         "employee_type": {
           "id": 35330178
         },
@@ -645,16 +844,14 @@
       "12935181567": {
         "standard_work_day": 28800000,
         "employee_type": {
-          "id": 35330176
+          "id": 35330178
         },
         "pay_type": {
-          "id": 35043008
+          "id": 35043009
         },
         "default_job": {
           "id": 8634524176
         },
-        "eeo4_classification": "UNKNOWN",
-        "eeo4_function": "UNKNOWN",
         "ttoc": [],
         "payroll_classification": "REGULAR"
       },
@@ -675,10 +872,13 @@
       "12935181569": {
         "standard_work_day": 28800000,
         "employee_type": {
-          "id": 35330177
+          "id": 35330178
         },
         "pay_type": {
-          "id": 35043008
+          "id": 35043009
+        },
+        "default_job": {
+          "id": 8634524226
         },
         "ttoc": [],
         "payroll_classification": "REGULAR"
@@ -686,21 +886,7 @@
       "12935181570": {
         "standard_work_day": 28800000,
         "employee_type": {
-          "id": 99999999
-        },
-        "pay_type": {
-          "id": 35043008
-        },
-        "default_job": {
-          "id": 8634529999
-        },
-        "ttoc": [],
-        "payroll_classification": "REGULAR"
-      },
-      "12935181571": {
-        "standard_work_day": 28800000,
-        "employee_type": {
-          "id": 35330179
+          "id": 35330178
         },
         "pay_type": {
           "id": 35043009
@@ -708,8 +894,48 @@
         "default_job": {
           "id": 8634524176
         },
-        "eeo4_classification": "PROFESSIONALS",
-        "eeo4_function": "PROFESSIONALS",
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181571": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 35330178
+        },
+        "pay_type": {
+          "id": 35043009
+        },
+        "default_job": {
+          "id": 8634524184
+        },
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181572": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 35330178
+        },
+        "pay_type": {
+          "id": 35043009
+        },
+        "default_job": {
+          "id": 8634524226
+        },
+        "ttoc": [],
+        "payroll_classification": "REGULAR"
+      },
+      "12935181573": {
+        "standard_work_day": 28800000,
+        "employee_type": {
+          "id": 35330178
+        },
+        "pay_type": {
+          "id": 35043009
+        },
+        "default_job": {
+          "id": 8634524176
+        },
         "ttoc": [],
         "payroll_classification": "REGULAR"
       }
@@ -735,8 +961,8 @@
       },
       "12935181568": {
         "employee-tax-type": {
-          "W2": false,
-          "_1099": true,
+          "W2": true,
+          "_1099": false,
           "DRAW": false
         },
         "pension-box-type": "SYSTEM_RULES",
@@ -752,6 +978,33 @@
         "third-party-sick": "COMPANY_DEFAULT"
       },
       "12935181570": {
+        "employee-tax-type": {
+          "W2": true,
+          "_1099": false,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
+      },
+      "12935181571": {
+        "employee-tax-type": {
+          "W2": true,
+          "_1099": false,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
+      },
+      "12935181572": {
+        "employee-tax-type": {
+          "W2": true,
+          "_1099": false,
+          "DRAW": false
+        },
+        "pension-box-type": "SYSTEM_RULES",
+        "third-party-sick": "COMPANY_DEFAULT"
+      },
+      "12935181573": {
         "employee-tax-type": {
           "W2": true,
           "_1099": false,
@@ -765,53 +1018,19 @@
       "12935181566": {
         "compensations": [
           {
-            "id": 1900123112935181566,
+            "id": 2024010112935181566,
             "employee": {
               "account_id": 12935181566
             },
-            "effective_from": "1900-12-31",
-            "amount": 0.0,
-            "hourly_pay": 0.0,
-            "amount_period": "HOUR",
-            "time": 7488000000,
-            "time_period": "YEAR",
-            "num_pp_in_year": 0,
-            "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/1900123112935181566"
-            },
-            "currency": "USD"
-          },
-          {
-            "id": 2026010112935181566,
-            "employee": {
-              "account_id": 12935181566
-            },
-            "effective_from": "2026-01-01",
-            "amount": 114002.48,
-            "hourly_pay": 54.8089,
+            "effective_from": "2024-01-01",
+            "amount": 63126.22,
+            "hourly_pay": 30.3491,
             "amount_period": "YEAR",
             "time": 7488000000,
             "time_period": "YEAR",
             "num_pp_in_year": 26,
             "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2026010112935181566"
-            },
-            "currency": "USD"
-          },
-          {
-            "id": 2027010112935181566,
-            "employee": {
-              "account_id": 12935181566
-            },
-            "effective_from": "2027-01-01",
-            "amount": 119702.6,
-            "hourly_pay": 57.5493,
-            "amount_period": "YEAR",
-            "time": 7488000000,
-            "time_period": "YEAR",
-            "num_pp_in_year": 26,
-            "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2027010112935181566"
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181566"
             },
             "currency": "USD"
           }
@@ -820,19 +1039,19 @@
       "12935181567": {
         "compensations": [
           {
-            "id": 2025070112935181567,
+            "id": 2024010112935181567,
             "employee": {
               "account_id": 12935181567
             },
-            "effective_from": "2025-07-01",
-            "amount": 34.0942,
-            "hourly_pay": 34.0942,
-            "amount_period": "HOUR",
+            "effective_from": "2024-01-01",
+            "amount": 2946.04,
+            "hourly_pay": 36.8255,
+            "amount_period": "PAY_PERIOD",
             "time": 288000000,
             "time_period": "PAY_PERIOD",
             "num_pp_in_year": 26,
             "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025070112935181567"
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181567"
             },
             "currency": "USD"
           }
@@ -841,19 +1060,19 @@
       "12935181568": {
         "compensations": [
           {
-            "id": 2023010112935181568,
+            "id": 2024010112935181568,
             "employee": {
               "account_id": 12935181568
             },
-            "effective_from": "2023-01-01",
-            "amount": 72000.0,
-            "hourly_pay": 34.6154,
+            "effective_from": "2024-01-01",
+            "amount": 131762.05,
+            "hourly_pay": 63.3471,
             "amount_period": "YEAR",
             "time": 7488000000,
             "time_period": "YEAR",
             "num_pp_in_year": 26,
             "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2023010112935181568"
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181568"
             },
             "currency": "USD"
           }
@@ -862,36 +1081,19 @@
       "12935181569": {
         "compensations": [
           {
-            "id": 2025010112935181569,
+            "id": 2024010112935181569,
             "employee": {
               "account_id": 12935181569
             },
-            "effective_from": "2025-01-01",
-            "amount": 2400.0,
-            "hourly_pay": 30.0,
-            "amount_period": "PAY_PERIOD",
-            "time": 288000000,
-            "time_period": "PAY_PERIOD",
+            "effective_from": "2024-01-01",
+            "amount": 124426.03,
+            "hourly_pay": 59.8202,
+            "amount_period": "YEAR",
+            "time": 7488000000,
+            "time_period": "YEAR",
             "num_pp_in_year": 26,
             "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025010112935181569"
-            },
-            "currency": "USD"
-          },
-          {
-            "id": 2025010112935181569,
-            "employee": {
-              "account_id": 12935181569
-            },
-            "effective_from": "2025-01-01",
-            "amount": 2500.0,
-            "hourly_pay": 31.25,
-            "amount_period": "PAY_PERIOD",
-            "time": 288000000,
-            "time_period": "PAY_PERIOD",
-            "num_pp_in_year": 26,
-            "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2025010112935181569"
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181569"
             },
             "currency": "USD"
           }
@@ -900,26 +1102,86 @@
       "12935181570": {
         "compensations": [
           {
-            "id": 2024050612935181570,
+            "id": 2024010112935181570,
             "employee": {
               "account_id": 12935181570
             },
-            "effective_from": "2024-05-06",
-            "amount": 36.0942,
-            "hourly_pay": 36.0942,
-            "amount_period": "HOUR",
+            "effective_from": "2024-01-01",
+            "amount": 97559.25,
+            "hourly_pay": 46.9035,
+            "amount_period": "YEAR",
             "time": 7488000000,
             "time_period": "YEAR",
             "num_pp_in_year": 26,
             "_links": {
-              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024050612935181570"
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181570"
             },
             "currency": "USD"
           }
         ]
       },
       "12935181571": {
-        "compensations": []
+        "compensations": [
+          {
+            "id": 2024010112935181571,
+            "employee": {
+              "account_id": 12935181571
+            },
+            "effective_from": "2024-01-01",
+            "amount": 76198.85,
+            "hourly_pay": 36.6341,
+            "amount_period": "YEAR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181571"
+            },
+            "currency": "USD"
+          }
+        ]
+      },
+      "12935181572": {
+        "compensations": [
+          {
+            "id": 2024010112935181572,
+            "employee": {
+              "account_id": 12935181572
+            },
+            "effective_from": "2024-01-01",
+            "amount": 124455.3,
+            "hourly_pay": 59.8343,
+            "amount_period": "YEAR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181572"
+            },
+            "currency": "USD"
+          }
+        ]
+      },
+      "12935181573": {
+        "compensations": [
+          {
+            "id": 2024010112935181573,
+            "employee": {
+              "account_id": 12935181573
+            },
+            "effective_from": "2024-01-01",
+            "amount": 122615.07,
+            "hourly_pay": 58.9496,
+            "amount_period": "YEAR",
+            "time": 7488000000,
+            "time_period": "YEAR",
+            "num_pp_in_year": 26,
+            "_links": {
+              "self": "https://secure.example-ukg.test/ta/rest/v2/companies/33704016/compensation/history/2024010112935181573"
+            },
+            "currency": "USD"
+          }
+        ]
       }
     },
     "lookup_employee_types": {
@@ -962,7 +1224,7 @@
       "items": [
         {
           "id": 35419520,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "ein_tax_id": "12-3456789",
           "ein_country_id": "USA"
         }
@@ -972,17 +1234,17 @@
       "items": [
         {
           "id": 8634524176,
-          "name": "HR Specialist",
+          "name": "Sales Representative",
           "visible": true
         },
         {
           "id": 8634524184,
-          "name": "Payroll Analyst",
+          "name": "Accountant",
           "visible": true
         },
         {
           "id": 8634524226,
-          "name": "President",
+          "name": "Regional Manager",
           "visible": true
         }
       ]

@@ -273,7 +273,7 @@ class _IsolvedEmployeeMapper:
             birth_date=self.issues.date(r.get("birthDate"), "birthDate", key),
             gender=self.issues.code(GENDER, r.get("gender"), "gender", key),
             marital_status=self.issues.code(MARITAL_STATUS, r.get("maritalStatus"), "maritalStatus", key),
-            citizenship=self.issues.code(CITIZENSHIP, r.get("citizenship"), "citizenship", key),
+            citizenship=self.issues.code_once(CITIZENSHIP, r.get("citizenship"), "citizenship", key),
             ethnicity=Collector.raw_code(r.get("ethnicOrigin")),
             ssn_last4=self.issues.last4(r.get("ssn"), "ssn", key),
         )
@@ -312,8 +312,8 @@ class _IsolvedEmployeeMapper:
         employment = Employment(
             status=self.issues.code(EMPLOYMENT_STATUS, r.get("employmentStatus"), "employmentStatus", key),
             status_date=self.issues.date(r.get("statusDate"), "statusDate", key),
-            employment_type=self.issues.code(EMPLOYMENT_CATEGORY, r.get("employmentCategoryCode"),
-                                             "employmentCategoryCode", key),
+            employment_type=self.issues.code_once(EMPLOYMENT_CATEGORY, r.get("employmentCategoryCode"),
+                                                  "employmentCategoryCode", key),
             hire_date=self.issues.date(r.get("hireDate"), "hireDate", key),
             original_hire_date=self.issues.date(r.get("originalHireDate"), "originalHireDate", key),
             rehire_date=self.issues.date(r.get("rehireDate"), "rehireDate", key),
@@ -348,8 +348,8 @@ class _IsolvedEmployeeMapper:
         standard_hours = self.issues.decimal(r.get("normalHours"), "normalHours", key)
         compensation = Compensation(
             pay_type=self.issues.code(PAY_TYPE, r.get("payType"), "payType", key),
-            pay_frequency=self.issues.code(PAY_FREQUENCY, r.get("payFrequency"), "payFrequency", key,
-                                           label=text(r.get("payGroup"))),
+            pay_frequency=self.issues.code_once(PAY_FREQUENCY, r.get("payFrequency"), "payFrequency", key,
+                                                label=text(r.get("payGroup"))),
             hourly_rate=self.issues.money(r.get("hourlyRate"), "hourlyRate", key),
             annual_amount=self.issues.money(r.get("annualSalary"), "annualSalary", key),
             per_period_amount=self.issues.money(r.get("perPaySalary"), "perPaySalary", key),

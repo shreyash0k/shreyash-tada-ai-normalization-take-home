@@ -65,141 +65,18 @@
         "batchControl.processor": "synthetic",
         "batchControl.deliveryMethod": "PICKUP"
       }
-    },
-    {
-      "key": "prismhr:132:run:202602",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "pay_run_id": "202602"
-      },
-      "type": {
-        "raw": "R",
-        "label": "Regular",
-        "value": "regular"
-      },
-      "status": {
-        "raw": "POSTCOMP",
-        "label": "Payroll finalization complete; payroll is ready to print",
-        "value": "submitted"
-      },
-      "pay_date": "2026-01-16",
-      "period": {
-        "start": "2026-01-03",
-        "end": "2026-01-09"
-      },
-      "description": null,
-      "pay_group": {
-        "raw": "WFRI",
-        "label": null,
-        "value": null
-      },
-      "unmapped": {
-        "batchList[1].payGroup[0].weeksWorked": 1,
-        "batchList[1].payGroup[0].deductPeriod": "1"
-      }
-    },
-    {
-      "key": "prismhr:132:run:202603",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "pay_run_id": "202603"
-      },
-      "type": {
-        "raw": "M",
-        "label": "Manual",
-        "value": "manual"
-      },
-      "status": {
-        "raw": "INITFAIL",
-        "label": "Payroll calculation completed with errors",
-        "value": "failed"
-      },
-      "pay_date": "2026-01-20",
-      "period": null,
-      "description": null,
-      "pay_group": null,
-      "unmapped": {}
-    },
-    {
-      "key": "prismhr:132:run:202604",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "pay_run_id": "202604"
-      },
-      "type": {
-        "raw": "S",
-        "label": "Special",
-        "value": "special"
-      },
-      "status": {
-        "raw": "TS.READY",
-        "label": "Payroll is ready for time sheet entry",
-        "value": "open"
-      },
-      "pay_date": "2026-01-23",
-      "period": null,
-      "description": null,
-      "pay_group": null,
-      "unmapped": {
-        "batchList[3].payGroup[0].payGroupId": "WFRI",
-        "batchList[3].payGroup[0].payPeriodStartDate": "2026-01-10",
-        "batchList[3].payGroup[0].payPeriodEndDate": "2026-01-16",
-        "batchList[3].payGroup[0].weeksWorked": 1,
-        "batchList[3].payGroup[0].deductPeriod": "1",
-        "batchList[3].payGroup[1].payGroupId": "SEMI",
-        "batchList[3].payGroup[1].payPeriodStartDate": "2026-01-01",
-        "batchList[3].payGroup[1].payPeriodEndDate": "2026-01-15",
-        "batchList[3].payGroup[1].weeksWorked": 1,
-        "batchList[3].payGroup[1].deductPeriod": "1"
-      }
-    },
-    {
-      "key": "prismhr:132:run:202605",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "pay_run_id": "202605"
-      },
-      "type": {
-        "raw": "V",
-        "label": "Void",
-        "value": "void"
-      },
-      "status": {
-        "raw": "HOLD",
-        "label": null,
-        "value": "unknown"
-      },
-      "pay_date": "2026-01-30",
-      "period": {
-        "start": "2026-01-17",
-        "end": "2026-01-23"
-      },
-      "description": null,
-      "pay_group": null,
-      "unmapped": {
-        "batchList[4].payGroup[0].weeksWorked": 1,
-        "batchList[4].payGroup[0].deductPeriod": "1"
-      }
     }
   ],
   "paychecks": [
     {
-      "key": "prismhr:132:F00001:chk:V000101",
-      "employee_key": "prismhr:132:F00001",
+      "key": "prismhr:132:M00001:chk:V100001",
+      "employee_key": "prismhr:132:M00001",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "F00001",
-        "paycheck_id": "V000101",
+        "employee_id": "M00001",
+        "paycheck_id": "V100001",
         "pay_run_id": "202601"
       },
       "pay_run_key": "prismhr:132:run:202601",
@@ -220,14 +97,14 @@
       },
       "check_number": "1001",
       "gross_pay": {
-        "amount": "1076.41",
+        "amount": "1000.0",
         "currency": "USD"
       },
       "net_pay": {
-        "amount": "891.38",
+        "amount": "920.0",
         "currency": "USD"
       },
-      "void_date": null,
+      "void_date": "2026-01-20",
       "earnings": [
         {
           "code": {
@@ -257,50 +134,6 @@
             "payrollVoucher[0].earning[0].jobCode": "",
             "payrollVoucher[0].earning[0].shift": ""
           }
-        },
-        {
-          "code": {
-            "raw": "OT",
-            "label": null,
-            "value": null
-          },
-          "category": {
-            "raw": "E",
-            "label": "Earnings",
-            "value": "earnings"
-          },
-          "hours": "2",
-          "rate": {
-            "amount": "37.5",
-            "currency": "USD"
-          },
-          "amount": {
-            "amount": "75.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "payrollVoucher[0].earning[1].chargeDate": "",
-            "payrollVoucher[0].earning[1].hoursWorked": 2,
-            "payrollVoucher[0].earning[1].department": "OPS",
-            "payrollVoucher[0].earning[1].location": "HQ",
-            "payrollVoucher[0].earning[1].jobCode": "",
-            "payrollVoucher[0].earning[1].shift": ""
-          }
-        },
-        {
-          "code": {
-            "raw": "FRINGE",
-            "label": "Fringe Benefit",
-            "value": null
-          },
-          "category": null,
-          "hours": null,
-          "rate": null,
-          "amount": {
-            "amount": "1.41",
-            "currency": "USD"
-          },
-          "unmapped": {}
         }
       ],
       "taxes": [
@@ -316,32 +149,12 @@
           },
           "employer_amount": null,
           "employee_taxable_wages": {
-            "amount": "986.41",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "employer_taxable_wages": null,
           "unmapped": {
             "payrollVoucher[0].employeeTax[0].empOverLimitAmount": 0.0
-          }
-        },
-        {
-          "code": {
-            "raw": "00-11",
-            "label": "Medicare",
-            "value": null
-          },
-          "employee_amount": {
-            "amount": "15.03",
-            "currency": "USD"
-          },
-          "employer_amount": null,
-          "employee_taxable_wages": {
-            "amount": "1036.41",
-            "currency": "USD"
-          },
-          "employer_taxable_wages": null,
-          "unmapped": {
-            "payrollVoucher[0].employeeTax[1].empOverLimitAmount": 0.0
           }
         },
         {
@@ -352,12 +165,12 @@
           },
           "employee_amount": null,
           "employer_amount": {
-            "amount": "15.03",
+            "amount": "14.5",
             "currency": "USD"
           },
           "employee_taxable_wages": null,
           "employer_taxable_wages": {
-            "amount": "1036.41",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
@@ -390,26 +203,6 @@
             "payrollVoucher[0].deduction[0].deductUnionId": "",
             "payrollVoucher[0].deduction[0].planId": ""
           }
-        },
-        {
-          "code": {
-            "raw": "MED",
-            "label": "Medical",
-            "value": null
-          },
-          "category": {
-            "raw": "C",
-            "label": "Section 125",
-            "value": "section_125"
-          },
-          "amount": {
-            "amount": "40.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "payrollVoucher[0].deduction[1].deductUnionId": "",
-            "payrollVoucher[0].deduction[1].planId": ""
-          }
         }
       ],
       "employer_contributions": [
@@ -424,18 +217,6 @@
             "currency": "USD"
           },
           "unmapped": {}
-        },
-        {
-          "code": {
-            "raw": "EAP",
-            "label": "Employee Assistance",
-            "value": null
-          },
-          "amount": {
-            "amount": "0.0",
-            "currency": "USD"
-          },
-          "unmapped": {}
         }
       ],
       "payments": [
@@ -446,11 +227,27 @@
             "value": "check"
           },
           "amount": {
-            "amount": "891.38",
+            "amount": "920.0",
             "currency": "USD"
           },
           "account_last4": null,
           "unmapped": {}
+        },
+        {
+          "method": {
+            "raw": null,
+            "label": "directDeposit",
+            "value": "direct_deposit"
+          },
+          "amount": {
+            "amount": "920.0",
+            "currency": "USD"
+          },
+          "account_last4": "6789",
+          "unmapped": {
+            "payrollVoucher[0].directDeposit[0].transitNum": "[redacted]",
+            "payrollVoucher[0].directDeposit[0].status": "A"
+          }
         }
       ],
       "unmapped": {
@@ -458,20 +255,14 @@
         "payrollVoucher[0].payGroup": "WFRI",
         "payrollVoucher[0].dateProcessed": "2026-01-09",
         "payrollVoucher[0].voidVoucherId": "",
-        "payrollVoucher[0].fitTaxableAmount": 1076.41,
-        "payrollVoucher[0].earnAmount": 1076.41,
+        "payrollVoucher[0].fitTaxableAmount": 1000.0,
+        "payrollVoucher[0].earnAmount": 1000.0,
         "payrollVoucher[0].otherEarnAmount": 0.0,
         "payrollVoucher[0].wcHomeClass": "8810",
         "payrollVoucher[0].wcState": "IL",
         "payrollVoucher[0].workerComp": [],
         "payrollVoucher[0].fsaMatch": [],
-        "payrollVoucher[0].benefit[0].planId": "MED",
-        "payrollVoucher[0].benefit[0].premiumAmt": 229.17,
-        "payrollVoucher[0].benefit[0].empContrib": 189.17,
-        "payrollVoucher[0].benefit[0].empDeduct": 40.0,
-        "payrollVoucher[0].benefit[0].coveragePeriod": "M",
-        "payrollVoucher[0].benefit[0].adjRef": "",
-        "payrollVoucher[0].benefit[0].premiumCost": 229.17,
+        "payrollVoucher[0].benefit": [],
         "payrollVoucher[0].bankAccount": "PAYROLL",
         "payrollVoucher[0].checkNum": null,
         "payrollVoucher[0].payStubType": "S",
@@ -482,20 +273,18 @@
         "payrollVoucher[0].wcInformation": null,
         "payrollVoucher[0].fromArrears": [],
         "payrollVoucher[0].toArrears": [],
-        "payrollVoucher[0].importBatchNo": "",
-        "payrollVoucher[0].hsaPeoMatch": 0.0,
-        "payrollVoucher[0].isManualCheck": false
+        "payrollVoucher[0].importBatchNo": ""
       }
     },
     {
-      "key": "prismhr:132:M00002:chk:V000102",
-      "employee_key": "prismhr:132:M00002",
+      "key": "prismhr:132:D00002:chk:V100002",
+      "employee_key": "prismhr:132:D00002",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "M00002",
-        "paycheck_id": "V000102",
+        "employee_id": "D00002",
+        "paycheck_id": "V100002",
         "pay_run_id": "202601"
       },
       "pay_run_key": "prismhr:132:run:202601",
@@ -516,18 +305,18 @@
       },
       "check_number": null,
       "gross_pay": {
-        "amount": "297.0",
+        "amount": "1000.0",
         "currency": "USD"
       },
       "net_pay": {
-        "amount": "242.0",
+        "amount": "920.0",
         "currency": "USD"
       },
       "void_date": null,
       "earnings": [
         {
           "code": {
-            "raw": "VAC",
+            "raw": "REG",
             "label": null,
             "value": null
           },
@@ -536,80 +325,22 @@
             "label": "Earnings",
             "value": "earnings"
           },
-          "hours": "8",
+          "hours": "40",
           "rate": {
-            "amount": "30.0",
+            "amount": "25.0",
             "currency": "USD"
           },
           "amount": {
-            "amount": "240.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
             "payrollVoucher[1].earning[0].chargeDate": "",
-            "payrollVoucher[1].earning[0].hoursWorked": 8,
+            "payrollVoucher[1].earning[0].hoursWorked": 40,
             "payrollVoucher[1].earning[0].department": "OPS",
             "payrollVoucher[1].earning[0].location": "HQ",
             "payrollVoucher[1].earning[0].jobCode": "",
             "payrollVoucher[1].earning[0].shift": ""
-          }
-        },
-        {
-          "code": {
-            "raw": "EXP",
-            "label": null,
-            "value": null
-          },
-          "category": {
-            "raw": "R",
-            "label": "Expense Reimbursement",
-            "value": "reimbursement"
-          },
-          "hours": "1",
-          "rate": {
-            "amount": "45.0",
-            "currency": "USD"
-          },
-          "amount": {
-            "amount": "45.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "payrollVoucher[1].earning[1].chargeDate": "",
-            "payrollVoucher[1].earning[1].hoursWorked": 1,
-            "payrollVoucher[1].earning[1].department": "OPS",
-            "payrollVoucher[1].earning[1].location": "HQ",
-            "payrollVoucher[1].earning[1].jobCode": "",
-            "payrollVoucher[1].earning[1].shift": ""
-          }
-        },
-        {
-          "code": {
-            "raw": "MILES",
-            "label": null,
-            "value": null
-          },
-          "category": {
-            "raw": "Q",
-            "label": "Mileage",
-            "value": "unknown"
-          },
-          "hours": "1",
-          "rate": {
-            "amount": "12.0",
-            "currency": "USD"
-          },
-          "amount": {
-            "amount": "12.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "payrollVoucher[1].earning[2].chargeDate": "",
-            "payrollVoucher[1].earning[2].hoursWorked": 1,
-            "payrollVoucher[1].earning[2].department": "OPS",
-            "payrollVoucher[1].earning[2].location": "HQ",
-            "payrollVoucher[1].earning[2].jobCode": "",
-            "payrollVoucher[1].earning[2].shift": ""
           }
         }
       ],
@@ -621,12 +352,12 @@
             "value": null
           },
           "employee_amount": {
-            "amount": "20.0",
+            "amount": "80.0",
             "currency": "USD"
           },
           "employer_amount": null,
           "employee_taxable_wages": {
-            "amount": "252.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "employer_taxable_wages": null,
@@ -635,69 +366,16 @@
           }
         }
       ],
-      "deductions": [
-        {
-          "code": {
-            "raw": "CLUB",
-            "label": "Social Club",
-            "value": null
-          },
-          "category": {
-            "raw": "ZZ",
-            "label": null,
-            "value": "unknown"
-          },
-          "amount": {
-            "amount": "10.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "payrollVoucher[1].deduction[0].deductUnionId": "",
-            "payrollVoucher[1].deduction[0].planId": ""
-          }
-        },
-        {
-          "code": {
-            "raw": "UNIF",
-            "label": "Uniforms",
-            "value": null
-          },
-          "category": null,
-          "amount": {
-            "amount": "25.0",
-            "currency": "USD"
-          },
-          "unmapped": {
-            "payrollVoucher[1].otherDeduction[0].otherDeductOneTimeSwitch": "N"
-          }
-        }
-      ],
+      "deductions": [],
       "employer_contributions": [],
-      "payments": [
-        {
-          "method": {
-            "raw": null,
-            "label": "directDeposit",
-            "value": "direct_deposit"
-          },
-          "amount": {
-            "amount": "242.0",
-            "currency": "USD"
-          },
-          "account_last4": "6789",
-          "unmapped": {
-            "payrollVoucher[1].directDeposit[0].transitNum": "[redacted]",
-            "payrollVoucher[1].directDeposit[0].status": "A"
-          }
-        }
-      ],
+      "payments": [],
       "unmapped": {
         "payrollVoucher[1].payPeriod": "W",
         "payrollVoucher[1].payGroup": "WFRI",
         "payrollVoucher[1].dateProcessed": "2026-01-09",
         "payrollVoucher[1].voidVoucherId": "",
-        "payrollVoucher[1].fitTaxableAmount": 297.0,
-        "payrollVoucher[1].earnAmount": 297.0,
+        "payrollVoucher[1].fitTaxableAmount": 1000.0,
+        "payrollVoucher[1].earnAmount": 1000.0,
         "payrollVoucher[1].otherEarnAmount": 0.0,
         "payrollVoucher[1].wcHomeClass": "8810",
         "payrollVoucher[1].wcState": "IL",
@@ -719,21 +397,21 @@
       }
     },
     {
-      "key": "prismhr:132:D00003:chk:V000103",
-      "employee_key": "prismhr:132:D00003",
+      "key": "prismhr:132:J00003:chk:V100003",
+      "employee_key": "prismhr:132:J00003",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "D00003",
-        "paycheck_id": "V000103",
+        "employee_id": "J00003",
+        "paycheck_id": "V100003",
         "pay_run_id": "202601"
       },
       "pay_run_key": "prismhr:132:run:202601",
       "type": {
-        "raw": "A",
-        "label": "Arrears",
-        "value": "arrears"
+        "raw": "R",
+        "label": "Regular",
+        "value": "regular"
       },
       "status": {
         "raw": "PRNT",
@@ -747,87 +425,18 @@
       },
       "check_number": null,
       "gross_pay": {
-        "amount": "0.0",
+        "amount": "1000.0",
         "currency": "USD"
       },
       "net_pay": {
-        "amount": "0.0",
+        "amount": "920.0",
         "currency": "USD"
       },
       "void_date": null,
-      "earnings": [],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [],
-      "unmapped": {
-        "payrollVouchers[0].payPeriod": "W",
-        "payrollVouchers[0].payGroup": "WFRI",
-        "payrollVouchers[0].dateProcessed": "2026-01-09",
-        "payrollVouchers[0].voidVoucherId": "",
-        "payrollVouchers[0].fitTaxableAmount": 0.0,
-        "payrollVouchers[0].earnAmount": 0.0,
-        "payrollVouchers[0].otherEarnAmount": 0.0,
-        "payrollVouchers[0].wcHomeClass": "8810",
-        "payrollVouchers[0].wcState": "IL",
-        "payrollVouchers[0].workerComp": [],
-        "payrollVouchers[0].fsaMatch": [],
-        "payrollVouchers[0].benefit": [],
-        "payrollVouchers[0].bankAccount": "PAYROLL",
-        "payrollVouchers[0].checkNum": null,
-        "payrollVouchers[0].checkAmt": 0.0,
-        "payrollVouchers[0].payStubType": "S",
-        "payrollVouchers[0].checkAccountACH": "",
-        "payrollVouchers[0].retirement": null,
-        "payrollVouchers[0].glAcctDistribution": null,
-        "payrollVouchers[0].taxFilingStatus": [],
-        "payrollVouchers[0].wcInformation": null,
-        "payrollVouchers[0].fromArrears": [],
-        "payrollVouchers[0].toArrears": [],
-        "payrollVouchers[0].importBatchNo": ""
-      }
-    },
-    {
-      "key": "prismhr:132:F00001:chk:V000201",
-      "employee_key": "prismhr:132:F00001",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "F00001",
-        "paycheck_id": "V000201",
-        "pay_run_id": "202602"
-      },
-      "pay_run_key": "prismhr:132:run:202602",
-      "type": {
-        "raw": "S",
-        "label": "Supplemental",
-        "value": "supplemental"
-      },
-      "status": {
-        "raw": "PRNT",
-        "label": null,
-        "value": "unknown"
-      },
-      "pay_date": "2026-01-16",
-      "period": {
-        "start": "2026-01-03",
-        "end": "2026-01-09"
-      },
-      "check_number": "1002",
-      "gross_pay": {
-        "amount": "500.0",
-        "currency": "USD"
-      },
-      "net_pay": {
-        "amount": "500.0",
-        "currency": "USD"
-      },
-      "void_date": "2026-01-20",
       "earnings": [
         {
           "code": {
-            "raw": "BON",
+            "raw": "REG",
             "label": null,
             "value": null
           },
@@ -836,158 +445,679 @@
             "label": "Earnings",
             "value": "earnings"
           },
-          "hours": "0",
+          "hours": "40",
           "rate": {
-            "amount": "0.0",
+            "amount": "25.0",
             "currency": "USD"
           },
           "amount": {
-            "amount": "500.0",
+            "amount": "1000.0",
             "currency": "USD"
           },
           "unmapped": {
-            "payrollVoucher[0].earning[0].chargeDate": "",
-            "payrollVoucher[0].earning[0].hoursWorked": 0,
-            "payrollVoucher[0].earning[0].department": "OPS",
-            "payrollVoucher[0].earning[0].location": "HQ",
-            "payrollVoucher[0].earning[0].jobCode": "",
-            "payrollVoucher[0].earning[0].shift": ""
+            "payrollVoucher[2].earning[0].chargeDate": "",
+            "payrollVoucher[2].earning[0].hoursWorked": 40,
+            "payrollVoucher[2].earning[0].department": "OPS",
+            "payrollVoucher[2].earning[0].location": "HQ",
+            "payrollVoucher[2].earning[0].jobCode": "",
+            "payrollVoucher[2].earning[0].shift": ""
           }
         }
       ],
-      "taxes": [],
-      "deductions": [],
-      "employer_contributions": [],
-      "payments": [
+      "taxes": [
         {
-          "method": {
-            "raw": null,
-            "label": "checkAmt",
-            "value": "check"
+          "code": {
+            "raw": "00-10",
+            "label": "Federal Income Tax",
+            "value": null
           },
-          "amount": {
-            "amount": "500.0",
+          "employee_amount": {
+            "amount": "80.0",
             "currency": "USD"
           },
-          "account_last4": null,
-          "unmapped": {}
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "payrollVoucher[2].employeeTax[0].empOverLimitAmount": 0.0
+          }
         }
       ],
-      "unmapped": {
-        "payrollVoucher[0].payPeriod": "W",
-        "payrollVoucher[0].payGroup": "WFRI",
-        "payrollVoucher[0].dateProcessed": "2026-01-16",
-        "payrollVoucher[0].voidVoucherId": "V000202",
-        "payrollVoucher[0].fitTaxableAmount": 500.0,
-        "payrollVoucher[0].earnAmount": 500.0,
-        "payrollVoucher[0].otherEarnAmount": 0.0,
-        "payrollVoucher[0].wcHomeClass": "8810",
-        "payrollVoucher[0].wcState": "IL",
-        "payrollVoucher[0].workerComp": [],
-        "payrollVoucher[0].fsaMatch": [],
-        "payrollVoucher[0].benefit": [],
-        "payrollVoucher[0].bankAccount": "PAYROLL",
-        "payrollVoucher[0].checkNum": null,
-        "payrollVoucher[0].payStubType": "S",
-        "payrollVoucher[0].checkAccountACH": "",
-        "payrollVoucher[0].retirement": null,
-        "payrollVoucher[0].glAcctDistribution": null,
-        "payrollVoucher[0].taxFilingStatus": [],
-        "payrollVoucher[0].wcInformation": null,
-        "payrollVoucher[0].fromArrears": [],
-        "payrollVoucher[0].toArrears": [],
-        "payrollVoucher[0].importBatchNo": ""
-      }
-    },
-    {
-      "key": "prismhr:132:S00004:chk:V000901",
-      "employee_key": "prismhr:132:S00004",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "S00004",
-        "paycheck_id": "V000901",
-        "pay_run_id": "202699"
-      },
-      "pay_run_key": null,
-      "type": {
-        "raw": "J",
-        "label": "Adjustment",
-        "value": "adjustment"
-      },
-      "status": {
-        "raw": "PEND",
-        "label": null,
-        "value": "unknown"
-      },
-      "pay_date": "2026-02-06",
-      "period": {
-        "start": "2026-01-24",
-        "end": "2026-01-30"
-      },
-      "check_number": null,
-      "gross_pay": {
-        "amount": "0.0",
-        "currency": "USD"
-      },
-      "net_pay": {
-        "amount": "0.0",
-        "currency": "USD"
-      },
-      "void_date": null,
-      "earnings": [],
-      "taxes": [],
       "deductions": [],
       "employer_contributions": [],
       "payments": [],
       "unmapped": {
-        "payrollVoucher[0].payPeriod": "W",
-        "payrollVoucher[0].payGroup": "WFRI",
-        "payrollVoucher[0].dateProcessed": "2026-02-06",
-        "payrollVoucher[0].voidVoucherId": "",
-        "payrollVoucher[0].fitTaxableAmount": 0.0,
-        "payrollVoucher[0].earnAmount": 0.0,
-        "payrollVoucher[0].otherEarnAmount": 0.0,
-        "payrollVoucher[0].wcHomeClass": "8810",
-        "payrollVoucher[0].wcState": "IL",
-        "payrollVoucher[0].workerComp": [],
-        "payrollVoucher[0].fsaMatch": [],
-        "payrollVoucher[0].benefit": [],
-        "payrollVoucher[0].bankAccount": "PAYROLL",
-        "payrollVoucher[0].checkNum": null,
-        "payrollVoucher[0].checkAmt": 0.0,
-        "payrollVoucher[0].payStubType": "S",
-        "payrollVoucher[0].checkAccountACH": "",
-        "payrollVoucher[0].retirement": null,
-        "payrollVoucher[0].glAcctDistribution": null,
-        "payrollVoucher[0].taxFilingStatus": [],
-        "payrollVoucher[0].wcInformation": null,
-        "payrollVoucher[0].fromArrears": [],
-        "payrollVoucher[0].toArrears": [],
-        "payrollVoucher[0].importBatchNo": ""
+        "payrollVoucher[2].payPeriod": "W",
+        "payrollVoucher[2].payGroup": "WFRI",
+        "payrollVoucher[2].dateProcessed": "2026-01-09",
+        "payrollVoucher[2].voidVoucherId": "",
+        "payrollVoucher[2].fitTaxableAmount": 1000.0,
+        "payrollVoucher[2].earnAmount": 1000.0,
+        "payrollVoucher[2].otherEarnAmount": 0.0,
+        "payrollVoucher[2].wcHomeClass": "8810",
+        "payrollVoucher[2].wcState": "IL",
+        "payrollVoucher[2].workerComp": [],
+        "payrollVoucher[2].fsaMatch": [],
+        "payrollVoucher[2].benefit": [],
+        "payrollVoucher[2].bankAccount": "PAYROLL",
+        "payrollVoucher[2].checkNum": null,
+        "payrollVoucher[2].checkAmt": 0.0,
+        "payrollVoucher[2].payStubType": "S",
+        "payrollVoucher[2].checkAccountACH": "",
+        "payrollVoucher[2].retirement": null,
+        "payrollVoucher[2].glAcctDistribution": null,
+        "payrollVoucher[2].taxFilingStatus": [],
+        "payrollVoucher[2].wcInformation": null,
+        "payrollVoucher[2].fromArrears": [],
+        "payrollVoucher[2].toArrears": [],
+        "payrollVoucher[2].importBatchNo": ""
+      }
+    },
+    {
+      "key": "prismhr:132:P00004:chk:V100004",
+      "employee_key": "prismhr:132:P00004",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "P00004",
+        "paycheck_id": "V100004",
+        "pay_run_id": "202601"
+      },
+      "pay_run_key": "prismhr:132:run:202601",
+      "type": {
+        "raw": "R",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "PRNT",
+        "label": null,
+        "value": "unknown"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-27",
+        "end": "2026-01-02"
+      },
+      "check_number": null,
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": null,
+            "value": null
+          },
+          "category": {
+            "raw": "E",
+            "label": "Earnings",
+            "value": "earnings"
+          },
+          "hours": "40",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "payrollVoucher[3].earning[0].chargeDate": "",
+            "payrollVoucher[3].earning[0].hoursWorked": 40,
+            "payrollVoucher[3].earning[0].department": "OPS",
+            "payrollVoucher[3].earning[0].location": "HQ",
+            "payrollVoucher[3].earning[0].jobCode": "",
+            "payrollVoucher[3].earning[0].shift": ""
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "00-10",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "payrollVoucher[3].employeeTax[0].empOverLimitAmount": 0.0
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "payrollVoucher[3].payPeriod": "W",
+        "payrollVoucher[3].payGroup": "WFRI",
+        "payrollVoucher[3].dateProcessed": "2026-01-09",
+        "payrollVoucher[3].voidVoucherId": "",
+        "payrollVoucher[3].fitTaxableAmount": 1000.0,
+        "payrollVoucher[3].earnAmount": 1000.0,
+        "payrollVoucher[3].otherEarnAmount": 0.0,
+        "payrollVoucher[3].wcHomeClass": "8810",
+        "payrollVoucher[3].wcState": "IL",
+        "payrollVoucher[3].workerComp": [],
+        "payrollVoucher[3].fsaMatch": [],
+        "payrollVoucher[3].benefit": [],
+        "payrollVoucher[3].bankAccount": "PAYROLL",
+        "payrollVoucher[3].checkNum": null,
+        "payrollVoucher[3].checkAmt": 0.0,
+        "payrollVoucher[3].payStubType": "S",
+        "payrollVoucher[3].checkAccountACH": "",
+        "payrollVoucher[3].retirement": null,
+        "payrollVoucher[3].glAcctDistribution": null,
+        "payrollVoucher[3].taxFilingStatus": [],
+        "payrollVoucher[3].wcInformation": null,
+        "payrollVoucher[3].fromArrears": [],
+        "payrollVoucher[3].toArrears": [],
+        "payrollVoucher[3].importBatchNo": ""
+      }
+    },
+    {
+      "key": "prismhr:132:A00005:chk:V100005",
+      "employee_key": "prismhr:132:A00005",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "A00005",
+        "paycheck_id": "V100005",
+        "pay_run_id": "202601"
+      },
+      "pay_run_key": "prismhr:132:run:202601",
+      "type": {
+        "raw": "R",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "PRNT",
+        "label": null,
+        "value": "unknown"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-27",
+        "end": "2026-01-02"
+      },
+      "check_number": null,
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": null,
+            "value": null
+          },
+          "category": {
+            "raw": "E",
+            "label": "Earnings",
+            "value": "earnings"
+          },
+          "hours": "40",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "payrollVoucher[4].earning[0].chargeDate": "",
+            "payrollVoucher[4].earning[0].hoursWorked": 40,
+            "payrollVoucher[4].earning[0].department": "OPS",
+            "payrollVoucher[4].earning[0].location": "HQ",
+            "payrollVoucher[4].earning[0].jobCode": "",
+            "payrollVoucher[4].earning[0].shift": ""
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "00-10",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "payrollVoucher[4].employeeTax[0].empOverLimitAmount": 0.0
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "payrollVoucher[4].payPeriod": "W",
+        "payrollVoucher[4].payGroup": "WFRI",
+        "payrollVoucher[4].dateProcessed": "2026-01-09",
+        "payrollVoucher[4].voidVoucherId": "",
+        "payrollVoucher[4].fitTaxableAmount": 1000.0,
+        "payrollVoucher[4].earnAmount": 1000.0,
+        "payrollVoucher[4].otherEarnAmount": 0.0,
+        "payrollVoucher[4].wcHomeClass": "8810",
+        "payrollVoucher[4].wcState": "IL",
+        "payrollVoucher[4].workerComp": [],
+        "payrollVoucher[4].fsaMatch": [],
+        "payrollVoucher[4].benefit": [],
+        "payrollVoucher[4].bankAccount": "PAYROLL",
+        "payrollVoucher[4].checkNum": null,
+        "payrollVoucher[4].checkAmt": 0.0,
+        "payrollVoucher[4].payStubType": "S",
+        "payrollVoucher[4].checkAccountACH": "",
+        "payrollVoucher[4].retirement": null,
+        "payrollVoucher[4].glAcctDistribution": null,
+        "payrollVoucher[4].taxFilingStatus": [],
+        "payrollVoucher[4].wcInformation": null,
+        "payrollVoucher[4].fromArrears": [],
+        "payrollVoucher[4].toArrears": [],
+        "payrollVoucher[4].importBatchNo": ""
+      }
+    },
+    {
+      "key": "prismhr:132:K00006:chk:V100006",
+      "employee_key": "prismhr:132:K00006",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "K00006",
+        "paycheck_id": "V100006",
+        "pay_run_id": "202601"
+      },
+      "pay_run_key": "prismhr:132:run:202601",
+      "type": {
+        "raw": "R",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "PRNT",
+        "label": null,
+        "value": "unknown"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-27",
+        "end": "2026-01-02"
+      },
+      "check_number": null,
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": null,
+            "value": null
+          },
+          "category": {
+            "raw": "E",
+            "label": "Earnings",
+            "value": "earnings"
+          },
+          "hours": "40",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "payrollVoucher[5].earning[0].chargeDate": "",
+            "payrollVoucher[5].earning[0].hoursWorked": 40,
+            "payrollVoucher[5].earning[0].department": "OPS",
+            "payrollVoucher[5].earning[0].location": "HQ",
+            "payrollVoucher[5].earning[0].jobCode": "",
+            "payrollVoucher[5].earning[0].shift": ""
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "00-10",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "payrollVoucher[5].employeeTax[0].empOverLimitAmount": 0.0
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "payrollVoucher[5].payPeriod": "W",
+        "payrollVoucher[5].payGroup": "WFRI",
+        "payrollVoucher[5].dateProcessed": "2026-01-09",
+        "payrollVoucher[5].voidVoucherId": "",
+        "payrollVoucher[5].fitTaxableAmount": 1000.0,
+        "payrollVoucher[5].earnAmount": 1000.0,
+        "payrollVoucher[5].otherEarnAmount": 0.0,
+        "payrollVoucher[5].wcHomeClass": "8810",
+        "payrollVoucher[5].wcState": "IL",
+        "payrollVoucher[5].workerComp": [],
+        "payrollVoucher[5].fsaMatch": [],
+        "payrollVoucher[5].benefit": [],
+        "payrollVoucher[5].bankAccount": "PAYROLL",
+        "payrollVoucher[5].checkNum": null,
+        "payrollVoucher[5].checkAmt": 0.0,
+        "payrollVoucher[5].payStubType": "S",
+        "payrollVoucher[5].checkAccountACH": "",
+        "payrollVoucher[5].retirement": null,
+        "payrollVoucher[5].glAcctDistribution": null,
+        "payrollVoucher[5].taxFilingStatus": [],
+        "payrollVoucher[5].wcInformation": null,
+        "payrollVoucher[5].fromArrears": [],
+        "payrollVoucher[5].toArrears": [],
+        "payrollVoucher[5].importBatchNo": ""
+      }
+    },
+    {
+      "key": "prismhr:132:O00007:chk:V100007",
+      "employee_key": "prismhr:132:O00007",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "O00007",
+        "paycheck_id": "V100007",
+        "pay_run_id": "202601"
+      },
+      "pay_run_key": "prismhr:132:run:202601",
+      "type": {
+        "raw": "R",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "PRNT",
+        "label": null,
+        "value": "unknown"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-27",
+        "end": "2026-01-02"
+      },
+      "check_number": null,
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": null,
+            "value": null
+          },
+          "category": {
+            "raw": "E",
+            "label": "Earnings",
+            "value": "earnings"
+          },
+          "hours": "40",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "payrollVoucher[6].earning[0].chargeDate": "",
+            "payrollVoucher[6].earning[0].hoursWorked": 40,
+            "payrollVoucher[6].earning[0].department": "OPS",
+            "payrollVoucher[6].earning[0].location": "HQ",
+            "payrollVoucher[6].earning[0].jobCode": "",
+            "payrollVoucher[6].earning[0].shift": ""
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "00-10",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "payrollVoucher[6].employeeTax[0].empOverLimitAmount": 0.0
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "payrollVoucher[6].payPeriod": "W",
+        "payrollVoucher[6].payGroup": "WFRI",
+        "payrollVoucher[6].dateProcessed": "2026-01-09",
+        "payrollVoucher[6].voidVoucherId": "",
+        "payrollVoucher[6].fitTaxableAmount": 1000.0,
+        "payrollVoucher[6].earnAmount": 1000.0,
+        "payrollVoucher[6].otherEarnAmount": 0.0,
+        "payrollVoucher[6].wcHomeClass": "8810",
+        "payrollVoucher[6].wcState": "IL",
+        "payrollVoucher[6].workerComp": [],
+        "payrollVoucher[6].fsaMatch": [],
+        "payrollVoucher[6].benefit": [],
+        "payrollVoucher[6].bankAccount": "PAYROLL",
+        "payrollVoucher[6].checkNum": null,
+        "payrollVoucher[6].checkAmt": 0.0,
+        "payrollVoucher[6].payStubType": "S",
+        "payrollVoucher[6].checkAccountACH": "",
+        "payrollVoucher[6].retirement": null,
+        "payrollVoucher[6].glAcctDistribution": null,
+        "payrollVoucher[6].taxFilingStatus": [],
+        "payrollVoucher[6].wcInformation": null,
+        "payrollVoucher[6].fromArrears": [],
+        "payrollVoucher[6].toArrears": [],
+        "payrollVoucher[6].importBatchNo": ""
+      }
+    },
+    {
+      "key": "prismhr:132:S00008:chk:V100008",
+      "employee_key": "prismhr:132:S00008",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "S00008",
+        "paycheck_id": "V100008",
+        "pay_run_id": "202601"
+      },
+      "pay_run_key": "prismhr:132:run:202601",
+      "type": {
+        "raw": "R",
+        "label": "Regular",
+        "value": "regular"
+      },
+      "status": {
+        "raw": "PRNT",
+        "label": null,
+        "value": "unknown"
+      },
+      "pay_date": "2026-01-09",
+      "period": {
+        "start": "2025-12-27",
+        "end": "2026-01-02"
+      },
+      "check_number": null,
+      "gross_pay": {
+        "amount": "1000.0",
+        "currency": "USD"
+      },
+      "net_pay": {
+        "amount": "920.0",
+        "currency": "USD"
+      },
+      "void_date": null,
+      "earnings": [
+        {
+          "code": {
+            "raw": "REG",
+            "label": null,
+            "value": null
+          },
+          "category": {
+            "raw": "E",
+            "label": "Earnings",
+            "value": "earnings"
+          },
+          "hours": "40",
+          "rate": {
+            "amount": "25.0",
+            "currency": "USD"
+          },
+          "amount": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "unmapped": {
+            "payrollVoucher[7].earning[0].chargeDate": "",
+            "payrollVoucher[7].earning[0].hoursWorked": 40,
+            "payrollVoucher[7].earning[0].department": "OPS",
+            "payrollVoucher[7].earning[0].location": "HQ",
+            "payrollVoucher[7].earning[0].jobCode": "",
+            "payrollVoucher[7].earning[0].shift": ""
+          }
+        }
+      ],
+      "taxes": [
+        {
+          "code": {
+            "raw": "00-10",
+            "label": "Federal Income Tax",
+            "value": null
+          },
+          "employee_amount": {
+            "amount": "80.0",
+            "currency": "USD"
+          },
+          "employer_amount": null,
+          "employee_taxable_wages": {
+            "amount": "1000.0",
+            "currency": "USD"
+          },
+          "employer_taxable_wages": null,
+          "unmapped": {
+            "payrollVoucher[7].employeeTax[0].empOverLimitAmount": 0.0
+          }
+        }
+      ],
+      "deductions": [],
+      "employer_contributions": [],
+      "payments": [],
+      "unmapped": {
+        "payrollVoucher[7].payPeriod": "W",
+        "payrollVoucher[7].payGroup": "WFRI",
+        "payrollVoucher[7].dateProcessed": "2026-01-09",
+        "payrollVoucher[7].voidVoucherId": "",
+        "payrollVoucher[7].fitTaxableAmount": 1000.0,
+        "payrollVoucher[7].earnAmount": 1000.0,
+        "payrollVoucher[7].otherEarnAmount": 0.0,
+        "payrollVoucher[7].wcHomeClass": "8810",
+        "payrollVoucher[7].wcState": "IL",
+        "payrollVoucher[7].workerComp": [],
+        "payrollVoucher[7].fsaMatch": [],
+        "payrollVoucher[7].benefit": [],
+        "payrollVoucher[7].bankAccount": "PAYROLL",
+        "payrollVoucher[7].checkNum": null,
+        "payrollVoucher[7].checkAmt": 0.0,
+        "payrollVoucher[7].payStubType": "S",
+        "payrollVoucher[7].checkAccountACH": "",
+        "payrollVoucher[7].retirement": null,
+        "payrollVoucher[7].glAcctDistribution": null,
+        "payrollVoucher[7].taxFilingStatus": [],
+        "payrollVoucher[7].wcInformation": null,
+        "payrollVoucher[7].fromArrears": [],
+        "payrollVoucher[7].toArrears": [],
+        "payrollVoucher[7].importBatchNo": ""
       }
     }
   ],
   "issues": [
-    {
-      "code": "inconsistent_allocation",
-      "severity": "warning",
-      "source_path": "batchList[3].payGroup",
-      "action": "period and pay group set null; pay groups kept in unmapped",
-      "record_key": "prismhr:132:run:202604",
-      "raw_value": null,
-      "message": "batch lists 2 pay groups; a pay run holds one"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "batchList[4].batchStatus",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:run:202605",
-      "raw_value": "HOLD",
-      "message": "batch.batchStatus: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/paths/~1payroll~1v1~1getBatchStatus/get/description)"
-    },
     {
       "code": "spec_live_mismatch",
       "severity": "info",
@@ -998,29 +1128,11 @@
       "message": "the live API lists vouchers under 'payrollVoucher'; the spec names the array 'payrollVouchers' (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollResponseWithPagination)"
     },
     {
-      "code": "spec_live_mismatch",
-      "severity": "info",
-      "source_path": "payrollVoucher[0].hsaPeoMatch",
-      "action": "read the live shape",
-      "record_key": null,
-      "raw_value": null,
-      "message": "'hsaPeoMatch' is returned live but is not in the spec (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher)"
-    },
-    {
-      "code": "spec_live_mismatch",
-      "severity": "info",
-      "source_path": "payrollVoucher[0].isManualCheck",
-      "action": "read the live shape",
-      "record_key": null,
-      "raw_value": null,
-      "message": "'isManualCheck' is returned live but is not in the spec (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher)"
-    },
-    {
       "code": "undocumented_code",
       "severity": "warning",
       "source_path": "payrollVoucher[0].status",
       "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:F00001:chk:V000101",
+      "record_key": "prismhr:132:M00001:chk:V100001",
       "raw_value": "PRNT",
       "message": "payrollVoucher.status: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/status/description)"
     },
@@ -1032,51 +1144,6 @@
       "record_key": null,
       "raw_value": null,
       "message": "payAmount is described as 'pay per hour or unit' (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Earning/properties/payAmount/description) but live it equals hoursUnits x unitRate; it is mapped as the line amount"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "payrollVoucher[1].earning[2].payClass",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:M00002:chk:V000102",
-      "raw_value": "Q",
-      "message": "earning.payClass: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/ClientCodes-PayCode/properties/payClass/description)"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "payrollVoucher[1].deduction[0].deductType",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:M00002:chk:V000102",
-      "raw_value": "ZZ",
-      "message": "deduction.deductionType: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/DeductionCodeDetail/properties/deductionType/description)"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "get_payroll_voucher_for_batch['202603'][0].errorCode",
-      "action": "page skipped",
-      "record_key": "prismhr:132:run:202603",
-      "raw_value": "1",
-      "message": "No vouchers found for batch"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "payrollVoucher[0].batchId",
-      "action": "pay_run_key set null",
-      "record_key": "prismhr:132:S00004:chk:V000901",
-      "raw_value": "202699",
-      "message": "the voucher's batch is not in getBatchListByDate"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "payrollVoucher[0].status",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:S00004:chk:V000901",
-      "raw_value": "PEND",
-      "message": "payrollVoucher.status: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayrollVoucher/properties/status/description)"
     },
     {
       "code": "missing_section",

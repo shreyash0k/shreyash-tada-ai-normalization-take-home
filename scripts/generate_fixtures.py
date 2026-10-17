@@ -33,6 +33,39 @@ FIRST_NAMES = ["Avery", "Jordan", "Riley", "Morgan", "Casey", "Quinn", "Harper",
                "Emerson", "Sage", "Dakota", "Reese", "Finley", "Skyler", "Tatum", "Blake"]
 LAST_NAMES = ["Okafor", "Lindqvist", "Marchetti", "Haddad", "Nakamura", "Oyelaran", "Petrov",
               "Delgado", "Whitfield", "Castellanos", "Brennan", "Achterberg", "Ferreira", "Kowalczyk"]
+# One person belongs to one company. Scranton, Stamford and Utica each have eight.
+SCRANTON_ROSTER = (
+    ("Michael", "Scott"),
+    ("Dwight", "Schrute"),
+    ("Jim", "Halpert"),
+    ("Pam", "Beesly"),
+    ("Angela", "Martin"),
+    ("Kevin", "Malone"),
+    ("Oscar", "Martinez"),
+    ("Stanley", "Hudson"),
+)
+STAMFORD_ROSTER = (
+    ("Phyllis", "Vance"),
+    ("Creed", "Bratton"),
+    ("Meredith", "Palmer"),
+    ("Ryan", "Howard"),
+    ("Kelly", "Kapoor"),
+    ("Toby", "Flenderson"),
+    ("Darryl", "Philbin"),
+    ("Andy", "Bernard"),
+)
+UTICA_ROSTER = (
+    ("Erin", "Hannon"),
+    ("Gabe", "Lewis"),
+    ("Holly", "Flax"),
+    ("Jan", "Levinson"),
+    ("David", "Wallace"),
+    ("Karen", "Filippelli"),
+    ("Roy", "Anderson"),
+    ("Charles", "Miner"),
+)
+SCRANTON = {"line1": "1725 Slough Avenue", "city": "Scranton", "state": "PA", "zip": "18503"}
+STAMFORD = {"line1": "400 Canal Street", "city": "Stamford", "state": "CT", "zip": "06902"}
 STREETS = ["Maple Ave", "Birch Ct", "Cedar Ln", "Harbor Rd", "Summit Dr", "Willow Way", "Granite St"]
 CITIES = [("Springfield", "IL", "62704"), ("Fairview", "OR", "97024"), ("Riverton", "UT", "84065"),
           ("Madison", "WI", "53703"), ("Franklin", "TN", "37064"), ("Georgetown", "TX", "78626"),
@@ -42,16 +75,33 @@ CITIES = [("Springfield", "IL", "62704"), ("Fairview", "OR", "97024"), ("Riverto
 class Pool:
     """Deterministic pick helpers over a seeded ``random.Random``."""
 
-    def __init__(self, seed: int, salt: str):
+    def __init__(self, seed: int, salt: str, roster=()):
         self.rng = random.Random(f"{seed}:{salt}")
-        self._used_names: set = set()
+        self._name_index = 0
+        self._roster = tuple(roster)
+        self._used_names = set(self._roster)
+        self._locals: set[str] = set()
 
     def name(self):
+        if self._name_index < len(self._roster):
+            first, last = self._roster[self._name_index]
+            self._name_index += 1
+            return first, last
         while True:
             first, last = self.rng.choice(FIRST_NAMES), self.rng.choice(LAST_NAMES)
             if (first, last) not in self._used_names:
                 self._used_names.add((first, last))
                 return first, last
+
+    def email(self, first: str, last: str) -> str:
+        local = f"{first[0].lower()}{last.lower()}"
+        candidate = local
+        suffix = 2
+        while candidate in self._locals:
+            candidate = f"{local}{suffix}"
+            suffix += 1
+        self._locals.add(candidate)
+        return f"{candidate}@dundermifflin.example"
 
     def middle(self):
         return self.rng.choice("ABCDEJKLMRST")
@@ -93,18 +143,15 @@ def bundle(provider, request, responses):
 
 
 # --- PrismHR -----------------------------------------------------------------
-# Injected cases: statusClass "Q" (undocumented_code), masked SSN (masked_value),
-# invalid birthDate (invalid_date), prose citizenshipStatus (unmapped_label),
-# live spellings employerId/autoPolicy/hawaiiMedWaiver/payPeriodsPerWeek
-# (spec_live_mismatch), a job code absent from the job table (missing_lookup).
+# Eight Scranton employees. Stanley's birth date is not a real day (invalid_date).
+# The other seven are ordinary. Live spellings employerId, autoPolicy,
+# hawaiiMedWaiver and payPeriodsPerWeek are reported once per bundle.
 
 PRISM_CLIENT_ID = "132"
 
 
-def prism_employee(pool: Pool, index: int, status: str, type_class: str, pay_method: str,
-                   employee_status: str = None, ssn: str = None, birth_date: str = None,
-                   citizenship: str = "Z01", employee_1099: bool = False, manager: str = "",
-                   rehire_ok: str = "", term_reason: str = ""):
+def prism_employee(pool: Pool, index: int, status: str, type_class: str, pay_method: str, job_code: str,
+                   birth_date: str = None, manager: str = "", rehire_ok: str = "", term_reason: str = ""):
     first, last = pool.name()
     home = pool.address()
     hire = pool.date(2015, 2025)
@@ -142,20 +189,20 @@ def prism_employee(pool: Pool, index: int, status: str, type_class: str, pay_met
             "addressLine1": home["line1"], "addressLine2": "", "city": home["city"], "state": home["state"],
             "zipcode": home["zip"], "zipSuffix": "", "county": "", "schoolDistrict": "",
             "homePhone": pool.phone(), "mobilePhone": pool.phone() if index % 2 else "",
-            "emailAddress": f"{first.lower()}.{last.lower()}@example.test",
+            "emailAddress": pool.email(first, last),
         },
         "client": {
-            "employeeStatus": employee_status or status, "statusClass": status, "statusDate": hire,
+            "employeeStatus": status, "statusClass": status, "statusDate": hire,
             "employeeType": {"F": "FT", "P": "PT"}.get(type_class, type_class), "typeClass": type_class,
             "typeDate": hire, "transferInfo": [], "property": [],
             "hawaiiMedWaiver": [],  # live spelling; spec says hawaiiMedWaivers
-            "jobCode": pool.rng.choice(["OFFICE", "WHSE", "SALES", "TECH"]), "jobStartDate": hire,
+            "jobCode": job_code, "jobStartDate": hire,
             "firstHireDate": hire, "lastHireDate": hire,
             "flsaExempt": pay_method == "S", "cafeteriaPlan": [], "seniorityDate": hire,
             "officer": False, "workCompOfficer": False, "scorpOwner": False, "businessOwner": False,
             "termReasonCode": term_reason, "termExplanation": "Resigned" if term_reason else "",
             "lastStatusChangeDate": "", "lastJobChangeDate": "", "newHireReportDate": "",
-            "employee1099": employee_1099, "clientEmployeeId": str(index), "clockNum": "",
+            "employee1099": False, "clientEmployeeId": str(index), "clockNum": "",
             "primaryEmailSource": "",
             "benefitEmail": f"{first.lower()}.benefits@example.test" if index == 1 else "",  # empty live
             "rehireOk": rehire_ok, "returnDate": "",
@@ -175,7 +222,7 @@ def prism_employee(pool: Pool, index: int, status: str, type_class: str, pay_met
             "electronic1095C": "N", "manager": manager, "selfIdDisabilityForm": "", "applicantId": "",
         },
         "compensation": {
-            "ssn": ssn if ssn is not None else pool.ssn(),
+            "ssn": pool.ssn(),
             "payGroup": "WFRI", "payPeriod": pool.rng.choice(["W", "B", "S", "M"]), "payPeriodsPerWeek": "",
             "payPeriodInfo": [{"periodCode": c, "periodBase": "0.00"} for c in "WBSMA"],
             "defaultHours": "0.00", "payMethod": pay_method, "allocationTemplateId": "", "payAllocation": [],
@@ -205,7 +252,7 @@ def prism_employee(pool: Pool, index: int, status: str, type_class: str, pay_met
             "payRate4": "", "payChangeLastDate": "", "overrideWorkGeocode": "", "familyMemberMI": "",
             "probationCodeMO": "", "electronicPayStub": True, "healthInsVT": False, "lastWorkedDate": "",
             "irsLockInDate": "", "nonResAlien": False, "alienRegExpDate": "", "benefitSalary": "",
-            "citizenshipStatus": citizenship, "firstPayPeriodHours": "",
+            "citizenshipStatus": "Z01", "firstPayPeriodHours": "",
             "compensationChecksum": str(pool.rng.randint(10_000_000, 99_999_999)),
             "providerNotifiedOn": "", "alternateId": "", "w8Filed": False,
         },
@@ -220,12 +267,11 @@ def prism_response(records):
             "errorCode": "0", "errorMessage": "", "extension": None}
 
 
-# getClientCodes with options=Job, shaped like the live response. TECH is left
-# out so its employees report missing_lookup.
+# getClientCodes with options=Job, shaped like the live response.
 def prism_job_codes():
     jobs = [{"id": code, "jobTitle": title, "glSegmentCode": "", "jobClass": job_class, "payGrade": "",
              "jobDescription": "", "jobObsolete": False, "supervisory": False, "flsaExempt": exempt}
-            for code, title, job_class, exempt in (("OFFICE", "Office Staff", "8810N1", True),
+            for code, title, job_class, exempt in (("OFFICE", "Receptionist", "8810N1", True),
                                                    ("WHSE", "Warehouse Associate", "8292N0", False),
                                                    ("SALES", "Sales Representative", "8742N4", False))]
     return {"clientCodes": {"clientId": PRISM_CLIENT_ID, "jobCode": jobs, "locationCode": None, "payGroups": None},
@@ -233,18 +279,15 @@ def prism_job_codes():
 
 
 def build_prismhr(seed: int):
-    pool = Pool(seed, "prismhr")
-    manager = prism_employee(pool, 1, "A", "F", "S", rehire_ok="Y")
-    records = [
-        manager,
-        prism_employee(pool, 2, "A", "F", "H", manager=manager["id"], ssn="***-**-****"),  # masked SSN
-        prism_employee(pool, 3, "L", "P", "H", employee_status="LOA", manager=manager["id"]),
-        prism_employee(pool, 4, "T", "F", "S", rehire_ok="N", term_reason="RES",
-                       citizenship="A lawful permanent resident"),  # prose where spec says Z01-Z04
-        prism_employee(pool, 5, "Q", "F", "C", employee_status="Q", manager=manager["id"]),  # undocumented
-        prism_employee(pool, 6, "A", "P", "H", birth_date="2001-02-30"),  # invalid date
-        prism_employee(pool, 7, "A", "F", "D", employee_1099=True, manager=manager["id"]),
-    ]
+    pool = Pool(seed, "prismhr", SCRANTON_ROSTER)
+    jobs = ("SALES", "WHSE", "OFFICE")
+    manager = prism_employee(pool, 1, "A", "F", "S", rehire_ok="Y", job_code="SALES")
+    records = [manager]
+    for number in range(2, 8):
+        records.append(prism_employee(pool, number, "A", "F", "H" if number % 2 == 0 else "S",
+                                      manager=manager["id"], job_code=jobs[number % 3]))
+    records.append(prism_employee(pool, 8, "T", "F", "H", manager=manager["id"], job_code="SALES",
+                                  birth_date="2001-02-30", term_reason="RES"))
     address_info = {
         records[0]["id"]: {
             "addressInfo": {
@@ -272,19 +315,14 @@ def build_prismhr(seed: int):
     })
 
 
-# PrismHR direct deposits: getEmployee with options=DirectDeposit for the same
-# employees. Injected cases: P with a limit, FS prenote, PN, an unmasked
-# account number (the rest are masked, as live), B carrying an amount and F
-# without one (inconsistent_allocation), undocumented method "Z"
-# (undocumented_code), an empty header (no setup, as live), and a record with
-# directDeposit null (missing_section).
+# PrismHR direct deposits: one checking deposit per employee. Stanley's account
+# number is masked (masked_value). The other seven send the full number.
 
-def prism_ach_line(pool: Pool, method: str, amount=None, account_type="C", status="D",
-                   limit=None, override="RVS", masked=True):
+def prism_ach_line(pool: Pool, method: str, amount, masked=False):
     digits = pool.rng.randint(7, 11)
     return {"transitNum": pool.routing(), "accountNum": "*" * digits if masked else pool.account(digits),
-            "accountType": account_type, "method": method, "amount": amount, "limit": limit,
-            "status": status, "bankName": pool.bank().upper(), "voucherTypeOverride": override}
+            "accountType": "C", "method": method, "amount": amount, "limit": None,
+            "status": "D", "bankName": pool.bank().upper(), "voucherTypeOverride": "RVS"}
 
 
 def prism_dd_record(employee, direct_deposit):
@@ -299,43 +337,27 @@ def prism_dd_record(employee, direct_deposit):
     return record
 
 
-def prism_dd_header(pool: Pool, lines, status="A", voucher_type="RVS"):
-    return {"achStatus": status, "voucherType": voucher_type, "suppressAccountPrint": False,
+def prism_dd_header(pool: Pool, lines):
+    return {"achStatus": "A", "voucherType": "RVS", "suppressAccountPrint": False,
             "achVoucher": lines, "directDepositChecksum": str(pool.rng.randint(1_000_000, 9_999_999))}
 
 
 def build_prismhr_direct_deposits(seed: int):
     employees = [r for response in build_prismhr(seed)["responses"]["get_employee"] for r in response["employee"]]
     pool = Pool(seed, "prismhr-direct-deposit")
-    headers = [
-        prism_dd_header(pool, [prism_ach_line(pool, "F", 250.0, account_type="S", masked=False),
-                               prism_ach_line(pool, "B")]),
-        prism_dd_header(pool, [prism_ach_line(pool, "P", 20.0, limit=500.0), prism_ach_line(pool, "B")]),
-        prism_dd_header(pool, [prism_ach_line(pool, "FS", 100.0, status="P", override="R"),
-                               prism_ach_line(pool, "PN", 10.0, account_type="S", override="")]),
-        prism_dd_header(pool, [prism_ach_line(pool, "B", 75.0),  # B must not carry an amount
-                               prism_ach_line(pool, "F", None, account_type="S")]),  # F needs one
-        prism_dd_header(pool, [prism_ach_line(pool, "Z", 40.0, account_type="IP", status="I")], status="I"),
-        prism_dd_header(pool, [], status="", voucher_type=""),  # no setup, as live
-        None,  # section missing
-    ]
-    for header in headers:
-        if header is not None and not header["achVoucher"]:
-            header["directDepositChecksum"] = "0"
-    records = [prism_dd_record(employee, header) for employee, header in zip(employees, headers)]
+    records = []
+    for index, employee in enumerate(employees):
+        lines = [prism_ach_line(pool, "F", pool.money(100, 500), masked=index == len(employees) - 1)]
+        if index == 0:
+            lines.append(prism_ach_line(pool, "P", 10.0))
+        records.append(prism_dd_record(employee, prism_dd_header(pool, lines)))
     return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
         "get_employee_direct_deposit": [prism_response(records[:4]), prism_response(records[4:])],
     })
 
 
-# PrismHR deductions: one getDeductions response per employee ID. Benefit-plan
-# lines carry only ten fields and no dates, as live. Injected cases: every
-# maximum basis, a match of each method, usePercent "T" (spec prose) and an
-# invalid usePercent (out_of_schema_value), undocumented deductionType,
-# deductionMethod and basis (undocumented_code), a maximum without a basis
-# (inconsistent_allocation), an invalid startDate (invalid_date), an empty
-# deduction list (as live), an employee with no response (missing_section) and
-# an unlisted employee whose response carries an errorCode (missing_section).
+# PrismHR deductions: one flat medical deduction per employee. Stanley's start
+# date is not a real day (invalid_date). The other seven start on 2024-01-01.
 
 def prism_deduction(code, deduction_type, method, description, amount, use_percent=False,
                     start="2024-01-01", **extra):
@@ -349,68 +371,40 @@ def prism_deduction(code, deduction_type, method, description, amount, use_perce
     return line
 
 
-def prism_benefit_deduction(code, description, plan, amount=0.0):
-    return {"deductionCode": code, "deductionType": "V", "deductionMethod": "F", "description": description,
-            "usePercent": False, "amount": amount, "period": "1234", "loanOrGarnishId": "",
-            "benefitPlanId": plan, "lastDedPerAdj": amount}
-
-
-def prism_deductions_response(lines, error_code="0", error_message=""):
-    return {"employeeDeductions": {"deduction": lines} if error_code == "0" else None,
-            "errorCode": error_code, "errorMessage": error_message, "extension": None}
+def prism_deductions_response(lines):
+    return {"employeeDeductions": {"deduction": lines}, "errorCode": "0", "errorMessage": "", "extension": None}
 
 
 def build_prismhr_deductions(seed: int):
     employee_list = build_prismhr(seed)["responses"]["get_employee_list"]
     ids = employee_list["employeeList"]["employeeId"]
     pool = Pool(seed, "prismhr-deduction")
-    responses = {
-        ids[0]: prism_deductions_response([
-            prism_benefit_deduction("MED", "Medical", "BCBSPPO1000", pool.money(40, 120)),
-            prism_benefit_deduction("LIFE", "Life Insurance", "LIFESAL"),
-            prism_deduction("401k", "K", "K", "401k", 5.0, use_percent=True, start="2016-12-01",
-                            maximum=23000.0, basis="A"),
-        ]),
-        ids[1]: prism_deductions_response([
-            prism_deduction("UNIF", "V", "F", "Uniforms", 12.5, limit=25.0, maximum=300.0, basis="L",
-                            stopDate="2026-12-31", cutbackPayeeCode="UNIFCO"),
-            prism_deduction("401KR", "KR", "PG", "Roth 401(k)", 4.0, use_percent=True, matchMethod="P",
-                            matchAmount=50.0, matchDescription="Roth match"),
-        ]),
-        ids[2]: prism_deductions_response([
-            prism_deduction("GARN", "G", "G", "Child Support", 180.0, loanOrGarnishId="G-1",
-                            maximum=900.0, basis="M", cutbackPayeeCode="SDU"),
-            prism_deduction("LOAN", "L", "F", "Employee Loan", 50.0, loanOrGarnishId="L-7",
-                            matchMethod="F", matchAmount=10.0),
-        ]),
-        ids[3]: prism_deductions_response([
-            prism_deduction("PARK", "Z", "ZZ", "Parking", 30.0, maximum=90.0, basis="Q"),  # undocumented
-            prism_deduction("DUES", "V", "PPR", "Union Dues", 1.5, use_percent="T",  # spec prose T/F
-                            maximum=100.0, basis="W"),  # undocumented basis
-        ]),
-        ids[4]: prism_deductions_response([]),  # no deductions, as live
-        ids[5]: prism_deductions_response([
-            prism_deduction("GYM", "V", "F", "Gym", 20.0, maximum=240.0),  # maximum with an empty basis
-            prism_deduction("CHAR", "V", "F", "Charity", 5.0, use_percent="yes",  # not a boolean
-                            start="2025-02-30"),  # invalid date
-        ]),
-        # ids[6] has no response -> missing_section
-        "X00099": prism_deductions_response([], error_code="1", error_message="Employee not found"),
-    }
+    responses = {}
+    for index, employee_id in enumerate(ids):
+        amount = pool.money(40, 120)
+        if index == len(ids) - 1:
+            responses[employee_id] = prism_deductions_response([
+                prism_deduction("MED", "V", "F", "Medical", amount, start="2025-02-30"),
+                prism_deduction("401k", "K", "K", "401k", 5.0, use_percent=True, start="2016-12-01",
+                                stopDate="2026-12-31", maximum=23000.0, basis="A", matchMethod="F",
+                                matchAmount=50.0, cutbackPayeeCode="MEDCO"),
+                prism_deduction("401KR", "KR", "PG", "Roth 401(k)", 4.0, use_percent=True, start="2016-12-01",
+                                matchMethod="P", matchAmount=50.0),
+                prism_deduction("UNIF", "V", "F", "Uniforms", 12.5, limit=25.0, maximum=300.0, basis="L"),
+                prism_deduction("GARN", "G", "G", "Child Support", 180.0, maximum=900.0, basis="M"),
+                prism_deduction("DUES", "V", "F", "Union Dues", 8.0, maximum=100.0, basis="Q"),
+            ])
+        else:
+            responses[employee_id] = prism_deductions_response([
+                prism_deduction("MED", "V", "F", "Medical", amount, start="2024-01-01")])
     return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
         "get_deductions": responses,
         "get_employee_list": employee_list,
     })
 
 
-# PrismHR payroll. Injected cases: batch types R, M, S and V; one batch status
-# per group plus an undocumented one (HOLD); a batch with two pay groups, one
-# with none and one with an empty payGroupId; voucher pages under the live key
-# payrollVoucher and the spec key payrollVouchers; an arrears voucher with empty
-# arrays; a voided voucher; pay classes E, R, F and an undocumented one; other
-# earnings and other deductions; a direct deposit; the live-only hsaPeoMatch and
-# isManualCheck; an undocumented voucher status on every voucher (reported once)
-# and a second one; an error page; a voucher whose batch is not listed.
+# PrismHR payroll: one completed regular batch and one regular voucher per
+# employee. Voucher status PRNT has no documented meaning and is reported once.
 
 def prism_pay_group(group_id, start, end):
     return {"payGroupId": group_id, "payPeriodStartDate": start, "payPeriodEndDate": end,
@@ -422,10 +416,9 @@ def prism_batch(batch_id, pay_date, batch_type, status, groups):
             "payGroup": groups}
 
 
-def prism_earning(code, pay_class, class_description, hours, rate, amount=None):
+def prism_earning(code, pay_class, class_description, hours, rate):
     return {"payCode": code, "payClass": pay_class, "payClassDescription": class_description, "chargeDate": "",
-            "hoursUnits": hours, "hoursWorked": hours, "unitRate": rate,
-            "payAmount": round(hours * rate, 2) if amount is None else amount,
+            "hoursUnits": hours, "hoursWorked": hours, "unitRate": rate, "payAmount": round(hours * rate, 2),
             "department": "OPS", "location": "HQ", "jobCode": "", "shift": ""}
 
 
@@ -462,64 +455,37 @@ def prism_voucher(voucher_id, employee_id, batch_id, pay_date, period, voucher_t
     return voucher
 
 
-def prism_voucher_page(vouchers, key="payrollVoucher"):
-    return {"errorCode": "0", "errorMessage": "", "extension": None, key: vouchers,
+def prism_voucher_page(vouchers):
+    return {"errorCode": "0", "errorMessage": "", "extension": None, "payrollVoucher": vouchers,
             "total": len(vouchers), "startpage": 0, "count": len(vouchers)}
 
 
 def build_prismhr_payroll(seed: int):
     ids = build_prismhr(seed)["responses"]["get_employee_list"]["employeeList"]["employeeId"]
-    week1, week2 = ("2025-12-27", "2026-01-02"), ("2026-01-03", "2026-01-09")
-    batches = [
-        prism_batch("202601", "2026-01-09", "R", "COMP", [prism_pay_group("WFRI", *week1)]),
-        prism_batch("202602", "2026-01-16", "R", "POSTCOMP", [prism_pay_group("WFRI", *week2)]),
-        prism_batch("202603", "2026-01-20", "M", "INITFAIL", []),
-        prism_batch("202604", "2026-01-23", "S", "TS.READY", [prism_pay_group("WFRI", "2026-01-10", "2026-01-16"),
-                                                              prism_pay_group("SEMI", "2026-01-01", "2026-01-15")]),
-        prism_batch("202605", "2026-01-30", "V", "HOLD", [prism_pay_group("", "2026-01-17", "2026-01-23")]),
-    ]
-    first = prism_voucher(
-        "V000101", ids[0], "202601", "2026-01-09", week1, gross=1076.41, net=891.38, checkNumber="1001",
-        checkAmt=891.38, hsaPeoMatch=0.0, isManualCheck=False,
-        earning=[prism_earning("REG", "E", "Earnings", 40, 25.0), prism_earning("OT", "E", "Earnings", 2, 37.5)],
-        otherEarningsDetail=[{"otherEarnCode": "FRINGE", "otherEarnsDesc": "Fringe Benefit", "otherEarnAmount": 1.41}],
-        employeeTax=[prism_employee_tax("00-10", "Federal Income Tax", 986.41, 80.0),
-                     prism_employee_tax("00-11", "Medicare", 1036.41, 15.03)],
-        companyTax=[prism_company_tax("00-15", "Medicare - Employer", 1036.41, 15.03)],
-        deduction=[prism_voucher_deduction("401k", "K", "401k", 50.0),
-                   prism_voucher_deduction("MED", "C", "Medical", 40.0)],
-        employerContributions=[{"code": "MED", "description": "Medical", "amount": 189.17},
-                               {"code": "EAP", "description": "Employee Assistance", "amount": 0.0}],
-        benefit=[{"planId": "MED", "premiumAmt": 229.17, "empContrib": 189.17, "empDeduct": 40.0,
-                  "coveragePeriod": "M", "adjRef": "", "premiumCost": 229.17}],
-    )
-    second = prism_voucher(
-        "V000102", ids[1], "202601", "2026-01-09", week1, gross=297.0, net=242.0,
-        earning=[prism_earning("VAC", "E", "Earnings", 8, 30.0),
-                 prism_earning("EXP", "R", "Expense Reimbursement", 1, 45.0),
-                 prism_earning("MILES", "Q", "Mileage", 1, 12.0)],  # undocumented pay class
-        employeeTax=[prism_employee_tax("00-10", "Federal Income Tax", 252.0, 20.0)],
-        deduction=[prism_voucher_deduction("CLUB", "ZZ", "Social Club", 10.0)],  # undocumented type
-        otherDeduction=[{"otherDeductCode": "UNIF", "otherDeductDescription": "Uniforms", "otherDeductAmount": 25.0,
-                         "otherDeductOneTimeSwitch": "N"}],
-        directDeposit=[{"transitNum": "991234567", "accountNum": "000123456789", "status": "A", "amount": 242.0}],
-    )
-    arrears = prism_voucher("V000103", ids[2], "202601", "2026-01-09", week1, voucher_type="A")
-    voided = prism_voucher(
-        "V000201", ids[0], "202602", "2026-01-16", week2, voucher_type="S", gross=500.0, net=500.0,
-        checkNumber="1002", checkAmt=500.0, voidDate="2026-01-20", voidVoucherId="V000202",
-        earning=[prism_earning("BON", "E", "Earnings", 0, 0.0, amount=500.0)],
-    )
-    orphan = prism_voucher("V000901", ids[3], "202699", "2026-02-06", ("2026-01-24", "2026-01-30"),
-                           voucher_type="J", status="PEND")
+    week1 = ("2025-12-27", "2026-01-02")
+    batches = [prism_batch("202601", "2026-01-09", "R", "COMP", [prism_pay_group("WFRI", *week1)])]
+    vouchers = []
+    for offset, employee_id in enumerate(ids):
+        gross, tax = 1000.0, 80.0
+        extra = {}
+        if offset == 0:
+            extra = {
+                "checkNumber": "1001", "checkAmt": gross - tax, "voidDate": "2026-01-20",
+                "companyTax": [prism_company_tax("00-15", "Medicare - Employer", gross, 14.5)],
+                "deduction": [prism_voucher_deduction("401k", "K", "401k", 50.0)],
+                "employerContributions": [{"code": "MED", "description": "Medical", "amount": 189.17}],
+                "directDeposit": [{"transitNum": "991234567", "accountNum": "000123456789",
+                                   "status": "A", "amount": gross - tax}],
+            }
+        vouchers.append(prism_voucher(
+            f"V100{offset + 1:03d}", employee_id, "202601", "2026-01-09", week1,
+            voucher_type="R", status="PRNT", gross=gross, net=gross - tax,
+            earning=[prism_earning("REG", "E", "Earnings", 40, 25.0)],
+            employeeTax=[prism_employee_tax("00-10", "Federal Income Tax", gross, tax)],
+            **extra))
     return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
         "get_batch_list_by_date": {"errorCode": "0", "errorMessage": "", "extension": None, "batchList": batches},
-        "get_payroll_voucher_for_batch": {
-            "202601": [prism_voucher_page([first, second]), prism_voucher_page([arrears], key="payrollVouchers")],
-            "202602": [prism_voucher_page([voided])],
-            "202603": [{"errorCode": "1", "errorMessage": "No vouchers found for batch", "extension": None}],
-            "202699": [prism_voucher_page([orphan])],
-        },
+        "get_payroll_voucher_for_batch": {"202601": [prism_voucher_page(vouchers)]},
         "get_batch_info": {"202601": {"errorCode": "0", "errorMessage": "", "extension": None, "batchControl": {
             "batchStatus": "COMP", "batchId": "202601", "payDate": "2026-01-09",
             "batchDescription": "202601 - 01-09-26 WFRI", "batchType": "R", "processor": "synthetic",
@@ -549,14 +515,14 @@ def prism_schedule(group_id, description, period, period_description):
 
 def build_prismhr_company(seed: int):
     pool = Pool(seed, "prismhr-company")
-    office = pool.address()
+    office = SCRANTON
     master = {
-        "id": PRISM_CLIENT_ID, "clientName": "Synthetic Demo Staffing", "legalName": "Synthetic Demo Staffing LLP",
+        "id": PRISM_CLIENT_ID, "clientName": "Dunder Mifflin", "legalName": "Dunder Mifflin Paper Company, Inc.",
         "serviceType": "PEO", "categoryCode": "", "costCenter": "", "statusClass": "A", "status": "A",
         "statusDate": "2019-04-01", "corporationType": "M", "addressLine1": office["line1"], "addressLine2": "Suite 200",
         "city": office["city"], "stateCode": office["state"], "zipCode": office["zip"], "zipSuffix": "1234",
-        "mainPhone": pool.phone(), "mainPhoneExt": "101", "fax": "", "websiteUrl": "https://staffing.example",
-        "emailAddress": "payroll@staffing.example", "businessDescription": "Temporary staffing", "sicCode": "7363",
+        "mainPhone": pool.phone(), "mainPhoneExt": "101", "fax": "", "websiteUrl": "https://dundermifflin.example",
+        "emailAddress": "payroll@dundermifflin.example", "businessDescription": "Paper and office supplies", "sicCode": "7363",
         "naicsCode": "561320", "federalIdNumber": "99-0000132", "employerId": "", "payrollDate": "",
         "eVerify": True, "externalPtoUsed": False, "notificationEmailList": [],
         "payrollFinalizationNotification": "N", "positionRatesUsed": "N", "reverseWireAccount": "",
@@ -581,10 +547,9 @@ def build_prismhr_company(seed: int):
 
 
 # --- isolved -----------------------------------------------------------------
-# Injected cases: employmentStatus "Leave of Absence" and gender "Non-binary"
-# (unmapped_label), employmentCategoryCode FT/PT and integer payFrequency
-# (undocumented_code), invalid salaryEffectiveDate (invalid_date), one record
-# without the optional sub-objects, detail/personal/nameAddress overrides.
+# Eight Stamford employees. employmentCategoryCode FT, pay frequency 12 and the
+# citizenship text are each reported once, on the first employee. The detail,
+# personal and name-address overlays fill Phyllis and Creed.
 
 ISOLVED_CLIENT_ID, ISOLVED_LEGAL_ID = "4046", "5806"
 ISOLVED_BASE = f"https://myisolved.example/rest/api/clients/{ISOLVED_CLIENT_ID}/legals/{ISOLVED_LEGAL_ID}/employees"
@@ -597,9 +562,8 @@ def isolved_links(employee_id):
 
 
 def isolved_employee(pool: Pool, employee_id: int, number: int, status: str, pay_type: str,
-                     gender: str, category: str = "FT", marital=None, manager=None,
-                     terminated: str = None, rehired: str = None, salary_effective: str = None,
-                     ssn: str = "", sparse: bool = False):
+                     gender: str, ssn: str, marital=None, manager=None,
+                     terminated: str = None, rehired: str = None):
     first, last = pool.name()
     home = pool.address()
     hire = pool.date(2016, 2025)
@@ -607,12 +571,12 @@ def isolved_employee(pool: Pool, employee_id: int, number: int, status: str, pay
     annual = round(hourly * 2080, 2)
     record = {
         "id": employee_id,
-        "acaEmploymentStatus": "ACA Full Time" if category == "FT" else "ACA Variable",
-        "annualSalary": annual if pay_type != "1099" else 0.0,
+        "acaEmploymentStatus": "ACA Full Time",
+        "annualSalary": annual,
         "birthDate": f"{pool.date(1958, 2001)}T00:00:00",
-        "emailAddress": f"{first.lower()}{number}@example.test",
+        "emailAddress": pool.email(first, last),
         "employeeNumber": str(number),
-        "employmentCategoryCode": category,
+        "employmentCategoryCode": "FT",
         "employmentCategoryEffectiveDate": f"{hire}T00:00:00",
         "employmentCategoryFullTimeEquivalent": None,
         "employmentStatus": status,
@@ -629,7 +593,8 @@ def isolved_employee(pool: Pool, employee_id: int, number: int, status: str, pay
         "jobFLSAExempt": pay_type == "Salary",
         "jobId": 92000 + number,
         "jobIsSeasonal": False, "jobIsUnion": False,
-        "jobTitle": pool.rng.choice(["Analyst", "Technician", "Coordinator", "Driver", "Sub-Contractor"]),
+        "jobTitle": pool.rng.choice(["Regional Manager", "Sales Representative", "Accountant",
+                                    "Receptionist", "Warehouse Associate"]),
         "legalCode": "BK422-1",
         "maritalStatus": marital,
         "militaryStatus": None,
@@ -640,12 +605,12 @@ def isolved_employee(pool: Pool, employee_id: int, number: int, status: str, pay
             "state": home["state"], "suffix": None, "zipCode": home["zip"],
             "links": [{"href": None, "rel": "self"}, {"href": None, "method": "PUT", "rel": "EmployeeNameAddressUpdate"}],
         },
-        "normalHours": 173.33 if category == "FT" else 86.67,
+        "normalHours": 173.33,
         "originalHireDate": f"{hire}T00:00:00",
         "payFrequency": 12,
         "payGroup": "Monthly",
         "payType": pay_type,
-        "perPaySalary": round(annual / 12, 2) if pay_type != "1099" else 0.0,
+        "perPaySalary": round(annual / 12, 2),
         "personal": {
             "id": 1245000 + number, "faxNumber": "(801) 555-0142" if number == 2 else None,  # None live
             "homePhone": pool.phone() if number % 2 else None, "mobilePhone": pool.phone(),
@@ -653,7 +618,7 @@ def isolved_employee(pool: Pool, employee_id: int, number: int, status: str, pay
             "links": [{"href": None, "rel": "self"}, {"href": None, "method": "PUT", "rel": "EmployeePersonalUpdate"}],
         },
         "previousPunchLabors": None, "protectedVeteran": False, "reciprocityRule": "",
-        "salaryEffectiveDate": salary_effective or f"{hire}T00:00:00",
+        "salaryEffectiveDate": f"{hire}T00:00:00",
         "ssn": ssn,
         "statusDate": f"{terminated or hire}T00:00:00",
         "timecardPunchStatusDate": None, "timecardPunchStatusIsIn": None, "timeclockId": None,
@@ -672,15 +637,9 @@ def isolved_employee(pool: Pool, employee_id: int, number: int, status: str, pay
         record["eligibleForRehire"] = False
     if rehired:
         record["rehireDate"] = f"{rehired}T00:00:00"
-    if sparse:
-        for key in ("acaEmploymentStatus", "employmentCategoryFullTimeEquivalent", "i9Documents",
-                    "militaryStatus", "previousPunchLabors", "timecardPunchStatusDate",
-                    "timecardPunchStatusIsIn", "timeclockId", "uniqueId", "reciprocityRule"):
-            record.pop(key, None)
-    else:
-        record["citizenship"] = "Citizen of the United States"
-        record["isManager"] = manager is None
-        record["isSupervisor"] = manager is None
+    record["citizenship"] = "Citizen of the United States"
+    record["isManager"] = manager is None
+    record["isSupervisor"] = manager is None
     return record
 
 
@@ -693,25 +652,25 @@ def isolved_page(results, page, total_pages, total_items):
 
 
 def build_isolved(seed: int):
-    pool = Pool(seed, "isolved")
-    manager = isolved_employee(pool, 859201, 1, "Active", "Salary", "Male", marital="Married")
-    records = [
-        manager,
-        isolved_employee(pool, 859202, 2, "Active", "Hourly", "Female", marital="Single", manager=manager),
-        isolved_employee(pool, 859203, 3, "Terminated", "Salary", "Female", manager=manager,
-                         terminated="2024-03-29", ssn=pool.ssn()),
-        isolved_employee(pool, 859204, 4, "Leave of Absence", "Hourly", "Non-binary",  # off-allowlist labels
-                         category="PT", manager=manager),
-        isolved_employee(pool, 859205, 5, "Active", "1099", "Male", category="PT", manager=manager,
-                         rehired="2023-01-09", salary_effective="not-a-date"),  # invalid date
-        isolved_employee(pool, 859206, 6, "Active", "Hourly", "Female", sparse=True),  # live-absent fields
-    ]
+    pool = Pool(seed, "isolved", STAMFORD_ROSTER)
+    manager = isolved_employee(pool, 859201, 1, "Active", "Salary", "Male",
+                               marital="Married", ssn=pool.ssn())
+    records = [manager]
+    for number in range(2, 9):
+        kwargs = {"ssn": pool.ssn(), "manager": manager}
+        status, pay_type = "Active", "Hourly" if number % 2 == 0 else "Salary"
+        if number == 8:
+            status = "Terminated"
+            kwargs.update(terminated="2024-03-29", rehired="2023-01-09")
+        records.append(isolved_employee(
+            pool, 859200 + number, number, status, pay_type,
+            "Male" if number % 2 == 0 else "Female", **kwargs))
     detail = dict(records[0])
     detail["organizations"] = [
         {"id": -1, "displayOrder": 1, "organizationId": 9943, "title": "Location", "value": "10",
-         "valueDescription": "Main Yard"},
+         "valueDescription": "Stamford"},
         {"id": -2, "displayOrder": 2, "organizationId": 9944, "title": "Department", "value": "100",
-         "valueDescription": "Executives"},
+         "valueDescription": "Management"},
     ]
     detail["payRates"] = []
     detail["taxes"] = {
@@ -719,15 +678,15 @@ def build_isolved(seed: int):
                     "multipleJobsOrSpouseWorks": False, "primaryExemptions": 0, "taxCategoryId": "FEDWT",
                     "taxState": "", "links": []},
         "nonResidentCity": None, "nonResidentState": None, "residentCity": None,
-        "residentState": {"id": 1556269, "filingStatus": "UTM", "isBlocked": False, "primaryExemptions": 0,
-                          "taxCategoryId": "STATEWT", "taxDescription": "UTAH WH", "taxState": "UT", "links": []},
+        "residentState": {"id": 1556269, "filingStatus": "CTM", "isBlocked": False, "primaryExemptions": 0,
+                          "taxCategoryId": "STATEWT", "taxDescription": "CONNECTICUT WH", "taxState": "CT", "links": []},
     }
     personal = dict(records[1]["personal"])
     personal["officePhone"] = pool.phone()
     personal["personalEmailAddress"] = "personal.two@example.test"
     name_address = {k: v for k, v in records[1]["nameAddress"].items() if k != "links"}
     name_address["id"] = 0
-    name_address["preferredName"] = "Jo"
+    name_address["preferredName"] = records[1]["nameAddress"]["firstName"]
     return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
         "employees": [isolved_page(records[:3], 1, 2, len(records)), isolved_page(records[3:], 2, 2, len(records))],
         "employee_detail": {str(records[0]["id"]): detail},
@@ -736,12 +695,8 @@ def build_isolved(seed: int):
     })
 
 
-# isolved direct deposits: one /directdeposits array per employee id.
-# Injected cases: inactive lines without a sequence (one with neither amount
-# nor percent: inconsistent_allocation), off-allowlist "Savings" and
-# "Pending" (unmapped_label), both amount and percent set and a sequence 0
-# line with an amount (inconsistent_allocation), an empty array (the live
-# 404), and an employee with no entry (missing_section).
+# isolved direct deposits: one checking deposit per employee. Andy's status
+# Pending is not on the allowlist (unmapped_label). The other seven are Active.
 
 def isolved_deposit(pool: Pool, deposit_id: int, sequence, status="Active", amount=None, percent=None,
                     account_type="Checking"):
@@ -755,30 +710,22 @@ def build_isolved_direct_deposits(seed: int):
     employees = build_isolved(seed)["responses"]["employees"]
     ids = [str(r["id"]) for page in employees for r in page["results"]]
     pool = Pool(seed, "isolved-direct-deposit")
-    deposits = {
-        ids[0]: [isolved_deposit(pool, 640101, 0)],
-        ids[1]: [isolved_deposit(pool, 640102, 1, amount=200.0), isolved_deposit(pool, 640103, 0)],
-        ids[2]: [isolved_deposit(pool, 640104, None, status="Inactive"),  # neither amount nor percent
-                 isolved_deposit(pool, 640105, None, status="Inactive", amount=500.0)],
-        ids[3]: [isolved_deposit(pool, 640106, 1, percent=25.0, account_type="Savings"),
-                 isolved_deposit(pool, 640107, 2, status="Pending", amount=50.0, percent=10.0),
-                 isolved_deposit(pool, 640108, 0, amount=10.0)],
-        ids[4]: [],  # live answers 404 for an employee with no deposits
-        # ids[5] has no entry -> missing_section
-    }
+    deposits = {}
+    for offset, employee_id in enumerate(ids):
+        status = "Pending" if offset == len(ids) - 1 else "Active"
+        lines = [isolved_deposit(pool, 640200 + offset, 1, status=status, amount=pool.money(100, 500),
+                                 account_type="Checking")]
+        if offset == 0:
+            lines.append(isolved_deposit(pool, 640300, 2, percent=10.0, account_type="Checking"))
+        deposits[employee_id] = lines
     return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
         "employees": employees,
         "direct_deposits": deposits,
     })
 
 
-# isolved deductions: one /payItems array per employee id, mixing Deduction,
-# Earning and Memo Calc items as live. Injected cases: Amount and Percent
-# parameters, an "Amount2" and a "Rate" parameter (unmapped_label, once each),
-# a deduction with no code (as live), the live-only "balance" field
-# (spec_live_mismatch), an invalid stopDate (invalid_date), an unknown
-# payItemType (unmapped_label, skipped), an empty array (the 404) and an
-# employee with no entry (missing_section).
+# isolved deductions: one medical deduction per employee. Andy's stop date is
+# not a real day (invalid_date). The other seven have a start date only.
 
 def isolved_pay_item(employee, item_id, kind, code, name, params=(), start=None, stop=None, **extra):
     base = f"{ISOLVED_BASE}/{employee['id']}"
@@ -798,50 +745,23 @@ def build_isolved_deductions(seed: int):
     employees = build_isolved(seed)["responses"]["employees"]
     people = [r for page in employees for r in page["results"]]
     pool = Pool(seed, "isolved-deduction")
-
-    def common(person, first_id):
-        return [isolved_pay_item(person, first_id, "Earning", "13", "Bonus", [("Amount", 0.0)]),
-                isolved_pay_item(person, first_id + 1, "Memo Calc", "001", "401k Match", [])]
-
-    pay_items = {
-        str(people[0]["id"]): common(people[0], 770101) + [
-            isolved_pay_item(people[0], 770103, "Deduction", "030", "Medical Pre-tax",
-                             [("Amount", pool.money(60, 140))], start="2024-01-01"),
-            isolved_pay_item(people[0], 770104, "Deduction", "32", "401K", [("Amount", 0.0), ("Percent", 6.0)],
-                             start="2023-04-01"),
-        ],
-        str(people[1]["id"]): common(people[1], 770201) + [
-            isolved_pay_item(people[1], 770203, "Deduction", "011W", "United Way",
-                             [("Amount", 10.0), ("Amount2", 0.0), ("Percent", 0.0)],
-                             start="2025-01-01", stop="2025-12-31", balance=0.0),  # live-only field
-            isolved_pay_item(people[1], 770204, "Deduction", None, "FSA Medical pos", [("Amount", 41.67)]),
-        ],
-        str(people[2]["id"]): common(people[2], 770301) + [
-            isolved_pay_item(people[2], 770303, "Deduction", "006", "401K Loan", [], start="2022-06-01",
-                             stop="2025-02-30"),  # invalid date
-            isolved_pay_item(people[2], 770304, "Benefit", "HSA", "HSA Pre-tax", [("Amount", 50.0)]),  # unknown type
-        ],
-        str(people[3]["id"]): [],  # live answers 404 for an employee with no pay items
-        # people[4] has no entry -> missing_section
-        str(people[5]["id"]): common(people[5], 770601) + [
-            isolved_pay_item(people[5], 770603, "Deduction", "008", "Vision Pre-tax", [("Rate", 1.25), ("Amount", 0.0)]),
-        ],
-    }
+    pay_items = {}
+    for offset, person in enumerate(people):
+        lines = [isolved_pay_item(person, 780000 + offset, "Deduction", "030", "Medical Pre-tax",
+                                  [("Amount", pool.money(40, 120))], start="2024-01-01",
+                                  stop="2025-02-30" if offset == len(people) - 1 else None)]
+        if offset == len(people) - 1:
+            lines.append(isolved_pay_item(person, 780100, "Deduction", "32", "401K",
+                                          [("Percent", 6.0)], start="2023-04-01", stop="2026-12-31"))
+        pay_items[str(person["id"])] = lines
     return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
         "employees": employees,
         "pay_items": pay_items,
     })
 
 
-# isolved payroll: the run history of one pay group, paged /checks per employee
-# and /checks/{id} detail for some checks. Injected cases: a run type and a run
-# status off the allowlists (unmapped_label), two runs sharing a pay date and
-# run number (the check that would join them gets no run), a check that joins
-# no run, checks with and without detail (missing_section), memo earnings, a
-# garnishment, benefits with and without an employer contribution, a
-# non-boolean isEmployeeTax (out_of_schema_value), check and direct deposit
-# payments, a reissued check, a check type off the allowlist, an employee with
-# an empty page and one missing from the map (missing_section).
+# isolved payroll: one completed regular run and one adjustment check per
+# employee. Andy's check has no detail (missing_section). The other seven do.
 
 ISOLVED_PAY_GROUP = "7627"
 
@@ -922,54 +842,29 @@ def build_isolved_payroll(seed: int):
     people = [r for page in employees for r in page["results"]]
     pool = Pool(seed, "isolved-payroll")
     period = ("2025-12-22", "2026-01-04")
-    runs = [
-        isolved_run(4100001, "2026-01-09", 1, "Regular Payroll", "Completed Payroll Run", period,
-                    "1st Payroll of Month"),
-        isolved_run(4100002, "2026-01-23", 0, "Regular Payroll", "Payroll Not Processed"),
-        isolved_run(4100003, "2026-01-09", 2, "Data Conversion", "Completed Payroll Run"),  # off-allowlist type
-        isolved_run(4100004, "2026-02-06", 1, "Regular Payroll", "Payroll Voided"),  # off-allowlist status
-        isolved_run(4100005, "2026-02-06", 1, "Regular Payroll", "Completed Payroll Run"),  # same slot as 4100004
-    ]
-    first = isolved_check(
-        pool, people[0], 21000101, 5001, "2026-01-09", 1, "Adjustment", 1500.0, 1164.67,
-        deposit_amount=1164.67, period=period,
-        earnings=[isolved_earning(1, "01", "Regular", 80.0, 1450.0),
-                  isolved_earning(2, "14", "Commission", 0.0, 50.0),
-                  isolved_earning(3, "001", "401k Match", 0.0, 45.0, memo=True)],
-        deductions=[isolved_item(4, "030", "Medical Pre-tax", 90.33), isolved_item(5, "32", "401K", 75.0)],
-        garnishments=[isolved_item(6, "GARN", "Child Support", 50.0)],
-        directDeposits=[{"id": 7, "account": "000987654321", "depositAmount": 1164.67,
-                         "itemDescription": "Checking", "links": []}],
-    )
-    reissued = isolved_check(
-        pool, people[0], 21000102, 5002, "2026-01-23", 0, "Adjustment", 1080.0, 1080.0, check_amount=1080.0,
-        reissueCheckDate="2026-01-27T00:00:00", reissueCheckNumber=5010,
-        earnings=[isolved_earning(8, "01", "Regular", 80.0, 1080.0)],
-    )
-    manual = isolved_check(pool, people[1], 21000201, 5101, "2026-02-06", 1, "Manual Check", 400.0, 360.32,
-                           check_amount=360.32, earnings=[isolved_earning(9, "01", "Regular", 16.0, 400.0)])
-    unjoined = isolved_check(pool, people[2], 21000301, 5201, "2026-03-06", 9, "Adjustment", 190.0, 190.0,
-                             deposit_amount=190.0)
-    converted = isolved_check(pool, people[5], 21000601, 5601, "2026-01-09", 2, "Adjustment", 300.0, 300.0,
-                              check_amount=300.0, earnings=[isolved_earning(10, "01", "Regular", 12.0, 300.0)])
-    checks = {
-        str(people[0]["id"]): [isolved_page([first, reissued], 1, 1, 2)],
-        str(people[1]["id"]): [isolved_page([manual], 1, 1, 1)],
-        str(people[2]["id"]): [isolved_page([unjoined], 1, 1, 1)],
-        str(people[3]["id"]): [isolved_page([], 1, 1, 0)],  # no checks
-        # people[4] has no entry -> missing_section
-        str(people[5]["id"]): [isolved_page([converted], 1, 1, 1)],
-    }
-    details = {
-        str(first["id"]): isolved_check_detail(
-            first,
-            taxes=[isolved_tax(11, "FEDERAL WH", True, 120.0, 1334.67),
-                   isolved_tax(12, "SOC SEC ER", False, 93.0, 1500.0)],
-            benefits=[isolved_benefit("401(k)", 75.0, 45.0), isolved_benefit("Leave Accrual", 0.0, 0.0)]),
-        str(manual["id"]): isolved_check_detail(
-            manual, taxes=[isolved_tax(13, "FEDERAL WH", "yes", 39.68, 400.0)]),  # not a boolean
-        str(converted["id"]): isolved_check_detail(converted),
-    }
+    runs = [isolved_run(4100001, "2026-01-09", 1, "Regular Payroll", "Completed Payroll Run", period,
+                        "1st Payroll of Month")]
+    checks, details = {}, {}
+    for offset, person in enumerate(people):
+        gross, tax = 1000.0, 80.0
+        earnings = [isolved_earning(3000 + offset, "01", "Regular", 80.0, gross)]
+        extra = {}
+        taxes = [isolved_tax(4000 + offset, "FEDERAL WH", True, tax, gross)]
+        if offset == 0:
+            earnings.append(isolved_earning(3001, "001", "401k Match", 0.0, 45.0, memo=True))
+            extra["deductions"] = [isolved_item(3002, "030", "Medical Pre-tax", 40.0)]
+            extra["directDeposits"] = [{"id": 3003, "account": "000987654321", "depositAmount": gross - tax,
+                                        "itemDescription": "Checking", "links": []}]
+            taxes.append(isolved_tax(4001, "SOC SEC ER", False, 62.0, gross))
+            benefits = [isolved_benefit("401(k)", 40.0, 45.0)]
+        else:
+            benefits = []
+        check = isolved_check(
+            pool, person, 21010001 + offset, 6000 + offset, "2026-01-09", 1, "Adjustment", gross, gross - tax,
+            deposit_amount=gross - tax, period=period, earnings=earnings, **extra)
+        checks[str(person["id"])] = [isolved_page([check], 1, 1, 1)]
+        if offset != len(people) - 1:
+            details[str(check["id"])] = isolved_check_detail(check, taxes=taxes, benefits=benefits)
     return bundle("isolved", {"client_id": ISOLVED_CLIENT_ID, "legal_id": ISOLVED_LEGAL_ID}, {
         "employees": employees,
         "payroll_run_history": {ISOLVED_PAY_GROUP: runs},
@@ -1001,17 +896,17 @@ def isolved_legal_pay_group(group_id, name, frequency, inactive=False):
 
 def build_isolved_company(seed: int):
     pool = Pool(seed, "isolved-company")
-    office = pool.address()
+    office = STAMFORD
     legal = {
         "id": int(ISOLVED_LEGAL_ID), "allowRemoteWorkers": False,
-        "client": {"id": int(ISOLVED_CLIENT_ID), "clientCode": "SYN42", "clientName": "Synthetic Demo Holdings",
+        "client": {"id": int(ISOLVED_CLIENT_ID), "clientCode": "SYN42", "clientName": "Dunder Mifflin",
                    "securityServiceGroup": {"id": 2, "name": "Demo"}, "links": []},
         "compensationPlans": None, "federalEIN": "990004046", "forceDirectDepositPrenote": False,
         "iSolvedTimeEnabled": False,
         "legalAddress": {"addressDescription": "Legal", "city": office["city"], "phoneNumber": pool.phone(),
                          "state": office["state"], "streetAddress1": office["line1"], "streetAddress2": None,
                          "zipCode": office["zip"]},
-        "legalCode": "SYN42-1", "legalName": "Synthetic Scrap Metal Inc",
+        "legalCode": "SYN42-1", "legalName": "Dunder Mifflin Stamford, Inc.",
         "payGroups": [isolved_legal_pay_group(int(ISOLVED_PAY_GROUP), "Monthly", 12),
                       isolved_legal_pay_group(int(ISOLVED_PAY_GROUP) + 1, "Old Weekly", 52, inactive=True)],
         "services": [{"code": "BASE", "startDate": "2018-08-13T00:00:00"},
@@ -1028,21 +923,16 @@ def build_isolved_company(seed: int):
 
 
 # --- UKG Ready ---------------------------------------------------------------
-# Injected cases: missing demographics (missing_section), 1900-12-31 zero row
-# with num_pp_in_year 0 (out_of_schema_value) plus a future-dated row, two rows
-# sharing effective_from (multiple_current_rates), eeo4_* "UNKNOWN"
-# (out_of_schema_value), employee_type id absent from the lookup
-# (missing_lookup), status "Suspended" (unmapped_label), invalid seniority
-# date (invalid_date), ein_name and _links.country-fields on the detail
-# (spec_live_mismatch), a default job absent from the jobs lookup
-# (missing_lookup), a 1099 contractor, and no tax-info entry (missing_section).
+# Eight Utica employees. The employee-type id and the pay-type id are each
+# reported once, on Erin. ein_name on the detail response is reported once.
 
 UKG_COMPANY_ID = "33704016"
 UKG_BASE = f"https://secure.example-ukg.test/ta/rest/v2/companies/{UKG_COMPANY_ID}"
 UKG_EMPLOYEE_TYPES = [(35330176, "FT Non-Exempt"), (35330178, "FT Exempt"), (35330177, "PT Hourly"),
                       (35330181, "Temp"), (35330179, "Consultant")]
 UKG_PAY_TYPES = [(35043008, "Hourly"), (35043009, "Salaried")]
-UKG_JOBS = [(8634524176, "HR Specialist"), (8634524184, "Payroll Analyst"), (8634524226, "President")]
+UKG_JOBS = [(8634524176, "Sales Representative"), (8634524184, "Accountant"),
+            (8634524226, "Regional Manager")]
 
 
 def ukg_links(aid, detail=False):
@@ -1056,7 +946,7 @@ def ukg_links(aid, detail=False):
 
 
 def ukg_employee(pool: Pool, aid: int, number: int, status: str, terminated: str = None,
-                 rehired: str = None, seniority: str = None, managers=None, mailing: bool = False):
+                 rehired: str = None, managers=None, mailing: bool = False):
     first, last = pool.name()
     home = pool.address()
     hire = pool.date(2016, 2025)
@@ -1065,17 +955,15 @@ def ukg_employee(pool: Pool, aid: int, number: int, status: str, terminated: str
         dates["re_hired"] = rehired
     if terminated:
         dates["terminated"] = terminated
-    if seniority:
-        dates["seniority"] = seniority
     listed = {
-        "id": aid, "employee_id": str(number), "username": f"{first[0]}{last}".lower(),
-        "first_name": first, "last_name": last, "primary_account_id": aid, "ein_name": "Primary EIN",
+        "id": aid, "employee_id": str(number), "username": pool.email(first, last).split("@", 1)[0],
+        "first_name": first, "last_name": last, "primary_account_id": aid, "ein_name": "Dunder Mifflin Utica",
         "_links": ukg_links(aid), "status": status, "dates": dict(dates),
     }
     detail = {
         "id": aid, "employee_id": str(number), "username": listed["username"],
         "first_name": first, "last_name": last, "primary_account_id": aid,
-        "ein_name": "Primary EIN",  # live-only on the detail response
+        "ein_name": "Dunder Mifflin Utica",  # live-only on the detail response
         "_links": ukg_links(aid, detail=True),
         "photo_href": f"https://secure.example-ukg.test/ta/fs?ticket=synthetic-{aid}",
         "isPhotoUploaded": False, "middle_name": pool.middle(), "status": status, "locked": False,
@@ -1089,7 +977,7 @@ def ukg_employee(pool: Pool, aid: int, number: int, status: str, terminated: str
         "ein": {"id": 35419520},
         "phones": {"cell_phone": pool.phone(), "home_phone": pool.phone() if number % 2 else "",
                    "work_phone": "", "preferred_phone": "CELL" if number % 2 else "HOME"},
-        "primary_email": f"{listed['username']}@example.test",
+        "primary_email": f"{listed['username']}@dundermifflin.example",
         "add_to_new_hire_export": True,
         "hardware_settings": {"in_touch": {"security_level": "EMPLOYEE", "pin": 0}},
         "managed_cost_centers_enabled": False,
@@ -1110,124 +998,83 @@ def ukg_demographics(pool: Pool, gender: str):
             "gender": gender}
 
 
-def ukg_pay_info(employee_type: int, pay_type: int, eeo4: str = None, work_day_ms: int = 28_800_000,
-                 default_job: int = None):
-    info = {"standard_work_day": work_day_ms, "employee_type": {"id": employee_type}, "pay_type": {"id": pay_type}}
-    if default_job is not None:
-        info["default_job"] = {"id": default_job}
-    if eeo4:
-        info["eeo4_classification"] = eeo4
-        info["eeo4_function"] = eeo4
-    info["ttoc"] = []
-    info["payroll_classification"] = "REGULAR"
-    return info
+def ukg_pay_info(employee_type: int, pay_type: int, default_job: int):
+    return {"standard_work_day": 28_800_000, "employee_type": {"id": employee_type}, "pay_type": {"id": pay_type},
+            "default_job": {"id": default_job}, "ttoc": [], "payroll_classification": "REGULAR"}
 
 
 def ukg_comp(aid: int, effective: str, amount: float, hourly: float, amount_period: str,
-             num_pp: int = 26, time_ms: int = 7_488_000_000, time_period: str = "YEAR"):
+             time_ms: int = 7_488_000_000, time_period: str = "YEAR"):
     row_id = int(effective.replace("-", "") + str(aid))
     return {"id": row_id, "employee": {"account_id": aid}, "effective_from": effective, "amount": amount,
             "hourly_pay": hourly, "amount_period": amount_period, "time": time_ms, "time_period": time_period,
-            "num_pp_in_year": num_pp, "_links": {"self": f"{UKG_BASE}/compensation/history/{row_id}"},
+            "num_pp_in_year": 26, "_links": {"self": f"{UKG_BASE}/compensation/history/{row_id}"},
             "currency": "USD"}
 
 
 def build_ukg(seed: int):
-    pool = Pool(seed, "ukg-ready")
-    ids = [12935181566 + i for i in range(6)]
-    people = [
-        ukg_employee(pool, ids[0], 1, "Active", managers=None),
-        ukg_employee(pool, ids[1], 2, "Active", managers=[ids[0]], mailing=True),
-        ukg_employee(pool, ids[2], 3, "Terminated", terminated="2024-06-28", managers=[ids[0]]),
-        ukg_employee(pool, ids[3], 4, "Active", rehired="2022-02-14", managers=[ids[1], ids[0]]),
-        ukg_employee(pool, ids[4], 5, "Suspended", managers=[ids[0]]),  # off-allowlist status
-        ukg_employee(pool, ids[5], 6, "Active", seniority="2020-13-01", managers=[ids[1]]),  # invalid date
-    ]
-    salaried = pool.money(60_000, 140_000)
-    hourly_rate = pool.money(18, 45, 4)
+    pool = Pool(seed, "ukg-ready", UTICA_ROSTER)
+    ids = [12935181566 + i for i in range(8)]
+    people = []
+    for number, aid in enumerate(ids, start=1):
+        if number == 8:
+            people.append(ukg_employee(pool, aid, number, "Terminated", terminated="2024-06-28",
+                                       rehired="2022-02-14", managers=[ids[0]]))
+        else:
+            people.append(ukg_employee(pool, aid, number, "Active",
+                                       managers=None if number == 1 else [ids[0]],
+                                       mailing=number == 2))
+    jobs = (8634524226, 8634524176, 8634524184)
     responses = {
         "employees": {"employees": [listed for listed, _ in people]},
         "employee": {str(aid): detail for aid, (_, detail) in zip(ids, people)},
-        "demographics": {
-            str(ids[0]): ukg_demographics(pool, "MALE"),
-            str(ids[1]): ukg_demographics(pool, "FEMALE"),
-            str(ids[2]): ukg_demographics(pool, "FEMALE"),
-            # ids[3] has no demographics response -> missing_section
-            str(ids[4]): ukg_demographics(pool, "UNDEFINED"),
-            str(ids[5]): ukg_demographics(pool, "MALE"),
-        },
-        "pay_info": {
-            str(ids[0]): ukg_pay_info(35330178, 35043009, work_day_ms=0, default_job=8634524226),
-            str(ids[1]): ukg_pay_info(35330176, 35043008, eeo4="UNKNOWN",  # out_of_schema_value
-                                      default_job=8634524176),
-            str(ids[2]): ukg_pay_info(35330178, 35043009, default_job=8634524184),
-            str(ids[3]): ukg_pay_info(35330177, 35043008),  # no default job, as for many live employees
-            str(ids[4]): ukg_pay_info(99999999, 35043008,  # ids absent from lookups -> missing_lookup
-                                      default_job=8634529999),
-            str(ids[5]): ukg_pay_info(35330179, 35043009, eeo4="PROFESSIONALS", default_job=8634524176),
-        },
-        # Live, every employee was W-2; ids[2] is a 1099 contractor and ids[5] has no response.
-        "tax_info": {
-            str(aid): {"employee-tax-type": {"W2": aid != ids[2], "_1099": aid == ids[2], "DRAW": False},
-                       "pension-box-type": "SYSTEM_RULES", "third-party-sick": "COMPANY_DEFAULT"}
-            for aid in ids[:5]
-        },
-        "compensation_history": {
-            str(ids[0]): {"compensations": [
-                ukg_comp(ids[0], "1900-12-31", 0.0, 0.0, "HOUR", num_pp=0),  # placeholder zero row
-                ukg_comp(ids[0], "2026-01-01", salaried, round(salaried / 2080, 4), "YEAR"),
-                ukg_comp(ids[0], "2027-01-01", round(salaried * 1.05, 2), round(salaried * 1.05 / 2080, 4), "YEAR"),
-            ]},
-            str(ids[1]): {"compensations": [
-                ukg_comp(ids[1], "2025-07-01", hourly_rate, hourly_rate, "HOUR", time_ms=288_000_000, time_period="PAY_PERIOD"),
-            ]},
-            str(ids[2]): {"compensations": [
-                ukg_comp(ids[2], "2023-01-01", 72_000.0, 34.6154, "YEAR"),
-            ]},
-            str(ids[3]): {"compensations": [
-                ukg_comp(ids[3], "2025-01-01", 2_400.0, 30.0, "PAY_PERIOD", time_ms=288_000_000, time_period="PAY_PERIOD"),
-                ukg_comp(ids[3], "2025-01-01", 2_500.0, 31.25, "PAY_PERIOD", time_ms=288_000_000, time_period="PAY_PERIOD"),  # tie
-            ]},
-            str(ids[4]): {"compensations": [
-                ukg_comp(ids[4], "2024-05-06", round(hourly_rate + 2, 4), round(hourly_rate + 2, 4), "HOUR"),
-            ]},
-            str(ids[5]): {"compensations": []},
-        },
+        "demographics": {},
+        "pay_info": {},
+        "tax_info": {},
+        "compensation_history": {},
         "lookup_employee_types": {"items": [{"id": i, "name": n} for i, n in UKG_EMPLOYEE_TYPES]},
         "lookup_pay_types": {"items": [{"id": i, "name": n} for i, n in UKG_PAY_TYPES]},
-        "lookup_eins": {"items": [{"id": 35419520, "ein_name": "Primary EIN", "ein_tax_id": "12-3456789",
+        "lookup_eins": {"items": [{"id": 35419520, "ein_name": "Dunder Mifflin Utica", "ein_tax_id": "12-3456789",
                                    "ein_country_id": "USA"}]},
         "lookup_jobs": {"items": [{"id": i, "name": n, "visible": True} for i, n in UKG_JOBS]},
     }
+    for offset, aid in enumerate(ids):
+        key = str(aid)
+        responses["demographics"][key] = ukg_demographics(pool, "MALE" if offset % 2 == 0 else "FEMALE")
+        amount = pool.money(60_000, 140_000)
+        responses["pay_info"][key] = ukg_pay_info(35330178, 35043009, default_job=jobs[offset % 3])
+        if offset == 1:
+            responses["compensation_history"][key] = {"compensations": [
+                ukg_comp(aid, "2024-01-01", round(amount / 26, 2), round(amount / 2080, 4), "PAY_PERIOD",
+                         time_ms=288_000_000, time_period="PAY_PERIOD")]}
+        else:
+            responses["compensation_history"][key] = {"compensations": [
+                ukg_comp(aid, "2024-01-01", amount, round(amount / 2080, 4), "YEAR")]}
+        responses["tax_info"][key] = {
+            "employee-tax-type": {"W2": True, "_1099": False, "DRAW": False},
+            "pension-box-type": "SYSTEM_RULES", "third-party-sick": "COMPANY_DEFAULT"}
     return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, responses)
 
 
-# UKG Ready direct deposits: one /direct-deposits response per account id.
-# Injected cases: every calc_method type, an inactive line, a short account
-# number (invalid_number), account_type MONEY_MARKET (out_of_schema_value),
-# invalid active_from (invalid_date), a RESERVE_LIVE_CHECK line with no bank
-# fields, FLAT_AMOUNT without an amount (inconsistent_allocation), an empty
-# deposits list, and an employee with no response (missing_section).
+# UKG Ready direct deposits: one flat checking deposit per employee. Charles's
+# start date is not a real day (invalid_date). The other seven start on 2024-01-01.
 
 UKG_CALC_NAMES = {"FULL": "Entire/Remainder", "FLAT_AMOUNT": "Flat $ Amount", "NET_PAY": "% Of Net Pay",
                   "GROSS_EARNING": "% Of Gross Earnings", "DIRECT_DEPOSIT_PER_OF_REMAINDER": "% Of Remainder"}
 
 
-def ukg_deposit(pool: Pool, deposit_id: int, sequence: int, calc: str, amount=None, percentage=None,
-                account_type="CHECKING", active=True, active_from="2020-08-06", active_to="2099-12-31",
-                pre_note="READY_TO_SEND", kind="DIRECT_DEPOSIT", account_digits=None, bank=True):
+def ukg_deposit(pool: Pool, deposit_id: int, sequence: int, calc: str, active_from: str, amount=None,
+                percentage=None):
     base = f"{UKG_BASE}/direct-deposits/{deposit_id}"
-    line = {"id": deposit_id, "sequence": sequence, "type": kind, "active_from": active_from,
-            "active_to": active_to, "active": active}
+    line = {"id": deposit_id, "sequence": sequence, "type": "DIRECT_DEPOSIT", "active_from": active_from,
+            "active_to": "2099-12-31", "active": True}
     if amount is not None:
         line["amount"] = amount
     if percentage is not None:
         line["percentage"] = percentage
     line["calc_method"] = {"display_name": UKG_CALC_NAMES[calc], "type": calc}
-    if bank:
-        line.update({"account_type": account_type,
-                     "account_number": pool.account(account_digits or pool.rng.randint(6, 11)),
-                     "routing_number": pool.routing(), "routing_type": "ABA", "pre_note_status": pre_note})
+    line.update({"account_type": "CHECKING", "account_number": pool.account(pool.rng.randint(6, 11)),
+                 "routing_number": pool.routing(), "routing_type": "ABA", "pre_note_status": "READY_TO_SEND"})
     line.update({
         "arrearage_function": "UNKNOWN", "payroll_frequency": {"type": "EVERY_PAY"},
         "used_in_pay_statement": False, "is_paypal": False, "visible": True,
@@ -1249,44 +1096,21 @@ def build_ukg_direct_deposits(seed: int):
     employees = build_ukg(seed)["responses"]["employees"]
     ids = [str(e["id"]) for e in employees["employees"]]
     pool = Pool(seed, "ukg-ready-direct-deposit")
-    deposits = {
-        ids[0]: ukg_deposits_response([ukg_deposit(pool, 47480101, 1, "FULL", active_from="1900-12-31")]),
-        ids[1]: ukg_deposits_response([
-            ukg_deposit(pool, 47480102, 1, "FLAT_AMOUNT", amount=1000.0, pre_note="CANCELED"),
-            ukg_deposit(pool, 47480103, 2, "NET_PAY", percentage=15.0, account_type="SAVINGS"),
-            ukg_deposit(pool, 47480104, 3, "FULL", pre_note="COMPLETE_EXPIRED"),
-        ]),
-        ids[2]: ukg_deposits_response([
-            ukg_deposit(pool, 47480105, 1, "FULL", active=False, active_from="1900-12-31",
-                        active_to="2017-07-13", pre_note="CANCELED", account_digits=3),  # short number
-            ukg_deposit(pool, 47480106, 2, "GROSS_EARNING", percentage=10.0),
-        ]),
-        ids[3]: ukg_deposits_response([
-            ukg_deposit(pool, 47480107, 1, "DIRECT_DEPOSIT_PER_OF_REMAINDER", percentage=50.0,
-                        account_type="MONEY_MARKET", active_from="2025-02-30"),
-            ukg_deposit(pool, 47480108, 2, "FULL", kind="RESERVE_LIVE_CHECK", bank=False),
-        ]),
-        # ids[4] has no response -> missing_section
-        ids[5]: ukg_deposits_response([
-            ukg_deposit(pool, 47480109, 1, "FLAT_AMOUNT"),  # amount missing
-            ukg_deposit(pool, 47480110, 2, "FULL"),
-        ]),
-    }
+    deposits = {}
+    for offset, account_id in enumerate(ids):
+        started = "2025-02-30" if offset == len(ids) - 1 else "2024-01-01"
+        lines = [ukg_deposit(pool, 47481000 + offset, 1, "FLAT_AMOUNT", started, amount=pool.money(100, 500))]
+        if offset == 0:
+            lines.append(ukg_deposit(pool, 47482000, 2, "NET_PAY", "2024-01-01", percentage=10.0))
+        deposits[account_id] = ukg_deposits_response(lines)
     return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
         "employees": employees,
         "direct_deposits": deposits,
     })
 
 
-# UKG Ready deductions: one /deductions list per account id plus one
-# /deductions/{id} detail per line. The live tenant answers "Unresolvable URL"
-# for these calls, so shapes follow the cached reference pages only. Injected
-# cases: an amount and a percent method, a method type seen twice
-# (undocumented_code once), both amount and percent set
-# (inconsistent_allocation), frequencies with no canonical counterpart
-# (other) and one outside the schema enum (out_of_schema_value), a line with
-# no detail (missing_section), an invalid effective_from (invalid_date), the
-# open-ended 9999-12-31, an empty list and an employee with no response.
+# UKG Ready deductions: one flat medical deduction per employee. The method
+# type has no enum, so FLAT_AMOUNT is reported once, on Erin's line.
 
 UKG_FREQUENCY_NAMES = {"EVERY_SCHEDULED_PAY": "Every Scheduled Pay", "EVERY_PAY": "Every Pay",
                        "BENEFIT_PLAN": "Benefit Plan", "EVERY_SCHEDULED_MONTH_ODD_PAY": "Every Scheduled Month Odd Pay",
@@ -1294,10 +1118,9 @@ UKG_FREQUENCY_NAMES = {"EVERY_SCHEDULED_PAY": "Every Scheduled Pay", "EVERY_PAY"
 UKG_DEDUCTION_METHODS = {"EARNING_LIST": "% Of Earnings List", "FLAT_AMOUNT": "Flat $ Amount"}
 
 
-def ukg_deduction_line(deduction_id, code, name, sequence, effective_from="2024-01-01",
-                       effective_to="9999-12-31"):
-    return {"id": deduction_id, "deduction": {"name": name, "code": code}, "effective_from": effective_from,
-            "effective_to": effective_to, "sequence": sequence,
+def ukg_deduction_line(deduction_id, code, name, sequence):
+    return {"id": deduction_id, "deduction": {"name": name, "code": code}, "effective_from": "2024-01-01",
+            "effective_to": "9999-12-31", "sequence": sequence,
             "_links": {"self": f"{UKG_BASE}/employees/deductions/{deduction_id}"}}
 
 
@@ -1330,27 +1153,19 @@ def build_ukg_deductions(seed: int):
     employees = build_ukg(seed)["responses"]["employees"]
     ids = [str(e["id"]) for e in employees["employees"]]
     pool = Pool(seed, "ukg-ready-deduction")
-    lines = {
-        ids[0]: [ukg_deduction_line(197121, "401k", "401k", 1, effective_from="2017-04-12"),
-                 ukg_deduction_line(197122, "Child Support", "Child Support", 2)],
-        ids[1]: [ukg_deduction_line(197131, "Medical", "Medical", 1),
-                 ukg_deduction_line(197132, "Union Dues", "Union Dues", 2, effective_to="2026-06-30")],
-        ids[2]: [ukg_deduction_line(197141, "Gym", "Gym", 1),
-                 ukg_deduction_line(197142, "Parking", "Parking", 2)],  # no detail captured
-        ids[3]: [],
-        # ids[4] has no response -> missing_section
-        ids[5]: [ukg_deduction_line(197161, "Holiday Club", "Holiday Club", 1, effective_from="2025-13-01")],
-    }
-    details = [
-        ukg_deduction_detail(lines[ids[0]][0], "EVERY_SCHEDULED_PAY", "EARNING_LIST", percent=6, annual_max=23000,
-                             er_annual_max=5000, vendor={"id": 65792, "name": "Retirement Vendor"}, max_amount=500),
-        ukg_deduction_detail(lines[ids[0]][1], "EVERY_PAY", "FLAT_AMOUNT", amount=150,
-                             vendor={"id": 65793, "name": "State Disbursement Unit"}),
-        ukg_deduction_detail(lines[ids[1]][0], "BENEFIT_PLAN", "FLAT_AMOUNT", amount=pool.rng.randint(60, 140)),
-        ukg_deduction_detail(lines[ids[1]][1], "EVERY_SCHEDULED_MONTH_ODD_PAY", "FLAT_AMOUNT", amount=20),
-        ukg_deduction_detail(lines[ids[2]][0], "WEEKLY", "FLAT_AMOUNT", amount=15, percent=2),  # both set
-        ukg_deduction_detail(lines[ids[5]][0], "HOLIDAY_TABLE", "FLAT_AMOUNT", amount=25, vendor={"id": 65794}),
-    ]
+    lines, details = {}, []
+    for offset, account_id in enumerate(ids):
+        line = ukg_deduction_line(198000 + offset, "Medical", "Medical", 1)
+        lines[account_id] = [line]
+        if offset == 0:
+            details.append(ukg_deduction_detail(
+                line, "EVERY_PAY", "FLAT_AMOUNT", amount=pool.money(40, 120), annual_max=23000,
+                er_annual_max=5000, vendor={"id": 65792, "name": "Retirement Vendor"}, max_amount=500))
+            percent_line = ukg_deduction_line(198100, "401k", "401k", 2)
+            lines[account_id].append(percent_line)
+            details.append(ukg_deduction_detail(percent_line, "EVERY_PAY", "FLAT_AMOUNT", percent=6))
+        else:
+            details.append(ukg_deduction_detail(line, "EVERY_PAY", "FLAT_AMOUNT", amount=pool.money(40, 120)))
     return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
         "employees": employees,
         "deductions": {aid: {"deductions": items} for aid, items in lines.items()},
@@ -1358,19 +1173,13 @@ def build_ukg_deductions(seed: int):
     })
 
 
-# UKG Ready payroll: the /payrolls list, /pay-statements per payroll id and the
-# statement detail per statement id. Injected cases: payroll statuses of each
-# group plus one outside the enum (out_of_schema_value), a payroll type and a
-# statement type off the allowlist (unmapped_label), a payroll with no
-# statements entry and one with an empty list, a statement with no detail
-# (missing_section), hours in milliseconds and one that is not a number
-# (invalid_number), deductions with both amounts, the employee amount only,
-# the employer amount only and a discarded one, both payment types and an
-# unknown one, the live-only calcUpto and emptyEarning, and a statement whose
-# payroll is not listed. No statement carries gross or net totals.
+# UKG Ready payroll: one finalized regular payroll and one statement per
+# employee. Charles's statement type Gross Up is reported once (unmapped_label).
+# No statement carries gross or net totals. calcUpto and emptyEarning are
+# reported once.
 
 UKG_PAYROLL = f"{UKG_BASE}/payrolls"
-UKG_EIN = {"id": 35419520, "ein_name": "Primary EIN", "ein_tax_id": "12-3456789"}
+UKG_EIN = {"id": 35419520, "ein_name": "Dunder Mifflin Utica", "ein_tax_id": "12-3456789"}
 
 
 def ukg_payroll(payroll_id, name, status, pay_date, start, end, type_id=641, type_name="Regular"):
@@ -1396,8 +1205,8 @@ def ukg_earning(line_id, code, name, hours_ms, rate, amount):
             "cost_centers": [], "earning": {"name": name, "external_id": "", "code": code, "id": line_id + 100}}
 
 
-def ukg_statement_deduction(line_id, code, name, ee=None, er=None, type_name="Deduction (Auto)"):
-    line = {"id": line_id, "type_name": type_name, "batch": {"id": 1, "display_name": "Auto"},
+def ukg_statement_deduction(line_id, code, name, ee=None, er=None):
+    line = {"id": line_id, "type_name": "Deduction (Auto)", "batch": {"id": 1, "display_name": "Auto"},
             "quantity": 0, "base_rate": 0, "vendor": None, "cost_centers": [],
             "deduction": {"name": name, "external_id": "", "code": code},
             "ee_gross_wage": 2075.0, "ee_subject_wage": 2075.0, "ee_gross_subject_wage": 2075.0}
@@ -1415,10 +1224,10 @@ def ukg_statement_tax(line_id, code, name, ee, er, wage):
             "er_gross_subject_wage": wage, "company_tax": {"code": code, "name": name, "abbrev": code}}
 
 
-def ukg_detail(statement, earnings=(), deductions=(), taxes=(), payments=(), messages=()):
+def ukg_detail(statement, earnings=(), deductions=(), taxes=(), payments=()):
     detail = {k: v for k, v in statement.items() if k not in ("calcUpto", "emptyEarning", "_links")}
     detail.update(earnings=list(earnings), deductions=list(deductions), taxes=list(taxes),
-                  messages=list(messages), payments=list(payments))
+                  messages=[], payments=list(payments))
     return detail
 
 
@@ -1427,56 +1236,30 @@ def build_ukg_payroll(seed: int):
     period = ("2025-12-21", "2026-01-03")
     payrolls = [
         ukg_payroll(4332470001, "Primary-EIN Regular Bi-Weekly 01/09/2026", "FINALIZED", "2026-01-09", *period),
-        ukg_payroll(4332470002, "Correction 01/16/2026", "OPEN", "2026-01-16", *period, type_id=706,
-                    type_name="Correction"),  # off-allowlist type
-        ukg_payroll(4332470003, "Paused run", "PAUSED", "2026-01-23", "2026-01-04", "2026-01-17"),  # not in enum
-        ukg_payroll(4332470004, "Failed close", "CLOSE_FAILED", "2026-02-06", "2026-01-18", "2026-01-31"),
     ]
-    first = ukg_statement(85940001, ids[0], 4332470001, "FINALIZED", "2026-01-09", *period)
-    gross_up = ukg_statement(85940002, ids[1], 4332470001, "OPEN", "2026-01-09", *period, type_id=36656002,
-                             type_name="Gross Up")  # off-allowlist type
-    no_detail = ukg_statement(85940003, ids[2], 4332470001, "CLOSED", "2026-01-09", *period)
-    invalid = ukg_statement(85940004, ids[3], 4332470002, "INVALID", "2026-01-16", *period)
-    orphan = ukg_statement(85940005, ids[4], 4332479999, "NEW", "2026-02-20", "2026-02-01", "2026-02-14")
-    details = [
-        ukg_detail(
-            first,
-            earnings=[ukg_earning(1, "REG", "Regular", 288_000_000, 25.0, 2000.0),
-                      ukg_earning(2, "OT", "Overtime", 7_200_000, 37.5, 75.0)],
-            deductions=[ukg_statement_deduction(3, "401k", "401k", ee=120.0, er=60.0),
-                        ukg_statement_deduction(4, "S125_Med", "Medical", ee=45.5, er=0.0),
-                        ukg_statement_deduction(5, "ER_HSA", "HSA Employer", ee=0.0, er=25.0),
-                        ukg_statement_deduction(6, "401K Loan 1", "401K Loan 1", ee=30.0,
-                                                type_name="Deduction (Discarded)")],
-            taxes=[ukg_statement_tax(7, "FIT", "Federal Income Tax", 210.0, 0.0, 1954.5),
-                   ukg_statement_tax(8, "SS", "Social Security", 128.65, 128.65, 2075.0)],
-            payments=[{"id": 9, "hours": 0, "quantity": 0, "ee_amount": 1500.0, "type_name": "Direct Deposit",
-                       "batch": {"id": 1, "display_name": "Auto"}},
-                      {"id": 10, "hours": 0, "quantity": 0, "ee_amount": 40.85, "type_name": "Check",
-                       "batch": {"id": 1, "display_name": "Auto"}}],
-            messages=[{"id": 11, "type_name": "Message", "message": {"text": "Synthetic note", "severity": "INFO"},
-                       "batch": {"id": 1, "display_name": "Auto"}}]),
-        ukg_detail(
-            gross_up,
-            earnings=[ukg_earning(12, "REG", "Regular", "eight hours", 20.0, 160.0)],  # not a number
-            payments=[{"id": 13, "hours": 0, "quantity": 0, "ee_amount": 160.0, "type_name": "Pay Card",
-                       "batch": {"id": 1, "display_name": "Auto"}}]),
-        ukg_detail(invalid),
-        ukg_detail(orphan, earnings=[ukg_earning(14, "REG", "Regular", 144_000_000, 25.0, 1000.0)]),
-    ]
-
-    def listing(*statements):
-        return {"pay_statements": list(statements)}
+    statements, details = [], []
+    for offset, aid in enumerate(ids):
+        type_name = "Gross Up" if offset == len(ids) - 1 else "Regular"
+        type_id = 36656002 if type_name == "Gross Up" else 36656000
+        statement = ukg_statement(85950001 + offset, aid, 4332470001, "FINALIZED", "2026-01-09", *period,
+                                  type_id=type_id, type_name=type_name)
+        statements.append(statement)
+        deductions = []
+        payments = []
+        if offset == len(ids) - 1:
+            deductions = [ukg_statement_deduction(860100, "401k", "401k", ee=50.0, er=25.0)]
+            payments = [{"id": 860200, "hours": 0, "quantity": 0, "ee_amount": 920.0,
+                         "type_name": "Direct Deposit", "batch": {"id": 1, "display_name": "Auto"}}]
+        details.append(ukg_detail(
+            statement,
+            earnings=[ukg_earning(860000 + offset, "REG", "Regular", 288_000_000, 25.0, 1000.0)],
+            deductions=deductions,
+            taxes=[ukg_statement_tax(870000 + offset, "FIT", "Federal Income Tax", 80.0, 0.0, 1000.0)],
+            payments=payments))
 
     return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
         "payrolls": {"payrolls": payrolls},
-        "pay_statements": {
-            "4332470001": listing(first, gross_up, no_detail),
-            "4332470002": listing(invalid),
-            # 4332470003 has no entry -> missing_section
-            "4332470004": listing(),
-            "4332479999": listing(orphan),  # payroll not in the list
-        },
+        "pay_statements": {"4332470001": {"pay_statements": statements}},
         "pay_statement_detail": {str(detail["id"]): detail for detail in details},
         "lookup_eins": {"items": [dict(UKG_EIN, ein_country_id="USA")]},
     })
@@ -1500,7 +1283,7 @@ def ukg_profile(profile_id, name, active, period_type, params=None, effective_fr
 def build_ukg_company(seed: int):
     profiles = [
         ukg_profile(36562688, "Primary-EIN Regular Bi-Weekly", True, "every_n_weeks",
-                    {"start_date": "2017-10-29", "num_weeks": 2}, description="Primary EIN payroll"),
+                    {"start_date": "2017-10-29", "num_weeks": 2}, description="Dunder Mifflin Utica payroll"),
         ukg_profile(36562692, "Weekly", False, "weekly", {"week_day": "SUNDAY"}, effective_from="2013-12-15"),
         ukg_profile(36562698, "Semi-Monthly", False, "semi_monthly", {"starting_on_first": 1, "starting_on_sec": 16},
                     effective_from="2019-01-01"),

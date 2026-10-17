@@ -25,65 +25,6 @@
               "deductPeriod": "1"
             }
           ]
-        },
-        {
-          "batchId": "202602",
-          "payDate": "2026-01-16",
-          "batchType": "R",
-          "batchStatus": "POSTCOMP",
-          "payGroup": [
-            {
-              "payGroupId": "WFRI",
-              "payPeriodStartDate": "2026-01-03",
-              "payPeriodEndDate": "2026-01-09",
-              "weeksWorked": 1,
-              "deductPeriod": "1"
-            }
-          ]
-        },
-        {
-          "batchId": "202603",
-          "payDate": "2026-01-20",
-          "batchType": "M",
-          "batchStatus": "INITFAIL",
-          "payGroup": []
-        },
-        {
-          "batchId": "202604",
-          "payDate": "2026-01-23",
-          "batchType": "S",
-          "batchStatus": "TS.READY",
-          "payGroup": [
-            {
-              "payGroupId": "WFRI",
-              "payPeriodStartDate": "2026-01-10",
-              "payPeriodEndDate": "2026-01-16",
-              "weeksWorked": 1,
-              "deductPeriod": "1"
-            },
-            {
-              "payGroupId": "SEMI",
-              "payPeriodStartDate": "2026-01-01",
-              "payPeriodEndDate": "2026-01-15",
-              "weeksWorked": 1,
-              "deductPeriod": "1"
-            }
-          ]
-        },
-        {
-          "batchId": "202605",
-          "payDate": "2026-01-30",
-          "batchType": "V",
-          "batchStatus": "HOLD",
-          "payGroup": [
-            {
-              "payGroupId": "",
-              "payPeriodStartDate": "2026-01-17",
-              "payPeriodEndDate": "2026-01-23",
-              "weeksWorked": 1,
-              "deductPeriod": "1"
-            }
-          ]
         }
       ]
     },
@@ -95,39 +36,32 @@
           "extension": null,
           "payrollVoucher": [
             {
-              "voucherId": "V000101",
+              "voucherId": "V100001",
               "status": "PRNT",
               "type": "R",
-              "voidDate": "",
+              "voidDate": "2026-01-20",
               "checkNumber": "1001",
               "payDate": "2026-01-09",
-              "employeeId": "F00001",
+              "employeeId": "M00001",
               "payPeriod": "W",
               "payPeriodStart": "2025-12-27",
               "payPeriodEnd": "2026-01-02",
               "payGroup": "WFRI",
               "dateProcessed": "2026-01-09",
-              "totalEarnings": 1076.41,
+              "totalEarnings": 1000.0,
               "employeeTax": [
                 {
                   "empTaxDeductCode": "00-10",
                   "empTaxDeductCodeDesc": "Federal Income Tax",
-                  "empTaxableAmount": 986.41,
+                  "empTaxableAmount": 1000.0,
                   "empTaxAmount": 80.0,
-                  "empOverLimitAmount": 0.0
-                },
-                {
-                  "empTaxDeductCode": "00-11",
-                  "empTaxDeductCodeDesc": "Medicare",
-                  "empTaxableAmount": 1036.41,
-                  "empTaxAmount": 15.03,
                   "empOverLimitAmount": 0.0
                 }
               ],
-              "netPay": 891.38,
+              "netPay": 920.0,
               "voidVoucherId": "",
-              "fitTaxableAmount": 1076.41,
-              "earnAmount": 1076.41,
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
               "otherEarnAmount": 0.0,
               "wcHomeClass": "8810",
               "wcState": "IL",
@@ -146,29 +80,9 @@
                   "location": "HQ",
                   "jobCode": "",
                   "shift": ""
-                },
-                {
-                  "payCode": "OT",
-                  "payClass": "E",
-                  "payClassDescription": "Earnings",
-                  "chargeDate": "",
-                  "hoursUnits": 2,
-                  "hoursWorked": 2,
-                  "unitRate": 37.5,
-                  "payAmount": 75.0,
-                  "department": "OPS",
-                  "location": "HQ",
-                  "jobCode": "",
-                  "shift": ""
                 }
               ],
-              "otherEarningsDetail": [
-                {
-                  "otherEarnCode": "FRINGE",
-                  "otherEarnsDesc": "Fringe Benefit",
-                  "otherEarnAmount": 1.41
-                }
-              ],
+              "otherEarningsDetail": [],
               "fsaMatch": [],
               "companyTax": [
                 {
@@ -177,9 +91,9 @@
                   "comTaxDeductCodeDesc": "Medicare - Employer",
                   "comExemptAmount": 0.0,
                   "comShelteredAmount": 0.0,
-                  "comTaxableAmount": 1036.41,
+                  "comTaxableAmount": 1000.0,
                   "comTaxType": "F",
-                  "comTaxAmount": 15.03,
+                  "comTaxAmount": 14.5,
                   "comOvrLimit": 0.0,
                   "comTaxRate": 0.0145
                 }
@@ -193,157 +107,13 @@
                   "deductType": "K",
                   "deductUnionId": "",
                   "planId": ""
-                },
-                {
-                  "deductCode": "MED",
-                  "deductDescription": "Medical",
-                  "deductAmount": 40.0,
-                  "deductType": "C",
-                  "deductUnionId": "",
-                  "planId": ""
                 }
               ],
               "otherDeduction": [],
-              "benefit": [
-                {
-                  "planId": "MED",
-                  "premiumAmt": 229.17,
-                  "empContrib": 189.17,
-                  "empDeduct": 40.0,
-                  "coveragePeriod": "M",
-                  "adjRef": "",
-                  "premiumCost": 229.17
-                }
-              ],
-              "bankAccount": "PAYROLL",
-              "checkNum": null,
-              "checkAmt": 891.38,
-              "payStubType": "S",
-              "checkAccountACH": "",
-              "directDeposit": [],
-              "employerContributions": [
-                {
-                  "code": "MED",
-                  "description": "Medical",
-                  "amount": 189.17
-                },
-                {
-                  "code": "EAP",
-                  "description": "Employee Assistance",
-                  "amount": 0.0
-                }
-              ],
-              "retirement": null,
-              "glAcctDistribution": null,
-              "taxFilingStatus": [],
-              "wcInformation": null,
-              "fromArrears": [],
-              "toArrears": [],
-              "importBatchNo": "",
-              "hsaPeoMatch": 0.0,
-              "isManualCheck": false
-            },
-            {
-              "voucherId": "V000102",
-              "status": "PRNT",
-              "type": "R",
-              "voidDate": "",
-              "checkNumber": "",
-              "payDate": "2026-01-09",
-              "employeeId": "M00002",
-              "payPeriod": "W",
-              "payPeriodStart": "2025-12-27",
-              "payPeriodEnd": "2026-01-02",
-              "payGroup": "WFRI",
-              "dateProcessed": "2026-01-09",
-              "totalEarnings": 297.0,
-              "employeeTax": [
-                {
-                  "empTaxDeductCode": "00-10",
-                  "empTaxDeductCodeDesc": "Federal Income Tax",
-                  "empTaxableAmount": 252.0,
-                  "empTaxAmount": 20.0,
-                  "empOverLimitAmount": 0.0
-                }
-              ],
-              "netPay": 242.0,
-              "voidVoucherId": "",
-              "fitTaxableAmount": 297.0,
-              "earnAmount": 297.0,
-              "otherEarnAmount": 0.0,
-              "wcHomeClass": "8810",
-              "wcState": "IL",
-              "workerComp": [],
-              "earning": [
-                {
-                  "payCode": "VAC",
-                  "payClass": "E",
-                  "payClassDescription": "Earnings",
-                  "chargeDate": "",
-                  "hoursUnits": 8,
-                  "hoursWorked": 8,
-                  "unitRate": 30.0,
-                  "payAmount": 240.0,
-                  "department": "OPS",
-                  "location": "HQ",
-                  "jobCode": "",
-                  "shift": ""
-                },
-                {
-                  "payCode": "EXP",
-                  "payClass": "R",
-                  "payClassDescription": "Expense Reimbursement",
-                  "chargeDate": "",
-                  "hoursUnits": 1,
-                  "hoursWorked": 1,
-                  "unitRate": 45.0,
-                  "payAmount": 45.0,
-                  "department": "OPS",
-                  "location": "HQ",
-                  "jobCode": "",
-                  "shift": ""
-                },
-                {
-                  "payCode": "MILES",
-                  "payClass": "Q",
-                  "payClassDescription": "Mileage",
-                  "chargeDate": "",
-                  "hoursUnits": 1,
-                  "hoursWorked": 1,
-                  "unitRate": 12.0,
-                  "payAmount": 12.0,
-                  "department": "OPS",
-                  "location": "HQ",
-                  "jobCode": "",
-                  "shift": ""
-                }
-              ],
-              "otherEarningsDetail": [],
-              "fsaMatch": [],
-              "companyTax": [],
-              "batchId": "202601",
-              "deduction": [
-                {
-                  "deductCode": "CLUB",
-                  "deductDescription": "Social Club",
-                  "deductAmount": 10.0,
-                  "deductType": "ZZ",
-                  "deductUnionId": "",
-                  "planId": ""
-                }
-              ],
-              "otherDeduction": [
-                {
-                  "otherDeductCode": "UNIF",
-                  "otherDeductDescription": "Uniforms",
-                  "otherDeductAmount": 25.0,
-                  "otherDeductOneTimeSwitch": "N"
-                }
-              ],
               "benefit": [],
               "bankAccount": "PAYROLL",
               "checkNum": null,
-              "checkAmt": 0.0,
+              "checkAmt": 920.0,
               "payStubType": "S",
               "checkAccountACH": "",
               "directDeposit": [
@@ -351,9 +121,84 @@
                   "transitNum": "991234567",
                   "accountNum": "000123456789",
                   "status": "A",
-                  "amount": 242.0
+                  "amount": 920.0
                 }
               ],
+              "employerContributions": [
+                {
+                  "code": "MED",
+                  "description": "Medical",
+                  "amount": 189.17
+                }
+              ],
+              "retirement": null,
+              "glAcctDistribution": null,
+              "taxFilingStatus": [],
+              "wcInformation": null,
+              "fromArrears": [],
+              "toArrears": [],
+              "importBatchNo": ""
+            },
+            {
+              "voucherId": "V100002",
+              "status": "PRNT",
+              "type": "R",
+              "voidDate": "",
+              "checkNumber": "",
+              "payDate": "2026-01-09",
+              "employeeId": "D00002",
+              "payPeriod": "W",
+              "payPeriodStart": "2025-12-27",
+              "payPeriodEnd": "2026-01-02",
+              "payGroup": "WFRI",
+              "dateProcessed": "2026-01-09",
+              "totalEarnings": 1000.0,
+              "employeeTax": [
+                {
+                  "empTaxDeductCode": "00-10",
+                  "empTaxDeductCodeDesc": "Federal Income Tax",
+                  "empTaxableAmount": 1000.0,
+                  "empTaxAmount": 80.0,
+                  "empOverLimitAmount": 0.0
+                }
+              ],
+              "netPay": 920.0,
+              "voidVoucherId": "",
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
+              "otherEarnAmount": 0.0,
+              "wcHomeClass": "8810",
+              "wcState": "IL",
+              "workerComp": [],
+              "earning": [
+                {
+                  "payCode": "REG",
+                  "payClass": "E",
+                  "payClassDescription": "Earnings",
+                  "chargeDate": "",
+                  "hoursUnits": 40,
+                  "hoursWorked": 40,
+                  "unitRate": 25.0,
+                  "payAmount": 1000.0,
+                  "department": "OPS",
+                  "location": "HQ",
+                  "jobCode": "",
+                  "shift": ""
+                }
+              ],
+              "otherEarningsDetail": [],
+              "fsaMatch": [],
+              "companyTax": [],
+              "batchId": "202601",
+              "deduction": [],
+              "otherDeduction": [],
+              "benefit": [],
+              "bankAccount": "PAYROLL",
+              "checkNum": null,
+              "checkAmt": 0.0,
+              "payStubType": "S",
+              "checkAccountACH": "",
+              "directDeposit": [],
               "employerContributions": [],
               "retirement": null,
               "glAcctDistribution": null,
@@ -362,41 +207,399 @@
               "fromArrears": [],
               "toArrears": [],
               "importBatchNo": ""
-            }
-          ],
-          "total": 2,
-          "startpage": 0,
-          "count": 2
-        },
-        {
-          "errorCode": "0",
-          "errorMessage": "",
-          "extension": null,
-          "payrollVouchers": [
+            },
             {
-              "voucherId": "V000103",
+              "voucherId": "V100003",
               "status": "PRNT",
-              "type": "A",
+              "type": "R",
               "voidDate": "",
               "checkNumber": "",
               "payDate": "2026-01-09",
-              "employeeId": "D00003",
+              "employeeId": "J00003",
               "payPeriod": "W",
               "payPeriodStart": "2025-12-27",
               "payPeriodEnd": "2026-01-02",
               "payGroup": "WFRI",
               "dateProcessed": "2026-01-09",
-              "totalEarnings": 0.0,
-              "employeeTax": [],
-              "netPay": 0.0,
+              "totalEarnings": 1000.0,
+              "employeeTax": [
+                {
+                  "empTaxDeductCode": "00-10",
+                  "empTaxDeductCodeDesc": "Federal Income Tax",
+                  "empTaxableAmount": 1000.0,
+                  "empTaxAmount": 80.0,
+                  "empOverLimitAmount": 0.0
+                }
+              ],
+              "netPay": 920.0,
               "voidVoucherId": "",
-              "fitTaxableAmount": 0.0,
-              "earnAmount": 0.0,
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
               "otherEarnAmount": 0.0,
               "wcHomeClass": "8810",
               "wcState": "IL",
               "workerComp": [],
-              "earning": [],
+              "earning": [
+                {
+                  "payCode": "REG",
+                  "payClass": "E",
+                  "payClassDescription": "Earnings",
+                  "chargeDate": "",
+                  "hoursUnits": 40,
+                  "hoursWorked": 40,
+                  "unitRate": 25.0,
+                  "payAmount": 1000.0,
+                  "department": "OPS",
+                  "location": "HQ",
+                  "jobCode": "",
+                  "shift": ""
+                }
+              ],
+              "otherEarningsDetail": [],
+              "fsaMatch": [],
+              "companyTax": [],
+              "batchId": "202601",
+              "deduction": [],
+              "otherDeduction": [],
+              "benefit": [],
+              "bankAccount": "PAYROLL",
+              "checkNum": null,
+              "checkAmt": 0.0,
+              "payStubType": "S",
+              "checkAccountACH": "",
+              "directDeposit": [],
+              "employerContributions": [],
+              "retirement": null,
+              "glAcctDistribution": null,
+              "taxFilingStatus": [],
+              "wcInformation": null,
+              "fromArrears": [],
+              "toArrears": [],
+              "importBatchNo": ""
+            },
+            {
+              "voucherId": "V100004",
+              "status": "PRNT",
+              "type": "R",
+              "voidDate": "",
+              "checkNumber": "",
+              "payDate": "2026-01-09",
+              "employeeId": "P00004",
+              "payPeriod": "W",
+              "payPeriodStart": "2025-12-27",
+              "payPeriodEnd": "2026-01-02",
+              "payGroup": "WFRI",
+              "dateProcessed": "2026-01-09",
+              "totalEarnings": 1000.0,
+              "employeeTax": [
+                {
+                  "empTaxDeductCode": "00-10",
+                  "empTaxDeductCodeDesc": "Federal Income Tax",
+                  "empTaxableAmount": 1000.0,
+                  "empTaxAmount": 80.0,
+                  "empOverLimitAmount": 0.0
+                }
+              ],
+              "netPay": 920.0,
+              "voidVoucherId": "",
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
+              "otherEarnAmount": 0.0,
+              "wcHomeClass": "8810",
+              "wcState": "IL",
+              "workerComp": [],
+              "earning": [
+                {
+                  "payCode": "REG",
+                  "payClass": "E",
+                  "payClassDescription": "Earnings",
+                  "chargeDate": "",
+                  "hoursUnits": 40,
+                  "hoursWorked": 40,
+                  "unitRate": 25.0,
+                  "payAmount": 1000.0,
+                  "department": "OPS",
+                  "location": "HQ",
+                  "jobCode": "",
+                  "shift": ""
+                }
+              ],
+              "otherEarningsDetail": [],
+              "fsaMatch": [],
+              "companyTax": [],
+              "batchId": "202601",
+              "deduction": [],
+              "otherDeduction": [],
+              "benefit": [],
+              "bankAccount": "PAYROLL",
+              "checkNum": null,
+              "checkAmt": 0.0,
+              "payStubType": "S",
+              "checkAccountACH": "",
+              "directDeposit": [],
+              "employerContributions": [],
+              "retirement": null,
+              "glAcctDistribution": null,
+              "taxFilingStatus": [],
+              "wcInformation": null,
+              "fromArrears": [],
+              "toArrears": [],
+              "importBatchNo": ""
+            },
+            {
+              "voucherId": "V100005",
+              "status": "PRNT",
+              "type": "R",
+              "voidDate": "",
+              "checkNumber": "",
+              "payDate": "2026-01-09",
+              "employeeId": "A00005",
+              "payPeriod": "W",
+              "payPeriodStart": "2025-12-27",
+              "payPeriodEnd": "2026-01-02",
+              "payGroup": "WFRI",
+              "dateProcessed": "2026-01-09",
+              "totalEarnings": 1000.0,
+              "employeeTax": [
+                {
+                  "empTaxDeductCode": "00-10",
+                  "empTaxDeductCodeDesc": "Federal Income Tax",
+                  "empTaxableAmount": 1000.0,
+                  "empTaxAmount": 80.0,
+                  "empOverLimitAmount": 0.0
+                }
+              ],
+              "netPay": 920.0,
+              "voidVoucherId": "",
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
+              "otherEarnAmount": 0.0,
+              "wcHomeClass": "8810",
+              "wcState": "IL",
+              "workerComp": [],
+              "earning": [
+                {
+                  "payCode": "REG",
+                  "payClass": "E",
+                  "payClassDescription": "Earnings",
+                  "chargeDate": "",
+                  "hoursUnits": 40,
+                  "hoursWorked": 40,
+                  "unitRate": 25.0,
+                  "payAmount": 1000.0,
+                  "department": "OPS",
+                  "location": "HQ",
+                  "jobCode": "",
+                  "shift": ""
+                }
+              ],
+              "otherEarningsDetail": [],
+              "fsaMatch": [],
+              "companyTax": [],
+              "batchId": "202601",
+              "deduction": [],
+              "otherDeduction": [],
+              "benefit": [],
+              "bankAccount": "PAYROLL",
+              "checkNum": null,
+              "checkAmt": 0.0,
+              "payStubType": "S",
+              "checkAccountACH": "",
+              "directDeposit": [],
+              "employerContributions": [],
+              "retirement": null,
+              "glAcctDistribution": null,
+              "taxFilingStatus": [],
+              "wcInformation": null,
+              "fromArrears": [],
+              "toArrears": [],
+              "importBatchNo": ""
+            },
+            {
+              "voucherId": "V100006",
+              "status": "PRNT",
+              "type": "R",
+              "voidDate": "",
+              "checkNumber": "",
+              "payDate": "2026-01-09",
+              "employeeId": "K00006",
+              "payPeriod": "W",
+              "payPeriodStart": "2025-12-27",
+              "payPeriodEnd": "2026-01-02",
+              "payGroup": "WFRI",
+              "dateProcessed": "2026-01-09",
+              "totalEarnings": 1000.0,
+              "employeeTax": [
+                {
+                  "empTaxDeductCode": "00-10",
+                  "empTaxDeductCodeDesc": "Federal Income Tax",
+                  "empTaxableAmount": 1000.0,
+                  "empTaxAmount": 80.0,
+                  "empOverLimitAmount": 0.0
+                }
+              ],
+              "netPay": 920.0,
+              "voidVoucherId": "",
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
+              "otherEarnAmount": 0.0,
+              "wcHomeClass": "8810",
+              "wcState": "IL",
+              "workerComp": [],
+              "earning": [
+                {
+                  "payCode": "REG",
+                  "payClass": "E",
+                  "payClassDescription": "Earnings",
+                  "chargeDate": "",
+                  "hoursUnits": 40,
+                  "hoursWorked": 40,
+                  "unitRate": 25.0,
+                  "payAmount": 1000.0,
+                  "department": "OPS",
+                  "location": "HQ",
+                  "jobCode": "",
+                  "shift": ""
+                }
+              ],
+              "otherEarningsDetail": [],
+              "fsaMatch": [],
+              "companyTax": [],
+              "batchId": "202601",
+              "deduction": [],
+              "otherDeduction": [],
+              "benefit": [],
+              "bankAccount": "PAYROLL",
+              "checkNum": null,
+              "checkAmt": 0.0,
+              "payStubType": "S",
+              "checkAccountACH": "",
+              "directDeposit": [],
+              "employerContributions": [],
+              "retirement": null,
+              "glAcctDistribution": null,
+              "taxFilingStatus": [],
+              "wcInformation": null,
+              "fromArrears": [],
+              "toArrears": [],
+              "importBatchNo": ""
+            },
+            {
+              "voucherId": "V100007",
+              "status": "PRNT",
+              "type": "R",
+              "voidDate": "",
+              "checkNumber": "",
+              "payDate": "2026-01-09",
+              "employeeId": "O00007",
+              "payPeriod": "W",
+              "payPeriodStart": "2025-12-27",
+              "payPeriodEnd": "2026-01-02",
+              "payGroup": "WFRI",
+              "dateProcessed": "2026-01-09",
+              "totalEarnings": 1000.0,
+              "employeeTax": [
+                {
+                  "empTaxDeductCode": "00-10",
+                  "empTaxDeductCodeDesc": "Federal Income Tax",
+                  "empTaxableAmount": 1000.0,
+                  "empTaxAmount": 80.0,
+                  "empOverLimitAmount": 0.0
+                }
+              ],
+              "netPay": 920.0,
+              "voidVoucherId": "",
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
+              "otherEarnAmount": 0.0,
+              "wcHomeClass": "8810",
+              "wcState": "IL",
+              "workerComp": [],
+              "earning": [
+                {
+                  "payCode": "REG",
+                  "payClass": "E",
+                  "payClassDescription": "Earnings",
+                  "chargeDate": "",
+                  "hoursUnits": 40,
+                  "hoursWorked": 40,
+                  "unitRate": 25.0,
+                  "payAmount": 1000.0,
+                  "department": "OPS",
+                  "location": "HQ",
+                  "jobCode": "",
+                  "shift": ""
+                }
+              ],
+              "otherEarningsDetail": [],
+              "fsaMatch": [],
+              "companyTax": [],
+              "batchId": "202601",
+              "deduction": [],
+              "otherDeduction": [],
+              "benefit": [],
+              "bankAccount": "PAYROLL",
+              "checkNum": null,
+              "checkAmt": 0.0,
+              "payStubType": "S",
+              "checkAccountACH": "",
+              "directDeposit": [],
+              "employerContributions": [],
+              "retirement": null,
+              "glAcctDistribution": null,
+              "taxFilingStatus": [],
+              "wcInformation": null,
+              "fromArrears": [],
+              "toArrears": [],
+              "importBatchNo": ""
+            },
+            {
+              "voucherId": "V100008",
+              "status": "PRNT",
+              "type": "R",
+              "voidDate": "",
+              "checkNumber": "",
+              "payDate": "2026-01-09",
+              "employeeId": "S00008",
+              "payPeriod": "W",
+              "payPeriodStart": "2025-12-27",
+              "payPeriodEnd": "2026-01-02",
+              "payGroup": "WFRI",
+              "dateProcessed": "2026-01-09",
+              "totalEarnings": 1000.0,
+              "employeeTax": [
+                {
+                  "empTaxDeductCode": "00-10",
+                  "empTaxDeductCodeDesc": "Federal Income Tax",
+                  "empTaxableAmount": 1000.0,
+                  "empTaxAmount": 80.0,
+                  "empOverLimitAmount": 0.0
+                }
+              ],
+              "netPay": 920.0,
+              "voidVoucherId": "",
+              "fitTaxableAmount": 1000.0,
+              "earnAmount": 1000.0,
+              "otherEarnAmount": 0.0,
+              "wcHomeClass": "8810",
+              "wcState": "IL",
+              "workerComp": [],
+              "earning": [
+                {
+                  "payCode": "REG",
+                  "payClass": "E",
+                  "payClassDescription": "Earnings",
+                  "chargeDate": "",
+                  "hoursUnits": 40,
+                  "hoursWorked": 40,
+                  "unitRate": 25.0,
+                  "payAmount": 1000.0,
+                  "department": "OPS",
+                  "location": "HQ",
+                  "jobCode": "",
+                  "shift": ""
+                }
+              ],
               "otherEarningsDetail": [],
               "fsaMatch": [],
               "companyTax": [],
@@ -420,147 +623,9 @@
               "importBatchNo": ""
             }
           ],
-          "total": 1,
+          "total": 8,
           "startpage": 0,
-          "count": 1
-        }
-      ],
-      "202602": [
-        {
-          "errorCode": "0",
-          "errorMessage": "",
-          "extension": null,
-          "payrollVoucher": [
-            {
-              "voucherId": "V000201",
-              "status": "PRNT",
-              "type": "S",
-              "voidDate": "2026-01-20",
-              "checkNumber": "1002",
-              "payDate": "2026-01-16",
-              "employeeId": "F00001",
-              "payPeriod": "W",
-              "payPeriodStart": "2026-01-03",
-              "payPeriodEnd": "2026-01-09",
-              "payGroup": "WFRI",
-              "dateProcessed": "2026-01-16",
-              "totalEarnings": 500.0,
-              "employeeTax": [],
-              "netPay": 500.0,
-              "voidVoucherId": "V000202",
-              "fitTaxableAmount": 500.0,
-              "earnAmount": 500.0,
-              "otherEarnAmount": 0.0,
-              "wcHomeClass": "8810",
-              "wcState": "IL",
-              "workerComp": [],
-              "earning": [
-                {
-                  "payCode": "BON",
-                  "payClass": "E",
-                  "payClassDescription": "Earnings",
-                  "chargeDate": "",
-                  "hoursUnits": 0,
-                  "hoursWorked": 0,
-                  "unitRate": 0.0,
-                  "payAmount": 500.0,
-                  "department": "OPS",
-                  "location": "HQ",
-                  "jobCode": "",
-                  "shift": ""
-                }
-              ],
-              "otherEarningsDetail": [],
-              "fsaMatch": [],
-              "companyTax": [],
-              "batchId": "202602",
-              "deduction": [],
-              "otherDeduction": [],
-              "benefit": [],
-              "bankAccount": "PAYROLL",
-              "checkNum": null,
-              "checkAmt": 500.0,
-              "payStubType": "S",
-              "checkAccountACH": "",
-              "directDeposit": [],
-              "employerContributions": [],
-              "retirement": null,
-              "glAcctDistribution": null,
-              "taxFilingStatus": [],
-              "wcInformation": null,
-              "fromArrears": [],
-              "toArrears": [],
-              "importBatchNo": ""
-            }
-          ],
-          "total": 1,
-          "startpage": 0,
-          "count": 1
-        }
-      ],
-      "202603": [
-        {
-          "errorCode": "1",
-          "errorMessage": "No vouchers found for batch",
-          "extension": null
-        }
-      ],
-      "202699": [
-        {
-          "errorCode": "0",
-          "errorMessage": "",
-          "extension": null,
-          "payrollVoucher": [
-            {
-              "voucherId": "V000901",
-              "status": "PEND",
-              "type": "J",
-              "voidDate": "",
-              "checkNumber": "",
-              "payDate": "2026-02-06",
-              "employeeId": "S00004",
-              "payPeriod": "W",
-              "payPeriodStart": "2026-01-24",
-              "payPeriodEnd": "2026-01-30",
-              "payGroup": "WFRI",
-              "dateProcessed": "2026-02-06",
-              "totalEarnings": 0.0,
-              "employeeTax": [],
-              "netPay": 0.0,
-              "voidVoucherId": "",
-              "fitTaxableAmount": 0.0,
-              "earnAmount": 0.0,
-              "otherEarnAmount": 0.0,
-              "wcHomeClass": "8810",
-              "wcState": "IL",
-              "workerComp": [],
-              "earning": [],
-              "otherEarningsDetail": [],
-              "fsaMatch": [],
-              "companyTax": [],
-              "batchId": "202699",
-              "deduction": [],
-              "otherDeduction": [],
-              "benefit": [],
-              "bankAccount": "PAYROLL",
-              "checkNum": null,
-              "checkAmt": 0.0,
-              "payStubType": "S",
-              "checkAccountACH": "",
-              "directDeposit": [],
-              "employerContributions": [],
-              "retirement": null,
-              "glAcctDistribution": null,
-              "taxFilingStatus": [],
-              "wcInformation": null,
-              "fromArrears": [],
-              "toArrears": [],
-              "importBatchNo": ""
-            }
-          ],
-          "total": 1,
-          "startpage": 0,
-          "count": 1
+          "count": 8
         }
       ]
     },

@@ -175,8 +175,8 @@ PYTHONPATH=src python3 -m normalization normalize \
 
 For every `--entity` the input must be a capture bundle whose `provider`
 matches `--provider` and that holds the responses that data type needs. On
-success a summary such as `7 employees, 11 issues`, `10 direct deposits, 6
-issues`, `11 deductions, 9 issues`, `4 pay runs, 5 paychecks, 12 issues` or
+success a summary such as `8 employees, 6 issues`, `9 direct deposits, 2
+issues`, `13 deductions, 2 issues`, `1 pay runs, 8 paychecks, 5 issues` or
 `1 company, 5 work locations, 3 pay groups, 1 tax ids, 2 issues` is printed
 to stderr. The output is a `NormalizedOutput` document (`provider`,
 `company`, `employees[]`, `direct_deposits[]`, `deductions[]`, `pay_runs[]`,

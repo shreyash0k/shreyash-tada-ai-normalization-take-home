@@ -30,13 +30,13 @@
   "direct_deposits": [],
   "deductions": [
     {
-      "key": "prismhr:132:F00001:ded:0",
-      "employee_key": "prismhr:132:F00001",
+      "key": "prismhr:132:M00001:ded:0",
+      "employee_key": "prismhr:132:M00001",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "F00001",
+        "employee_id": "M00001",
         "deduction_id": "0"
       },
       "code": {
@@ -72,27 +72,39 @@
       "employer_match": null,
       "payee": null,
       "priority": null,
-      "effective": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
       "unmapped": {
-        "employeeDeductions.deduction[0].period": "1234",
+        "employeeDeductions.deduction[0].period": "12345",
         "employeeDeductions.deduction[0].loanOrGarnishId": "",
-        "employeeDeductions.deduction[0].benefitPlanId": "BCBSPPO1000",
-        "employeeDeductions.deduction[0].lastDedPerAdj": 115.22
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 115.22,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
       }
     },
     {
-      "key": "prismhr:132:F00001:ded:1",
-      "employee_key": "prismhr:132:F00001",
+      "key": "prismhr:132:D00002:ded:0",
+      "employee_key": "prismhr:132:D00002",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "F00001",
-        "deduction_id": "1"
+        "employee_id": "D00002",
+        "deduction_id": "0"
       },
       "code": {
-        "raw": "LIFE",
-        "label": "Life Insurance",
+        "raw": "MED",
+        "label": "Medical",
         "value": null
       },
       "category": {
@@ -107,7 +119,385 @@
           "value": "fixed_amount"
         },
         "amount": {
-          "amount": "0.0",
+          "amount": "40.9",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "employeeDeductions.deduction[0].period": "12345",
+        "employeeDeductions.deduction[0].loanOrGarnishId": "",
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 40.9,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
+      }
+    },
+    {
+      "key": "prismhr:132:J00003:ded:0",
+      "employee_key": "prismhr:132:J00003",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "J00003",
+        "deduction_id": "0"
+      },
+      "code": {
+        "raw": "MED",
+        "label": "Medical",
+        "value": null
+      },
+      "category": {
+        "raw": "V",
+        "label": "Voluntary",
+        "value": "voluntary"
+      },
+      "calculation": {
+        "method": {
+          "raw": "F",
+          "label": "Fixed Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "93.1",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "employeeDeductions.deduction[0].period": "12345",
+        "employeeDeductions.deduction[0].loanOrGarnishId": "",
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 93.1,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
+      }
+    },
+    {
+      "key": "prismhr:132:P00004:ded:0",
+      "employee_key": "prismhr:132:P00004",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "P00004",
+        "deduction_id": "0"
+      },
+      "code": {
+        "raw": "MED",
+        "label": "Medical",
+        "value": null
+      },
+      "category": {
+        "raw": "V",
+        "label": "Voluntary",
+        "value": "voluntary"
+      },
+      "calculation": {
+        "method": {
+          "raw": "F",
+          "label": "Fixed Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "86.98",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "employeeDeductions.deduction[0].period": "12345",
+        "employeeDeductions.deduction[0].loanOrGarnishId": "",
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 86.98,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
+      }
+    },
+    {
+      "key": "prismhr:132:A00005:ded:0",
+      "employee_key": "prismhr:132:A00005",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "A00005",
+        "deduction_id": "0"
+      },
+      "code": {
+        "raw": "MED",
+        "label": "Medical",
+        "value": null
+      },
+      "category": {
+        "raw": "V",
+        "label": "Voluntary",
+        "value": "voluntary"
+      },
+      "calculation": {
+        "method": {
+          "raw": "F",
+          "label": "Fixed Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "80.96",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "employeeDeductions.deduction[0].period": "12345",
+        "employeeDeductions.deduction[0].loanOrGarnishId": "",
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 80.96,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
+      }
+    },
+    {
+      "key": "prismhr:132:K00006:ded:0",
+      "employee_key": "prismhr:132:K00006",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "K00006",
+        "deduction_id": "0"
+      },
+      "code": {
+        "raw": "MED",
+        "label": "Medical",
+        "value": null
+      },
+      "category": {
+        "raw": "V",
+        "label": "Voluntary",
+        "value": "voluntary"
+      },
+      "calculation": {
+        "method": {
+          "raw": "F",
+          "label": "Fixed Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "41.39",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "employeeDeductions.deduction[0].period": "12345",
+        "employeeDeductions.deduction[0].loanOrGarnishId": "",
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 41.39,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
+      }
+    },
+    {
+      "key": "prismhr:132:O00007:ded:0",
+      "employee_key": "prismhr:132:O00007",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "O00007",
+        "deduction_id": "0"
+      },
+      "code": {
+        "raw": "MED",
+        "label": "Medical",
+        "value": null
+      },
+      "category": {
+        "raw": "V",
+        "label": "Voluntary",
+        "value": "voluntary"
+      },
+      "calculation": {
+        "method": {
+          "raw": "F",
+          "label": "Fixed Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "73.8",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": null,
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": null
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "employeeDeductions.deduction[0].period": "12345",
+        "employeeDeductions.deduction[0].loanOrGarnishId": "",
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 73.8,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
+      }
+    },
+    {
+      "key": "prismhr:132:S00008:ded:0",
+      "employee_key": "prismhr:132:S00008",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "S00008",
+        "deduction_id": "0"
+      },
+      "code": {
+        "raw": "MED",
+        "label": "Medical",
+        "value": null
+      },
+      "category": {
+        "raw": "V",
+        "label": "Voluntary",
+        "value": "voluntary"
+      },
+      "calculation": {
+        "method": {
+          "raw": "F",
+          "label": "Fixed Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "60.87",
           "currency": "USD"
         },
         "percent": null
@@ -125,21 +515,30 @@
       "priority": null,
       "effective": null,
       "unmapped": {
-        "employeeDeductions.deduction[1].period": "1234",
-        "employeeDeductions.deduction[1].loanOrGarnishId": "",
-        "employeeDeductions.deduction[1].benefitPlanId": "LIFESAL",
-        "employeeDeductions.deduction[1].lastDedPerAdj": 0.0
+        "employeeDeductions.deduction[0].period": "12345",
+        "employeeDeductions.deduction[0].loanOrGarnishId": "",
+        "employeeDeductions.deduction[0].benefitPlanId": "",
+        "employeeDeductions.deduction[0].lastDedPerAdj": 60.87,
+        "employeeDeductions.deduction[0].basis": "",
+        "employeeDeductions.deduction[0].trackArrears": false,
+        "employeeDeductions.deduction[0].glOverrideAcct": "",
+        "employeeDeductions.deduction[0].mandatory": false,
+        "employeeDeductions.deduction[0].matchMethod": "",
+        "employeeDeductions.deduction[0].matchDescription": "",
+        "employeeDeductions.deduction[0].rateTableId": "",
+        "employeeDeductions.deduction[0].rateTier": "",
+        "employeeDeductions.deduction[0].achOption": ""
       }
     },
     {
-      "key": "prismhr:132:F00001:ded:2",
-      "employee_key": "prismhr:132:F00001",
+      "key": "prismhr:132:S00008:ded:1",
+      "employee_key": "prismhr:132:S00008",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "F00001",
-        "deduction_id": "2"
+        "employee_id": "S00008",
+        "deduction_id": "1"
       },
       "code": {
         "raw": "401k",
@@ -171,108 +570,51 @@
         },
         "lifetime": null
       },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": {
-        "start": "2016-12-01",
-        "end": null
-      },
-      "unmapped": {
-        "employeeDeductions.deduction[2].period": "12345",
-        "employeeDeductions.deduction[2].loanOrGarnishId": "",
-        "employeeDeductions.deduction[2].benefitPlanId": "",
-        "employeeDeductions.deduction[2].lastDedPerAdj": 5.0,
-        "employeeDeductions.deduction[2].trackArrears": false,
-        "employeeDeductions.deduction[2].glOverrideAcct": "",
-        "employeeDeductions.deduction[2].mandatory": false,
-        "employeeDeductions.deduction[2].matchMethod": "",
-        "employeeDeductions.deduction[2].matchDescription": "",
-        "employeeDeductions.deduction[2].rateTableId": "",
-        "employeeDeductions.deduction[2].rateTier": "",
-        "employeeDeductions.deduction[2].achOption": ""
-      }
-    },
-    {
-      "key": "prismhr:132:M00002:ded:0",
-      "employee_key": "prismhr:132:M00002",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "M00002",
-        "deduction_id": "0"
-      },
-      "code": {
-        "raw": "UNIF",
-        "label": "Uniforms",
-        "value": null
-      },
-      "category": {
-        "raw": "V",
-        "label": "Voluntary",
-        "value": "voluntary"
-      },
-      "calculation": {
+      "employer_match": {
         "method": {
           "raw": "F",
-          "label": "Fixed Amount",
-          "value": "fixed_amount"
+          "label": "flat",
+          "value": "flat"
         },
         "amount": {
-          "amount": "12.5",
+          "amount": "50.0",
           "currency": "USD"
         },
-        "percent": null
+        "percent": null,
+        "annual_max": null
       },
-      "frequency": null,
-      "limits": {
-        "per_pay": {
-          "amount": "25.0",
-          "currency": "USD"
-        },
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": {
-          "amount": "300.0",
-          "currency": "USD"
-        }
-      },
-      "employer_match": null,
       "payee": {
-        "id": "UNIFCO",
+        "id": "MEDCO",
         "name": null
       },
       "priority": null,
       "effective": {
-        "start": "2024-01-01",
+        "start": "2016-12-01",
         "end": "2026-12-31"
       },
       "unmapped": {
-        "employeeDeductions.deduction[0].period": "12345",
-        "employeeDeductions.deduction[0].loanOrGarnishId": "",
-        "employeeDeductions.deduction[0].benefitPlanId": "",
-        "employeeDeductions.deduction[0].lastDedPerAdj": 12.5,
-        "employeeDeductions.deduction[0].trackArrears": false,
-        "employeeDeductions.deduction[0].glOverrideAcct": "",
-        "employeeDeductions.deduction[0].mandatory": false,
-        "employeeDeductions.deduction[0].matchMethod": "",
-        "employeeDeductions.deduction[0].matchDescription": "",
-        "employeeDeductions.deduction[0].rateTableId": "",
-        "employeeDeductions.deduction[0].rateTier": "",
-        "employeeDeductions.deduction[0].achOption": ""
+        "employeeDeductions.deduction[1].period": "12345",
+        "employeeDeductions.deduction[1].loanOrGarnishId": "",
+        "employeeDeductions.deduction[1].benefitPlanId": "",
+        "employeeDeductions.deduction[1].lastDedPerAdj": 5.0,
+        "employeeDeductions.deduction[1].trackArrears": false,
+        "employeeDeductions.deduction[1].glOverrideAcct": "",
+        "employeeDeductions.deduction[1].mandatory": false,
+        "employeeDeductions.deduction[1].matchDescription": "",
+        "employeeDeductions.deduction[1].rateTableId": "",
+        "employeeDeductions.deduction[1].rateTier": "",
+        "employeeDeductions.deduction[1].achOption": ""
       }
     },
     {
-      "key": "prismhr:132:M00002:ded:1",
-      "employee_key": "prismhr:132:M00002",
+      "key": "prismhr:132:S00008:ded:2",
+      "employee_key": "prismhr:132:S00008",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "M00002",
-        "deduction_id": "1"
+        "employee_id": "S00008",
+        "deduction_id": "2"
       },
       "code": {
         "raw": "401KR",
@@ -314,33 +656,101 @@
       "payee": null,
       "priority": null,
       "effective": {
-        "start": "2024-01-01",
+        "start": "2016-12-01",
         "end": null
       },
       "unmapped": {
-        "employeeDeductions.deduction[1].period": "12345",
-        "employeeDeductions.deduction[1].loanOrGarnishId": "",
-        "employeeDeductions.deduction[1].benefitPlanId": "",
-        "employeeDeductions.deduction[1].lastDedPerAdj": 4.0,
-        "employeeDeductions.deduction[1].basis": "",
-        "employeeDeductions.deduction[1].trackArrears": false,
-        "employeeDeductions.deduction[1].glOverrideAcct": "",
-        "employeeDeductions.deduction[1].mandatory": false,
-        "employeeDeductions.deduction[1].matchDescription": "Roth match",
-        "employeeDeductions.deduction[1].rateTableId": "",
-        "employeeDeductions.deduction[1].rateTier": "",
-        "employeeDeductions.deduction[1].achOption": ""
+        "employeeDeductions.deduction[2].period": "12345",
+        "employeeDeductions.deduction[2].loanOrGarnishId": "",
+        "employeeDeductions.deduction[2].benefitPlanId": "",
+        "employeeDeductions.deduction[2].lastDedPerAdj": 4.0,
+        "employeeDeductions.deduction[2].basis": "",
+        "employeeDeductions.deduction[2].trackArrears": false,
+        "employeeDeductions.deduction[2].glOverrideAcct": "",
+        "employeeDeductions.deduction[2].mandatory": false,
+        "employeeDeductions.deduction[2].matchDescription": "",
+        "employeeDeductions.deduction[2].rateTableId": "",
+        "employeeDeductions.deduction[2].rateTier": "",
+        "employeeDeductions.deduction[2].achOption": ""
       }
     },
     {
-      "key": "prismhr:132:D00003:ded:0",
-      "employee_key": "prismhr:132:D00003",
+      "key": "prismhr:132:S00008:ded:3",
+      "employee_key": "prismhr:132:S00008",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "D00003",
-        "deduction_id": "0"
+        "employee_id": "S00008",
+        "deduction_id": "3"
+      },
+      "code": {
+        "raw": "UNIF",
+        "label": "Uniforms",
+        "value": null
+      },
+      "category": {
+        "raw": "V",
+        "label": "Voluntary",
+        "value": "voluntary"
+      },
+      "calculation": {
+        "method": {
+          "raw": "F",
+          "label": "Fixed Amount",
+          "value": "fixed_amount"
+        },
+        "amount": {
+          "amount": "12.5",
+          "currency": "USD"
+        },
+        "percent": null
+      },
+      "frequency": null,
+      "limits": {
+        "per_pay": {
+          "amount": "25.0",
+          "currency": "USD"
+        },
+        "monthly": null,
+        "quarterly": null,
+        "annual": null,
+        "lifetime": {
+          "amount": "300.0",
+          "currency": "USD"
+        }
+      },
+      "employer_match": null,
+      "payee": null,
+      "priority": null,
+      "effective": {
+        "start": "2024-01-01",
+        "end": null
+      },
+      "unmapped": {
+        "employeeDeductions.deduction[3].period": "12345",
+        "employeeDeductions.deduction[3].loanOrGarnishId": "",
+        "employeeDeductions.deduction[3].benefitPlanId": "",
+        "employeeDeductions.deduction[3].lastDedPerAdj": 12.5,
+        "employeeDeductions.deduction[3].trackArrears": false,
+        "employeeDeductions.deduction[3].glOverrideAcct": "",
+        "employeeDeductions.deduction[3].mandatory": false,
+        "employeeDeductions.deduction[3].matchMethod": "",
+        "employeeDeductions.deduction[3].matchDescription": "",
+        "employeeDeductions.deduction[3].rateTableId": "",
+        "employeeDeductions.deduction[3].rateTier": "",
+        "employeeDeductions.deduction[3].achOption": ""
+      }
+    },
+    {
+      "key": "prismhr:132:S00008:ded:4",
+      "employee_key": "prismhr:132:S00008",
+      "company_key": "prismhr:132",
+      "source": {
+        "provider": "prismhr",
+        "company_id": "132",
+        "employee_id": "S00008",
+        "deduction_id": "4"
       },
       "code": {
         "raw": "GARN",
@@ -376,83 +786,6 @@
         "lifetime": null
       },
       "employer_match": null,
-      "payee": {
-        "id": "SDU",
-        "name": null
-      },
-      "priority": null,
-      "effective": {
-        "start": "2024-01-01",
-        "end": null
-      },
-      "unmapped": {
-        "employeeDeductions.deduction[0].period": "12345",
-        "employeeDeductions.deduction[0].loanOrGarnishId": "G-1",
-        "employeeDeductions.deduction[0].benefitPlanId": "",
-        "employeeDeductions.deduction[0].lastDedPerAdj": 180.0,
-        "employeeDeductions.deduction[0].trackArrears": false,
-        "employeeDeductions.deduction[0].glOverrideAcct": "",
-        "employeeDeductions.deduction[0].mandatory": false,
-        "employeeDeductions.deduction[0].matchMethod": "",
-        "employeeDeductions.deduction[0].matchDescription": "",
-        "employeeDeductions.deduction[0].rateTableId": "",
-        "employeeDeductions.deduction[0].rateTier": "",
-        "employeeDeductions.deduction[0].achOption": ""
-      }
-    },
-    {
-      "key": "prismhr:132:D00003:ded:1",
-      "employee_key": "prismhr:132:D00003",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "D00003",
-        "deduction_id": "1"
-      },
-      "code": {
-        "raw": "LOAN",
-        "label": "Employee Loan",
-        "value": null
-      },
-      "category": {
-        "raw": "L",
-        "label": "Employee Loan Payment",
-        "value": "loan"
-      },
-      "calculation": {
-        "method": {
-          "raw": "F",
-          "label": "Fixed Amount",
-          "value": "fixed_amount"
-        },
-        "amount": {
-          "amount": "50.0",
-          "currency": "USD"
-        },
-        "percent": null
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": {
-        "method": {
-          "raw": "F",
-          "label": "flat",
-          "value": "flat"
-        },
-        "amount": {
-          "amount": "10.0",
-          "currency": "USD"
-        },
-        "percent": null,
-        "annual_max": null
-      },
       "payee": null,
       "priority": null,
       "effective": {
@@ -460,94 +793,29 @@
         "end": null
       },
       "unmapped": {
-        "employeeDeductions.deduction[1].period": "12345",
-        "employeeDeductions.deduction[1].loanOrGarnishId": "L-7",
-        "employeeDeductions.deduction[1].benefitPlanId": "",
-        "employeeDeductions.deduction[1].lastDedPerAdj": 50.0,
-        "employeeDeductions.deduction[1].basis": "",
-        "employeeDeductions.deduction[1].trackArrears": false,
-        "employeeDeductions.deduction[1].glOverrideAcct": "",
-        "employeeDeductions.deduction[1].mandatory": false,
-        "employeeDeductions.deduction[1].matchDescription": "",
-        "employeeDeductions.deduction[1].rateTableId": "",
-        "employeeDeductions.deduction[1].rateTier": "",
-        "employeeDeductions.deduction[1].achOption": ""
+        "employeeDeductions.deduction[4].period": "12345",
+        "employeeDeductions.deduction[4].loanOrGarnishId": "",
+        "employeeDeductions.deduction[4].benefitPlanId": "",
+        "employeeDeductions.deduction[4].lastDedPerAdj": 180.0,
+        "employeeDeductions.deduction[4].trackArrears": false,
+        "employeeDeductions.deduction[4].glOverrideAcct": "",
+        "employeeDeductions.deduction[4].mandatory": false,
+        "employeeDeductions.deduction[4].matchMethod": "",
+        "employeeDeductions.deduction[4].matchDescription": "",
+        "employeeDeductions.deduction[4].rateTableId": "",
+        "employeeDeductions.deduction[4].rateTier": "",
+        "employeeDeductions.deduction[4].achOption": ""
       }
     },
     {
-      "key": "prismhr:132:S00004:ded:0",
-      "employee_key": "prismhr:132:S00004",
+      "key": "prismhr:132:S00008:ded:5",
+      "employee_key": "prismhr:132:S00008",
       "company_key": "prismhr:132",
       "source": {
         "provider": "prismhr",
         "company_id": "132",
-        "employee_id": "S00004",
-        "deduction_id": "0"
-      },
-      "code": {
-        "raw": "PARK",
-        "label": "Parking",
-        "value": null
-      },
-      "category": {
-        "raw": "Z",
-        "label": null,
-        "value": "unknown"
-      },
-      "calculation": {
-        "method": {
-          "raw": "ZZ",
-          "label": null,
-          "value": "unknown"
-        },
-        "amount": {
-          "amount": "30.0",
-          "currency": "USD"
-        },
-        "percent": null
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": {
-          "amount": "90.0",
-          "currency": "USD"
-        },
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": {
-        "start": "2024-01-01",
-        "end": null
-      },
-      "unmapped": {
-        "employeeDeductions.deduction[0].period": "12345",
-        "employeeDeductions.deduction[0].loanOrGarnishId": "",
-        "employeeDeductions.deduction[0].benefitPlanId": "",
-        "employeeDeductions.deduction[0].lastDedPerAdj": 30.0,
-        "employeeDeductions.deduction[0].trackArrears": false,
-        "employeeDeductions.deduction[0].glOverrideAcct": "",
-        "employeeDeductions.deduction[0].mandatory": false,
-        "employeeDeductions.deduction[0].matchMethod": "",
-        "employeeDeductions.deduction[0].matchDescription": "",
-        "employeeDeductions.deduction[0].rateTableId": "",
-        "employeeDeductions.deduction[0].rateTier": "",
-        "employeeDeductions.deduction[0].achOption": ""
-      }
-    },
-    {
-      "key": "prismhr:132:S00004:ded:1",
-      "employee_key": "prismhr:132:S00004",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "S00004",
-        "deduction_id": "1"
+        "employee_id": "S00008",
+        "deduction_id": "5"
       },
       "code": {
         "raw": "DUES",
@@ -561,73 +829,12 @@
       },
       "calculation": {
         "method": {
-          "raw": "PPR",
-          "label": "Percentage of Pay Rate",
-          "value": "other"
-        },
-        "amount": null,
-        "percent": "1.5"
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": {
-        "start": "2024-01-01",
-        "end": null
-      },
-      "unmapped": {
-        "employeeDeductions.deduction[1].period": "12345",
-        "employeeDeductions.deduction[1].loanOrGarnishId": "",
-        "employeeDeductions.deduction[1].benefitPlanId": "",
-        "employeeDeductions.deduction[1].lastDedPerAdj": 1.5,
-        "employeeDeductions.deduction[1].basis": "W",
-        "employeeDeductions.deduction[1].trackArrears": false,
-        "employeeDeductions.deduction[1].glOverrideAcct": "",
-        "employeeDeductions.deduction[1].mandatory": false,
-        "employeeDeductions.deduction[1].matchMethod": "",
-        "employeeDeductions.deduction[1].matchDescription": "",
-        "employeeDeductions.deduction[1].rateTableId": "",
-        "employeeDeductions.deduction[1].rateTier": "",
-        "employeeDeductions.deduction[1].achOption": "",
-        "employeeDeductions.deduction[1].maximum": 100.0
-      }
-    },
-    {
-      "key": "prismhr:132:M00006:ded:0",
-      "employee_key": "prismhr:132:M00006",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "M00006",
-        "deduction_id": "0"
-      },
-      "code": {
-        "raw": "GYM",
-        "label": "Gym",
-        "value": null
-      },
-      "category": {
-        "raw": "V",
-        "label": "Voluntary",
-        "value": "voluntary"
-      },
-      "calculation": {
-        "method": {
           "raw": "F",
           "label": "Fixed Amount",
           "value": "fixed_amount"
         },
         "amount": {
-          "amount": "20.0",
+          "amount": "8.0",
           "currency": "USD"
         },
         "percent": null
@@ -636,7 +843,10 @@
       "limits": {
         "per_pay": null,
         "monthly": null,
-        "quarterly": null,
+        "quarterly": {
+          "amount": "100.0",
+          "currency": "USD"
+        },
         "annual": null,
         "lifetime": null
       },
@@ -648,79 +858,18 @@
         "end": null
       },
       "unmapped": {
-        "employeeDeductions.deduction[0].period": "12345",
-        "employeeDeductions.deduction[0].loanOrGarnishId": "",
-        "employeeDeductions.deduction[0].benefitPlanId": "",
-        "employeeDeductions.deduction[0].lastDedPerAdj": 20.0,
-        "employeeDeductions.deduction[0].basis": "",
-        "employeeDeductions.deduction[0].trackArrears": false,
-        "employeeDeductions.deduction[0].glOverrideAcct": "",
-        "employeeDeductions.deduction[0].mandatory": false,
-        "employeeDeductions.deduction[0].matchMethod": "",
-        "employeeDeductions.deduction[0].matchDescription": "",
-        "employeeDeductions.deduction[0].rateTableId": "",
-        "employeeDeductions.deduction[0].rateTier": "",
-        "employeeDeductions.deduction[0].achOption": "",
-        "employeeDeductions.deduction[0].maximum": 240.0
-      }
-    },
-    {
-      "key": "prismhr:132:M00006:ded:1",
-      "employee_key": "prismhr:132:M00006",
-      "company_key": "prismhr:132",
-      "source": {
-        "provider": "prismhr",
-        "company_id": "132",
-        "employee_id": "M00006",
-        "deduction_id": "1"
-      },
-      "code": {
-        "raw": "CHAR",
-        "label": "Charity",
-        "value": null
-      },
-      "category": {
-        "raw": "V",
-        "label": "Voluntary",
-        "value": "voluntary"
-      },
-      "calculation": {
-        "method": {
-          "raw": "F",
-          "label": "Fixed Amount",
-          "value": "fixed_amount"
-        },
-        "amount": null,
-        "percent": null
-      },
-      "frequency": null,
-      "limits": {
-        "per_pay": null,
-        "monthly": null,
-        "quarterly": null,
-        "annual": null,
-        "lifetime": null
-      },
-      "employer_match": null,
-      "payee": null,
-      "priority": null,
-      "effective": null,
-      "unmapped": {
-        "employeeDeductions.deduction[1].usePercent": "yes",
-        "employeeDeductions.deduction[1].amount": 5.0,
-        "employeeDeductions.deduction[1].period": "12345",
-        "employeeDeductions.deduction[1].loanOrGarnishId": "",
-        "employeeDeductions.deduction[1].benefitPlanId": "",
-        "employeeDeductions.deduction[1].lastDedPerAdj": 5.0,
-        "employeeDeductions.deduction[1].basis": "",
-        "employeeDeductions.deduction[1].trackArrears": false,
-        "employeeDeductions.deduction[1].glOverrideAcct": "",
-        "employeeDeductions.deduction[1].mandatory": false,
-        "employeeDeductions.deduction[1].matchMethod": "",
-        "employeeDeductions.deduction[1].matchDescription": "",
-        "employeeDeductions.deduction[1].rateTableId": "",
-        "employeeDeductions.deduction[1].rateTier": "",
-        "employeeDeductions.deduction[1].achOption": ""
+        "employeeDeductions.deduction[5].period": "12345",
+        "employeeDeductions.deduction[5].loanOrGarnishId": "",
+        "employeeDeductions.deduction[5].benefitPlanId": "",
+        "employeeDeductions.deduction[5].lastDedPerAdj": 8.0,
+        "employeeDeductions.deduction[5].trackArrears": false,
+        "employeeDeductions.deduction[5].glOverrideAcct": "",
+        "employeeDeductions.deduction[5].mandatory": false,
+        "employeeDeductions.deduction[5].matchMethod": "",
+        "employeeDeductions.deduction[5].matchDescription": "",
+        "employeeDeductions.deduction[5].rateTableId": "",
+        "employeeDeductions.deduction[5].rateTier": "",
+        "employeeDeductions.deduction[5].achOption": ""
       }
     }
   ],
@@ -728,76 +877,13 @@
   "paychecks": [],
   "issues": [
     {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "employeeDeductions.deduction[0].deductionType",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:S00004:ded:0",
-      "raw_value": "Z",
-      "message": "deduction.deductionType: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/DeductionCodeDetail/properties/deductionType/description)"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "employeeDeductions.deduction[0].deductionMethod",
-      "action": "kept raw value; canonical value set to unknown",
-      "record_key": "prismhr:132:S00004:ded:0",
-      "raw_value": "ZZ",
-      "message": "deduction.deductionMethod: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/DeductionCodeDetail/properties/calculationMethod/description)"
-    },
-    {
-      "code": "undocumented_code",
-      "severity": "warning",
-      "source_path": "employeeDeductions.deduction[1].basis",
-      "action": "maximum kept in unmapped",
-      "record_key": "prismhr:132:S00004:ded:1",
-      "raw_value": "W",
-      "message": "deduction.basis: code has no documented meaning (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/basis/description)"
-    },
-    {
-      "code": "inconsistent_allocation",
-      "severity": "warning",
-      "source_path": "employeeDeductions.deduction[0].maximum",
-      "action": "kept in unmapped",
-      "record_key": "prismhr:132:M00006:ded:0",
-      "raw_value": 240.0,
-      "message": "maximum is set but basis is empty, so the period it caps is unknown (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/basis)"
-    },
-    {
       "code": "invalid_date",
       "severity": "error",
-      "source_path": "employeeDeductions.deduction[1].startDate",
+      "source_path": "employeeDeductions.deduction[0].startDate",
       "action": "set null",
-      "record_key": "prismhr:132:M00006:ded:1",
+      "record_key": "prismhr:132:S00008:ded:0",
       "raw_value": "2025-02-30",
       "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
-    },
-    {
-      "code": "out_of_schema_value",
-      "severity": "warning",
-      "source_path": "employeeDeductions.deduction[1].usePercent",
-      "action": "amount kept in unmapped",
-      "record_key": "prismhr:132:M00006:ded:1",
-      "raw_value": "yes",
-      "message": "usePercent must be a boolean, T or F (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/EmployeeDeductions-Deduction/properties/usePercent)"
-    },
-    {
-      "code": "missing_section",
-      "severity": "info",
-      "source_path": "get_deductions",
-      "action": "no deduction lines emitted",
-      "record_key": "prismhr:132:R00007",
-      "raw_value": null,
-      "message": "bundle has no responses.get_deductions['R00007'] entry"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "get_deductions['X00099'].errorCode",
-      "action": "no deduction lines emitted",
-      "record_key": "prismhr:132:X00099",
-      "raw_value": "1",
-      "message": "Employee not found"
     },
     {
       "code": "missing_section",

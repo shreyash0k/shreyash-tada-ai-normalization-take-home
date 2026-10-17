@@ -10,7 +10,7 @@
       "items": [
         {
           "id": 35419520,
-          "ein_name": "Primary EIN",
+          "ein_name": "Dunder Mifflin Utica",
           "ein_tax_id": "12-3456789",
           "ein_country_id": "USA",
           "ein_currency_code": "USD"
@@ -31,7 +31,7 @@
               "num_weeks": 2
             }
           },
-          "description": "Primary EIN payroll"
+          "description": "Dunder Mifflin Utica payroll"
         },
         {
           "id": 36562692,

@@ -13,7 +13,7 @@
       "client": {
         "id": 4046,
         "clientCode": "SYN42",
-        "clientName": "Synthetic Demo Holdings",
+        "clientName": "Dunder Mifflin",
         "securityServiceGroup": {
           "id": 2,
           "name": "Demo"
@@ -26,15 +26,15 @@
       "iSolvedTimeEnabled": false,
       "legalAddress": {
         "addressDescription": "Legal",
-        "city": "Riverton",
-        "phoneNumber": "3747925827",
-        "state": "UT",
-        "streetAddress1": "8123 Harbor Rd",
+        "city": "Stamford",
+        "phoneNumber": "9413309023",
+        "state": "CT",
+        "streetAddress1": "400 Canal Street",
         "streetAddress2": null,
-        "zipCode": "84065"
+        "zipCode": "06902"
       },
       "legalCode": "SYN42-1",
-      "legalName": "Synthetic Scrap Metal Inc",
+      "legalName": "Dunder Mifflin Stamford, Inc.",
       "payGroups": [
         {
           "id": 7627,

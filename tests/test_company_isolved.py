@@ -31,7 +31,7 @@ class IsolvedCompanyChecks(unittest.TestCase):
     def test_profile_fields(self):
         company = self.company
         self.assertEqual(company["key"], COMPANY)
-        self.assertEqual(company["legal_name"], "Synthetic Scrap Metal Inc")
+        self.assertEqual(company["legal_name"], "Dunder Mifflin Stamford, Inc.")
         self.assertEqual(company["status"], {"raw": "Active", "label": None, "value": "active"})
         self.assertEqual(company["address"]["kind"], "legal")
         self.assertEqual(company["phone"]["kind"], "work")
@@ -49,7 +49,7 @@ class IsolvedCompanyChecks(unittest.TestCase):
         self.assertEqual(issues_with(named, "missing_section", "dbaName"), [])
 
     def test_parent_and_secondary_ids(self):
-        self.assertEqual(self.company["parent"], {"raw": "4046", "label": "Synthetic Demo Holdings", "value": None})
+        self.assertEqual(self.company["parent"], {"raw": "4046", "label": "Dunder Mifflin", "value": None})
         self.assertEqual(self.company["source"]["secondary_ids"], {"legalCode": "SYN42-1", "clientCode": "SYN42"})
 
     def test_services_and_workers_comp_stay_in_unmapped(self):
