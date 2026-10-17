@@ -8,8 +8,8 @@ three providers into one shared model, with records linked by key.
 
 ## Quick start
 
-Needs Python 3.10+ (macOS's built-in 3.9 will not work) and Node.js 24 for
-the web app. No Python packages to install.
+Needs Python 3.10+ and Node.js 24 for the web app. No Python packages to
+install.
 
 ```sh
 git clone https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home.git
@@ -60,10 +60,12 @@ One JSON document per company: `company`, `employees`, `direct_deposits`,
 
 ## The web app
 
-- **Issue tracker** (home): drill from provider to client to employee and see every issue flagged on them.
+- **Issue tracker** (home): lists the records normalization could not fully map because of the source data, such as undocumented codes, invalid values or missing responses.
 
-  ![Issue tracker](docs/images/issue-tracker.gif)
+  ![Issue tracker: providers](docs/images/issue-tracker-providers.png)
+  ![Issue tracker: employees](docs/images/issue-tracker-employees.png)
+  ![Issue tracker: one employee's issues](docs/images/issue-tracker-detail.png)
 
-- **Field map** (bottom-right button): every shared field against each provider, mapped, not mapped yet, or not offered.
+- **Field map** (bottom-right button): shows how each provider's fields map onto the canonical model.
 
   ![Field map](docs/images/field-map.png)
