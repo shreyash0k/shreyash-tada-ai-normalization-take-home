@@ -42,6 +42,10 @@ the same key.
 Each provider has seeded synthetic fixtures, a golden expected output, and
 edge-case tests for all five data types.
 
+`normalize-company` runs all five data types for one company and writes a
+single linked document, checking that every employee, pay run and company
+key in it resolves (see [Running](#running)).
+
 A local web app opens on an issues page that drills from provider to client
 to employee and lists everything normalization flagged on each person (see
 [Issues page](#issues-page)). A Field map button at the bottom right shows how each provider's
@@ -72,6 +76,9 @@ Known gaps in the starter are tracked in
   never summed from the lines. A company's tax ids, work locations and pay
   groups are nested inside its record, each with its own key; employees and
   pay runs reach them through the provider's raw code.
+- **One document per company, links checked.** `normalize-company` merges
+  the five data types' outputs for one company into one document and
+  reports any key that names no record in it as a `broken_link` issue.
 - **One adapter per provider.** Each adapter turns a bundle into canonical
   records. Everything provider-specific stays inside its adapter, and every
   code table cites the spec path it rests on.
@@ -90,7 +97,7 @@ Known gaps in the starter are tracked in
   code, severity, source path, and the action taken.
 - **Standard library only.** The canonical model is frozen dataclasses with
   strict type checks; the output shape is documented in
-  [docs/canonical/employee.schema.json](docs/canonical/employee.schema.json)
+  [docs/canonical/normalized-output.schema.json](docs/canonical/normalized-output.schema.json)
   and validated in tests with a small built-in validator.
 - **Deterministic, offline tests.** Fixtures are generated from a fixed seed and
   committed; a test asserts regeneration is byte-identical.
@@ -101,6 +108,7 @@ Known gaps in the starter are tracked in
 | --- | --- |
 | `src/normalization/__main__.py` | Command-line entry point |
 | `src/normalization/bundle.py` | Capture-bundle envelope and per-provider shape checks |
+| `src/normalization/company_document.py` | Merges one company's five data types into one document and checks its links |
 | `src/normalization/canonical/` | Canonical model (company with tax ids, work locations and pay groups; employee, direct deposit, deduction, payroll, enums, issues) and the schema validator |
 | `src/normalization/adapters/` | One adapter per provider plus shared helpers (`_common.py`) |
 | `src/normalization/references.py` | Reference-pack readiness checks |
@@ -181,12 +189,33 @@ issues`, `13 deductions, 2 issues`, `1 pay runs, 8 paychecks, 5 issues` or
 to stderr. The output is a `NormalizedOutput` document (`provider`,
 `company`, `employees[]`, `direct_deposits[]`, `deductions[]`, `pay_runs[]`,
 `paychecks[]`, `issues[]`, `schema_version`) described by
-[docs/canonical/employee.schema.json](docs/canonical/employee.schema.json);
+[docs/canonical/normalized-output.schema.json](docs/canonical/normalized-output.schema.json);
 only the lists for the requested data type are filled. `--entity company`
 fills the whole `company` object; the other data types leave its profile and
 nested lists empty and fill only its key, source and, where known, EIN.
 
-`normalize` will not overwrite an existing output file. Exit codes: 0 means
+To normalize everything for one company in one run, point
+`normalize-company` at a folder holding its five bundles
+(`company-bundle.json`, `employee-bundle.json`, `direct-deposit-bundle.json`,
+`deduction-bundle.json` and `payroll-bundle.json`, the layout of
+`tests/fixtures/<provider>/`):
+
+```sh
+PYTHONPATH=src python3 -m normalization normalize-company \
+  --input tests/fixtures/prismhr/ --output out/prismhr.json
+```
+
+It prints `1 company, 8 employees, 9 direct deposits, 13 deductions, 1 pay
+runs, 8 paychecks, 0 broken links, 13 issues` and writes one
+`NormalizedOutput` with the full company and every list filled. Issues
+reported word for word by several data types appear once. Each employee,
+pay run, direct deposit, deduction and paycheck must point at this
+company, each deposit, deduction and paycheck at an employee in the
+document, and each paycheck at a pay run in it; a key that does not
+resolve adds a `broken_link` warning. A missing bundle file, or files for
+different providers or companies, is an error (exit 1).
+
+`normalize` and `normalize-company` will not overwrite an existing output file. Exit codes: 0 means
 success, 1 means the input could not be read or normalized (including an
 invalid bundle or a bundle missing the responses the requested data type
 needs), and 2 means the reference pack or the command-line arguments are not

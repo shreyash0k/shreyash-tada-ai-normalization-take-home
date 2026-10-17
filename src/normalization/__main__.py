@@ -3,7 +3,9 @@
 ``normalize --entity company``, ``--entity employee``, ``--entity
 direct-deposit``, ``--entity deduction`` and ``--entity payroll`` read a
 capture bundle (see ``bundle.py``) and write a ``NormalizedOutput`` document
-described by ``docs/canonical/employee.schema.json``.
+described by ``docs/canonical/normalized-output.schema.json``. ``normalize-company``
+reads a folder holding all five bundles of one company and writes one linked
+document (see ``company_document.py``).
 """
 import argparse
 import json
@@ -12,7 +14,8 @@ from pathlib import Path
 
 from .adapters import ADAPTERS, ENTITIES
 from .bundle import BUNDLE_ENTITIES, parse_bundle
-from .canonical import NormalizedOutput
+from .canonical import IssueCode, NormalizedOutput
+from .company_document import build_document, load_company_bundles
 from .references import all_readiness_issues, load_reference, readiness_issues
 
 
@@ -26,6 +29,9 @@ def main(argv=None):
     run.add_argument("--entity", choices=ENTITIES, required=True)
     run.add_argument("--input", type=Path, required=True)
     run.add_argument("--output", type=Path, required=True)
+    whole = commands.add_parser("normalize-company")
+    whole.add_argument("--input", type=Path, required=True, help="folder holding the five <entity>-bundle.json files")
+    whole.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     if args.command == "list-providers":
         print("\n".join(ADAPTERS))
@@ -34,6 +40,8 @@ def main(argv=None):
         issues = all_readiness_issues()
         print(json.dumps(issues, indent=2))
         return 2 if any(issues.values()) else 0
+    if args.command == "normalize-company":
+        return _normalize_company(args.input, args.output)
     issues = readiness_issues(args.provider)
     if issues:
         print(json.dumps({"provider": args.provider, "readiness_issues": issues}, indent=2), file=sys.stderr)
@@ -72,6 +80,33 @@ def main(argv=None):
         return 1
     if summary:
         print(summary, file=sys.stderr)
+    return 0
+
+
+def _normalize_company(folder: Path, output: Path) -> int:
+    try:
+        bundles = load_company_bundles(folder)
+    except (OSError, ValueError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    provider = bundles["company"].provider
+    issues = readiness_issues(provider)
+    if issues:
+        print(json.dumps({"provider": provider, "readiness_issues": issues}, indent=2), file=sys.stderr)
+        return 2
+    try:
+        document = build_document(bundles)
+        serialized = json.dumps(document.to_dict(), indent=2, allow_nan=False) + "\n"
+        with output.open("x", encoding="utf-8") as stream:
+            stream.write(serialized)
+    except (OSError, ValueError, TypeError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    broken = sum(1 for issue in document.issues if issue.code is IssueCode.BROKEN_LINK)
+    print(f"1 company, {len(document.employees)} employees, {len(document.direct_deposits)} direct deposits, "
+          f"{len(document.deductions)} deductions, {len(document.pay_runs)} pay runs, "
+          f"{len(document.paychecks)} paychecks, {broken} broken links, {len(document.issues)} issues",
+          file=sys.stderr)
     return 0
 
 

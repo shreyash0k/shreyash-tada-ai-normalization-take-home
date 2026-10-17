@@ -331,7 +331,7 @@ during implementation.
   plain JSON: dates become `YYYY-MM-DD` strings, amounts become strings so no
   precision is lost, and enums become their lowercase names.
   The output shape is written down by hand in
-  `docs/canonical/employee.schema.json`, and a small built-in checker
+  `docs/canonical/normalized-output.schema.json`, and a small built-in checker
   validates the test outputs against it. A test also compares the Python
   classes with the schema field by field, so the two cannot drift apart
   unnoticed.
@@ -460,7 +460,9 @@ during implementation.
     expected is missing. Codes: `undocumented_code`, `unmapped_label`,
     `missing_section`, `missing_lookup`, `out_of_schema_value`,
     `multiple_current_rates`, `inconsistent_allocation` (a deposit line's
-    amount and percentage do not fit its method; entry 48).
+    amount and percentage do not fit its method; entry 48), `broken_link`
+    (a record points at a record missing from the company document;
+    entry 99).
   - `info`: a note about the provider's behaviour, with nothing lost. Codes:
     `spec_live_mismatch`, `masked_value`, and `missing_section` when the
     absent part is optional.
@@ -1187,7 +1189,7 @@ during implementation.
   how much. The extras are named and shaped differently by each provider
   and are still available in `unmapped`.
 - **Evidence:** `src/normalization/canonical/direct_deposit.py`;
-  `docs/canonical/employee.schema.json#/$defs/DirectDeposit`;
+  `docs/canonical/normalized-output.schema.json#/$defs/DirectDeposit`;
   `tests/test_direct_deposit_ukg_ready.py::test_prenote_and_frequency_stay_unmapped`.
 - **Status:** Decided.
 
@@ -1455,7 +1457,7 @@ during implementation.
   context, which a rule does not have.
 - **Evidence:** [docs/ASSIGNMENT.md](ASSIGNMENT.md#data-to-normalize);
   `src/normalization/canonical/deduction.py`;
-  `docs/canonical/employee.schema.json#/$defs/Deduction`;
+  `docs/canonical/normalized-output.schema.json#/$defs/Deduction`;
   `tests/test_canonical_model.py::test_deduction_fields_are_checked`.
 - **Status:** Decided.
 
@@ -1719,7 +1721,7 @@ during implementation.
   paycheck readable when its run is missing. A paycheck links to its
   run by key, as a deposit links to its employee.
 - **Evidence:** `src/normalization/canonical/payroll.py`;
-  `docs/canonical/employee.schema.json#/$defs/PayRun` and
+  `docs/canonical/normalized-output.schema.json#/$defs/PayRun` and
   `#/$defs/Paycheck`;
   `tests/test_canonical_model.py::test_payroll_fields_are_checked`;
   `tests/test_payroll_*.py::test_records_link_to_runs_employees_and_company`.
@@ -1992,7 +1994,7 @@ during implementation.
 - **Reason:** These are the company facts that employee and payroll
   records refer to, so a reader can resolve those references.
 - **Evidence:** `src/normalization/canonical/company.py`;
-  `docs/canonical/employee.schema.json#/$defs/Company`;
+  `docs/canonical/normalized-output.schema.json#/$defs/Company`;
   `tests/test_canonical_model.py::test_company_fields_are_checked`.
 - **Status:** Decided.
 
@@ -2169,12 +2171,12 @@ during implementation.
 ### 96. Issue badges count everything under a tile
 
 - **Context:** The issues page shows providers, clients and employees as
-  tiles with a badge. Some issues sit above the employee: a provider has
-  findings with no record key, a client has pay-run, pay-group and
-  company-detail issues, and some issues name an employee who is not in the
-  employee list. The badge had to say whether it counts these.
+  tiles with a badge. Some issues sit above the employee: a provider can
+  have findings with no record key, a client can have pay-run, pay-group
+  and company-detail issues, and an issue can name an employee who is not
+  in the employee list. The badge had to say whether it counts these.
 - **Decision:** A badge counts every issue under its tile, these included,
-  so PrismHR shows 48. The badge is the number only, including 0. Provider
+  so PrismHR shows 16. The badge is the number only, including 0. Provider
   tiles stay in the field-mapping order: PrismHR, isolved, UKG Ready.
   Client and employee tiles are ordered by that count, then by name.
 - **Reason:** A provider or client badge should match what a reader finds
@@ -2187,13 +2189,13 @@ during implementation.
 
 ### 97. Issues without a listed employee are one link away
 
-- **Context:** Nearly a third of the issues in the fixtures (45 of 151) have
-  no employee tile to sit on: provider-wide findings, pay runs, pay groups and
-  company detail, and PrismHR employee `X00099`, who appears in the deductions
-  response but not in the employee list.
+- **Context:** Most issues in the fixtures (31 of 47) have no employee
+  tile to sit on: 25 provider-wide findings with no record key, and 6
+  pay-group and company-detail issues. An issue can also concern a pay
+  run, or an employee missing from the employee list.
 - **Decision:** Under its tiles, the provider page shows a link such as
-  "14 issues not tied to a client", and the client page one such as
-  "4 issues not tied to an employee". Each appears only when its count is
+  "12 issues not tied to a client", and the client page one such as
+  "3 issues not tied to an employee". Each appears only when its count is
   above zero, and opens the same popup as an employee, grouped by record.
   These issues are also counted in the badges.
 - **Reason:** The tiles stay about people, and no issue is hidden.
@@ -2223,4 +2225,34 @@ during implementation.
 - **Evidence:** `scripts/export_web_data.py` (`render_issues`);
   `tests/test_web_export.py::WebExportChecks::test_export_holds_no_provider_values`;
   `tests/test_issue_tree.py::IssueExport::test_committed_issue_export_is_current`.
+- **Status:** Decided.
+
+## Company document
+
+### 99. One command writes one linked document per company
+
+- **Context:** Each data type is normalized on its own, so one company
+  takes five runs and gives five files. Their records point at each other
+  by key: a deduction names its employee, a paycheck its employee and pay
+  run. Those keys lead into other files, and nothing checked that they
+  resolve. The assignment asks for records that can be linked.
+- **Decision:** `normalize-company` reads the five bundle files of one
+  company from a folder and writes one document: the full company record
+  and every employee, direct deposit, deduction, pay run and paycheck.
+  All five files must be present and name the same provider and company,
+  or nothing is written. The company records the other four data types
+  carry are dropped, and an issue reported word for word by several data
+  types appears once. Every key is then checked against the document. A
+  key that names no record in it adds a `broken_link` warning (a record
+  points at a record missing from the document), and the record is kept.
+- **Reason:** One file lets a reader follow an employee from profile to
+  paycheck, and the check shows the keys actually join. Requiring all five
+  files keeps the rule simple, since the fixtures always have them. Live
+  isolved payroll comes from a different legal (entry 77), so a live
+  isolved folder would be rejected as two companies.
+- **Evidence:** `src/normalization/company_document.py`;
+  `tests/test_company_document.py::CompanyDocumentChecks::test_document_merges_the_five_golden_outputs`,
+  `::test_broken_links_are_reported_and_records_kept`,
+  `CompanyBundleLoading::test_missing_bundle_file_is_named`,
+  `::test_bundles_for_another_company_are_rejected`.
 - **Status:** Decided.

@@ -8,7 +8,7 @@ from normalization.bundle import load_bundle
 TESTS = Path(__file__).resolve().parent
 ROOT = TESTS.parent
 FIXTURES = TESTS / "fixtures"
-SCHEMA_PATH = TESTS.parent / "docs" / "canonical" / "employee.schema.json"
+SCHEMA_PATH = TESTS.parent / "docs" / "canonical" / "normalized-output.schema.json"
 
 
 def load_json(path: Path):

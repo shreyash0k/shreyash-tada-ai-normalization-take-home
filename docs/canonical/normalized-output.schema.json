@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home/docs/canonical/employee.schema.json",
+  "$id": "https://github.com/shreyash0k/shreyash-tada-ai-normalization-take-home/docs/canonical/normalized-output.schema.json",
   "title": "NormalizedOutput",
-  "description": "Output of `normalize --entity company`, `--entity employee`, `--entity direct-deposit`, `--entity deduction` or `--entity payroll`: one company (the full record for `company`, a stub otherwise), the canonical records for the requested entity (the other lists are empty), and the issues found while normalizing. Dates are ISO 8601 strings; money amounts and percentages are decimal strings; enums are their string values.",
+  "description": "Output of `normalize --entity company`, `--entity employee`, `--entity direct-deposit`, `--entity deduction` or `--entity payroll`: one company (the full record for `company`, a stub otherwise), the canonical records for the requested entity (the other lists are empty), and the issues found while normalizing. `normalize-company` writes the same document with the full company and every list filled. Dates are ISO 8601 strings; money amounts and percentages are decimal strings; enums are their string values.",
   "$ref": "#/$defs/NormalizedOutput",
   "$defs": {
     "NormalizedOutput": {
@@ -529,7 +529,7 @@
       "properties": {
         "code": {
           "type": "string",
-          "enum": ["undocumented_code", "unmapped_label", "invalid_date", "invalid_number", "missing_section", "missing_lookup", "spec_live_mismatch", "masked_value", "out_of_schema_value", "multiple_current_rates", "inconsistent_allocation", "unknown"]
+          "enum": ["undocumented_code", "unmapped_label", "invalid_date", "invalid_number", "missing_section", "missing_lookup", "spec_live_mismatch", "masked_value", "out_of_schema_value", "multiple_current_rates", "inconsistent_allocation", "broken_link", "unknown"]
         },
         "severity": {"type": "string", "enum": ["error", "warning", "info", "unknown"]},
         "source_path": {"type": "string"},

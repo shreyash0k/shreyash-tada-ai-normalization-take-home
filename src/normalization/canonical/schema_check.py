@@ -1,6 +1,6 @@
 """A small JSON Schema validator for the canonical output schema.
 
-Supports the subset used by ``docs/canonical/employee.schema.json``: ``type``
+Supports the subset used by ``docs/canonical/normalized-output.schema.json``: ``type``
 (string or list), ``properties``, ``required``, ``additionalProperties``
 (boolean or schema), ``items``, ``enum``, ``const``, ``pattern``, ``oneOf``,
 and local ``$ref`` into ``$defs``. It exists so tests can check fixture

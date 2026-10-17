@@ -12,6 +12,7 @@ export const ISSUE_TITLE: Record<IssueCode, string> = {
   out_of_schema_value: "Unexpected value",
   multiple_current_rates: "Several current rates",
   inconsistent_allocation: "Inconsistent amounts",
+  broken_link: "Broken link",
   unknown: "Other issue",
 };
 

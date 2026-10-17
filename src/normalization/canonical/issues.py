@@ -22,6 +22,7 @@ class IssueCode(CanonicalEnum):
     OUT_OF_SCHEMA_VALUE = "out_of_schema_value"
     MULTIPLE_CURRENT_RATES = "multiple_current_rates"
     INCONSISTENT_ALLOCATION = "inconsistent_allocation"
+    BROKEN_LINK = "broken_link"
     UNKNOWN = "unknown"
 
 

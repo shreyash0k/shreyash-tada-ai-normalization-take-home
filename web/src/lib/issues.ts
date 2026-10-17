@@ -15,6 +15,7 @@ export type IssueCode =
   | "out_of_schema_value"
   | "multiple_current_rates"
   | "inconsistent_allocation"
+  | "broken_link"
   | "unknown";
 
 export type RecordKind = "company" | "run" | "pg" | "employee" | "dd" | "ded" | "chk";
