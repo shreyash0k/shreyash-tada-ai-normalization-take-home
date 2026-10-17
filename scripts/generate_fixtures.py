@@ -358,6 +358,7 @@ def build_prismhr_direct_deposits(seed: int):
 
 # PrismHR deductions: one flat medical deduction per employee. Stanley's start
 # date is not a real day (invalid_date). The other seven start on 2024-01-01.
+# His 401(k) and garnishment name payees, and getPayee is captured for both.
 
 def prism_deduction(code, deduction_type, method, description, amount, use_percent=False,
                     start="2024-01-01", **extra):
@@ -373,6 +374,12 @@ def prism_deduction(code, deduction_type, method, description, amount, use_perce
 
 def prism_deductions_response(lines):
     return {"employeeDeductions": {"deduction": lines}, "errorCode": "0", "errorMessage": "", "extension": None}
+
+
+def prism_payee_response(payee_id, name, payee_type):
+    payee = {"payeeId": payee_id, "payeeName": name, "payeeType": payee_type, "consolidateChecks": False,
+             "remitToName": name, "city": "Harrisburg", "state": "PA", "inactive": False}
+    return {"payees": [payee], "errorCode": "0", "errorMessage": "", "extension": None}
 
 
 def build_prismhr_deductions(seed: int):
@@ -391,7 +398,8 @@ def build_prismhr_deductions(seed: int):
                 prism_deduction("401KR", "KR", "PG", "Roth 401(k)", 4.0, use_percent=True, start="2016-12-01",
                                 matchMethod="P", matchAmount=50.0),
                 prism_deduction("UNIF", "V", "F", "Uniforms", 12.5, limit=25.0, maximum=300.0, basis="L"),
-                prism_deduction("GARN", "G", "G", "Child Support", 180.0, maximum=900.0, basis="M"),
+                prism_deduction("GARN", "G", "G", "Child Support", 180.0, maximum=900.0, basis="M",
+                                cutbackPayeeCode="SDU-PA"),
                 prism_deduction("DUES", "V", "F", "Union Dues", 8.0, maximum=100.0, basis="Q"),
             ])
         else:
@@ -400,6 +408,10 @@ def build_prismhr_deductions(seed: int):
     return bundle("prismhr", {"client_id": PRISM_CLIENT_ID}, {
         "get_deductions": responses,
         "get_employee_list": employee_list,
+        "get_payee": {
+            "MEDCO": prism_payee_response("MEDCO", "Medco Retirement Plan Services", "C"),
+            "SDU-PA": prism_payee_response("SDU-PA", "Pennsylvania SCDU", "D"),
+        },
     })
 
 
@@ -925,6 +937,8 @@ def build_isolved_company(seed: int):
 # --- UKG Ready ---------------------------------------------------------------
 # Eight Utica employees. The employee-type id and the pay-type id are each
 # reported once, on Erin. ein_name on the detail response is reported once.
+# The third employee is on the weekly pay-period profile, the terminated
+# eighth has none, and the rest are on the biweekly one.
 
 UKG_COMPANY_ID = "33704016"
 UKG_BASE = f"https://secure.example-ukg.test/ta/rest/v2/companies/{UKG_COMPANY_ID}"
@@ -1003,6 +1017,15 @@ def ukg_pay_info(employee_type: int, pay_type: int, default_job: int):
             "default_job": {"id": default_job}, "ttoc": [], "payroll_classification": "REGULAR"}
 
 
+def ukg_employee_profiles(offset: int):
+    profiles = {"timesheet": [{"id": 36777216, "effective_from": "1900-12-31"}]}
+    if offset == 7:
+        return profiles
+    profile_id, name = (36562692, "Weekly") if offset == 2 else (36562688, "Primary-EIN Regular Bi-Weekly")
+    profiles["pay_period"] = [{"id": profile_id, "effective_from": "1900-12-31", "name": name}]
+    return profiles
+
+
 def ukg_comp(aid: int, effective: str, amount: float, hourly: float, amount_period: str,
              time_ms: int = 7_488_000_000, time_period: str = "YEAR"):
     row_id = int(effective.replace("-", "") + str(aid))
@@ -1037,9 +1060,12 @@ def build_ukg(seed: int):
         "lookup_eins": {"items": [{"id": 35419520, "ein_name": "Dunder Mifflin Utica", "ein_tax_id": "12-3456789",
                                    "ein_country_id": "USA"}]},
         "lookup_jobs": {"items": [{"id": i, "name": n, "visible": True} for i, n in UKG_JOBS]},
+        "profiles": {},
+        "lookup_pay_period_profiles": {"items": ukg_pay_period_profiles()},
     }
     for offset, aid in enumerate(ids):
         key = str(aid)
+        responses["profiles"][key] = ukg_employee_profiles(offset)
         responses["demographics"][key] = ukg_demographics(pool, "MALE" if offset % 2 == 0 else "FEMALE")
         amount = pool.money(60_000, 140_000)
         responses["pay_info"][key] = ukg_pay_info(35330178, 35043009, default_job=jobs[offset % 3])
@@ -1280,8 +1306,8 @@ def ukg_profile(profile_id, name, active, period_type, params=None, effective_fr
     return profile
 
 
-def build_ukg_company(seed: int):
-    profiles = [
+def ukg_pay_period_profiles():
+    return [
         ukg_profile(36562688, "Primary-EIN Regular Bi-Weekly", True, "every_n_weeks",
                     {"start_date": "2017-10-29", "num_weeks": 2}, description="Dunder Mifflin Utica payroll"),
         ukg_profile(36562692, "Weekly", False, "weekly", {"week_day": "SUNDAY"}, effective_from="2013-12-15"),
@@ -1296,9 +1322,12 @@ def build_ukg_company(seed: int):
         ukg_profile(36562699, "Test", False, "user_defined", effective_from="2023-05-01", effective_to="2023-10-01"),
         ukg_profile(36562704, "Fortnightly", False, "fortnightly"),
     ]
+
+
+def build_ukg_company(seed: int):
     return bundle("ukg-ready", {"company_id": UKG_COMPANY_ID}, {
         "lookup_eins": {"items": [dict(UKG_EIN, ein_country_id="USA", ein_currency_code="USD")]},
-        "lookup_pay_period_profiles": {"items": profiles},
+        "lookup_pay_period_profiles": {"items": ukg_pay_period_profiles()},
     })
 
 

@@ -139,7 +139,11 @@
           "label": "Salaried",
           "value": "unknown"
         },
-        "pay_frequency": null,
+        "pay_frequency": {
+          "raw": 36562688,
+          "label": "Primary-EIN Regular Bi-Weekly",
+          "value": "biweekly"
+        },
         "rate": {
           "amount": "63126.22",
           "currency": "USD"
@@ -203,7 +207,10 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31",
+        "profiles.pay_period[0].effective_from": "1900-12-31"
       }
     },
     {
@@ -319,7 +326,11 @@
           "label": "Salaried",
           "value": "unknown"
         },
-        "pay_frequency": null,
+        "pay_frequency": {
+          "raw": 36562688,
+          "label": "Primary-EIN Regular Bi-Weekly",
+          "value": "biweekly"
+        },
         "rate": {
           "amount": "2946.04",
           "currency": "USD"
@@ -384,7 +395,10 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31",
+        "profiles.pay_period[0].effective_from": "1900-12-31"
       }
     },
     {
@@ -497,7 +511,11 @@
           "label": "Salaried",
           "value": "unknown"
         },
-        "pay_frequency": null,
+        "pay_frequency": {
+          "raw": 36562692,
+          "label": "Weekly",
+          "value": "weekly"
+        },
         "rate": {
           "amount": "131762.05",
           "currency": "USD"
@@ -561,7 +579,10 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31",
+        "profiles.pay_period[0].effective_from": "1900-12-31"
       }
     },
     {
@@ -668,7 +689,11 @@
           "label": "Salaried",
           "value": "unknown"
         },
-        "pay_frequency": null,
+        "pay_frequency": {
+          "raw": 36562688,
+          "label": "Primary-EIN Regular Bi-Weekly",
+          "value": "biweekly"
+        },
         "rate": {
           "amount": "124426.03",
           "currency": "USD"
@@ -732,7 +757,10 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31",
+        "profiles.pay_period[0].effective_from": "1900-12-31"
       }
     },
     {
@@ -845,7 +873,11 @@
           "label": "Salaried",
           "value": "unknown"
         },
-        "pay_frequency": null,
+        "pay_frequency": {
+          "raw": 36562688,
+          "label": "Primary-EIN Regular Bi-Weekly",
+          "value": "biweekly"
+        },
         "rate": {
           "amount": "97559.25",
           "currency": "USD"
@@ -909,7 +941,10 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31",
+        "profiles.pay_period[0].effective_from": "1900-12-31"
       }
     },
     {
@@ -1016,7 +1051,11 @@
           "label": "Salaried",
           "value": "unknown"
         },
-        "pay_frequency": null,
+        "pay_frequency": {
+          "raw": 36562688,
+          "label": "Primary-EIN Regular Bi-Weekly",
+          "value": "biweekly"
+        },
         "rate": {
           "amount": "76198.85",
           "currency": "USD"
@@ -1080,7 +1119,10 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31",
+        "profiles.pay_period[0].effective_from": "1900-12-31"
       }
     },
     {
@@ -1193,7 +1235,11 @@
           "label": "Salaried",
           "value": "unknown"
         },
-        "pay_frequency": null,
+        "pay_frequency": {
+          "raw": 36562688,
+          "label": "Primary-EIN Regular Bi-Weekly",
+          "value": "biweekly"
+        },
         "rate": {
           "amount": "124455.3",
           "currency": "USD"
@@ -1257,7 +1303,10 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31",
+        "profiles.pay_period[0].effective_from": "1900-12-31"
       }
     },
     {
@@ -1428,7 +1477,9 @@
         "tax_info.employee-tax-type.W2": true,
         "tax_info.employee-tax-type.DRAW": false,
         "tax_info.pension-box-type": "SYSTEM_RULES",
-        "tax_info.third-party-sick": "COMPANY_DEFAULT"
+        "tax_info.third-party-sick": "COMPANY_DEFAULT",
+        "profiles.timesheet[0].id": 36777216,
+        "profiles.timesheet[0].effective_from": "1900-12-31"
       }
     }
   ],

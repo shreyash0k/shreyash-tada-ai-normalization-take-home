@@ -93,10 +93,10 @@ Each entry uses this format:
 
   One exception was approved for payroll: UKG Ready pay statement
   earnings `hours` has no documented unit but is converted from
-  milliseconds (entry 82).
+  milliseconds (entry 84).
 - **Reason:** The reference audit warns that the evidence covers only those
   specific fields, not every UKG time field.
-- **Evidence:** [docs/REFERENCE_AUDIT.md](REFERENCE_AUDIT.md#field-specific-ukg-duration-evidence); entry 82.
+- **Evidence:** [docs/REFERENCE_AUDIT.md](REFERENCE_AUDIT.md#field-specific-ukg-duration-evidence); entry 84.
 - **Status:** Decided.
 
 ### 6. Live PrismHR `getEmployee` differs from its documentation
@@ -181,7 +181,9 @@ Each entry uses this format:
   If one of an employee's four responses is missing, a `missing_section`
   issue is reported and the fields it would have supplied are left empty.
   Job titles and the contractor flag come from two optional additions, the
-  jobs lookup and per-employee tax-info (entries 37 and 38).
+  jobs lookup and per-employee tax-info (entries 38 and 39). Pay frequency
+  comes from two more, per-employee profiles and the pay-period profiles
+  lookup (entry 35).
   The current pay row is chosen as described in entry 29. `time` and
   `standard_work_day` are converted from milliseconds to hours under entry 5,
   because their own documentation states the unit. The undocumented
@@ -250,9 +252,9 @@ during implementation.
   carries the key of the employee it belongs to and the company key, so it
   links to the employee output. Deductions follow the same pattern:
   `--entity deduction` writes one record per deduction rule in a
-  top-level `deductions` list (entry 58). Payroll follows the same
+  top-level `deductions` list (entry 59). Payroll follows the same
   pattern: `--entity payroll` writes a `pay_runs` list and a `paychecks`
-  list (entry 69).
+  list (entry 71).
 - **Reason:** The employee output stays the same whichever data types are
   added later, and `--entity` keeps meaning "which records this run
   produces". The employee key is enough to join the two outputs.
@@ -458,14 +460,14 @@ during implementation.
     expected is missing. Codes: `undocumented_code`, `unmapped_label`,
     `missing_section`, `missing_lookup`, `out_of_schema_value`,
     `multiple_current_rates`, `inconsistent_allocation` (a deposit line's
-    amount and percentage do not fit its method; entry 47).
+    amount and percentage do not fit its method; entry 48).
   - `info`: a note about the provider's behaviour, with nothing lost. Codes:
     `spec_live_mismatch`, `masked_value`, and `missing_section` when the
     absent part is optional.
 
   Two codes are a `warning` in one place each. A masked federal ID
-  (`masked_value`, entry 87) leaves the company with no EIN. A bank
-  account number under four digits (`invalid_number`, entry 46) is
+  (`masked_value`, entry 89) leaves the company with no EIN. A bank
+  account number under four digits (`invalid_number`, entry 47) is
   readable but too short to show only its last four digits.
 - **Reason:** A small fixed set of codes lets someone see at a glance how many
   records lost data and how many only need a person to confirm a meaning,
@@ -658,7 +660,7 @@ during implementation.
   `payPeriod` field in the pay section (`Compensation`). Its description says
   only "pay period associated with the payGroup", with no list of codes. The
   pay group's payroll schedule has a `payPeriod` too, and its codes are
-  listed on the field next to it, `payPeriodDesc` (entry 88). On the live
+  listed on the field next to it, `payPeriodDesc` (entry 90). On the live
   demo, every employee's `payPeriod` equalled the code on their pay group's
   schedule.
 - **Decision:** Pay frequency is read with the schedule's code list: `W` is
@@ -715,7 +717,8 @@ during implementation.
   another. Standard hours come from the row's `time` value, converted from
   milliseconds to hours (entry 5), with the period UKG gives for it.
   The field `num_pp_in_year` ("number of pay periods in a year") is a count,
-  not a pay-frequency code, so it is not used to fill `pay_frequency`. It
+  not a pay-frequency code, so it is not used to fill `pay_frequency`,
+  which comes from the employee's pay-period profile (entry 35). It
   stays in `unmapped`, and a value of `0` (which the schema says is not
   allowed) is reported as an issue. All the other history rows are also kept
   in `unmapped`.
@@ -747,9 +750,9 @@ during implementation.
   The company name is empty, and a `missing_section` issue (an expected
   part of the data is absent) says where it comes from: for PrismHR and
   isolved, the company record that `--entity company` reads; for UKG
-  Ready, nowhere, since it has no company endpoint (entry 92). The full
-  company record is its own data type (`--entity company`, entries 84 to
-  93). Only that data type reads the company calls; every other output
+  Ready, nowhere, since it has no company endpoint (entry 94). The full
+  company record is its own data type (`--entity company`, entries 86 to
+  95). Only that data type reads the company calls; every other output
   keeps this minimal record, with the full record's other fields empty.
 - **Reason:** Every employee needs a company key to link to, and the key can
   be built from identifiers the bundle already has. Filling in more than that
@@ -852,7 +855,7 @@ during implementation.
   row called "Location" need not hold a place, nor a row called "Division"
   a division. `workLocation` is on every record and is the code the
   company's work locations use, so every employee's location matches a
-  work location on the company record (entry 85).
+  work location on the company record (entry 87).
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json`,
   `#/definitions/AOS.PayrollOffice.RestAPI.Models.EmployeeOrganizationModel`
   and `EmployeeModel/properties/workLocation`;
@@ -881,9 +884,38 @@ during implementation.
   `src/normalization/adapters/prismhr.py` (`GENDER`).
 - **Status:** Decided.
 
+### 35. UKG Ready pay frequency comes from the employee's pay-period profile
+
+- **Context:** UKG Ready has no pay-frequency field on the employee.
+  Instead each employee is assigned profiles, one of them a pay-period
+  profile, and the employee's profiles call names it by ID
+  (`pay_period`). The company's list of pay-period profiles says how
+  often each one pays (entry 93). Live, 89 of the 103 demo employees
+  named a pay-period profile, and every one was in the list: 87 on
+  two-week profiles and 2 on the weekly one. The other 14 had none.
+- **Decision:** Pay frequency shows the profile ID as the raw value, the
+  profile name as the label, and that profile's frequency, read the same
+  way as for pay groups (entry 93). An employee with no pay-period
+  profile has no pay frequency. A profile ID missing from the list keeps
+  its ID with an `unknown` value and a `missing_lookup` warning (a needed
+  lookup entry is absent). Both calls are optional parts of the employee
+  bundle; when one was not captured, a single `missing_section` issue (an
+  expected part of the data is absent) at `info` severity says so.
+- **Reason:** The profile is UKG's own record of how often the employee
+  is paid, so the frequency is read, not inferred. This is the same
+  pattern as PrismHR, where the employee's pay period points to its pay
+  group's schedule (entry 27).
+- **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/161/schema/properties/pay_period`
+  and `#/schemas/273`; `src/normalization/adapters/ukg_ready.py`
+  (`_UkgEmployeeMapper._pay_frequency`);
+  `tests/test_employee_ukg_ready.py::test_pay_frequency_comes_from_the_pay_period_profile`,
+  `::test_pay_period_profile_missing_from_lookup_stays_unknown`,
+  `::test_profiles_and_pay_period_lookup_are_optional`.
+- **Status:** Decided.
+
 ## Field coverage
 
-### 35. What the coverage statuses mean
+### 36. What the coverage statuses mean
 
 - **Context:** The field coverage pages show, for every canonical employee,
   direct deposit, deduction, payroll and company field, whether each provider
@@ -908,7 +940,7 @@ during implementation.
   `web/src/lib/status.ts`.
 - **Status:** Decided.
 
-### 36. UKG Ready termination and rehire details are write-only
+### 37. UKG Ready termination and rehire details are write-only
 
 - **Context:** UKG Ready describes an employee's termination reason and
   rehire eligibility only in the schema for updating an employee (schema
@@ -930,7 +962,7 @@ during implementation.
   `src/normalization/field_map.py` (`UKG_READY`).
 - **Status:** Decided.
 
-### 37. Job titles come from each provider's job list; UKG Ready organization is not mapped yet
+### 38. Job titles come from each provider's job list; UKG Ready organization is not mapped yet
 
 - **Context:** PrismHR and UKG Ready put only a job code on the employee
   record; the title lives in a separate list of jobs. For PrismHR that list
@@ -965,7 +997,7 @@ during implementation.
   `::test_jobs_lookup_and_tax_info_are_optional`.
 - **Status:** Decided.
 
-### 38. UKG Ready contractor flag comes from tax-info
+### 39. UKG Ready contractor flag comes from tax-info
 
 - **Context:** UKG Ready records whether an employee is paid as a W-2
   employee, a 1099 contractor or on a draw in the employee's tax
@@ -981,14 +1013,14 @@ during implementation.
   tax-info at all gets one such issue.
 - **Reason:** `_1099` is the flag UKG names for contractors, so it is
   copied rather than worked out from `W2` or the pay type. The two missing
-  fields are optional and change nothing else (entry 57).
+  fields are optional and change nothing else (entry 58).
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/166/schema/properties/employee-tax-type/properties/_1099`;
   `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys);
   `tests/test_employee_ukg_ready.py::test_contractor_flag_comes_from_tax_info`,
   `::test_jobs_lookup_and_tax_info_are_optional`.
 - **Status:** Decided.
 
-### 39. Employee coverage: which fields are not offered or not mapped yet
+### 40. Employee coverage: which fields are not offered or not mapped yet
 
 - **Context:** The employee coverage page lists every canonical employee
   field against each provider. Some cells pointed at a provider field
@@ -1003,7 +1035,8 @@ during implementation.
     and annual pay are separate fields that are mapped; `payRates[]`
     stays in `unmapped`. Division is "not offered" (entry 33).
   - UKG Ready: job start date stays "not mapped yet", as do department,
-    location and division (entry 37) and pay frequency (entry 29).
+    location and division (entry 38). Pay frequency is mapped from the
+    pay-period profile (entry 35).
   - PrismHR's benefit email and isolved's fax number are mapped
     (entry 32).
 - **Reason:** Alternate rates are not the employee's rate. A date that
@@ -1015,7 +1048,7 @@ during implementation.
   `tests/test_field_map.py::test_mapped_rows_are_filled_or_explain_the_gap`.
 - **Status:** Decided.
 
-### 40. Direct deposit coverage: six fields are not offered
+### 41. Direct deposit coverage: six fields are not offered
 
 - **Context:** The direct deposit coverage page lists the 11 value fields
   of a deposit line against each provider. Most exist in all three specs.
@@ -1031,7 +1064,7 @@ during implementation.
 - **Reason:** `name` could as well be a label for the account, and its
   type is not even consistent, so calling it the bank name would be a
   guess (entry 1). PrismHR does not document its list order as the
-  payment order (entry 52).
+  payment order (entry 53).
 - **Evidence:** `src/normalization/deposit_field_map.py`;
   `contracts/ukg-ready/reference-schemas.json#/schemas/137/schema/properties/deposits/items/properties/name`;
   `contracts/ukg-ready/reference-docs/res/__v2__companies__(cid)__employees__(aid)__direct-deposits.html`
@@ -1039,7 +1072,7 @@ during implementation.
   `tests/test_deposit_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
 - **Status:** Decided.
 
-### 41. Deduction coverage: which fields are not offered or not mapped yet
+### 42. Deduction coverage: which fields are not offered or not mapped yet
 
 - **Context:** The deduction coverage page lists the 20 value fields of a
   deduction rule against each provider. isolved pay items carry only a
@@ -1048,11 +1081,10 @@ during implementation.
   on its payee setup record (`getPayee`, `payeeName`). UKG Ready caps a
   deduction per pay and per year only, and gives the employer side an
   annual maximum but no calculation.
-- **Decision:** Two PrismHR cells are "not mapped yet": frequency, because
-  `period` needs the pay schedule (entry 62), and payee name, because the
-  bundle does not fetch payees. Live, every deduction's payee ID was
-  empty, so a payee lookup could not be checked. Every gap in the fixtures is "not
-  offered" with its reason:
+- **Decision:** One PrismHR cell is "not mapped yet": frequency, because
+  `period` needs the pay schedule (entry 63). Payee name is mapped from
+  the payee setup (entry 70). Every gap in the fixtures is "not offered"
+  with its reason:
   - PrismHR: employer match annual maximum and priority;
   - isolved: everything except code, amount, percent and dates (15
     cells), with the undescribed `scheduleOverride` not read as a
@@ -1070,7 +1102,7 @@ during implementation.
   `tests/test_deduction_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
 - **Status:** Decided.
 
-### 42. Payroll coverage: which fields are not offered or not mapped yet
+### 43. Payroll coverage: which fields are not offered or not mapped yet
 
 - **Context:** The payroll coverage page lists the 34 value fields of a
   pay run, a paycheck and its lines against each provider. PrismHR sends
@@ -1085,7 +1117,7 @@ during implementation.
   - UKG Ready: check number, gross pay, net pay, void date, earning
     category, deduction category and payment account last 4. `type_name`
     on an earning or deduction line names the line, not a category, so
-    it is not read as one. Gross and net stay empty (entry 71).
+    it is not read as one. Gross and net stay empty (entry 73).
 
   Every other cell is "mapped". None is "not mapped yet".
 - **Reason:** "Not offered" is for a field the provider's payroll records
@@ -1097,7 +1129,7 @@ during implementation.
   `tests/test_payroll_field_map.py::test_unmapped_rows_are_empty_in_golden_output`.
 - **Status:** Decided.
 
-### 43. Company coverage: which fields are not offered
+### 44. Company coverage: which fields are not offered
 
 - **Context:** The company coverage page lists the 27 value fields of a
   company, its contact details, and its tax ids, work locations and pay
@@ -1108,7 +1140,7 @@ during implementation.
   than one service type. Its tax id has no name or country, its work
   locations have no end date, and its pay groups have no effective
   dates. The live legal also never sends a doing-business-as name or a
-  NAICS code (entries 89 and 93). UKG Ready has no company profile and
+  NAICS code (entries 91 and 95). UKG Ready has no company profile and
   no work locations.
 - **Decision:** Thirty-five cells are "not offered", each with its
   reason:
@@ -1138,7 +1170,7 @@ during implementation.
 
 ## Direct deposit normalization
 
-### 44. A direct deposit record holds the core of one bank line
+### 45. A direct deposit record holds the core of one bank line
 
 - **Context:** All three providers describe each split of an employee's
   pay into a bank account, but each wraps it in its own extras: prenote
@@ -1159,7 +1191,7 @@ during implementation.
   `tests/test_direct_deposit_ukg_ready.py::test_prenote_and_frequency_stay_unmapped`.
 - **Status:** Decided.
 
-### 45. What a capture bundle holds for direct deposits
+### 46. What a capture bundle holds for direct deposits
 
 - **Context:** Each provider serves deposits from a different call.
   PrismHR returns them on the same employee call when asked for the
@@ -1184,7 +1216,7 @@ during implementation.
   `src/normalization/adapters/ukg_ready.py` (`_UkgDepositMapper`).
 - **Status:** Decided.
 
-### 46. Only the last four digits of a bank account number are emitted
+### 47. Only the last four digits of a bank account number are emitted
 
 - **Context:** isolved and UKG Ready send bank account numbers in full.
   PrismHR masks them completely (`*****`) but sends the routing number in
@@ -1204,7 +1236,7 @@ during implementation.
   `tests/test_direct_deposit_isolved.py::test_account_numbers_are_reduced_to_last_four`.
 - **Status:** Decided.
 
-### 47. How each provider's allocation maps to one list of methods
+### 48. How each provider's allocation maps to one list of methods
 
 - **Context:** A deposit line takes a fixed amount, a percentage, or
   whatever is left. PrismHR (`method`) and UKG Ready (`calc_method`) say
@@ -1232,7 +1264,7 @@ during implementation.
   `src/normalization/adapters/ukg_ready.py` (`DEPOSIT_CALC_METHOD`).
 - **Status:** Decided.
 
-### 48. isolved allocation comes from which field is set
+### 49. isolved allocation comes from which field is set
 
 - **Context:** isolved has no method code. A line has either an `amount`
   or a `percent`, and the spec says `sequenceNumber` 0 is "Net Pay", the
@@ -1251,7 +1283,7 @@ during implementation.
   `tests/test_direct_deposit_isolved.py::test_amount_and_percent_follow_the_field_that_is_set`.
 - **Status:** Decided.
 
-### 49. isolved account type and status labels allowed so far
+### 50. isolved account type and status labels allowed so far
 
 - **Context:** isolved's spec describes `accountType` and `status` only
   as free-text descriptions, with no list of values. The live demo
@@ -1269,7 +1301,7 @@ during implementation.
   `tests/test_direct_deposit_isolved.py::test_pending_status_stays_raw`.
 - **Status:** Decided.
 
-### 50. PrismHR account type `IP` is instant pay, not a pay card
+### 51. PrismHR account type `IP` is instant pay, not a pay card
 
 - **Context:** PrismHR's spec lists the account types it returns as `C`
   "(checking account or pay card)", `S` "(savings account)" and `IP`
@@ -1285,7 +1317,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_code_tables_quote_the_spec_descriptions`.
 - **Status:** Decided.
 
-### 51. PrismHR `FS` and `PN` lose a detail when mapped
+### 52. PrismHR `FS` and `PN` lose a detail when mapped
 
 - **Context:** PrismHR's `FS` is "fixed, skip if can't take full amount",
   and `PN` is "percentage of net after fixed", meaning the percentage is
@@ -1299,7 +1331,7 @@ during implementation.
   `src/normalization/adapters/prismhr.py` (`DEPOSIT_METHOD`).
 - **Status:** Decided.
 
-### 52. PrismHR deposit lines are identified by their position
+### 53. PrismHR deposit lines are identified by their position
 
 - **Context:** PrismHR deposit lines (`achVoucher`) have no ID or
   sequence number. Each line can also be limited to certain kinds of pay
@@ -1309,7 +1341,7 @@ during implementation.
 - **Decision:** A line's ID is its position in the list, starting at 0,
   so the record key ends in `:dd:0`, `:dd:1` and so on. `priority` is
   empty. The pay-run limit stays in the line's `unmapped` section, as
-  entry 44 says for frequency, so two remainder lines for one employee
+  entry 45 says for frequency, so two remainder lines for one employee
   can appear; the limit there tells them apart.
 - **Reason:** The position is the only stable handle in the response. It
   changes if PrismHR reorders or removes a line, so it should not be
@@ -1320,7 +1352,7 @@ during implementation.
   S and V); `src/normalization/adapters/prismhr.py` (`_PrismDepositMapper.map`).
 - **Status:** Decided.
 
-### 53. PrismHR header status is not applied to each line
+### 54. PrismHR header status is not applied to each line
 
 - **Context:** PrismHR sends a header for the whole direct deposit setup,
   with its own status (`achStatus`), next to a status on each line. In
@@ -1336,7 +1368,7 @@ during implementation.
   `tests/test_direct_deposit_prismhr.py::test_header_fields_ride_along_in_unmapped`.
 - **Status:** Decided.
 
-### 54. UKG Ready "reserve live check" lines are emitted without a bank
+### 55. UKG Ready "reserve live check" lines are emitted without a bank
 
 - **Context:** UKG Ready deposit lines have a `type` of either
   `DIRECT_DEPOSIT` or `RESERVE_LIVE_CHECK`. The second keeps part of the
@@ -1350,7 +1382,7 @@ during implementation.
   `src/normalization/adapters/ukg_ready.py` (`_UkgDepositMapper._line`).
 - **Status:** Decided.
 
-### 55. UKG Ready's employee deposit call is past its end of support
+### 56. UKG Ready's employee deposit call is past its end of support
 
 - **Context:** UKG's table of deprecated operations lists
   `GET v2/companies/{cid}/employees/{account_id}/direct-deposits` with
@@ -1366,7 +1398,7 @@ during implementation.
   `src/normalization/bundle.py` (`PROVIDER_SPECS`, UKG Ready keys).
 - **Status:** Decided.
 
-### 56. UKG Ready open-ended dates are kept as sent
+### 57. UKG Ready open-ended dates are kept as sent
 
 - **Context:** Live UKG lines carry `active_from` 1900-12-31 and
   `active_to` 2099-12-31, which look like stand-ins for "no start" and
@@ -1378,7 +1410,7 @@ during implementation.
   (`_UkgDepositMapper._line`).
 - **Status:** Decided.
 
-### 57. Where live deposit data differs from the specs
+### 58. Where live deposit data differs from the specs
 
 - **Context:** The live demo companies did not return everything the
   specs describe:
@@ -1392,7 +1424,7 @@ during implementation.
   - PrismHR sent `transitNum` in full and every `accountNum` masked.
 - **Decision:** A missing field is read as empty and raises no issue of
   its own. The isolved line with neither amount nor percent gets the
-  `inconsistent_allocation` warning from entry 48. The UKG label is kept
+  `inconsistent_allocation` warning from entry 49. The UKG label is kept
   as sent, and the amount currency defaults to USD.
 - **Reason:** These gaps do not change what the remaining fields mean,
   and reporting every absent optional field would bury the issues that
@@ -1403,7 +1435,7 @@ during implementation.
 
 ## Deduction normalization
 
-### 58. A deduction record holds one recurring rule
+### 59. A deduction record holds one recurring rule
 
 - **Context:** Each provider stores the deductions set up for an
   employee: what is taken, how it is worked out, how often, up to what
@@ -1416,7 +1448,7 @@ during implementation.
   pay and per month, quarter, year or lifetime, employer match, payee,
   `priority` and the dates it applies (`effective`). There is no status
   field and no amount actually taken; those amounts are deduction lines
-  on each paycheck (entry 69). Anything else stays in `unmapped`.
+  on each paycheck (entry 71). Anything else stays in `unmapped`.
 - **Reason:** These fields say what will come out of the next paycheck
   and who receives it. A status would have to be worked out from dates,
   which a reader can do as easily. An amount taken needs its pay run as
@@ -1427,16 +1459,17 @@ during implementation.
   `tests/test_canonical_model.py::test_deduction_fields_are_checked`.
 - **Status:** Decided.
 
-### 59. What a capture bundle holds for deductions
+### 60. What a capture bundle holds for deductions
 
 - **Context:** PrismHR returns deductions from `getDeductions`, one call
   per employee. isolved and UKG Ready also need one call per employee,
   and UKG Ready needs a second call per deduction for its amounts.
 - **Decision:** A deduction bundle holds, per provider:
   - PrismHR: a map from employee ID to its `getDeductions` response
-    (`get_deductions`), plus the employee list if it was captured;
+    (`get_deductions`), plus the employee list and a map from payee ID
+    to its `getPayee` response (`get_payee`, entry 70) if captured;
   - isolved: the employee list pages plus a map from employee ID to its
-    pay item array (`pay_items`, entry 64);
+    pay item array (`pay_items`, entry 65);
   - UKG Ready: the employee list, a map from account ID to the list
     response (`deductions`) and a map from deduction ID to the detail
     response (`deduction_detail`).
@@ -1446,8 +1479,8 @@ during implementation.
   records. UKG Ready's deduction code lookup is not part of the bundle,
   because the schema requires every list line to carry the code's name.
   The lookup answers for the live demo company (43 codes), but the list
-  calls do not (entry 66), so whether the two agree cannot be checked.
-- **Reason:** This matches the deposit bundles (entry 45), so one capture
+  calls do not (entry 67), so whether the two agree cannot be checked.
+- **Reason:** This matches the deposit bundles (entry 46), so one capture
   run can serve both. The lookup would only repeat names the list sends.
 - **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
   `contracts/ukg-ready/reference-schemas.json#/schemas/132` (`deduction`
@@ -1456,7 +1489,7 @@ during implementation.
   `src/normalization/adapters/ukg_ready.py` (`_UkgDeductionMapper`).
 - **Status:** Decided.
 
-### 60. PrismHR deduction codes are explained on a different record
+### 61. PrismHR deduction codes are explained on a different record
 
 - **Context:** On PrismHR's per-employee deduction, `deductionType` (the
   kind of deduction) is described only as "defined by the service
@@ -1476,7 +1509,7 @@ during implementation.
   `tests/test_deduction_prismhr.py::test_code_tables_quote_the_spec_descriptions`.
 - **Status:** Decided.
 
-### 61. PrismHR's 29 calculation methods are grouped into eight
+### 62. PrismHR's 29 calculation methods are grouped into eight
 
 - **Context:** PrismHR lists 29 calculation methods, many of them
   variants (percentage of gross, of straight pay, of retirement
@@ -1494,14 +1527,14 @@ during implementation.
   (`_METHOD_GROUPS`, `DEDUCTION_METHOD`).
 - **Status:** Decided.
 
-### 62. PrismHR frequency and order are not mapped
+### 63. PrismHR frequency and order are not mapped
 
 - **Context:** PrismHR's `period` lists the pay periods of the month
   when a deduction is taken (for example `12345`). It is not one of the
   shared frequencies. PrismHR sends no order for its deductions.
 - **Decision:** `frequency` and `priority` are empty for PrismHR, and
   `period` stays in `unmapped`. A line's ID is its position, as for
-  deposits (entry 52).
+  deposits (entry 53).
 - **Reason:** Turning a list of period numbers into "every pay" or
   "monthly" depends on the pay schedule, which the deduction call does
   not return.
@@ -1509,7 +1542,7 @@ during implementation.
   `src/normalization/adapters/prismhr.py` (`_PrismDeductionMapper._line`).
 - **Status:** Decided.
 
-### 63. PrismHR amount, maximum and match follow their switch fields
+### 64. PrismHR amount, maximum and match follow their switch fields
 
 - **Context:** PrismHR uses one `amount` for both amounts and
   percentages, chosen by `usePercent`. `maximum` caps the deduction over
@@ -1535,7 +1568,7 @@ during implementation.
   `tests/test_deduction_prismhr.py::test_use_percent_accepts_booleans_and_spec_letters`.
 - **Status:** Decided.
 
-### 64. isolved deductions come from pay items
+### 65. isolved deductions come from pay items
 
 - **Context:** isolved's spec has a deductions call for each employee,
   but it answered 401 (not authorized) for every employee of the demo
@@ -1553,7 +1586,7 @@ during implementation.
   `tests/test_deduction_isolved.py::test_medical_amount_and_retirement_percent`.
 - **Status:** Decided.
 
-### 65. isolved calculation parameters: `Amount` and `Percent` are recognised
+### 66. isolved calculation parameters: `Amount` and `Percent` are recognised
 
 - **Context:** An isolved pay item carries its figures as a list of
   parameters, each with a label (`paramType`) and a value. The spec does
@@ -1572,7 +1605,7 @@ during implementation.
   `tests/test_deduction_isolved.py::test_medical_amount_and_retirement_percent`.
 - **Status:** Decided.
 
-### 66. UKG Ready deductions join a list call and a detail call, built from the docs
+### 67. UKG Ready deductions join a list call and a detail call, built from the docs
 
 - **Context:** UKG Ready's employee deduction list gives only the code,
   name, dates and order. The amount, frequency and limits are on a
@@ -1584,7 +1617,7 @@ during implementation.
   `missing_section` warning. The calculation method type has no
   documented values, so it stays `unknown` with its label, reported once
   per distinct type. Open-ended dates such as 9999-12-31 are kept as
-  sent (entry 56). The mapping and the test data follow the reference
+  sent (entry 57). The mapping and the test data follow the reference
   pages only.
 - **Reason:** The detail is where the rule is. Building from the docs
   means a bundle captured once the calls are enabled will normalize,
@@ -1595,7 +1628,7 @@ during implementation.
   `tests/test_deduction_ukg_ready.py::test_amount_percent_and_limits_join_from_detail`.
 - **Status:** Decided.
 
-### 67. UKG Ready frequencies with no shared counterpart are `other`
+### 68. UKG Ready frequencies with no shared counterpart are `other`
 
 - **Context:** UKG Ready's `ee_frequency` (how often the employee
   deduction is taken) has eleven documented values. Most have a shared
@@ -1610,14 +1643,14 @@ during implementation.
 - **Reason:** `other` says the value is documented but not comparable,
   which `unknown` would not. UKG does not say how every pay and every
   scheduled pay differ, so they share the closest value, as PrismHR's
-  `FS` does with fixed amounts (entry 51).
+  `FS` does with fixed amounts (entry 52).
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_frequency/properties/type/enum`;
   `src/normalization/adapters/ukg_ready.py` (`DEDUCTION_FREQUENCY`);
   `tests/test_deduction_ukg_ready.py::test_frequency_table_covers_the_schema_enum_exactly`,
   `test_frequencies_without_a_counterpart_map_to_other`.
 - **Status:** Decided.
 
-### 68. Where live deduction data differs from the specs
+### 69. Where live deduction data differs from the specs
 
 - **Context:** The live demo companies did not match the specs:
   - PrismHR sends `usePercent` as a JSON boolean, not `T` or `F`.
@@ -1626,8 +1659,8 @@ during implementation.
   - isolved pay items were the same 41 items for every employee, with
     negative IDs, zero values and no dates, which looks like a template.
     Some had no `payItemCode`, and `balance` is not in the spec.
-  - UKG Ready's deduction calls could not be reached (entry 66), and
-    isolved's deductions call was not authorized (entry 64). Trying both
+  - UKG Ready's deduction calls could not be reached (entry 67), and
+    isolved's deductions call was not authorized (entry 65). Trying both
     again gave the same answers.
 - **Decision:** Both forms of `usePercent` are accepted. Benefit plan
   lines are emitted like any other. An isolved item with no code keeps
@@ -1640,9 +1673,36 @@ during implementation.
   `src/normalization/adapters/isolved.py` (`_IsolvedDeductionMapper._line`).
 - **Status:** Decided.
 
+### 70. PrismHR payee names come from the payee setup
+
+- **Context:** A PrismHR deduction rule names the third party that
+  receives the money only by an ID (`cutbackPayeeCode`). The name is on
+  a separate payee setup call (`getPayee`), whose `payeeName` is the
+  "name of the payee". On the demo, every payee ID was empty, and
+  `getPayee` answered 403 "not authorized for the method specified",
+  which the spec says happens when the call is not enabled for the user.
+- **Decision:** The payee shows the ID and the name `getPayee` gives for
+  it. The payee setup is an optional part of the deduction bundle, one
+  response per payee ID. If it was not captured, names are empty and one
+  `missing_section` issue (an expected part of the data is absent) at
+  `info` severity says so. A payee ID with no matching payee, including
+  an error response, keeps its ID with an empty name and a
+  `missing_lookup` warning (a needed lookup entry is absent) that quotes
+  the provider's error.
+- **Reason:** The name is copied from PrismHR's own payee record, so
+  nothing is inferred. Live data could not confirm it, so the mapping
+  rests on the spec and the synthetic fixture.
+- **Evidence:** `contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayeeDetails/properties/payeeName`
+  and `#/paths/~1system~1v1~1getPayee`;
+  `src/normalization/adapters/prismhr.py` (`_PrismDeductionMapper._payee`);
+  `tests/test_deduction_prismhr.py::test_payee_name_comes_from_the_payee_setup`,
+  `::test_payee_missing_from_payee_setup_keeps_the_id`,
+  `::test_payee_setup_is_optional`.
+- **Status:** Decided.
+
 ## Payroll normalization
 
-### 69. A pay run and a paycheck are separate records
+### 71. A pay run and a paycheck are separate records
 
 - **Context:** Every provider sends a list of pay runs (PrismHR
   batches, isolved run history, UKG Ready payrolls) and, for each run,
@@ -1665,7 +1725,7 @@ during implementation.
   `tests/test_payroll_*.py::test_records_link_to_runs_employees_and_company`.
 - **Status:** Decided.
 
-### 70. What a capture bundle holds for payroll
+### 72. What a capture bundle holds for payroll
 
 - **Context:** Each provider needs a run list plus one or more calls per
   run or per employee to get the paychecks, and some need a detail call
@@ -1685,13 +1745,13 @@ during implementation.
   the data is absent) and the records that need it are emitted with
   what is left.
 - **Reason:** This follows the deposit and deduction bundles (entries
-  45 and 59), so one capture run can serve every data type.
+  46 and 60), so one capture run can serve every data type.
 - **Evidence:** `src/normalization/bundle.py` (`PROVIDER_SPECS`);
   `tests/test_bundle.py::test_payroll_keys_per_provider`,
   `test_one_bundle_can_feed_every_entity`.
 - **Status:** Decided.
 
-### 71. Gross and net pay are copied, never summed
+### 73. Gross and net pay are copied, never summed
 
 - **Context:** PrismHR and isolved send a gross and a net total on
   each paycheck. UKG Ready pay statements have neither: only lines.
@@ -1706,7 +1766,7 @@ during implementation.
   `tests/test_payroll_ukg_ready.py::test_no_totals_and_live_only_fields`.
 - **Status:** Decided.
 
-### 72. Year-to-date figures are not modelled
+### 74. Year-to-date figures are not modelled
 
 - **Context:** isolved repeats month-, quarter- and year-to-date figures
   on every check line and benefit. PrismHR and UKG Ready lines carry
@@ -1719,7 +1779,7 @@ during implementation.
   (the `ytd*` fields stay in `unmapped`).
 - **Status:** Decided.
 
-### 73. PrismHR batch statuses are grouped into four
+### 75. PrismHR batch statuses are grouped into four
 
 - **Context:** PrismHR documents 20 batch status codes, only in the
   description of its `getBatchStatus` call, as a table of code and
@@ -1741,7 +1801,7 @@ during implementation.
   `tests/test_payroll_prismhr.py::test_code_tables_quote_the_spec_descriptions`.
 - **Status:** Decided.
 
-### 74. PrismHR voucher status, benefits and payments
+### 76. PrismHR voucher status, benefits and payments
 
 - **Context:** A PrismHR voucher's `status` is described only as
   "voucher status, such as printed", and every live voucher sent
@@ -1763,7 +1823,7 @@ during implementation.
   `tests/test_payroll_prismhr.py::test_printed_status_is_reported_once`.
 - **Status:** Decided.
 
-### 75. isolved payroll comes from legal 5797
+### 77. isolved payroll comes from legal 5797
 
 - **Context:** The isolved demo client has two legal companies. Legal
   5806, used for the other data types, has one pay group whose run
@@ -1776,7 +1836,7 @@ during implementation.
   (`request.legal_id`); README "Live demo data".
 - **Status:** Decided.
 
-### 76. isolved checks join runs on pay date and run number
+### 78. isolved checks join runs on pay date and run number
 
 - **Context:** An isolved check does not carry the ID of its run. It
   has a check date and `payrollRunNumber`; a run has a pay date and
@@ -1790,7 +1850,7 @@ during implementation.
   `tests/test_payroll_isolved.py::test_records_link_to_runs_employees_and_company`.
 - **Status:** Decided.
 
-### 77. isolved run type, run status and check type labels allowed so far
+### 79. isolved run type, run status and check type labels allowed so far
 
 - **Context:** isolved sends English labels, not codes, for a run's
   type and status and a check's type, and the spec lists no values.
@@ -1808,7 +1868,7 @@ during implementation.
   because it never appeared live. So every live run with checks has an
   `unknown` type.
 - **Reason:** Only labels seen live are allowed, as for employee status
-  and deposit labels (entries 21 and 49). The issue on "Data
+  and deposit labels (entries 21 and 50). The issue on "Data
   Conversion" keeps it visible that these runs are not ordinary pay
   runs.
 - **Evidence:** `contracts/isolved/openapi/isolved-v6.swagger.json#/definitions/AOS.PayrollOffice.RestAPI.Models.PayrollRunHistoryModel/properties/payrollRunType`;
@@ -1817,7 +1877,7 @@ during implementation.
   `tests/test_payroll_isolved.py::test_allowlists_cite_the_spec_fields`.
 - **Status:** Decided.
 
-### 78. isolved payments come from per-account deposits when listed
+### 80. isolved payments come from per-account deposits when listed
 
 - **Context:** An isolved check has a check amount, a direct deposit
   total and, on some checks, a list of deposit accounts with their
@@ -1834,7 +1894,7 @@ during implementation.
   `tests/test_payroll_isolved.py::test_one_check_has_no_detail`.
 - **Status:** Decided.
 
-### 79. isolved memo earnings stay earnings
+### 81. isolved memo earnings stay earnings
 
 - **Context:** Live isolved checks list the employer's 401(k) match and
   medical, dental and HSA payments among the earnings, flagged
@@ -1850,7 +1910,7 @@ during implementation.
 - **Evidence:** `src/normalization/adapters/isolved.py` (`_paycheck`).
 - **Status:** Decided.
 
-### 80. UKG Ready payroll and statement statuses
+### 82. UKG Ready payroll and statement statuses
 
 - **Context:** UKG Ready's schemas list nine payroll statuses and five
   pay statement statuses. Live, every payroll and statement was `OPEN`.
@@ -1860,14 +1920,14 @@ during implementation.
   namesakes, with `NEW` as `open`. A value outside the lists stays
   `unknown` with an `out_of_schema_value` issue (a value outside the
   documented set).
-- **Reason:** The payroll groups match PrismHR's (entry 73); the
+- **Reason:** The payroll groups match PrismHR's (entry 75); the
   statement statuses are already the shared ones.
 - **Evidence:** `contracts/ukg-ready/reference-schemas.json#/schemas/358/schema/properties/payrolls/items/properties/status/enum`
   and `#/schemas/364/schema/properties/status/enum`;
   `tests/test_payroll_ukg_ready.py::test_status_tables_cover_the_schema_enums_exactly`.
 - **Status:** Decided.
 
-### 81. UKG Ready deduction lines are split by side
+### 83. UKG Ready deduction lines are split by side
 
 - **Context:** A UKG Ready statement deduction line carries both an
   employee amount and an employer amount, either of which may be zero.
@@ -1883,7 +1943,7 @@ during implementation.
 - **Evidence:** `src/normalization/adapters/ukg_ready.py` (`_deductions`).
 - **Status:** Decided.
 
-### 82. UKG Ready earnings hours are milliseconds
+### 84. UKG Ready earnings hours are milliseconds
 
 - **Context:** UKG Ready's statement earnings `hours` is an integer
   with no documented unit. Live, overtime hours times 1.5 times the base
@@ -1897,7 +1957,7 @@ during implementation.
   `src/normalization/adapters/ukg_ready.py` (`_ms_to_hours`).
 - **Status:** Decided.
 
-### 83. Where live payroll data differs from the specs
+### 85. Where live payroll data differs from the specs
 
 - **Context:** The live demo companies did not match the specs:
   - PrismHR lists vouchers under `payrollVoucher`, not
@@ -1918,7 +1978,7 @@ during implementation.
 
 ## Company normalization
 
-### 84. A company record holds the profile, tax ids, work locations and pay groups
+### 86. A company record holds the profile, tax ids, work locations and pay groups
 
 - **Context:** Each provider describes a company with a profile (name,
   status, address, contact details) and several lists that other data
@@ -1936,7 +1996,7 @@ during implementation.
   `tests/test_canonical_model.py::test_company_fields_are_checked`.
 - **Status:** Decided.
 
-### 85. Tax ids, work locations and pay groups are nested lists with their own keys
+### 87. Tax ids, work locations and pay groups are nested lists with their own keys
 
 - **Context:** Employees and pay runs refer to locations, pay groups
   and EINs by a raw code. These lists are small and belong to one
@@ -1952,7 +2012,7 @@ during implementation.
 - **Evidence:** `tests/test_company_links.py` (one test per provider).
 - **Status:** Decided.
 
-### 86. What a capture bundle holds for companies
+### 88. What a capture bundle holds for companies
 
 - **Context:** Each provider spreads the company across different calls,
   and some calls only return details when asked.
@@ -1972,7 +2032,7 @@ during implementation.
   `tests/test_company_prismhr.py::test_missing_client_codes_leaves_lists_empty`.
 - **Status:** Decided.
 
-### 87. PrismHR's federal ID is masked live
+### 89. PrismHR's federal ID is masked live
 
 - **Context:** PrismHR's client record has `federalIdNumber`, the EIN.
   The live demo sends it fully masked (`**********`).
@@ -1984,7 +2044,7 @@ during implementation.
   `test_unmasked_federal_id_becomes_the_ein_and_one_tax_id`.
 - **Status:** Decided.
 
-### 88. Pay-group frequency: PrismHR from its schedule codes, isolved stays unknown
+### 90. Pay-group frequency: PrismHR from its schedule codes, isolved stays unknown
 
 - **Context:** A PrismHR pay group's frequency is the `payPeriod` code
   on its payroll schedule. The field itself is described only as "pay
@@ -2011,7 +2071,7 @@ during implementation.
   `tests/test_company_isolved.py::test_pay_groups`.
 - **Status:** Decided.
 
-### 89. isolved company name stays empty without `dbaName`
+### 91. isolved company name stays empty without `dbaName`
 
 - **Context:** isolved's legal record has `dbaName` (the trading name)
   and `legalName`. The live demo never sends `dbaName`.
@@ -2022,7 +2082,7 @@ during implementation.
 - **Evidence:** `tests/test_company_isolved.py::test_name_is_null_without_a_dba_name`.
 - **Status:** Decided.
 
-### 90. isolved company status labels allowed so far
+### 92. isolved company status labels allowed so far
 
 - **Context:** isolved sends the legal company's status as English text,
   and the spec lists no values. Both live legals were "Active".
@@ -2034,7 +2094,7 @@ during implementation.
   `tests/test_company_isolved.py::test_unlisted_status_label`.
 - **Status:** Decided.
 
-### 91. UKG Ready pay-period profiles stand in for pay groups
+### 93. UKG Ready pay-period profiles stand in for pay groups
 
 - **Context:** UKG Ready has no pay group records. Its pay-period
   profiles define how often a group of employees is paid, with a
@@ -2056,7 +2116,7 @@ during implementation.
   `test_out_of_enum_period_type`.
 - **Status:** Decided.
 
-### 92. UKG Ready EINs come from the lookup only
+### 94. UKG Ready EINs come from the lookup only
 
 - **Context:** UKG Ready documents many routes inside a company
   (`/v2/companies/{cid}/...`) but none that returns the company itself,
@@ -2084,7 +2144,7 @@ during implementation.
   `test_profile_is_empty_with_an_issue`.
 - **Status:** Decided.
 
-### 93. Where live company data differs from the specs
+### 95. Where live company data differs from the specs
 
 - **Context:** The live demo companies did not match the specs:
   - PrismHR's client record sends six fields the spec does not list,
@@ -2096,7 +2156,7 @@ during implementation.
 - **Decision:** Both schedule keys are read. Each PrismHR difference
   gets one `spec_live_mismatch` issue (live data differs from the spec)
   per bundle, and live-only fields stay in `unmapped`. The isolved gaps
-  are covered by entries 86 and 89.
+  are covered by entries 88 and 91.
 - **Reason:** These differences do not change what the other fields
   mean.
 - **Evidence:** `tests/test_company_prismhr.py::test_live_only_fields_are_reported_once`,
@@ -2106,7 +2166,7 @@ during implementation.
 
 ## Issues page
 
-### 94. Issue badges count everything under a tile
+### 96. Issue badges count everything under a tile
 
 - **Context:** The issues page shows providers, clients and employees as
   tiles with a badge. Some issues sit above the employee: a provider has
@@ -2125,7 +2185,7 @@ during implementation.
   `web/src/lib/issues.test.ts`.
 - **Status:** Decided.
 
-### 95. Issues without a listed employee are one link away
+### 97. Issues without a listed employee are one link away
 
 - **Context:** Nearly a third of the issues in the fixtures (45 of 151) have
   no employee tile to sit on: provider-wide findings, pay runs, pay groups and
@@ -2143,7 +2203,7 @@ during implementation.
   `web/src/app/issues/[provider]/[company]/page.tsx`.
 - **Status:** Decided.
 
-### 96. The issue export holds names and redacted values
+### 98. The issue export holds names and redacted values
 
 - **Context:** The coverage file the web app reads holds no provider
   values. The issues page needs employee and company names to label tiles,
@@ -2163,4 +2223,4 @@ during implementation.
 - **Evidence:** `scripts/export_web_data.py` (`render_issues`);
   `tests/test_web_export.py::WebExportChecks::test_export_holds_no_provider_values`;
   `tests/test_issue_tree.py::IssueExport::test_committed_issue_export_is_current`.
-- **Status:** Open.
+- **Status:** Decided.

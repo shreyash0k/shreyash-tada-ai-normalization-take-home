@@ -7,7 +7,9 @@ the per-employee detail, ``/demographics``, ``/pay-info`` and
 types, pay types and EINs. The optional ``responses.lookup_jobs``
 (``GET .../lookup/jobs``) names each default job, and the optional
 ``responses.tax_info`` (account id -> ``.../employees/{aid}/tax-info``) carries
-the 1099 flag.
+the 1099 flag. The optional ``responses.profiles`` (account id ->
+``.../employees/{aid}/profiles``) names each employee's pay-period profile,
+whose frequency comes from ``responses.lookup_pay_period_profiles``.
 
 Direct deposits come from ``responses.direct_deposits``, keyed by account id:
 the ``{"deposits": [...]}`` body of
@@ -237,6 +239,18 @@ PERIOD_TYPE = CodeTable(
 EVERY_N_WEEKS = {1: PayPeriod.WEEKLY, 2: PayPeriod.BIWEEKLY}
 
 
+def _profile_frequency(issues: Collector, r: Reader, key: Optional[str]) -> Optional[CodedValue]:
+    """A pay-period profile's frequency, from its period_type."""
+    period = r.sub("period_type")
+    raw = period.get("type")
+    coded = issues.code_once(PERIOD_TYPE, raw, period.path("type"), key, label=text(raw),
+                             issue_code=IssueCode.OUT_OF_SCHEMA_VALUE)
+    if raw == "every_n_weeks":
+        weeks = period.get("params", "num_weeks")
+        coded = CodedValue(raw=raw, label=coded.label, value=EVERY_N_WEEKS.get(weeks, PayPeriod.UNKNOWN))
+    return coded
+
+
 def _ms_to_hours(value: Any) -> Optional[Decimal]:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return None
@@ -261,12 +275,19 @@ class _UkgEmployeeMapper:
         self.pay_types = _lookup_names(bundle.response("lookup_pay_types"))
         self.reported_mismatch: set[str] = set()
         for name, action, call in (("lookup_jobs", "job titles left empty", "GET .../lookup/jobs"),
-                                   ("tax_info", "1099 flags left empty", "GET .../employees/{aid}/tax-info")):
+                                   ("tax_info", "1099 flags left empty", "GET .../employees/{aid}/tax-info"),
+                                   ("profiles", "pay frequencies left empty", "GET .../employees/{aid}/profiles"),
+                                   ("lookup_pay_period_profiles", "pay frequencies left unknown",
+                                    "GET .../lookup/pay-period-profiles")):
             if bundle.response(name) is None:
                 self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, f"responses.{name}", action,
                                 message=f"{call} was not captured")
         jobs = bundle.response("lookup_jobs")
         self.job_names = _lookup_names(jobs) if jobs is not None else None
+        lookup = bundle.response("lookup_pay_period_profiles")
+        self.pay_period_profiles = None if lookup is None else {
+            str(item["id"]): (index, item) for index, item in enumerate(lookup.get("items") or [])
+            if isinstance(item, dict) and "id" in item}
 
     def _section(self, name: str, aid: str, key: str, severity: Severity = Severity.WARNING) -> Any:
         data = (self.bundle.response(name) or {}).get(aid)
@@ -286,6 +307,28 @@ class _UkgEmployeeMapper:
                             "kept the job id; title null", key, job_id,
                             f"default job id not present in the bundled jobs lookup ({SCHEMAS}/262)")
         return name or None
+
+    def _pay_frequency(self, profiles: Reader, key: str) -> Optional[CodedValue]:
+        """The frequency of the employee's pay-period profile, read from the profiles lookup."""
+        entry = profiles.sub("pay_period", 0)
+        raw_id = entry.get("id")
+        if is_blank(raw_id):
+            return None
+        label = text(entry.get("name"))
+        if self.pay_period_profiles is None:
+            return CodedValue(raw=raw_id, label=label, value=PayPeriod.UNKNOWN)
+        found = self.pay_period_profiles.get(str(raw_id))
+        if found is None:
+            self.issues.add(IssueCode.MISSING_LOOKUP, Severity.WARNING, entry.path("id"),
+                            "kept raw id; canonical value set to unknown", key, raw_id,
+                            f"pay-period profile id not present in the bundled pay-period profiles lookup "
+                            f"({SCHEMAS}/273)")
+            return CodedValue(raw=raw_id, label=label, value=PayPeriod.UNKNOWN)
+        index, item = found
+        frequency = _profile_frequency(self.issues, Reader(item, f"lookup_pay_period_profiles.items[{index}]"),
+                                       key)
+        return CodedValue(raw=raw_id, label=text(item.get("name")) or label,
+                          value=frequency.value if frequency is not None else PayPeriod.UNKNOWN)
 
     def _lookup(self, table: CodeTable, names: Dict[str, str], raw_id: Any, path: str,
                 key: str) -> Optional[CodedValue]:
@@ -352,8 +395,9 @@ class _UkgEmployeeMapper:
         merged["demographics"] = self._section("demographics", aid, key)
         merged["pay_info"] = self._section("pay_info", aid, key)
         merged["compensation_history"] = self._section("compensation_history", aid, key)
-        if self.bundle.response("tax_info") is not None:
-            merged["tax_info"] = self._section("tax_info", aid, key, Severity.INFO)
+        for name in ("tax_info", "profiles"):
+            if self.bundle.response(name) is not None:
+                merged[name] = self._section(name, aid, key, Severity.INFO)
         r = Reader(merged)
         demo, pay_info, dates, phones_r = r.sub("demographics"), r.sub("pay_info"), r.sub("dates"), r.sub("phones")
         tax_info = r.sub("tax_info")
@@ -445,6 +489,7 @@ class _UkgEmployeeMapper:
                                 pay_info.path("pay_type", "id"), key)
         compensation = Compensation(
             pay_type=pay_type,
+            pay_frequency=self._pay_frequency(r.sub("profiles"), key),
             standard_work_day_hours=_ms_to_hours(pay_info.get("standard_work_day")),
         )
         if index is not None:
@@ -460,6 +505,7 @@ class _UkgEmployeeMapper:
             money = Money(amount=amount, currency=currency) if amount is not None else None
             compensation = Compensation(
                 pay_type=pay_type,
+                pay_frequency=compensation.pay_frequency,
                 rate=money,
                 rate_period=period,
                 hourly_rate=self.issues.money(row.get("hourly_pay"), row.path("hourly_pay"), key, currency),
@@ -906,22 +952,12 @@ class _UkgCompanyMapper:
                 key=key,
                 source_id=source_id,
                 code=Collector.raw_code(source_id, text(r.get("name"))),
-                frequency=self._frequency(r, key),
+                frequency=_profile_frequency(self.issues, r, key),
                 active=boolean(r.get("active")),
                 effective=DateRange(start=start, end=end) if start or end else None,
                 unmapped=r.unmapped(),
             ))
         return groups
-
-    def _frequency(self, r: Reader, key: str) -> Optional[CodedValue]:
-        period = r.sub("period_type")
-        raw = period.get("type")
-        coded = self.issues.code_once(PERIOD_TYPE, raw, period.path("type"), key, label=text(raw),
-                                      issue_code=IssueCode.OUT_OF_SCHEMA_VALUE)
-        if raw == "every_n_weeks":
-            weeks = period.get("params", "num_weeks")
-            coded = CodedValue(raw=raw, label=coded.label, value=EVERY_N_WEEKS.get(weeks, PayPeriod.UNKNOWN))
-        return coded
 
 
 def _company(company_id: str, bundle: Bundle, issues: Collector) -> Company:

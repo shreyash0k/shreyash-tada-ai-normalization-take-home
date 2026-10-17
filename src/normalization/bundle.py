@@ -73,8 +73,9 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
             "employee": {"get_employee_list": dict, "get_address_info": dict, "get_client_codes_job": dict},
             "direct-deposit": {},
             # getEmployeeList names the population, so an employee with no
-            # getDeductions entry can be reported.
-            "deduction": {"get_employee_list": dict},
+            # getDeductions entry can be reported. payeeId -> the getPayee
+            # response names each deduction's payee.
+            "deduction": {"get_employee_list": dict, "get_payee": dict},
             # batchId -> getBatchInfo response; adds the batch description.
             "payroll": {"get_batch_info": dict},
         },
@@ -131,8 +132,10 @@ PROVIDER_SPECS: dict[str, ResponseSpec] = {
         },
         optional={
             "company": {"lookup_pay_period_profiles": dict},
-            # The /lookup/jobs response, and account id -> the /tax-info response.
-            "employee": {"lookup_jobs": dict, "tax_info": dict},
+            # The /lookup/jobs response, account id -> the /tax-info and
+            # /profiles responses, and the /lookup/pay-period-profiles response.
+            "employee": {"lookup_jobs": dict, "tax_info": dict, "profiles": dict,
+                         "lookup_pay_period_profiles": dict},
             "direct-deposit": {"lookup_eins": dict},
             "deduction": {"lookup_eins": dict},
             "payroll": {"lookup_eins": dict},

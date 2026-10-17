@@ -1248,6 +1248,248 @@
           "visible": true
         }
       ]
+    },
+    "profiles": {
+      "12935181566": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ],
+        "pay_period": [
+          {
+            "id": 36562688,
+            "effective_from": "1900-12-31",
+            "name": "Primary-EIN Regular Bi-Weekly"
+          }
+        ]
+      },
+      "12935181567": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ],
+        "pay_period": [
+          {
+            "id": 36562688,
+            "effective_from": "1900-12-31",
+            "name": "Primary-EIN Regular Bi-Weekly"
+          }
+        ]
+      },
+      "12935181568": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ],
+        "pay_period": [
+          {
+            "id": 36562692,
+            "effective_from": "1900-12-31",
+            "name": "Weekly"
+          }
+        ]
+      },
+      "12935181569": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ],
+        "pay_period": [
+          {
+            "id": 36562688,
+            "effective_from": "1900-12-31",
+            "name": "Primary-EIN Regular Bi-Weekly"
+          }
+        ]
+      },
+      "12935181570": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ],
+        "pay_period": [
+          {
+            "id": 36562688,
+            "effective_from": "1900-12-31",
+            "name": "Primary-EIN Regular Bi-Weekly"
+          }
+        ]
+      },
+      "12935181571": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ],
+        "pay_period": [
+          {
+            "id": 36562688,
+            "effective_from": "1900-12-31",
+            "name": "Primary-EIN Regular Bi-Weekly"
+          }
+        ]
+      },
+      "12935181572": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ],
+        "pay_period": [
+          {
+            "id": 36562688,
+            "effective_from": "1900-12-31",
+            "name": "Primary-EIN Regular Bi-Weekly"
+          }
+        ]
+      },
+      "12935181573": {
+        "timesheet": [
+          {
+            "id": 36777216,
+            "effective_from": "1900-12-31"
+          }
+        ]
+      }
+    },
+    "lookup_pay_period_profiles": {
+      "items": [
+        {
+          "id": 36562688,
+          "name": "Primary-EIN Regular Bi-Weekly",
+          "active": true,
+          "effective_from": "2018-01-21",
+          "period_type": {
+            "type": "every_n_weeks",
+            "params": {
+              "start_date": "2017-10-29",
+              "num_weeks": 2
+            }
+          },
+          "description": "Dunder Mifflin Utica payroll"
+        },
+        {
+          "id": 36562692,
+          "name": "Weekly",
+          "active": false,
+          "effective_from": "2013-12-15",
+          "period_type": {
+            "type": "weekly",
+            "params": {
+              "week_day": "SUNDAY"
+            }
+          }
+        },
+        {
+          "id": 36562698,
+          "name": "Semi-Monthly",
+          "active": false,
+          "effective_from": "2019-01-01",
+          "period_type": {
+            "type": "semi_monthly",
+            "params": {
+              "starting_on_first": 1,
+              "starting_on_sec": 16
+            }
+          }
+        },
+        {
+          "id": 36562689,
+          "name": "Monthly",
+          "active": false,
+          "effective_from": "2018-01-01",
+          "period_type": {
+            "type": "monthly",
+            "params": {
+              "start_day": 1
+            }
+          }
+        },
+        {
+          "id": 36562700,
+          "name": "Every Three Weeks",
+          "active": false,
+          "effective_from": "2018-01-21",
+          "period_type": {
+            "type": "every_n_weeks",
+            "params": {
+              "start_date": "2017-10-29",
+              "num_weeks": 3
+            }
+          }
+        },
+        {
+          "id": 36562701,
+          "name": "Quarterly",
+          "active": false,
+          "effective_from": "2018-01-21",
+          "period_type": {
+            "type": "quarterly",
+            "params": {
+              "start_date": "2018-01-01"
+            }
+          }
+        },
+        {
+          "id": 36562702,
+          "name": "Monthly Second Friday",
+          "active": false,
+          "effective_from": "2018-01-21",
+          "period_type": {
+            "type": "monthly_weekday",
+            "params": {
+              "week_num": 2,
+              "week_day": "FRIDAY"
+            }
+          }
+        },
+        {
+          "id": 36562703,
+          "name": "Every Ten Days",
+          "active": false,
+          "effective_from": "2018-01-21",
+          "period_type": {
+            "type": "every_n_days",
+            "params": {
+              "start_date": "2018-01-01",
+              "num_days": 10
+            }
+          }
+        },
+        {
+          "id": 36562699,
+          "name": "Test",
+          "active": false,
+          "effective_from": "2023-05-01",
+          "period_type": {
+            "type": "user_defined",
+            "params": {}
+          },
+          "effective_to": "2023-10-01"
+        },
+        {
+          "id": 36562704,
+          "name": "Fortnightly",
+          "active": false,
+          "effective_from": "2018-01-21",
+          "period_type": {
+            "type": "fortnightly",
+            "params": {}
+          }
+        }
+      ]
     }
   }
 }

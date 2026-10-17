@@ -862,7 +862,7 @@
         "summary": {
           "fields_total": 52,
           "fields_offered": 41,
-          "fields_mapped": 36
+          "fields_mapped": 37
         },
         "coverage": [
           {
@@ -1204,10 +1204,10 @@
           {
             "field": "compensation.pay_frequency",
             "section": "compensation",
-            "status": "not_mapped_yet",
-            "source": "compensation_history row num_pp_in_year",
-            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/122/schema/properties/compensations/items/properties/num_pp_in_year",
-            "reason": "A count of pay periods per year, not a frequency code (docs/DECISIONS.md, UKG current pay entry)."
+            "status": "mapped",
+            "source": "profiles: pay_period id (frequency from the pay-period profile)",
+            "evidence": "contracts/ukg-ready/reference-schemas.json#/schemas/161/schema/properties/pay_period",
+            "reason": null
           },
           {
             "field": "compensation.rate",
@@ -1590,7 +1590,7 @@
         "summary": {
           "fields_total": 20,
           "fields_offered": 18,
-          "fields_mapped": 16
+          "fields_mapped": 17
         },
         "coverage": [
           {
@@ -1724,10 +1724,10 @@
           {
             "field": "payee.name",
             "section": "payee_order",
-            "status": "not_mapped_yet",
+            "status": "mapped",
             "source": "getPayee: payeeName",
             "evidence": "contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/PayeeDetails/properties/payeeName",
-            "reason": "The deduction line names only the payee ID. The name is on the payee setup call, which the bundle does not fetch; live, every payee ID was empty."
+            "reason": null
           },
           {
             "field": "priority",

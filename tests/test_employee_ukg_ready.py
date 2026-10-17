@@ -17,6 +17,10 @@ class UkgReadyEmployeeChecks(unittest.TestCase):
     def employee(self, index):
         return employee_by_source_id(self.output, IDS[index])
 
+    @staticmethod
+    def employee_in(output, index):
+        return employee_by_source_id(output, IDS[index])
+
     def test_matches_golden_output(self):
         self.assertEqual(self.output, expected_output("ukg-ready"))
 
@@ -76,6 +80,45 @@ class UkgReadyEmployeeChecks(unittest.TestCase):
         self.assertEqual({e["job"]["title"] for e in output["employees"]}, {None})
         self.assertEqual({e["employment"]["contractor_1099"] for e in output["employees"]}, {None})
         self.assertFalse(issues_with(output, "missing_lookup", "default_job"))
+
+    def test_pay_frequency_comes_from_the_pay_period_profile(self):
+        self.assertEqual(self.employee(0)["compensation"]["pay_frequency"],
+                         {"raw": 36562688, "label": "Primary-EIN Regular Bi-Weekly", "value": "biweekly"})
+        self.assertEqual(self.employee(2)["compensation"]["pay_frequency"],
+                         {"raw": 36562692, "label": "Weekly", "value": "weekly"})
+        self.assertIsNone(self.employee(7)["compensation"]["pay_frequency"])
+        self.assertEqual(self.employee(0)["unmapped"]["profiles.pay_period[0].effective_from"], "1900-12-31")
+        self.assertEqual(issues_with(self.output, "missing_lookup", "pay_period"), [])
+
+    def test_pay_period_profile_missing_from_lookup_stays_unknown(self):
+        bundle = copy.deepcopy(self.bundle)
+        bundle.responses["lookup_pay_period_profiles"]["items"] = [
+            p for p in bundle.responses["lookup_pay_period_profiles"]["items"] if p["id"] != 36562692]
+        output = ukg_ready.normalize_employees(bundle).to_dict()
+        self.assertEqual(employee_by_source_id(output, IDS[2])["compensation"]["pay_frequency"],
+                         {"raw": 36562692, "label": "Weekly", "value": "unknown"})
+        found = issues_with(output, "missing_lookup", "profiles.pay_period[0].id")
+        self.assertEqual([(i["record_key"], i["severity"]) for i in found],
+                         [(f"ukg-ready:33704016:{IDS[2]}", "warning")])
+
+    def test_pay_period_profile_type_outside_the_schema_is_reported_once(self):
+        bundle = copy.deepcopy(self.bundle)
+        for profile in bundle.responses["lookup_pay_period_profiles"]["items"]:
+            if profile["id"] == 36562688:
+                profile["period_type"] = {"type": "fortnightly", "params": {}}
+        output = ukg_ready.normalize_employees(bundle).to_dict()
+        self.assertEqual(self.employee_in(output, 0)["compensation"]["pay_frequency"]["value"], "unknown")
+        self.assertEqual(len(issues_with(output, "out_of_schema_value", "period_type.type")), 1)
+
+    def test_profiles_and_pay_period_lookup_are_optional(self):
+        bundle = copy.deepcopy(self.bundle)
+        bundle.responses.pop("profiles")
+        bundle.responses.pop("lookup_pay_period_profiles")
+        output = ukg_ready.normalize_employees(bundle).to_dict()
+        found = issues_with(output, "missing_section", "responses.")
+        self.assertEqual(sorted((i["source_path"], i["severity"]) for i in found),
+                         [("responses.lookup_pay_period_profiles", "info"), ("responses.profiles", "info")])
+        self.assertEqual({e["compensation"]["pay_frequency"] is None for e in output["employees"]}, {True})
 
     def test_current_compensation_skips_placeholder_and_future_rows(self):
         comp = self.employee(0)["compensation"]

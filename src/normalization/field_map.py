@@ -104,6 +104,7 @@ U_EMP = U + "106/schema/properties"
 U_DEMO = U + "134/schema/properties"
 U_PAY = U + "159/schema/properties"
 U_COMP = U + "122/schema/properties/compensations/items/properties"
+U_PROFILES = U + "161/schema/properties"
 
 PRISMHR = {
     "person.first_name": mapped("firstName", P + "Employee/properties/firstName"),
@@ -327,9 +328,8 @@ UKG_READY = {
         "and live some dates fall before the hire date."),
     "compensation.pay_type": mapped("pay_info.pay_type.id, named by the pay-types lookup",
                                     U_PAY + "/pay_type"),
-    "compensation.pay_frequency": not_mapped_yet(
-        "compensation_history row num_pp_in_year", U_COMP + "/num_pp_in_year",
-        "A count of pay periods per year, not a frequency code (docs/DECISIONS.md, UKG current pay entry)."),
+    "compensation.pay_frequency": mapped("profiles: pay_period id (frequency from the pay-period profile)",
+                                         U_PROFILES + "/pay_period"),
     "compensation.rate": mapped("current compensation_history row: amount", U_COMP + "/amount"),
     "compensation.rate_period": mapped("current compensation_history row: amount_period",
                                        U_COMP + "/amount_period"),

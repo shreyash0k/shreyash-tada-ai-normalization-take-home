@@ -14,7 +14,9 @@ employee's ``directDeposit`` header holds the ``achVoucher[]`` bank lines.
 
 Deductions come from ``responses.get_deductions``, keyed by employee ID: the
 ``GET /deductions/v1/getDeductions`` response, whose
-``employeeDeductions.deduction[]`` lists the employee's deduction rules.
+``employeeDeductions.deduction[]`` lists the employee's deduction rules. The
+optional ``responses.get_payee`` (payee ID -> ``GET /system/v1/getPayee``)
+names each rule's payee.
 
 Payroll comes from ``responses.get_batch_list_by_date`` (one
 ``GET /payroll/v1/getBatchListByDate`` response, the pay runs),
@@ -632,6 +634,30 @@ class _PrismDeductionMapper:
         self.company_id = bundle.request["client_id"]
         self.company_key = f"{PROVIDER}:{self.company_id}"
         self.responses = bundle.response("get_deductions") or {}
+        self.payees = bundle.response("get_payee")
+        self.reported_no_payees = False
+
+    def _payee(self, r: Reader, key: str) -> Optional[Payee]:
+        payee_id = text(r.get("cutbackPayeeCode"))
+        if payee_id is None:
+            return None
+        if self.payees is None:
+            if not self.reported_no_payees:
+                self.reported_no_payees = True
+                self.issues.add(IssueCode.MISSING_SECTION, Severity.INFO, "responses.get_payee",
+                                "payee names left empty", message="GET /system/v1/getPayee was not captured")
+            return Payee(id=payee_id)
+        response = self.payees.get(payee_id)
+        rows = response.get("payees") if isinstance(response, dict) else None
+        for row in rows if isinstance(rows, list) else []:
+            if isinstance(row, dict) and text(row.get("payeeId")) == payee_id:
+                return Payee(id=payee_id, name=text(row.get("payeeName")))
+        reason = (text(response.get("errorMessage")) if isinstance(response, dict) else None) \
+            or f"bundle has no responses.get_payee[{payee_id!r}] entry naming this payee"
+        self.issues.add(IssueCode.MISSING_LOOKUP, Severity.WARNING, r.path("cutbackPayeeCode"),
+                        "kept the payee id; name null", key, payee_id,
+                        f"{reason} ({SPEC}/PayeeDetails/properties/payeeName)")
+        return Payee(id=payee_id)
 
     def map(self, employee_id: str) -> list[Deduction]:
         employee_key = f"{self.company_key}:{employee_id}"
@@ -723,7 +749,6 @@ class _PrismDeductionMapper:
         raw_type = r.peek("deductionType")
         start = self.issues.date(r.get("startDate"), r.path("startDate"), key)
         end = self.issues.date(r.get("stopDate"), r.path("stopDate"), key)
-        payee_id = text(r.get("cutbackPayeeCode"))
         return Deduction(
             key=key,
             employee_key=employee_key,
@@ -736,7 +761,7 @@ class _PrismDeductionMapper:
             calculation=self._calculation(r, key),
             limits=self._limits(r, key),
             employer_match=self._match(r, key),
-            payee=Payee(id=payee_id) if payee_id else None,
+            payee=self._payee(r, key),
             effective=DateRange(start=start, end=end) if start is not None or end is not None else None,
             unmapped=r.unmapped(),
         )

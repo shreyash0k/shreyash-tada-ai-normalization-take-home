@@ -67,10 +67,7 @@ PRISMHR = {
     "employer_match.percent": mapped("matchAmount, when matchMethod is P", P + "/matchAmount"),
     "employer_match.annual_max": not_offered("The match has a method and an amount but no cap.", P),
     "payee.id": mapped("cutbackPayeeCode", P + "/cutbackPayeeCode"),
-    "payee.name": not_mapped_yet(
-        "getPayee: payeeName", PRISM + "#/components/schemas/PayeeDetails/properties/payeeName",
-        "The deduction line names only the payee ID. The name is on the payee setup call, which the "
-        "bundle does not fetch; live, every payee ID was empty."),
+    "payee.name": mapped("getPayee: payeeName", PRISM + "#/components/schemas/PayeeDetails/properties/payeeName"),
     "priority": not_offered("Deduction lines have no order number.", P),
     "effective.start": mapped("startDate", P + "/startDate"),
     "effective.end": mapped("stopDate", P + "/stopDate"),

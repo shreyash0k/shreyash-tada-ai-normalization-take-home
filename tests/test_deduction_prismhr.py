@@ -1,4 +1,5 @@
 """PrismHR deduction adapter."""
+import copy
 import unittest
 
 from _fixtures import deductions_of, expected_output, fixture_bundle, issues_with, resolve_code_table
@@ -43,6 +44,39 @@ class PrismHRDeductionChecks(unittest.TestCase):
         self.assertIsNone(bad["effective"])
         found = issues_with(self.output, "invalid_date", "startDate")
         self.assertEqual([(i["record_key"], i["raw_value"]) for i in found], [(bad["key"], "2025-02-30")])
+
+    def test_payee_name_comes_from_the_payee_setup(self):
+        lines = self.lines(7)
+        self.assertEqual(lines[1]["payee"], {"id": "MEDCO", "name": "Medco Retirement Plan Services"})
+        self.assertEqual(lines[4]["payee"], {"id": "SDU-PA", "name": "Pennsylvania SCDU"})
+        self.assertIsNone(lines[0]["payee"])
+        self.assertEqual(issues_with(self.output, "missing_lookup", "cutbackPayeeCode"), [])
+
+    def test_payee_missing_from_payee_setup_keeps_the_id(self):
+        bundle = copy.deepcopy(self.bundle)
+        bundle.responses["get_payee"].pop("SDU-PA")
+        bundle.responses["get_payee"]["MEDCO"] = {
+            "errorCode": "1", "errorMessage": "this user session is not authorized for the method specified",
+            "extension": None}
+        output = prismhr.normalize_deductions(bundle).to_dict()
+        lines = deductions_of(output, self.ids[7])
+        self.assertEqual([lines[1]["payee"], lines[4]["payee"]],
+                         [{"id": "MEDCO", "name": None}, {"id": "SDU-PA", "name": None}])
+        found = issues_with(output, "missing_lookup", "cutbackPayeeCode")
+        self.assertEqual([(i["record_key"], i["raw_value"], i["severity"]) for i in found],
+                         [(lines[1]["key"], "MEDCO", "warning"), (lines[4]["key"], "SDU-PA", "warning")])
+        self.assertIn("not authorized", found[0]["message"])
+
+    def test_payee_setup_is_optional(self):
+        bundle = copy.deepcopy(self.bundle)
+        bundle.responses.pop("get_payee")
+        output = prismhr.normalize_deductions(bundle).to_dict()
+        lines = deductions_of(output, self.ids[7])
+        self.assertEqual(lines[1]["payee"], {"id": "MEDCO", "name": None})
+        found = issues_with(output, "missing_section", "get_payee")
+        self.assertEqual([(i["source_path"], i["severity"], i["record_key"]) for i in found],
+                         [("responses.get_payee", "info", None)])
+        self.assertFalse(issues_with(output, "missing_lookup", "cutbackPayeeCode"))
 
     def test_use_percent_accepts_booleans_and_spec_letters(self):
         self.assertEqual([prismhr._use_percent(v) for v in (True, False, "T", "F", "yes", 1)],

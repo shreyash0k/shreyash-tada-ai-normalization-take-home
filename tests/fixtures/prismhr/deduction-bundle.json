@@ -350,7 +350,7 @@
               "mandatory": false,
               "matchMethod": "",
               "matchDescription": "",
-              "cutbackPayeeCode": "",
+              "cutbackPayeeCode": "SDU-PA",
               "rateTableId": "",
               "rateTier": "",
               "achOption": "",
@@ -403,6 +403,42 @@
       "errorCode": "0",
       "errorMessage": "",
       "extension": null
+    },
+    "get_payee": {
+      "MEDCO": {
+        "payees": [
+          {
+            "payeeId": "MEDCO",
+            "payeeName": "Medco Retirement Plan Services",
+            "payeeType": "C",
+            "consolidateChecks": false,
+            "remitToName": "Medco Retirement Plan Services",
+            "city": "Harrisburg",
+            "state": "PA",
+            "inactive": false
+          }
+        ],
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      },
+      "SDU-PA": {
+        "payees": [
+          {
+            "payeeId": "SDU-PA",
+            "payeeName": "Pennsylvania SCDU",
+            "payeeType": "D",
+            "consolidateChecks": false,
+            "remitToName": "Pennsylvania SCDU",
+            "city": "Harrisburg",
+            "state": "PA",
+            "inactive": false
+          }
+        ],
+        "errorCode": "0",
+        "errorMessage": "",
+        "extension": null
+      }
     }
   }
 }
