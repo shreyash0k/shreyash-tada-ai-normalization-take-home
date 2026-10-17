@@ -6,6 +6,7 @@ import {
   orderedGroups,
   pathField,
   rawText,
+  issueReport,
   recordLabel,
   resultLabel,
   sentence,
@@ -81,6 +82,30 @@ describe("resultLabel", () => {
     ["kept the job code; title null", "kept the job code"],
   ])("%s", (action, label) => {
     expect(resultLabel(action)).toBe(label);
+  });
+});
+
+describe("issueReport", () => {
+  it("writes the person, provider, id, and the field that failed", () => {
+    const issue: TreeIssue = {
+      code: "invalid_date",
+      severity: "error",
+      source_path: "salaryEffectiveDate",
+      raw_value: "not-a-date",
+      action: "set null",
+      expected: "YYYY-MM-DD",
+      record: "employee",
+      record_id: null,
+    };
+    expect(issueReport("Harper Marchetti", "isolved:4046-5806:859205 · 1 issue", issue)).toBe(`name: Harper Marchetti
+provider: isolved
+id: 859205
+
+field: salaryEffectiveDate
+got: not-a-date
+expected: YYYY-MM-DD
+result: null
+`);
   });
 });
 

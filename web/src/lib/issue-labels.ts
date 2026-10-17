@@ -64,6 +64,32 @@ export function resultLabel(action: string): string {
   return clause;
 }
 
+const COMPANY_RECORDS = new Set(["run", "pg"]);
+
+function identity(subtitle: string): { provider: string; id: string } {
+  const parts = subtitle.split(" · ")[0].split(":");
+  const provider = parts[0] ?? "";
+  if (parts.length >= 3 && !COMPANY_RECORDS.has(parts[2])) return { provider, id: parts[2] };
+  if (parts.length === 4 && COMPANY_RECORDS.has(parts[2])) return { provider, id: parts[3] };
+  if (parts.length >= 2) return { provider, id: parts[1] };
+  return { provider, id: "" };
+}
+
+export function issueReport(name: string, subtitle: string, issue: TreeIssue): string {
+  const { provider, id } = identity(subtitle);
+  const lines = [`name: ${name}`, `provider: ${provider}`];
+  if (id) lines.push(`id: ${id}`);
+  lines.push(
+    "",
+    `field: ${issue.source_path}`,
+    `got: ${rawText(issue.raw_value) ?? "absent"}`,
+    `expected: ${issue.expected ?? ""}`,
+    `result: ${resultLabel(issue.action)}`,
+    "",
+  );
+  return lines.join("\n");
+}
+
 export function issueCount(count: number): string {
   return `${count} ${count === 1 ? "issue" : "issues"}`;
 }

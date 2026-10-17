@@ -30,7 +30,7 @@ export function IssueDialog({
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Backdrop className="fixed inset-0 z-40 bg-neutral-900/35" />
-        <Dialog.Popup className="fixed left-1/2 top-20 z-50 max-h-[calc(100vh-10rem)] w-[calc(100%-3rem)] max-w-3xl -translate-x-1/2 overflow-y-auto rounded-2xl bg-white p-7 text-sm shadow-2xl outline-none">
+        <Dialog.Popup className="fixed left-1/2 top-20 z-50 max-h-[calc(100vh-10rem)] w-[calc(100%-3rem)] max-w-5xl -translate-x-1/2 overflow-y-auto rounded-2xl bg-white p-7 text-sm shadow-2xl outline-none">
           <Dialog.Close
             aria-label="Close"
             className="absolute right-5 top-4 cursor-pointer text-xl text-neutral-400 hover:text-neutral-700"
@@ -49,7 +49,7 @@ export function IssueDialog({
                   {group.heading && (
                     <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-500">{group.heading}</h3>
                   )}
-                  <IssueList issues={group.issues} />
+                  <IssueList issues={group.issues} title={title} subtitle={subtitle} />
                 </section>
               ))
           )}

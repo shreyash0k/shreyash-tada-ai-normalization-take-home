@@ -242,10 +242,10 @@ data be trusted? It starts with a tile per provider, showing that provider's
 logo, then a tile
 per client, then a tile per employee. Each tile has a badge with the number of issues under it, including
 zero. Provider tiles stay in the field-mapping order: PrismHR, isolved,
-UKG Ready. Client and employee tiles are ordered by that count. Clicking an employee opens
-their issues as four columns: the field, what the provider sent, the
-constraint that failed, and the short result (`null`, `unknown`, `unmapped`,
-`none`). Issues that belong to no listed employee (provider-wide findings, pay
+UKG Ready. Client and employee tiles are ordered by that count. Clicking an employee opens their issues in a table: the field, what the
+provider sent, the constraint that failed, and the short result (`null`,
+`unknown`, `unmapped`, `none`). Each row has a copy icon that writes the person's name, provider, id, and
+the field that failed. Issues that belong to no listed employee (provider-wide findings, pay
 runs, company records, an employee missing from the employee list) are one
 link away under the tiles, and are counted in the badges.
 
