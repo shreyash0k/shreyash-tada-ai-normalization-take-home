@@ -596,15 +596,6 @@
       "record_key": "ukg-ready:33704016:12935181573:dd:47481007",
       "raw_value": "2025-02-30",
       "message": "value is not a YYYY-MM-DD date or ISO 8601 date-time"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "responses",
-      "action": "company name set null",
-      "record_key": null,
-      "raw_value": null,
-      "message": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404"
     }
   ],
   "schema_version": "1"

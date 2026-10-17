@@ -961,8 +961,6 @@ class _UkgCompanyMapper:
 
 
 def _company(company_id: str, bundle: Bundle, issues: Collector) -> Company:
-    issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses", "company name set null",
-               message="UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404")
     eins = [item for item in (bundle.response("lookup_eins") or {}).get("items") or [] if isinstance(item, dict)]
     ein, secondary = None, {}
     if len(eins) == 1:

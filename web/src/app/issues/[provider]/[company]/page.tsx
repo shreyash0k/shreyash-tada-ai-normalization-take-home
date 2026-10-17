@@ -5,10 +5,10 @@ import { IssuesHeader } from "@/components/issues/issues-header";
 import { LeftoverLink } from "@/components/issues/leftover-link";
 import { Tile } from "@/components/issues/tile";
 import { groupByRecord, orderedGroups } from "@/lib/issue-labels";
-import { byConcern, companyIssues, findCompany, findProvider, issueTree } from "@/lib/issues";
+import { byConcern, findCompany, findProvider, issueTree } from "@/lib/issues";
 import { PROVIDER_STYLE } from "@/lib/providers";
 
-export const metadata: Metadata = { title: "Issues" };
+export const metadata: Metadata = { title: "Issue tracker" };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -34,7 +34,7 @@ export default async function CompanyIssues({ params }: { params: Promise<{ prov
         ]}
       />
       <div className="mb-10 flex justify-center">
-        <Tile name={company.name} detail={company.key} issues={companyIssues(company)} accent={accent} size="large" />
+        <Tile name={company.name} detail={company.key} accent={accent} size="large" />
       </div>
       <div className="flex flex-wrap justify-center gap-7">
         {employees.map((employee) => (
@@ -42,8 +42,8 @@ export default async function CompanyIssues({ params }: { params: Promise<{ prov
         ))}
       </div>
       <LeftoverLink
-        label="not tied to an employee"
-        title={`${company.name}: not tied to an employee`}
+        label="tied to the client"
+        title={`${company.name}: tied to the client`}
         subtitle={company.key}
         groups={[
           ...orderedGroups(groupByRecord(company.issues)),

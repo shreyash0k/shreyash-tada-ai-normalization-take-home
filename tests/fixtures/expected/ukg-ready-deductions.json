@@ -571,15 +571,6 @@
       "record_key": "ukg-ready:33704016:12935181566:ded:198000",
       "raw_value": "FLAT_AMOUNT",
       "message": "deduction.ee_calc_method.method.type: code has no documented meaning (contracts/ukg-ready/reference-schemas.json#/schemas/133/schema/properties/ee_calc_method/properties/method/properties/type (string, no enum))"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "responses",
-      "action": "company name set null",
-      "record_key": null,
-      "raw_value": null,
-      "message": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404"
     }
   ],
   "schema_version": "1"

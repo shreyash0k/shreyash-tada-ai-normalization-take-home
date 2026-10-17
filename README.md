@@ -46,9 +46,9 @@ edge-case tests for all five data types.
 single linked document, checking that every employee, pay run and company
 key in it resolves (see [Running](#running)).
 
-A local web app opens on an issues page that drills from provider to client
+A local web app opens on an issue tracker that drills from provider to client
 to employee and lists everything normalization flagged on each person (see
-[Issues page](#issues-page)). A Field map button at the bottom right shows how each provider's
+[Issue tracker](#issue-tracker)). A Field map button at the bottom right shows how each provider's
 employee, direct deposit, deduction, payroll and company fields map into the
 canonical model: mapped, not mapped yet, or not offered (see
 [Field coverage page](#field-coverage-page)).
@@ -117,10 +117,10 @@ Known gaps in the starter are tracked in
 | `src/normalization/deduction_field_map.py` | Per-provider source and status of each canonical deduction field |
 | `src/normalization/payroll_field_map.py` | Per-provider source and status of each canonical payroll field |
 | `src/normalization/company_field_map.py` | Per-provider source and status of each canonical company field |
-| `src/normalization/issue_tree.py` | Places each issue under its provider, client and employee for the issues page |
+| `src/normalization/issue_tree.py` | Places each issue under its provider, client and employee for the issue tracker |
 | `scripts/generate_fixtures.py` | Seeded fixture generator |
 | `scripts/export_web_data.py` | Writes the coverage and issue data the web pages read |
-| `web/` | Next.js field coverage and issues pages (static export) |
+| `web/` | Next.js field coverage and issue tracker pages (static export) |
 | `web/public/logos/` | Provider logos used by the coverage page |
 | `tests/` | Unit tests; `tests/fixtures/<provider>/` holds the company, employee, direct-deposit, deduction and payroll bundles, `tests/fixtures/expected/` the expected outputs |
 | `docs/canonical/` | JSON Schema for the normalized output |
@@ -183,8 +183,8 @@ PYTHONPATH=src python3 -m normalization normalize \
 
 For every `--entity` the input must be a capture bundle whose `provider`
 matches `--provider` and that holds the responses that data type needs. On
-success a summary such as `8 employees, 6 issues`, `9 direct deposits, 2
-issues`, `13 deductions, 2 issues`, `1 pay runs, 8 paychecks, 5 issues` or
+success a summary such as `8 employees, 5 issues`, `9 direct deposits, 1
+issues`, `13 deductions, 1 issues`, `1 pay runs, 8 paychecks, 4 issues` or
 `1 company, 5 work locations, 3 pay groups, 1 tax ids, 2 issues` is printed
 to stderr. The output is a `NormalizedOutput` document (`provider`,
 `company`, `employees[]`, `direct_deposits[]`, `deductions[]`, `pay_runs[]`,
@@ -206,7 +206,7 @@ PYTHONPATH=src python3 -m normalization normalize-company \
 ```
 
 It prints `1 company, 8 employees, 9 direct deposits, 13 deductions, 1 pay
-runs, 8 paychecks, 0 broken links, 13 issues` and writes one
+runs, 8 paychecks, 0 broken links, 12 issues` and writes one
 `NormalizedOutput` with the full company and every list filled. Issues
 reported word for word by several data types appear once. Each employee,
 pay run, direct deposit, deduction and paycheck must point at this
@@ -264,19 +264,23 @@ changing a field map, re-run the export. After changing an adapter,
 regenerate the fixtures with `scripts/generate_fixtures.py` first, since that
 check reads the golden outputs.
 
-## Issues page
+## Issue tracker
 
 `/issues` is the front door. It answers one question: can this employee's
 data be trusted? It starts with a tile per provider, showing that provider's
 logo, then a tile
-per client, then a tile per employee. Each tile has a badge with the number of issues under it, including
-zero. Provider tiles stay in the field-mapping order: PrismHR, isolved,
+per client, then a tile per employee. Each tile with issues has a badge with the number under it;
+a tile with none has no badge, and neither does the large provider or client tile at the top
+of its own page. Provider tiles stay in the field-mapping order: PrismHR, isolved,
 UKG Ready. Client and employee tiles are ordered by that count. Clicking an employee opens their issues in a table: the field, what the
 provider sent, the constraint that failed, and the short result (`null`,
 `unknown`, `unmapped`, `none`). Each row has a copy icon that writes the person's name, provider, id, and
-the field that failed. Issues that belong to no listed employee (provider-wide findings, pay
-runs, company records, an employee missing from the employee list) are one
-link away under the tiles, and are counted in the badges.
+the field that failed. A client's issues that belong to no listed employee (pay
+runs, pay groups, company records, an employee missing from the employee list) are one
+link away under its tiles ("3 issues tied to the client"), and are counted in
+the badges. Provider-wide findings, such as fields the live API spells
+differently from its spec, are left out of the page; they stay in the
+normalized output files.
 
 The data is `web/src/data/issues.json`, written by the same export script
 from the golden outputs. Unlike `coverage.json`, it holds the synthetic

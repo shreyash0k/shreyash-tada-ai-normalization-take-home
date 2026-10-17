@@ -4,7 +4,7 @@ import { Tile } from "@/components/issues/tile";
 import { issueTree, providerIssues } from "@/lib/issues";
 import { PROVIDER_STYLE } from "@/lib/providers";
 
-export const metadata: Metadata = { title: "Issues" };
+export const metadata: Metadata = { title: "Issue tracker" };
 
 export default function Issues() {
   return (

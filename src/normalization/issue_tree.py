@@ -2,7 +2,8 @@
 
 Record keys look like ``provider:client``, ``provider:client:run|pg:id``,
 ``provider:client:employee`` or ``provider:client:employee:dd|ded|chk:id``.
-An issue without a key belongs to the provider as a whole.
+An issue without a key concerns the provider's API as a whole, not a client
+or employee, so the page leaves it out; the normalized outputs still hold it.
 """
 import re
 from dataclasses import dataclass
@@ -120,17 +121,16 @@ def build_provider(provider: str, name: str, outputs: dict) -> dict:
         company(place.company)["employees"][place.employee] = {
             "key": employee["key"], "id": place.employee, "name": full_name or place.employee, "issues": []}
 
-    provider_issues = []
     for entity in ENTITIES:
         for issue in outputs[entity]["issues"]:
             place = parse_key(provider, issue["record_key"])
+            if place.company is None:
+                continue
             shown = {"code": issue["code"], "severity": issue["severity"], "source_path": issue["source_path"],
                      "raw_value": issue["raw_value"], "action": issue["action"],
                      "expected": expected_text(issue.get("message")),
                      "record": place.record, "record_id": place.record_id}
-            if place.company is None:
-                provider_issues.append(shown)
-            elif place.employee is None:
+            if place.employee is None:
                 company(place.company)["issues"].append(shown)
             else:
                 node = company(place.company)
@@ -142,7 +142,6 @@ def build_provider(provider: str, name: str, outputs: dict) -> dict:
     return {
         "id": provider,
         "name": name,
-        "issues": provider_issues,
         "companies": [
             {**node,
              "unknown_employees": [node["unknown_employees"][key] for key in sorted(node["unknown_employees"])],

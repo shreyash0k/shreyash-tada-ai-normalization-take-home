@@ -1523,15 +1523,6 @@
       "record_key": "ukg-ready:33704016:12935181566",
       "raw_value": 35043009,
       "message": "pay_info.pay_type.id: label is not on the documented allowlist (contracts/ukg-ready/reference-schemas.json#/schemas/159/schema/properties/pay_type (id only; names come from GET /v2/companies/{cid}/lookup/pay-types and are tenant-defined))"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "responses",
-      "action": "company name set null",
-      "record_key": null,
-      "raw_value": null,
-      "message": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404"
     }
   ],
   "schema_version": "1"

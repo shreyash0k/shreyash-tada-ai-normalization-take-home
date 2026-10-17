@@ -1033,15 +1033,6 @@
       "record_key": null,
       "raw_value": null,
       "message": "pay statements carry no gross or net totals (contracts/ukg-ready/reference-schemas.json#/schemas/364/schema/properties); they are never summed from the lines"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "responses",
-      "action": "company name set null",
-      "record_key": null,
-      "raw_value": null,
-      "message": "UKG Ready has no company profile endpoint; GET /v2/companies/{cid} answers 404"
     }
   ],
   "schema_version": "1"

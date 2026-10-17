@@ -835,11 +835,7 @@ class _IsolvedCompanyMapper:
         )
 
 
-def _company(company_id: str, legal_codes: set[str], issues: Collector) -> Company:
-    issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
-               "company name set null",
-               message="this bundle does not hold the legal record; "
-                       "--entity company reads it")
+def _company(company_id: str, legal_codes: set[str]) -> Company:
     secondary = {}
     if len(legal_codes) == 1:
         secondary["legalCode"] = next(iter(legal_codes))
@@ -859,7 +855,7 @@ def normalize_employees(bundle: Bundle) -> NormalizedOutput:
     issues = Collector()
     mapper = _IsolvedEmployeeMapper(bundle, issues)
     employees = [mapper.map(record) for record in _employee_records(bundle)]
-    company = _company(mapper.company_id, mapper.legal_codes, issues)
+    company = _company(mapper.company_id, mapper.legal_codes)
     return NormalizedOutput(provider=PROVIDER, company=company, employees=employees, issues=issues.issues)
 
 
@@ -872,7 +868,7 @@ def normalize_direct_deposits(bundle: Bundle) -> NormalizedOutput:
     listed = set(employee_ids)
     employee_ids += [employee_id for employee_id in mapper.responses if employee_id not in listed]
     deposits = [deposit for employee_id in employee_ids for deposit in mapper.map(employee_id)]
-    company = _company(mapper.company_id, legal_codes, issues)
+    company = _company(mapper.company_id, legal_codes)
     return NormalizedOutput(provider=PROVIDER, company=company, direct_deposits=deposits, issues=issues.issues)
 
 
@@ -885,7 +881,7 @@ def normalize_deductions(bundle: Bundle) -> NormalizedOutput:
     listed = set(employee_ids)
     employee_ids += [employee_id for employee_id in mapper.responses if employee_id not in listed]
     deductions = [record for employee_id in employee_ids for record in mapper.map(employee_id)]
-    company = _company(mapper.company_id, legal_codes, issues)
+    company = _company(mapper.company_id, legal_codes)
     return NormalizedOutput(provider=PROVIDER, company=company, deductions=deductions, issues=issues.issues)
 
 
@@ -899,7 +895,7 @@ def normalize_payroll(bundle: Bundle) -> NormalizedOutput:
     listed = set(employee_ids)
     employee_ids += [employee_id for employee_id in mapper.checks if employee_id not in listed]
     paychecks = [check for employee_id in employee_ids for check in mapper.map(employee_id)]
-    company = _company(mapper.company_id, legal_codes, issues)
+    company = _company(mapper.company_id, legal_codes)
     return NormalizedOutput(provider=PROVIDER, company=company, pay_runs=pay_runs, paychecks=paychecks,
                             issues=issues.issues)
 

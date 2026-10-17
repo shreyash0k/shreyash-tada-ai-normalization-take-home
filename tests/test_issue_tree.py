@@ -63,7 +63,7 @@ class BuildProvider(unittest.TestCase):
             issue("prismhr:132:F00001:dd:0", "masked_value", "info"),
             issue("prismhr:132:X00099", "missing_section", "warning"),
         ]))
-        self.assertEqual([i["code"] for i in tree["issues"]], ["spec_live_mismatch"])
+        self.assertNotIn("issues", tree)
         [company] = tree["companies"]
         self.assertEqual([(i["record"], i["record_id"]) for i in company["issues"]],
                          [("company", None), ("run", "202604")])
@@ -130,13 +130,14 @@ class GoldenTrees(unittest.TestCase):
     def tree(self, provider):
         return build_provider(provider, provider, {entity: expected_output(provider, entity) for entity in ENTITIES})
 
-    def test_every_golden_issue_lands_once(self):
+    def test_every_keyed_golden_issue_lands_once(self):
         for provider in PROVIDERS:
             tree = self.tree(provider)
-            placed = len(tree["issues"]) + sum(
+            placed = sum(
                 len(c["issues"]) + sum(len(e["issues"]) for e in c["employees"] + c["unknown_employees"])
                 for c in tree["companies"])
-            expected = sum(len(expected_output(provider, entity)["issues"]) for entity in ENTITIES)
+            expected = sum(1 for entity in ENTITIES for i in expected_output(provider, entity)["issues"]
+                           if i["record_key"] is not None)
             with self.subTest(provider=provider):
                 self.assertEqual(placed, expected)
 

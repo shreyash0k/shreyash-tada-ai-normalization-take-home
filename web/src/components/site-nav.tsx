@@ -66,7 +66,7 @@ export function SiteNav() {
         );
       })}
       <Link href="/issues" className={`${pill(false)} ml-auto`}>
-        Issues
+        Issue tracker
       </Link>
     </nav>
   );

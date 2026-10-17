@@ -38,9 +38,9 @@ describe("roll-ups", () => {
     expect(companyIssues(company)).toHaveLength(4);
   });
 
-  it("adds provider-wide issues to a provider", () => {
-    const provider: ProviderNode = { id: "prismhr", name: "PrismHR", issues: [issue("info")], companies: [company] };
-    expect(providerIssues(provider)).toHaveLength(5);
+  it("counts every client under a provider", () => {
+    const provider: ProviderNode = { id: "prismhr", name: "PrismHR", companies: [company, { ...company, id: "200" }] };
+    expect(providerIssues(provider)).toHaveLength(8);
   });
 });
 

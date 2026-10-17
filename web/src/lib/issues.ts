@@ -43,7 +43,7 @@ export type CompanyNode = {
   employees: EmployeeNode[];
 };
 
-export type ProviderNode = { id: ProviderId; name: string; issues: TreeIssue[]; companies: CompanyNode[] };
+export type ProviderNode = { id: ProviderId; name: string; companies: CompanyNode[] };
 
 export type IssueGroup = { heading: string | null; issues: TreeIssue[] };
 
@@ -60,7 +60,7 @@ export function companyIssues(company: CompanyNode): TreeIssue[] {
 }
 
 export function providerIssues(provider: ProviderNode): TreeIssue[] {
-  return [...provider.issues, ...provider.companies.flatMap(companyIssues)];
+  return provider.companies.flatMap(companyIssues);
 }
 
 export function byConcern<T>(items: T[], issuesOf: (item: T) => TreeIssue[], nameOf: (item: T) => string): T[] {

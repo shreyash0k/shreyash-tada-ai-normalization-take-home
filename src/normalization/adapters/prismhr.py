@@ -1154,11 +1154,7 @@ class _PrismCompanyMapper:
         return groups
 
 
-def _company(company_id: str, issues: Collector) -> Company:
-    issues.add(IssueCode.MISSING_SECTION, Severity.WARNING, "responses",
-               "company name set null",
-               message="this bundle does not hold the client record; "
-                       "--entity company reads it from getClientMaster")
+def _company(company_id: str) -> Company:
     return Company(key=f"{PROVIDER}:{company_id}",
                    source=CompanySource(provider=PROVIDER, company_id=company_id))
 
@@ -1173,7 +1169,7 @@ def normalize_employees(bundle: Bundle) -> NormalizedOutput:
     issues = Collector()
     mapper = _PrismEmployeeMapper(bundle, issues)
     employees = [mapper.map(record) for record in _employee_records(bundle, "get_employee", issues)]
-    company = _company(mapper.company_id, issues)
+    company = _company(mapper.company_id)
     return NormalizedOutput(provider=PROVIDER, company=company, employees=employees, issues=issues.issues)
 
 
@@ -1184,7 +1180,7 @@ def normalize_direct_deposits(bundle: Bundle) -> NormalizedOutput:
     deposits = []
     for record in _employee_records(bundle, "get_employee_direct_deposit", issues):
         deposits.extend(mapper.map(record))
-    company = _company(mapper.company_id, issues)
+    company = _company(mapper.company_id)
     return NormalizedOutput(provider=PROVIDER, company=company, direct_deposits=deposits, issues=issues.issues)
 
 
@@ -1200,7 +1196,7 @@ def normalize_deductions(bundle: Bundle) -> NormalizedOutput:
     seen = set(employee_ids)
     employee_ids += [employee_id for employee_id in mapper.responses if employee_id not in seen]
     deductions = [record for employee_id in employee_ids for record in mapper.map(employee_id)]
-    company = _company(mapper.company_id, issues)
+    company = _company(mapper.company_id)
     return NormalizedOutput(provider=PROVIDER, company=company, deductions=deductions, issues=issues.issues)
 
 
@@ -1211,7 +1207,7 @@ def normalize_payroll(bundle: Bundle) -> NormalizedOutput:
     mapper = _PrismPayrollMapper(bundle, issues)
     pay_runs = mapper.runs()
     paychecks = mapper.paychecks({run.source.pay_run_id: run.key for run in pay_runs})
-    company = _company(mapper.company_id, issues)
+    company = _company(mapper.company_id)
     return NormalizedOutput(provider=PROVIDER, company=company, pay_runs=pay_runs, paychecks=paychecks,
                             issues=issues.issues)
 

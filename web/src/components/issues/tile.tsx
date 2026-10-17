@@ -19,12 +19,12 @@ export function TileContent({
 }: {
   name: string;
   detail?: string;
-  issues: TreeIssue[];
+  issues?: TreeIssue[];
   logo?: string;
 }) {
   return (
     <>
-      <IssueBadge issues={issues} />
+      {issues && <IssueBadge issues={issues} />}
       {logo ? (
         <Image src={logo} alt={name} width={140} height={32} className="h-7 w-auto max-w-full object-contain" />
       ) : (
@@ -46,7 +46,7 @@ export function Tile({
 }: {
   name: string;
   detail?: string;
-  issues: TreeIssue[];
+  issues?: TreeIssue[];
   accent: string;
   href?: string;
   logo?: string;

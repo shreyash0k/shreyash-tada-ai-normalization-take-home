@@ -7,9 +7,12 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from _fixtures import ENTITIES, FIXTURES, PROVIDERS, expected_output, schema
 from normalization.__main__ import main
+from normalization.adapters import ADAPTERS
+from normalization.canonical import Issue, IssueCode, Severity
 from normalization.canonical.schema_check import validate
 from normalization.company_document import build_document, link_issues, load_company_bundles
 
@@ -48,11 +51,17 @@ class CompanyDocumentChecks(unittest.TestCase):
                 self.assertEqual(validate(self.document(provider).to_dict(), schema()), [])
 
     def test_identical_issues_are_kept_once(self):
-        stub = [i for entity in ENTITIES[1:] for i in expected_output("ukg-ready", entity)["issues"]
-                if i["action"] == "company name set null"]
-        self.assertEqual(len(stub), 4)
-        issues = self.document("ukg-ready").to_dict()["issues"]
-        self.assertEqual([i for i in issues if i["action"] == "company name set null"], stub[:1])
+        shared = Issue(IssueCode.SPEC_LIVE_MISMATCH, Severity.WARNING, "responses", "read the live shape")
+        real = ADAPTERS["prismhr"]
+
+        class Repeating:
+            def normalize(self, entity, bundle, reference):
+                output = real.normalize(entity, bundle, reference)
+                return dataclasses.replace(output, issues=[*output.issues, shared])
+
+        with mock.patch.dict(ADAPTERS, {"prismhr": Repeating()}):
+            issues = self.document("prismhr").issues
+        self.assertEqual(issues.count(shared), 1)
 
     def test_fixture_links_all_resolve(self):
         for provider in PROVIDERS:

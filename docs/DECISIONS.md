@@ -749,20 +749,23 @@ during implementation.
     lookup when it returns exactly one row; if it returns several, a
     `missing_lookup` issue (a needed lookup entry is absent) says the EIN
     could not be chosen and that the company output lists each one.
-  The company name is empty, and a `missing_section` issue (an expected
-  part of the data is absent) says where it comes from: for PrismHR and
-  isolved, the company record that `--entity company` reads; for UKG
-  Ready, nowhere, since it has no company endpoint (entry 94). The full
-  company record is its own data type (`--entity company`, entries 86 to
-  95). Only that data type reads the company calls; every other output
-  keeps this minimal record, with the full record's other fields empty.
+  The company name is empty, and the minimal record raises no issue for
+  it. The full company record is its own data type (`--entity company`,
+  entries 86 to 95). Only that data type reads the company calls and
+  reports what they lack, such as UKG Ready having no company endpoint
+  (entry 94). Every other output keeps this minimal record, with the full
+  record's other fields empty.
 - **Reason:** Every employee needs a company key to link to, and the key can
   be built from identifiers the bundle already has. Filling in more than that
   would mean guessing (entry 1). An employee or payroll capture should not
-  have to fetch company details to be normalized.
+  have to fetch company details to be normalized. An empty name here is by
+  design, so a warning in each of the four outputs repeated one note four
+  times and filled the issue tracker with nothing to fix.
 - **Evidence:** `src/normalization/canonical/company.py`;
+  `src/normalization/adapters/` (`_company` in each adapter);
   `tests/test_employee_ukg_ready.py::test_company_stub_takes_ein_from_single_lookup_row`;
-  `tests/test_company_links.py::test_every_output_shares_the_company_key`.
+  `tests/test_company_links.py::test_every_output_shares_the_company_key`;
+  `tests/test_company_ukg_ready.py::test_profile_is_empty_with_an_issue`.
 - **Status:** Decided.
 
 ### 31. Standard hours are "per pay period" for PrismHR and isolved
@@ -2166,51 +2169,63 @@ during implementation.
   `test_plural_schedule_key_reads_without_an_issue`.
 - **Status:** Decided.
 
-## Issues page
+## Issue tracker
 
 ### 96. Issue badges count everything under a tile
 
-- **Context:** The issues page shows providers, clients and employees as
-  tiles with a badge. Some issues sit above the employee: a provider can
-  have findings with no record key, a client can have pay-run, pay-group
-  and company-detail issues, and an issue can name an employee who is not
-  in the employee list. The badge had to say whether it counts these.
+- **Context:** The issue tracker shows providers, clients and employees as
+  tiles with a badge. Some issues sit above the employee: a client can
+  have pay-run, pay-group and company-detail issues, and an issue can
+  name an employee who is not in the employee list. The badge had to say
+  whether it counts these.
 - **Decision:** A badge counts every issue under its tile, these included,
-  so PrismHR shows 16. The badge is the number only, including 0. Provider
+  so isolved shows 10. Provider-wide findings are not shown at all
+  (entry 97), so no badge counts them. The badge is the number only, and a tile with no
+  issues shows no badge. Only the tiles a reader can open carry a badge:
+  the large provider or client tile heading its own page has none.
+  Provider
   tiles stay in the field-mapping order: PrismHR, isolved, UKG Ready.
   Client and employee tiles are ordered by that count, then by name.
 - **Reason:** A provider or client badge should match what a reader finds
   by opening everything under it. The number says where the issues are;
-  severity colour did not say which field was wrong.
+  severity colour did not say which field was wrong. A zero badge was
+  noise next to the tiles that need attention, and a badge on the heading
+  tile only repeated the number the reader clicked to get there.
 - **Evidence:** `web/src/components/issues/issue-badge.tsx`;
   `web/src/lib/issues.ts` (`providerIssues`, `companyIssues`, `byConcern`);
   `web/src/lib/issues.test.ts`.
 - **Status:** Decided.
 
-### 97. Issues without a listed employee are one link away
+### 97. Provider-wide findings stay out of the issue tracker
 
-- **Context:** Most issues in the fixtures (31 of 47) have no employee
-  tile to sit on: 25 provider-wide findings with no record key, and 6
-  pay-group and company-detail issues. An issue can also concern a pay
-  run, or an employee missing from the employee list.
-- **Decision:** Under its tiles, the provider page shows a link such as
-  "12 issues not tied to a client", and the client page one such as
-  "3 issues not tied to an employee". Each appears only when its count is
-  above zero, and opens the same popup as an employee, grouped by record.
-  These issues are also counted in the badges.
-- **Reason:** The tiles stay about people, and no issue is hidden.
-- **Evidence:** `src/normalization/issue_tree.py`;
+- **Context:** Many issues in the fixtures (19 of 35) have no employee
+  tile to sit on. 13 are provider-wide findings with no record key,
+  mostly `spec_live_mismatch` issues (live data differs from the spec)
+  that describe the provider's API rather than anyone's data. The other
+  6 are pay-group and company-detail issues of one client. An issue can
+  also concern a pay run, or an employee missing from the employee list.
+- **Decision:** The issue tracker leaves provider-wide findings out; they
+  remain in the normalized output files and the command line output.
+  Client issues stay one link away: under its tiles, the client page
+  shows a link such as "3 issues tied to the client", only when its count
+  is above zero. It opens the same popup as an employee, grouped by
+  record, and these issues are counted in the badges.
+- **Reason:** The tracker is for checking employee data. A spec mismatch
+  is for whoever maintains the adapter, and they read the output files.
+  The client link names the level its issues belong to, so a reader knows
+  what to look at before opening it.
+- **Evidence:** `src/normalization/issue_tree.py` (`build_provider`);
   `tests/test_issue_tree.py::BuildProvider::test_issues_attach_to_their_node`,
-  `GoldenTrees::test_every_golden_issue_lands_once`;
+  `GoldenTrees::test_every_keyed_golden_issue_lands_once`;
   `web/src/app/issues/[provider]/[company]/page.tsx`.
 - **Status:** Decided.
 
 ### 98. The issue export holds names and redacted values
 
 - **Context:** The coverage file the web app reads holds no provider
-  values. The issues page needs employee and company names to label tiles,
+  values. The issue tracker needs employee and company names to label tiles,
   and each issue's raw value to say what the provider sent.
-- **Decision:** The issues page reads its own file,
+- **Decision:** The issue tracker reads its own file,
   `web/src/data/issues.json`. It holds employee and company names from the
   golden outputs and each issue's raw value as the adapter recorded it,
   already redacted. The issue message and spec citation stay out. Each

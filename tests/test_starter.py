@@ -40,7 +40,7 @@ class StarterChecks(unittest.TestCase):
                 code = main(["normalize", "--provider", "ukg-ready", "--entity", "direct-deposit",
                              "--input", str(bundle), "--output", str(output)])
             self.assertEqual(code, 0)
-            self.assertEqual(stderr.getvalue().strip(), "9 direct deposits, 2 issues")
+            self.assertEqual(stderr.getvalue().strip(), "9 direct deposits, 1 issues")
             self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["direct_deposits"]), 9)
 
     def test_normalize_command_writes_deductions(self):
@@ -52,7 +52,7 @@ class StarterChecks(unittest.TestCase):
                 code = main(["normalize", "--provider", "prismhr", "--entity", "deduction",
                              "--input", str(bundle), "--output", str(output)])
             self.assertEqual(code, 0)
-            self.assertEqual(stderr.getvalue().strip(), "13 deductions, 2 issues")
+            self.assertEqual(stderr.getvalue().strip(), "13 deductions, 1 issues")
             self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))["deductions"]), 13)
 
     def test_normalize_command_writes_payroll(self):
@@ -64,7 +64,7 @@ class StarterChecks(unittest.TestCase):
                 code = main(["normalize", "--provider", "ukg-ready", "--entity", "payroll",
                              "--input", str(bundle), "--output", str(output)])
             self.assertEqual(code, 0)
-            self.assertEqual(stderr.getvalue().strip(), "1 pay runs, 8 paychecks, 5 issues")
+            self.assertEqual(stderr.getvalue().strip(), "1 pay runs, 8 paychecks, 4 issues")
             written = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual((len(written["pay_runs"]), len(written["paychecks"])), (1, 8))
 

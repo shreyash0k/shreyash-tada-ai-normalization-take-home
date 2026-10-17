@@ -5,7 +5,7 @@ export type Crumb = { label: string; href?: string };
 export function IssuesHeader({ crumbs }: { crumbs?: Crumb[] }) {
   return (
     <div className="mb-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Issues</h1>
+      <h1 className="text-3xl font-semibold tracking-tight">Issue tracker</h1>
       {crumbs ? (
         <nav aria-label="Breadcrumb" className="mt-2 flex flex-wrap items-center gap-2 text-sm text-neutral-500">
           {crumbs.map((crumb, index) => (
@@ -26,7 +26,7 @@ export function IssuesHeader({ crumbs }: { crumbs?: Crumb[] }) {
         </nav>
       ) : (
         <p className="mt-2 text-sm text-neutral-500">
-          Everything normalization flagged, per employee. Choose a provider to see its clients.
+          Select a provider to see its clients.
         </p>
       )}
     </div>

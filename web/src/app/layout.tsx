@@ -5,7 +5,7 @@ import { SiteNav } from "@/components/site-nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Issues",
+  title: "Issue tracker",
   description:
     "Issues flagged while normalizing PrismHR, isolved and UKG Ready, and how each provider's fields map into one canonical model.",
 };

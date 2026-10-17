@@ -1144,15 +1144,6 @@
       "record_key": null,
       "raw_value": null,
       "message": "payAmount is described as 'pay per hour or unit' (contracts/prismhr/openapi/prismhr-2025.09.openapi.json#/components/schemas/Earning/properties/payAmount/description) but live it equals hoursUnits x unitRate; it is mapped as the line amount"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "responses",
-      "action": "company name set null",
-      "record_key": null,
-      "raw_value": null,
-      "message": "this bundle does not hold the client record; --entity company reads it from getClientMaster"
     }
   ],
   "schema_version": "1"

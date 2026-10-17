@@ -452,15 +452,6 @@
       "record_key": "prismhr:132:S00008:dd:0",
       "raw_value": "[redacted]",
       "message": "provider returned a masked value"
-    },
-    {
-      "code": "missing_section",
-      "severity": "warning",
-      "source_path": "responses",
-      "action": "company name set null",
-      "record_key": null,
-      "raw_value": null,
-      "message": "this bundle does not hold the client record; --entity company reads it from getClientMaster"
     }
   ],
   "schema_version": "1"
